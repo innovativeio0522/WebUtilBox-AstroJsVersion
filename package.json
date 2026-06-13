@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "postinstall": "node apply-patches.js"
   },
   "dependencies": {
     "astro": "^4.16.18",
