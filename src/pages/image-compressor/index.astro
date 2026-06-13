@@ -1,0 +1,150 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/image-compressor/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Image Compressor - Compress Images Online Free | Webutilbox","url":"https://webutilbox.com/image-compressor/","description":"Compress images online for free. Reduce file size without losing quality. No upload to server.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What compression quality should I use?","acceptedAnswer":{"@type":"Answer","text":"For web images, 75-85% quality is the sweet spot — visually indistinguishable from the original but significantly smaller. For thumbnails or background images, 60-70% is fine. For print or archival purposes, use 90%+ or lossless compression."}},{"@type":"Question","name":"What is the difference between lossy and lossless compression?","acceptedAnswer":{"@type":"Answer","text":"Lossy compression (used for JPEG) permanently removes some image data to achieve smaller file sizes. Lossless compression (used for PNG) reduces file size without losing any data. For photos, lossy is usually fine. For logos, screenshots, or images with text, use lossless to avoid artifacts."}},{"@type":"Question","name":"Why does my PNG file barely shrink?","acceptedAnswer":{"@type":"Answer","text":"PNG uses lossless compression, so there is a limit to how much it can be reduced without converting to a different format. If you need a much smaller file, consider converting to WebP (which supports both lossy and lossless) or JPEG for photographic content."}},{"@type":"Question","name":"Does compressing an image reduce its dimensions?","acceptedAnswer":{"@type":"Answer","text":"No. This tool only reduces file size by adjusting compression settings. The pixel dimensions (width and height) stay the same. Use the Image Resizer tool if you also need to change the dimensions."}},{"@type":"Question","name":"Can I compress multiple images at once?","acceptedAnswer":{"@type":"Answer","text":"Currently the tool processes one image at a time. For batch compression, you can process them one by one. Each compressed image can be downloaded individually."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Image Compressor","item":"https://webutilbox.com/image-compressor/"}]}]};
+---
+
+<ToolLayout
+  title="Image Compressor - Compress Images Online Free | Webutilbox"
+  description="Compress and optimize images online without losing quality. Reduce PNG, JPG, and WebP file sizes up to 90%. Free image compressor in browser."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-image-tools.svg"
+  keywords="image compressor, compress image online, reduce image size, image optimizer"
+  h1="🗜️ Image Compressor"
+  subtitle="Compress images to reduce file size. Works offline in your browser - no upload to server."
+  lastUpdated=""
+  shareText="Free%20online%20Image%20Compressor%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Image Compressor - Compress Images Online Free -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Upload Area -->
+            <div style="margin-bottom: 15px;">
+                <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                    <div style="font-size: 2rem; margin-bottom: 5px;">??</div>
+                    <div style="font-size: 0.9rem; color: var(--white); margin-bottom: 3px;">Click to upload or drag and drop</div>
+                    <div style="font-size: 0.75rem; color: var(--gray);">JPG, PNG, WebP</div>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+            </div>
+
+            <!-- Quality Slider -->
+            <div id="controls" style="display: none; margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <label style="font-size: 0.85rem;">Quality</label>
+                    <span style="font-size: 0.9rem; font-weight: 600; color: var(--primary);" id="qualityDisplay">80%</span>
+                </div>
+                <input type="range" id="quality" min="1" max="100" value="80" oninput="updateQuality()" style="width: 100%;">
+            </div>
+
+            <!-- Preview & Stats Combined -->
+            <div id="preview" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <!-- Original -->
+                    <div style="background: var(--light); border-radius: 8px; padding: 12px; text-align: center; border: 1px solid var(--border);">
+                        <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 5px;">Original</div>
+                        <img id="originalImg" style="max-width: 100%; max-height: 100px; border-radius: 6px; margin-bottom: 5px;">
+                        <div style="font-size: 0.8rem; font-weight: 600; color: var(--white);" id="origSize">0 KB</div>
+                    </div>
+
+                    <!-- Compressed -->
+                    <div style="background: var(--light); border-radius: 8px; padding: 12px; text-align: center; border: 1px solid var(--border);">
+                        <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 5px;">Compressed</div>
+                        <img id="compressedImg" style="max-width: 100%; max-height: 100px; border-radius: 6px; margin-bottom: 5px;">
+                        <div style="font-size: 0.8rem; font-weight: 600; color: var(--secondary);" id="compSize">0 KB</div>
+                    </div>
+
+                    <!-- Saved -->
+                    <div style="background: var(--light); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--border);">
+                        <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 5px;">Saved</div>
+                        <div style="font-size: 2rem; font-weight: bold; color: var(--primary);" id="savedSize">0%</div>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <button class="btn btn-success" onclick="downloadImage()" style="width: 100%; padding: 10px; font-size: 0.95rem;">Download Compressed Image</button>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/image-compressor.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Image Compressor</h2>
+
+    <p>Images are the largest assets on most web pages. According to HTTP Archive data, images account for roughly 50% of the average page's total transfer size. A single unoptimized hero image can be 3-5MB. The same image, properly compressed, is 200-400KB — a 10x reduction with no visible quality difference to most users.</p>
+
+    <p>This tool compresses images directly in your browser. No upload to a server, no waiting, no file size limits imposed by a third-party service.</p>
+
+    <h3>Lossy vs lossless — choosing the right approach</h3>
+    <p><strong>Lossy compression</strong> (JPEG, WebP lossy) permanently discards some image data. The human eye can't detect the difference at quality settings of 75-85%. A photo compressed to 80% quality looks identical to the original on screen but is 60-70% smaller. Use lossy for photographs, hero images, and any image where pixel-perfect accuracy isn't required.</p>
+    <p><strong>Lossless compression</strong> (PNG, WebP lossless) reduces file size without discarding any data. Every pixel is preserved exactly. Use lossless for logos, icons, screenshots, images with text, and anything where compression artifacts would be visible or unacceptable.</p>
+
+    <h3>Quality settings guide</h3>
+    <ul>
+        <li><strong>90-100%</strong> — near-original quality, minimal size reduction. Use for print or archival.</li>
+        <li><strong>80-85%</strong> — visually indistinguishable from original for most images. Best for hero images and featured photos.</li>
+        <li><strong>70-75%</strong> — slight quality reduction visible on close inspection. Good for thumbnails, card images, background images.</li>
+        <li><strong>60-70%</strong> — noticeable compression on detailed images. Acceptable for small thumbnails viewed at low resolution.</li>
+        <li><strong>Below 60%</strong> — visible artifacts. Only use when file size is the absolute priority.</li>
+    </ul>
+
+    <h3>Why PNG files barely shrink</h3>
+    <p>PNG uses lossless compression, so there's a ceiling on how much it can be reduced. If you need a dramatically smaller file from a PNG, the real solution is format conversion — convert to WebP (which supports both lossy and lossless modes) or to JPEG for photographic content. A PNG photo converted to WebP at 80% quality is typically 50-70% smaller than the original PNG.</p>
+
+    <h3>Impact on Core Web Vitals</h3>
+    <p>Google's Largest Contentful Paint (LCP) metric measures how long it takes for the largest visible element — usually an image — to load. Unoptimized images are the most common cause of poor LCP scores. Compressing your hero image from 2MB to 200KB can move LCP from "Poor" to "Good" on its own. This directly affects your search ranking.</p>
+    <p>For web use, also consider serving images at the correct display size. A 4000px wide image displayed at 800px is wasting 5x the bandwidth. Use the Image Resizer to scale down before compressing.</p>
+
+    <h3>Images Compressed Locally — Not Uploaded</h3>
+    <p>Images are processed entirely in your browser using the Canvas API. They are never uploaded to any server. Your photos stay on your device.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What compression quality should I use?</button>
+                    <div class="faq-answer"><p>For web images, 75-85% quality is the sweet spot — visually indistinguishable from the original but significantly smaller. For thumbnails or background images, 60-70% is fine. For print or archival purposes, use 90%+ or lossless compression.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between lossy and lossless compression?</button>
+                    <div class="faq-answer"><p>Lossy compression (used for JPEG) permanently removes some image data to achieve smaller file sizes. Lossless compression (used for PNG) reduces file size without losing any data. For photos, lossy is usually fine. For logos, screenshots, or images with text, use lossless to avoid artifacts.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why does my PNG file barely shrink?</button>
+                    <div class="faq-answer"><p>PNG uses lossless compression, so there is a limit to how much it can be reduced without converting to a different format. If you need a much smaller file, consider converting to WebP (which supports both lossy and lossless) or JPEG for photographic content.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does compressing an image reduce its dimensions?</button>
+                    <div class="faq-answer"><p>No. This tool only reduces file size by adjusting compression settings. The pixel dimensions (width and height) stay the same. Use the Image Resizer tool if you also need to change the dimensions.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I compress multiple images at once?</button>
+                    <div class="faq-answer"><p>Currently the tool processes one image at a time. For batch compression, you can process them one by one. Each compressed image can be downloaded individually.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../image-resizer/" class="related-tool-link">Image Resizer</a>
+                    <a href="../image-format-converter/" class="related-tool-link">Image Format Converter</a>
+                    <a href="../image-cropper/" class="related-tool-link">Image Cropper</a>
+                    <a href="../image-to-base64/" class="related-tool-link">Image to Base64</a>
+                    <a href="../favicon-generator/" class="related-tool-link">Favicon Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

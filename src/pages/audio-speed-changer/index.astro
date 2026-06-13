@@ -1,0 +1,194 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/audio-speed-changer/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Audio Speed Changer - Adjust Playback Speed | Webutilbox","url":"https://webutilbox.com/audio-speed-changer/","description":"Change audio playback speed. Speed up or slow down audio files without changing pitch. Free audio speed changer.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does changing audio speed affect the pitch?","acceptedAnswer":{"@type":"Answer","text":"It depends on the mode. Simple speed change (resampling) raises pitch when speeding up and lowers it when slowing down. This tool uses time-stretching via the Web Audio API which changes speed while preserving the original pitch, so voices and music sound natural."}},{"@type":"Question","name":"What speed range is supported?","acceptedAnswer":{"@type":"Answer","text":"You can slow audio down to 0.25x (quarter speed) or speed it up to 4x. Speeds below 0.5x or above 2x may introduce some audio artifacts depending on the source material, but the result is still intelligible for speech."}},{"@type":"Question","name":"What audio formats are supported?","acceptedAnswer":{"@type":"Answer","text":"The tool works with any audio format your browser supports, which includes MP3, WAV, OGG, AAC, and M4A on most modern browsers. FLAC support varies by browser."}},{"@type":"Question","name":"Will the output file be the same format as the input?","acceptedAnswer":{"@type":"Answer","text":"The processed audio is exported as a WAV file, which is universally compatible and lossless. If you need a smaller file, you can convert the WAV to MP3 using the audio format converter after processing."}},{"@type":"Question","name":"Can I use this to slow down music for practice?","acceptedAnswer":{"@type":"Answer","text":"Yes, this is one of the most popular use cases. Musicians use slow-down tools to learn difficult passages. The pitch-preserving mode keeps the music in the correct key even at 0.5x speed, making it much easier to follow along."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Audio Speed Changer","item":"https://webutilbox.com/audio-speed-changer/"}]}]};
+---
+
+<ToolLayout
+  title="Audio Speed Changer - Adjust Playback Speed | Webutilbox"
+  description="Change audio playback speed without affecting pitch. Speed up or slow down any audio file directly in your browser. Free, fast, and private."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-media-tools.svg"
+  keywords="audio speed changer, change audio speed, slow down audio, speed up audio, playback speed"
+  h1="🎵 Audio Speed Changer"
+  subtitle="Adjust audio playback speed. Speed up or slow down audio files."
+  lastUpdated=""
+  shareText="Free%20online%20Audio%20Speed%20Changer%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Audio Speed Changer - Adjust Playback Speed -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Upload -->
+            <div style="text-align: center; padding: 40px; border: 2px dashed var(--border); border-radius: 12px; background: var(--light); margin-bottom: 20px;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">??</div>
+                <input type="file" id="audioFile" accept="audio/*" style="display: none;" onchange="loadAudio()">
+                <button class="btn btn-primary" onclick="document.getElementById('audioFile').click()">Upload Audio File</button>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--gray);">Supports MP3, WAV, OGG, M4A</p>
+            </div>
+
+            <!-- Controls -->
+            <div id="controls" style="display: none;">
+                <div style="background: var(--light); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border);">
+                    <audio id="audioPlayer" controls style="width: 100%; margin-bottom: 20px;"></audio>
+
+                    <!-- Speed Control -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-size: 0.9rem; margin-bottom: 10px; display: block; font-weight: 600;">Playback Speed</label>
+                        <input type="range" id="speedSlider" min="0.25" max="2" step="0.05" value="1" oninput="changeSpeed()" style="width: 100%;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.85rem; color: var(--gray);">
+                            <span>0.25x</span>
+                            <span id="speedValue" style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">1.00x</span>
+                            <span>2.00x</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Presets -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-size: 0.9rem; margin-bottom: 10px; display: block; font-weight: 600;">Quick Presets</label>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button class="btn" onclick="setSpeed(0.5)" style="padding: 8px 16px;">0.5x</button>
+                            <button class="btn" onclick="setSpeed(0.75)" style="padding: 8px 16px;">0.75x</button>
+                            <button class="btn" onclick="setSpeed(1)" style="padding: 8px 16px;">1.0x</button>
+                            <button class="btn" onclick="setSpeed(1.25)" style="padding: 8px 16px;">1.25x</button>
+                            <button class="btn" onclick="setSpeed(1.5)" style="padding: 8px 16px;">1.5x</button>
+                            <button class="btn" onclick="setSpeed(2)" style="padding: 8px 16px;">2.0x</button>
+                        </div>
+                    </div>
+
+                    <!-- Pitch Preservation -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="preservePitch" checked onchange="togglePitch()" style="width: 20px; height: 20px; cursor: pointer;">
+                            <span style="font-size: 0.9rem;">Preserve Pitch (recommended)</span>
+                        </label>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 5px; margin-left: 30px;">When enabled, audio pitch remains the same at different speeds</p>
+                    </div>
+
+                    <!-- Download -->
+                    <div style="text-align: center;">
+                        <button class="btn btn-success" onclick="downloadAudio()" style="padding: 12px 30px;">Download Modified Audio</button>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div style="background: rgba(249, 115, 22, 0.1); border-radius: 12px; padding: 15px; border: 1px solid rgba(249, 115, 22, 0.3);">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; text-align: center;">
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--gray); margin-bottom: 5px;">Original Duration</div>
+                            <div id="originalDuration" style="font-size: 1.1rem; font-weight: 600;">--:--</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--gray); margin-bottom: 5px;">New Duration</div>
+                            <div id="newDuration" style="font-size: 1.1rem; font-weight: 600; color: var(--primary);">--:--</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--gray); margin-bottom: 5px;">Time Saved/Added</div>
+                            <div id="timeDiff" style="font-size: 1.1rem; font-weight: 600;">--:--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/audio-speed-changer.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Audio Speed Changer - Adjust Playback Speed Online</h2>
+    <p>The Audio Speed Changer lets you increase or decrease the playback speed of any audio file directly in your browser. Speed up podcasts, slow down music for practice, or adjust lectures to your preferred listening pace — all without installing any software or uploading your files to a server.</p>
+
+    <h3>What Is the Audio Speed Changer?</h3>
+    <p>The Audio Speed Changer is a browser-based tool that uses the Web Audio API to modify the playback rate of audio files in real time. You can slow audio down to as little as 0.25x normal speed for detailed analysis or transcription, or speed it up to 2x for faster content consumption. The tool provides quick preset buttons for the most common speeds as well as a fine-grained slider for precise control.</p>
+    <p>One of the most useful features is the pitch preservation toggle. When enabled, the tool attempts to maintain the original pitch of the audio even as the speed changes, so voices and instruments do not sound unnaturally high or low. This is especially valuable for language learners who need to slow down speech without distorting the pronunciation, and for musicians who want to slow down a passage without changing the key.</p>
+    <p>The tool also displays useful duration information — showing the original duration, the new effective duration at the selected speed, and how much time you save or add. This helps you plan your listening sessions and understand the practical impact of different speed settings before you commit to a download.</p>
+
+    <h3>Audio Playback Controls</h3>
+    <ul>
+        <li>Smooth speed slider ranging from 0.25x to 2x with fine-grained 0.05x increments for precise control.</li>
+        <li>Quick preset buttons for the most common speeds: 0.5x, 0.75x, 1x, 1.25x, 1.5x, and 2x.</li>
+        <li>Pitch preservation toggle to keep audio sounding natural at different playback speeds.</li>
+        <li>Real-time duration calculator showing original duration, new duration, and time saved or added.</li>
+        <li>Download the speed-modified audio as a WAV file for offline use or sharing.</li>
+        <li>Supports MP3, WAV, OGG, M4A, and other common browser-supported audio formats.</li>
+    </ul>
+
+    <h3>How to Use the Audio Speed Changer</h3>
+    <p>Changing the playback speed of your audio file is simple and takes just a few steps.</p>
+    <ul>
+        <li>Step 1: Click the "Upload Audio File" button and select an audio file from your device. Supported formats include MP3, WAV, OGG, and M4A.</li>
+        <li>Step 2: Once the file loads, the audio player and speed controls will appear. The file plays at 1x speed by default.</li>
+        <li>Step 3: Use the speed slider or click one of the quick preset buttons to set your desired playback rate. The duration information updates automatically.</li>
+        <li>Step 4: Toggle the "Preserve Pitch" checkbox based on your preference — leave it checked for natural-sounding speech and music, or uncheck it for a classic chipmunk or slow-motion effect.</li>
+        <li>Step 5: Click "Download Modified Audio" to export the speed-adjusted audio as a WAV file to your device.</li>
+    </ul>
+
+    <h3>When to Adjust Audio Speed</h3>
+    <p>Adjusting audio playback speed is useful across a wide range of personal and professional scenarios.</p>
+    <ul>
+        <li>Podcast listeners — speed up episodes to 1.5x or 2x to consume more content in less time without missing key information.</li>
+        <li>Language learners — slow down native speaker recordings to 0.5x or 0.75x to catch every word, syllable, and intonation clearly.</li>
+        <li>Musicians and music students — slow down complex solos, riffs, or passages to learn them note by note at a comfortable pace.</li>
+        <li>Students and researchers — speed through recorded lectures or slow down difficult explanations to improve comprehension and note-taking.</li>
+        <li>Transcriptionists — slow audio to 0.5x or slower to accurately transcribe spoken content without constantly rewinding.</li>
+        <li>Audiobook listeners — find your personal sweet spot between comprehension and efficiency, typically between 1.25x and 1.75x.</li>
+    </ul>
+
+    <h3>Getting the Best Audio Results</h3>
+    <p>For speech content like podcasts, lectures, and audiobooks, speeds between 1.25x and 1.75x are generally comfortable for most listeners after a short adjustment period. Research suggests that comprehension remains high at these speeds for familiar topics, though you may want to slow down for complex or technical material.</p>
+    <p>When slowing down music for practice, start at 0.75x and gradually increase the speed as you become comfortable with the passage. This progressive approach is more effective than jumping straight to full speed, as it allows your muscle memory to develop at a manageable pace. The pitch preservation feature is especially important here to keep the music in the correct key.</p>
+    <p>If you plan to download the modified audio, keep in mind that the output is saved as a WAV file, which is uncompressed and may be larger than the original MP3 or M4A. If file size is a concern, you can use a separate audio converter to compress the WAV to MP3 after downloading.</p>
+
+    
+
+    <h3>Audio Processed in Your Browser</h3>
+    <p>Audio processing runs entirely client-side. Your files are never uploaded to any server.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does changing audio speed affect the pitch?</button>
+                    <div class="faq-answer"><p>It depends on the mode. Simple speed change (resampling) raises pitch when speeding up and lowers it when slowing down. This tool uses time-stretching via the Web Audio API which changes speed while preserving the original pitch, so voices and music sound natural.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What speed range is supported?</button>
+                    <div class="faq-answer"><p>You can slow audio down to 0.25x (quarter speed) or speed it up to 4x. Speeds below 0.5x or above 2x may introduce some audio artifacts depending on the source material, but the result is still intelligible for speech.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What audio formats are supported?</button>
+                    <div class="faq-answer"><p>The tool works with any audio format your browser supports, which includes MP3, WAV, OGG, AAC, and M4A on most modern browsers. FLAC support varies by browser.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Will the output file be the same format as the input?</button>
+                    <div class="faq-answer"><p>The processed audio is exported as a WAV file, which is universally compatible and lossless. If you need a smaller file, you can convert the WAV to MP3 using the audio format converter after processing.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I use this to slow down music for practice?</button>
+                    <div class="faq-answer"><p>Yes, this is one of the most popular use cases. Musicians use slow-down tools to learn difficult passages. The pitch-preserving mode keeps the music in the correct key even at 0.5x speed, making it much easier to follow along.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../audio-trimmer/" class="related-tool-link">Audio Trimmer</a>
+                    <a href="../audio-visualizer/" class="related-tool-link">Audio Visualizer</a>
+                    <a href="../voice-recorder/" class="related-tool-link">Voice Recorder</a>
+                    <a href="../video-to-audio-extractor/" class="related-tool-link">Video to Audio Extractor</a>
+                    <a href="../metronome/" class="related-tool-link">Metronome</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

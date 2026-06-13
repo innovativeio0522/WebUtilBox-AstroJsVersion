@@ -1,0 +1,210 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/css-grid-generator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"CSS Grid Generator - Visual Grid Layout Tool | Webutilbox","url":"https://webutilbox.com/css-grid-generator/","description":"Generate CSS grid layouts with visual editor. Adjust columns, rows, gaps, and alignment. Free CSS grid generator.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is CSS Grid and when should I use it?","acceptedAnswer":{"@type":"Answer","text":"CSS Grid is a two-dimensional layout system that lets you place elements in rows and columns simultaneously. Use Grid when you need to control both dimensions at once — like page layouts, card grids, and dashboards. Use Flexbox for one-dimensional layouts (a row of buttons or a vertical stack)."}},{"@type":"Question","name":"What is the difference between grid-template-columns and grid-auto-columns?","acceptedAnswer":{"@type":"Answer","text":"grid-template-columns defines explicit column tracks you specify. grid-auto-columns defines the size of implicitly created columns when items overflow the explicit grid. For most layouts, you only need grid-template-columns."}},{"@type":"Question","name":"What does the fr unit mean in CSS Grid?","acceptedAnswer":{"@type":"Answer","text":"fr stands for fraction. It represents a fraction of the available space in the grid container. grid-template-columns: 1fr 2fr 1fr creates three columns where the middle one is twice as wide as the others. fr units distribute remaining space after fixed-size columns are placed."}},{"@type":"Question","name":"How do I make a responsive grid without media queries?","acceptedAnswer":{"@type":"Answer","text":"Use auto-fill or auto-fit with minmax(): grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)). This creates as many columns as fit at minimum 250px wide, automatically wrapping to fewer columns on smaller screens."}},{"@type":"Question","name":"What is the gap property in CSS Grid?","acceptedAnswer":{"@type":"Answer","text":"gap (formerly grid-gap) sets the spacing between grid cells. You can set row and column gaps separately with row-gap and column-gap, or both at once with gap: 20px (equal) or gap: 20px 10px (row gap, column gap)."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"CSS Grid Generator","item":"https://webutilbox.com/css-grid-generator/"}]}]};
+---
+
+<ToolLayout
+  title="CSS Grid Generator - Visual Grid Layout Tool | Webutilbox"
+  description="Design CSS Grid layouts visually. Set columns, rows, gaps, and alignment. Generate the CSS grid code instantly. Free CSS grid layout generator."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-css-tools.svg"
+  keywords="css grid generator, grid layout, css grid, grid tool, layout generator"
+  h1="⚡ CSS Grid Generator"
+  subtitle="Visual CSS grid layout generator with live preview."
+  lastUpdated=""
+  shareText="Free%20online%20CSS%20Grid%20Generator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="CSS Grid Generator - Visual Grid Layout Tool -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Preview -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 10px; display: block; font-weight: 600;">Preview</label>
+                <div id="gridContainer" class="grid-preview">
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="grid-controls-grid">
+                <!-- Columns -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Columns</label>
+                    <input type="range" id="columns" min="1" max="6" value="3" oninput="updateGrid()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="columnsValue">3</span></div>
+                </div>
+
+                <!-- Rows -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Rows</label>
+                    <input type="range" id="rows" min="1" max="6" value="2" oninput="updateGrid()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="rowsValue">2</span></div>
+                </div>
+
+                <!-- Column Gap -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Column Gap (px)</label>
+                    <input type="range" id="columnGap" min="0" max="50" value="10" oninput="updateGrid()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="columnGapValue">10</span>px</div>
+                </div>
+
+                <!-- Row Gap -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Row Gap (px)</label>
+                    <input type="range" id="rowGap" min="0" max="50" value="10" oninput="updateGrid()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="rowGapValue">10</span>px</div>
+                </div>
+
+                <!-- Justify Items -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Justify Items</label>
+                    <select id="justifyItems" onchange="updateGrid()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                        <option value="stretch">stretch</option>
+                        <option value="start">start</option>
+                        <option value="end">end</option>
+                        <option value="center">center</option>
+                    </select>
+                </div>
+
+                <!-- Align Items -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Align Items</label>
+                    <select id="alignItems" onchange="updateGrid()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                        <option value="stretch">stretch</option>
+                        <option value="start">start</option>
+                        <option value="end">end</option>
+                        <option value="center">center</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- CSS Output -->
+            <div>
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">CSS Code</label>
+                <textarea id="cssOutput" readonly style="width: 100%; height: 150px; padding: 12px; font-family: 'Courier New', monospace; font-size: 0.9rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; resize: vertical; margin-bottom: 10px;"></textarea>
+                <button class="btn btn-success" onclick="copyCss()" style="width: 100%;">Copy CSS</button>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+<style>
+.grid-item {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+        }
+        
+        @media (max-width: 480px) {
+            .grid-item {
+                min-height: 60px;
+                padding: 15px;
+                font-size: 1rem;
+            }
+        }
+</style>
+
+
+<script src="/js/css-grid-generator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>CSS Grid Generator - Visual Grid Layout Tool</h2>
+    <p>The CSS Grid Generator lets you visually design CSS grid layouts and instantly get the generated CSS code. Adjust columns, rows, gaps, and alignment with live preview to build complex, responsive layouts without writing code from scratch. Whether you're a beginner learning grid or an experienced developer prototyping a layout, this tool saves time and eliminates guesswork.</p>
+
+    <h3>What Is CSS Grid Generator?</h3>
+    <p>The CSS Grid Generator is an interactive visual tool that translates your layout choices into production-ready CSS code. You control the number of columns and rows, the spacing between cells, and how items are aligned — all through simple sliders and dropdowns. The live preview updates instantly so you can see exactly how your grid will look before writing a single line of code.</p>
+    <p>CSS Grid Layout is a two-dimensional layout system built into modern browsers. Unlike older layout techniques that relied on floats or tables, Grid was designed specifically for page and component layout. It gives you precise control over both the horizontal and vertical axes simultaneously, making it the most powerful layout tool available in CSS today.</p>
+    <p>This generator focuses on the container-level properties that define the grid structure itself. Once you have your grid container CSS, you can further customize individual grid items using properties like grid-column, grid-row, and grid-area to create complex spanning layouts that would be difficult to achieve with any other CSS technique.</p>
+
+    <h3>Grid Layout Configuration Options</h3>
+    <ul>
+        <li>Live visual preview that updates in real time as you adjust settings, so you always see exactly what your grid will look like.</li>
+        <li>Column and row controls using sliders for quick adjustments from 1 to 6 tracks in each direction.</li>
+        <li>Independent column gap and row gap controls, letting you set different spacing on each axis for precise layouts.</li>
+        <li>Justify-items control for horizontal alignment of content within each grid cell (stretch, start, end, center).</li>
+        <li>Align-items control for vertical alignment of content within each grid cell across all four standard values.</li>
+        <li>One-click CSS copy that puts the complete, ready-to-use CSS code directly on your clipboard.</li>
+    </ul>
+
+    <h3>How to Use CSS Grid Generator</h3>
+    <p>Getting started with the generator is straightforward and takes just a few seconds to produce usable CSS code.</p>
+    <ul>
+        <li>Step 1: Use the Columns slider to set how many columns your grid should have, from 1 to 6 equal-width columns.</li>
+        <li>Step 2: Use the Rows slider to set the number of rows, which determines how many cells appear in the preview.</li>
+        <li>Step 3: Adjust the Column Gap and Row Gap sliders to set the spacing between cells in pixels.</li>
+        <li>Step 4: Choose Justify Items and Align Items values from the dropdowns to control how content sits within each cell.</li>
+        <li>Step 5: Click "Copy CSS" to copy the generated code and paste it directly into your stylesheet.</li>
+    </ul>
+
+    <h3>Building Layouts with CSS Grid</h3>
+    <p>CSS Grid is the go-to solution for a wide range of layout challenges in modern web development.</p>
+    <ul>
+        <li>Page-level layouts: Define the overall structure of a webpage with header, sidebar, main content, and footer areas using named grid areas.</li>
+        <li>Card grids: Create uniform card layouts where items automatically wrap to new rows, perfect for product listings, blog post archives, and portfolio galleries.</li>
+        <li>Dashboard interfaces: Arrange multiple widgets of varying sizes in a structured grid, with some widgets spanning multiple columns or rows for emphasis.</li>
+        <li>Magazine-style layouts: Build editorial layouts with asymmetric columns, featured images that span multiple cells, and varied content block sizes.</li>
+        <li>Image galleries: Create clean, evenly spaced photo grids with consistent gaps and alignment, replacing the need for complex float-based or table-based gallery code.</li>
+    </ul>
+
+    <h3>Designing Effective Grid Systems</h3>
+    <p>When building grid layouts, start with the overall structure before worrying about individual items. Define your columns and rows at the container level first, then use grid-column and grid-row on child elements to place them precisely. This top-down approach keeps your CSS organized and easier to maintain as your layout evolves.</p>
+    <p>The fr unit (fractional unit) is one of the most powerful features of CSS Grid. Using repeat(3, 1fr) creates three equal columns that automatically share the available space. Mixing fr units with fixed values like 200px 1fr 1fr lets you create layouts where one column has a fixed width and the others share the remaining space proportionally.</p>
+    <p>For responsive layouts, combine CSS Grid with media queries or use the auto-fill and auto-fit keywords with minmax() to create grids that automatically adjust the number of columns based on available space. For example, grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) creates a responsive card grid with no media queries needed.</p>
+
+    
+
+    <h3>Grid CSS Generated in Your Browser</h3>
+    <p>CSS output is generated locally in your browser. No data is transmitted.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is CSS Grid and when should I use it?</button>
+                    <div class="faq-answer"><p>CSS Grid is a two-dimensional layout system that lets you place elements in rows and columns simultaneously. Use Grid when you need to control both dimensions at once — like page layouts, card grids, and dashboards. Use Flexbox for one-dimensional layouts (a row of buttons or a vertical stack).</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between grid-template-columns and grid-auto-columns?</button>
+                    <div class="faq-answer"><p>grid-template-columns defines explicit column tracks you specify. grid-auto-columns defines the size of implicitly created columns when items overflow the explicit grid. For most layouts, you only need grid-template-columns.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What does the fr unit mean in CSS Grid?</button>
+                    <div class="faq-answer"><p>fr stands for fraction. It represents a fraction of the available space in the grid container. grid-template-columns: 1fr 2fr 1fr creates three columns where the middle one is twice as wide as the others. fr units distribute remaining space after fixed-size columns are placed.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I make a responsive grid without media queries?</button>
+                    <div class="faq-answer"><p>Use auto-fill or auto-fit with minmax(): grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)). This creates as many columns as fit at minimum 250px wide, automatically wrapping to fewer columns on smaller screens.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the gap property in CSS Grid?</button>
+                    <div class="faq-answer"><p>gap (formerly grid-gap) sets the spacing between grid cells. You can set row and column gaps separately with row-gap and column-gap, or both at once with gap: 20px (equal) or gap: 20px 10px (row gap, column gap).</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../flexbox-generator/" class="related-tool-link">Flexbox Generator</a>
+                    <a href="../border-radius-generator/" class="related-tool-link">Border Radius Generator</a>
+                    <a href="../box-shadow-generator/" class="related-tool-link">Box Shadow Generator</a>
+                    <a href="../css-gradient-generator/" class="related-tool-link">CSS Gradient Generator</a>
+                    <a href="../css-js-minifier/" class="related-tool-link">CSS/JS Minifier</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

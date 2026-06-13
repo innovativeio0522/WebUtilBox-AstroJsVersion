@@ -1,0 +1,119 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/date-calculator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Date Calculator - Calculate Days Between Dates | Webutilbox","url":"https://webutilbox.com/date-calculator/","description":"Calculate days between dates, add or subtract days, find age, and more. Free online date calculator that works offline.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I calculate the number of days between two dates?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enter a start date and end date and the calculator shows the exact difference in years, months, weeks, and days. It correctly handles month length variations and leap years."}},{"@type":"Question","name":"Can I add or subtract days from a date?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enter a starting date and a number of days to add or subtract. The calculator returns the resulting date, accounting for month boundaries and leap years automatically."}},{"@type":"Question","name":"Does the calculator include or exclude the start and end dates?","acceptedAnswer":{"@type":"Answer","text":"The difference calculation counts the days between the two dates, not including the start date but including the end date (or vice versa, depending on convention). This matches how most date difference calculations work in programming."}},{"@type":"Question","name":"How do I calculate a deadline from today?","acceptedAnswer":{"@type":"Answer","text":"Enter today as the start date and add the number of days until your deadline. The result shows the exact calendar date. Alternatively, enter today and the deadline date to see how many days remain."}},{"@type":"Question","name":"Can I calculate business days (excluding weekends)?","acceptedAnswer":{"@type":"Answer","text":"The standard date difference includes all calendar days. For business day calculations (excluding weekends and holidays), you would need a specialized business day calculator. This tool calculates calendar days."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Date Calculator","item":"https://webutilbox.com/date-calculator/"}]}]};
+---
+
+<ToolLayout
+  title="Date Calculator - Calculate Days Between Dates | Webutilbox"
+  description="Calculate the number of days between two dates. Add or subtract days from any date. Find weekdays, weeks, and months difference. Free date calculator."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-calculators.svg"
+  keywords="date calculator, days between dates, date difference, add days to date, subtract days"
+  h1="📅 Date Calculator"
+  subtitle="Calculate days between dates, add/subtract days, and find age."
+  lastUpdated=""
+  shareText="Free%20online%20Date%20Calculator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Date Calculator - Calculate Days Between Dates -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+
+
+
+<script src="/js/date-calculator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Date Calculator - Calculate Days Between Dates</h2>
+    <p>The Date Calculator computes the number of days, weeks, months, and years between two dates, adds or subtracts time intervals from a date, and calculates a person's exact age. It's an essential tool for project planning, legal deadlines, event scheduling, financial calculations, and any situation where precise date arithmetic matters.</p>
+
+    <h3>What Is Date Calculator?</h3>
+    <p>The Date Calculator is a multi-mode tool that handles three common date calculation tasks in one place. The Date Difference mode finds the exact span between two dates expressed in days, weeks, months, and a detailed year/month/day breakdown. The Add/Subtract mode lets you find a future or past date by adding or subtracting a number of days, weeks, months, or years from a starting date. The Age mode calculates a person's exact age on any given date, including the countdown to their next birthday.</p>
+    <p>All calculations use JavaScript's built-in Date object, which correctly handles calendar complexities including leap years, varying month lengths, and daylight saving time transitions. The results are displayed in multiple formats simultaneously so you can use whichever unit is most relevant to your situation — whether you need the total number of days for a contract term or the years and months breakdown for an age calculation.</p>
+    <p>The tool is entirely browser-based and works offline once the page has loaded. There's no need to connect to an external API or service for date calculations, which means it's fast, reliable, and available even without an internet connection. Your date inputs are never sent anywhere — all computation happens locally on your device.</p>
+
+    <h3>Date Calculation Modes</h3>
+    <ul>
+        <li>Three calculation modes in one tool: Date Difference, Add/Subtract Days, and Age Calculator, accessible via tabs.</li>
+        <li>Detailed breakdown of date differences showing total days, total weeks, total months, and a precise years/months/days decomposition.</li>
+        <li>Add or subtract days, weeks, months, or years from any starting date to find a specific future or past date.</li>
+        <li>Age calculator that shows years, months, and days of age along with total months, total weeks, and days until the next birthday.</li>
+        <li>Automatic leap year handling ensures accurate results for date ranges that span February 29 in leap years.</li>
+        <li>Default date values pre-populated with today's date so you can start calculating immediately without manual entry.</li>
+    </ul>
+
+    <h3>How to Use Date Calculator</h3>
+    <p>Select the calculation mode you need using the tabs, enter your dates, and click the calculate button to see detailed results.</p>
+    <ul>
+        <li>Step 1: Click the "Date Difference" tab to calculate the span between two dates, "Add/Subtract" to find a future or past date, or "Age" to calculate someone's age.</li>
+        <li>Step 2: Enter your dates using the date picker fields — click the field to open a calendar or type the date directly.</li>
+        <li>Step 3: For Add/Subtract mode, choose whether to add or subtract, enter the number, and select the unit (days, weeks, months, or years).</li>
+        <li>Step 4: Click the Calculate button to run the calculation and display the results in the panel on the right.</li>
+        <li>Step 5: Review the results, which are shown in multiple units simultaneously for maximum usefulness.</li>
+    </ul>
+
+    <h3>Practical Date Calculation Examples</h3>
+    <p>Date calculations come up in many professional and personal contexts where precision matters.</p>
+    <ul>
+        <li>Legal and contracts: Calculate notice periods, contract durations, statute of limitations deadlines, and payment due dates with exact day counts.</li>
+        <li>Project management: Determine project timelines, sprint lengths, milestone dates, and deadline countdowns for planning and scheduling.</li>
+        <li>Finance and loans: Calculate loan terms, interest accrual periods, bond maturity dates, and payment schedules that depend on exact day counts.</li>
+        <li>Medical and health: Calculate due dates, medication schedules, follow-up appointment timing, and treatment duration tracking.</li>
+        <li>Events and celebrations: Count down to birthdays, anniversaries, holidays, and special events, or calculate how long ago a past event occurred.</li>
+    </ul>
+
+    <h3>Getting Precise Date Differences</h3>
+    <p>When calculating date differences for legal or contractual purposes, pay attention to whether the requirement specifies calendar days or business days. Calendar days include weekends and holidays, while business days exclude them. This calculator counts calendar days; for business day calculations, you'll need to manually subtract the number of weekends and public holidays in the period.</p>
+    <p>The Add/Subtract mode is particularly useful for calculating deadlines. If a contract requires 30 days' notice, enter today's date as the start date, select "Add," enter 30, and choose "Days" to find the earliest valid termination date. Similarly, if you need to find a date 6 months from now for a renewal deadline, select "Months" as the unit for a calendar-accurate result rather than multiplying days by 30.</p>
+    <p>For age calculations, the tool calculates the exact age as of the date you specify in the "Calculate Age On" field, which defaults to today. This is useful for verifying ages at a specific past or future date — for example, checking whether someone was 18 on a particular date, or calculating how old someone will be on a future event date.</p>
+
+    
+
+    <h3>Dates Computed Locally in Browser</h3>
+    <p>All date calculations run in your browser. No personal data is transmitted.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I calculate the number of days between two dates?</button>
+                    <div class="faq-answer"><p>Yes. Enter a start date and end date and the calculator shows the exact difference in years, months, weeks, and days. It correctly handles month length variations and leap years.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I add or subtract days from a date?</button>
+                    <div class="faq-answer"><p>Yes. Enter a starting date and a number of days to add or subtract. The calculator returns the resulting date, accounting for month boundaries and leap years automatically.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does the calculator include or exclude the start and end dates?</button>
+                    <div class="faq-answer"><p>The difference calculation counts the days between the two dates, not including the start date but including the end date (or vice versa, depending on convention). This matches how most date difference calculations work in programming.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I calculate a deadline from today?</button>
+                    <div class="faq-answer"><p>Enter today as the start date and add the number of days until your deadline. The result shows the exact calendar date. Alternatively, enter today and the deadline date to see how many days remain.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I calculate business days (excluding weekends)?</button>
+                    <div class="faq-answer"><p>The standard date difference includes all calendar days. For business day calculations (excluding weekends and holidays), you would need a specialized business day calculator. This tool calculates calendar days.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../age-calculator/" class="related-tool-link">Age Calculator</a>
+                    <a href="../countdown-timer/" class="related-tool-link">Countdown Timer</a>
+                    <a href="../unix-timestamp-converter/" class="related-tool-link">Unix Timestamp Converter</a>
+                    <a href="../time-zone-converter/" class="related-tool-link">Time Zone Converter</a>
+                    <a href="../cron-expression-generator/" class="related-tool-link">Cron Expression Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

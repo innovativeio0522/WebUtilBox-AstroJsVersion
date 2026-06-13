@@ -1,0 +1,169 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/scientific-calculator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Scientific Calculator Online - Free | Webutilbox","url":"https://webutilbox.com/scientific-calculator/","description":"Free scientific calculator. Calculate sin, cos, tan, log, sqrt, and more. For students and engineers.","applicationCategory":"EducationApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What functions does the scientific calculator support?","acceptedAnswer":{"@type":"Answer","text":"The calculator supports trigonometric functions (sin, cos, tan and their inverses), logarithms (log base 10 and natural log), exponentials, square roots, powers, factorials, and constants like pi and e. It handles both degree and radian modes for trigonometric calculations."}},{"@type":"Question","name":"What is the difference between degrees and radians?","acceptedAnswer":{"@type":"Answer","text":"Degrees and radians are two ways to measure angles. A full circle is 360 degrees or 2pi radians. Radians are the natural unit for mathematics and physics. Most scientific and engineering calculations use radians. Switch modes using the DEG/RAD toggle before calculating trig functions."}},{"@type":"Question","name":"How do I calculate logarithms with a different base?","acceptedAnswer":{"@type":"Answer","text":"Use the change of base formula: log_b(x) = log(x) / log(b). For example, log base 2 of 8 = log(8) / log(2) = 0.903 / 0.301 = 3. The calculator provides log (base 10) and ln (natural log, base e) directly."}},{"@type":"Question","name":"What does the EE or EXP button do?","acceptedAnswer":{"@type":"Answer","text":"EE (Enter Exponent) or EXP enters scientific notation. For example, 6.022 EE 23 = 6.022 x 10^23 (Avogadro's number). This is useful for very large or very small numbers in physics and chemistry calculations."}},{"@type":"Question","name":"How do I calculate factorials for large numbers?","acceptedAnswer":{"@type":"Answer","text":"Factorials grow extremely fast. 10! = 3,628,800. 20! = 2.43 x 10^18. 170! is the largest factorial most calculators can handle before reaching infinity. For combinatorics problems, use the nCr and nPr functions instead of calculating raw factorials."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Scientific Calculator Online","item":"https://webutilbox.com/scientific-calculator/"}]}]};
+---
+
+<ToolLayout
+  title="Scientific Calculator Online | Webutilbox"
+  description="Perform advanced scientific calculations including trigonometry, logarithms, and exponents. Free online scientific calculator with history and memory."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-calculators.svg"
+  keywords="scientific calculator, online calculator, math calculator, trigonometry calculator, logarithm calculator, free calculator"
+  h1="🔢 Scientific Calculator"
+  subtitle="Free online scientific calculator with trigonometry, logarithms, and advanced functions."
+  lastUpdated=""
+  shareText="Free%20online%20Scientific%20Calculator%20Online%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Scientific Calculator Online -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+<div class="calc">
+<div class="display" id="display">0</div>
+<div class="btn-grid">
+<button class="calc-btn function" onclick="addFunc('sin(')">sin</button>
+<button class="calc-btn function" onclick="addFunc('cos(')">cos</button>
+<button class="calc-btn function" onclick="addFunc('tan(')">tan</button>
+<button class="calc-btn function" onclick="addFunc('log(')">log</button>
+<button class="calc-btn function" onclick="addFunc('ln(')">ln</button>
+<button class="calc-btn function" onclick="addFunc('sqrt(')">v</button>
+<button class="calc-btn function" onclick="addFunc('pow(')">x^y</button>
+<button class="calc-btn function" onclick="addNum('Math.PI')">p</button>
+<button class="calc-btn function" onclick="addNum('Math.E')">e</button>
+<button class="calc-btn clear" onclick="clearDisplay()">C</button>
+<button class="calc-btn" onclick="addNum('7')">7</button>
+<button class="calc-btn" onclick="addNum('8')">8</button>
+<button class="calc-btn" onclick="addNum('9')">9</button>
+<button class="calc-btn operator" onclick="addNum('/')">/</button>
+<button class="calc-btn" onclick="backspace()">?</button>
+<button class="calc-btn" onclick="addNum('4')">4</button>
+<button class="calc-btn" onclick="addNum('5')">5</button>
+<button class="calc-btn" onclick="addNum('6')">6</button>
+<button class="calc-btn operator" onclick="addNum('*')">×</button>
+<button class="calc-btn" onclick="addNum('(')">(</button>
+<button class="calc-btn" onclick="addNum('1')">1</button>
+<button class="calc-btn" onclick="addNum('2')">2</button>
+<button class="calc-btn" onclick="addNum('3')">3</button>
+<button class="calc-btn operator" onclick="addNum('-')">-</button>
+<button class="calc-btn" onclick="addNum(')')">)</button>
+<button class="calc-btn" onclick="addNum('0')">0</button>
+<button class="calc-btn" onclick="addNum('.')">.</button>
+<button class="calc-btn equals" onclick="calculate()">=</button>
+<button class="calc-btn operator" onclick="addNum('+')">+</button>
+</div>
+</div>
+</div>
+
+        <!-- Share Bar -->
+
+<style>
+.calc{max-width:400px;margin:20px auto;background:var(--light);padding:20px;border-radius:12px;border:1px solid var(--border)}
+.display{background:var(--input-bg);padding:20px;border-radius:8px;font-size:2rem;text-align:right;margin-bottom:15px;min-height:60px;word-wrap:break-word;color:var(--white)}
+.btn-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.calc-btn{padding:15px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:1.1rem;transition:all 0.2s;color:var(--white)}
+.calc-btn:hover{background:var(--light);border-color:var(--primary)}
+.calc-btn.operator{background:var(--primary);color:var(--dark);border-color:var(--primary)}
+.calc-btn.function{background:var(--dark);font-size:0.9rem}
+.calc-btn.equals{background:#22c55e;color:var(--dark);grid-column:span 2}
+.calc-btn.clear{background:#f87171;color:var(--dark)}
+</style>
+
+
+<script src="/js/scientific-calculator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Scientific Calculator - Advanced Math for Students and Engineers</h2>
+<p>Our free Scientific Calculator gives you a full-featured mathematical tool right in your browser. From basic arithmetic to trigonometric functions, logarithms, powers, and mathematical constants, this calculator handles the computations you need for school, engineering, science, and everyday problem-solving.</p>
+<p>No app to install, no account required — just open the page and start calculating. It works on any device and is available offline once loaded.</p>
+
+<h3>What Is a Scientific Calculator?</h3>
+<p>A scientific calculator is an advanced calculator that goes beyond basic addition, subtraction, multiplication, and division. It includes functions for trigonometry (sine, cosine, tangent), logarithms (base-10 and natural log), exponentiation, square roots, and mathematical constants like p (pi) and e (Euler's number). These functions are essential for mathematics, physics, chemistry, engineering, and many other technical disciplines.</p>
+<p>Traditional scientific calculators are physical devices that students and professionals carry to class or work. A browser-based scientific calculator provides the same functionality without the need to carry a separate device, and it's always available on any computer, tablet, or smartphone with a web browser.</p>
+<p>This calculator supports complex expressions with parentheses, allowing you to enter multi-step calculations as a single expression rather than breaking them into separate steps. The display shows your full expression as you build it, so you can review and edit before calculating.</p>
+
+<h3>Calculator Functions and Operations</h3>
+<ul>
+<li>Basic arithmetic: addition, subtraction, multiplication, and division</li>
+<li>Trigonometric functions: sin, cos, tan (in radians)</li>
+<li>Logarithmic functions: log (base 10) and ln (natural logarithm)</li>
+<li>Power and root functions: x^y for any exponent, v for square root</li>
+<li>Mathematical constants: p (pi ˜ 3.14159) and e (Euler's number ˜ 2.71828)</li>
+<li>Parentheses support for complex multi-step expressions</li>
+<li>Keyboard input support for faster entry without clicking buttons</li>
+<li>Backspace button to correct mistakes without clearing the entire expression</li>
+</ul>
+
+<h3>How to Use the Scientific Calculator</h3>
+<ul>
+<li>Step 1: Click the number buttons or type on your keyboard to enter numbers and operators.</li>
+<li>Step 2: Use the function buttons (sin, cos, tan, log, ln, v, x^y) to insert scientific functions. These automatically add an opening parenthesis — complete the expression by entering the argument and closing with ")".</li>
+<li>Step 3: Use the p and e buttons to insert the mathematical constants at any point in your expression.</li>
+<li>Step 4: Use parentheses buttons "(" and ")" to group sub-expressions and control the order of operations.</li>
+<li>Step 5: Press "=" or the Enter key to evaluate the expression. Press "C" or Escape to clear the display and start over.</li>
+</ul>
+
+<h3>Scientific Calculation Use Cases</h3>
+<ul>
+<li>Solving trigonometry problems in physics, engineering, and geometry courses</li>
+<li>Calculating logarithms for chemistry (pH calculations), acoustics (decibels), and finance (compound interest)</li>
+<li>Computing powers and roots for algebra, statistics, and scientific notation</li>
+<li>Evaluating complex mathematical expressions with multiple operations and groupings</li>
+<li>Quick calculations involving p for geometry (area, circumference) and trigonometry</li>
+<li>Engineering calculations involving exponential growth, decay, or signal processing</li>
+<li>Verifying hand calculations or textbook answers during study sessions</li>
+</ul>
+
+<h3>Getting Accurate Scientific Results</h3>
+<p>Trigonometric functions in this calculator use radians, not degrees. This is the standard for most scientific and engineering applications. To convert degrees to radians, multiply by p/180. For example, sin(90°) = sin(p/2) ˜ sin(1.5708). If you're working in degrees, convert your angle first before entering it into the sin, cos, or tan functions.</p>
+<p>Use parentheses liberally to ensure the correct order of operations. For example, to calculate sin(30° + 45°) in radians, enter sin((0.5236 + 0.7854)) rather than sin(0.5236) + 0.7854, which would give a completely different result. When in doubt, add parentheses — they never hurt and often prevent errors.</p>
+<p>The x^y (power) function takes two arguments separated by a comma: the base and the exponent. For example, pow(2, 10) calculates 2 to the power of 10, which equals 1024. You can also use the ** operator directly in expressions for the same result.</p>
+
+
+
+<h3>Calculations Performed Client-Side Only</h3>
+<p>All calculations run in your browser. No data is sent to any server.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What functions does the scientific calculator support?</button>
+                    <div class="faq-answer"><p>The calculator supports trigonometric functions (sin, cos, tan and their inverses), logarithms (log base 10 and natural log), exponentials, square roots, powers, factorials, and constants like pi and e. It handles both degree and radian modes for trigonometric calculations.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between degrees and radians?</button>
+                    <div class="faq-answer"><p>Degrees and radians are two ways to measure angles. A full circle is 360 degrees or 2pi radians. Radians are the natural unit for mathematics and physics. Most scientific and engineering calculations use radians. Switch modes using the DEG/RAD toggle before calculating trig functions.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I calculate logarithms with a different base?</button>
+                    <div class="faq-answer"><p>Use the change of base formula: log_b(x) = log(x) / log(b). For example, log base 2 of 8 = log(8) / log(2) = 0.903 / 0.301 = 3. The calculator provides log (base 10) and ln (natural log, base e) directly.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What does the EE or EXP button do?</button>
+                    <div class="faq-answer"><p>EE (Enter Exponent) or EXP enters scientific notation. For example, 6.022 EE 23 = 6.022 x 10^23 (Avogadro's number). This is useful for very large or very small numbers in physics and chemistry calculations.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I calculate factorials for large numbers?</button>
+                    <div class="faq-answer"><p>Factorials grow extremely fast. 10! = 3,628,800. 20! = 2.43 x 10^18. 170! is the largest factorial most calculators can handle before reaching infinity. For combinatorics problems, use the nCr and nPr functions instead of calculating raw factorials.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../percentage-calculator/" class="related-tool-link">Percentage Calculator</a>
+                    <a href="../unit-converter/" class="related-tool-link">Unit Converter</a>
+                    <a href="../bmi-calculator/" class="related-tool-link">BMI Calculator</a>
+                    <a href="../number-base-converter/" class="related-tool-link">Number Base Converter</a>
+                    <a href="../compound-interest-calculator/" class="related-tool-link">Compound Interest Calculator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

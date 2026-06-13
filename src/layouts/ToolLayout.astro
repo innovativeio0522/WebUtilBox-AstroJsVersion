@@ -1,0 +1,105 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ShareBar from '../components/ShareBar.astro';
+import EmbedSection from '../components/EmbedSection.astro';
+
+export interface Props {
+  // SEO (passed through to BaseLayout)
+  title: string;
+  description: string;
+  canonical: string;
+  ogImage?: string;
+  keywords?: string;
+  jsonLd?: object | object[];
+
+  // Page header
+  h1: string;
+  subtitle: string;
+  lastUpdated?: string;   // ISO date e.g. "2026-06-05"
+
+  // Share bar
+  shareText: string;      // pre-encoded tweet text (no URL — appended automatically)
+  shareUrl: string;       // full canonical URL for sharing
+
+  // Embed
+  embedTitle: string;     // iframe title attribute
+  embedHeight?: number;   // default 600
+  embedUrl: string;       // full URL to embed
+
+  // Optional tool-specific stylesheet
+  toolCss?: boolean;      // if true, loads /assets/css/tool-specific.css
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  keywords,
+  jsonLd,
+  h1,
+  subtitle,
+  lastUpdated,
+  shareText,
+  shareUrl,
+  embedTitle,
+  embedHeight = 600,
+  embedUrl,
+  toolCss = false,
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+  keywords={keywords}
+  jsonLd={jsonLd}
+>
+  <slot name="head" slot="head" />
+  {toolCss && (
+    <link slot="head" rel="stylesheet" href="/assets/css/tool-specific.css" />
+  )}
+
+  <header>
+    <div class="header-content">
+      <a href="/" class="logo">
+        <span>🧰</span>
+        <span>Webutilbox</span>
+      </a>
+      <a href="/tools" class="all-tools-btn">All Tools</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 set:html={h1} />
+    <p class="subtitle">{subtitle}</p>
+    {lastUpdated && (
+      <p class="last-updated">
+        Last updated: <time datetime={lastUpdated}>
+          {new Date(lastUpdated).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
+        </time>
+      </p>
+    )}
+
+    <!-- Tool workspace injected by each page -->
+    <slot />
+
+    <!-- Tool scripts injected as raw HTML (bypasses esbuild) -->
+    <slot name="scripts" />
+
+    <!-- Share Bar -->
+    <ShareBar shareText={shareText} shareUrl={shareUrl} />
+
+    <!-- Embed Section -->
+    <EmbedSection
+      embedUrl={embedUrl}
+      embedTitle={embedTitle}
+      embedHeight={embedHeight}
+    />
+
+    <!-- Info section, FAQ, related tools injected by each page -->
+    <slot name="info" />
+  </div>
+</BaseLayout>

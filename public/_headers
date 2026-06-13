@@ -1,0 +1,26 @@
+# Cache headers for Netlify
+# https://docs.netlify.com/routing/headers/
+
+# Cache CSS and JS files for 1 year (immutable)
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache images for 1 year
+/assets/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache favicon for 1 week
+/favicon.svg
+  Cache-Control: public, max-age=604800
+
+# HTML files - cache for 1 hour, revalidate
+/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Root HTML
+/
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Tools pages - cache for 1 hour
+/**/index.html
+  Cache-Control: public, max-age=3600, must-revalidate

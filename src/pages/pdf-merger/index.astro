@@ -1,0 +1,167 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/pdf-merger/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"PDF Merger - Combine Multiple PDFs Online | Webutilbox","url":"https://webutilbox.com/pdf-merger/","description":"Merge multiple PDF files into one. Drag and drop to reorder. Free online PDF merger, works offline.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is there a limit on how many PDFs I can merge?","acceptedAnswer":{"@type":"Answer","text":"There is no hard limit set by the tool. You can add as many PDFs as your browser's memory can handle. In practice, merging 10-20 typical PDFs works smoothly. Very large files (100MB+) may be slow since all processing happens in your browser."}},{"@type":"Question","name":"Will the merged PDF preserve bookmarks and hyperlinks?","acceptedAnswer":{"@type":"Answer","text":"The merger combines the page content of all PDFs. Basic text, images, and layout are preserved. Complex features like interactive form fields, bookmarks, and embedded JavaScript may not be fully preserved depending on the source PDFs."}},{"@type":"Question","name":"Can I reorder the PDFs before merging?","acceptedAnswer":{"@type":"Answer","text":"Yes. The files appear in the order you add them. You can drag and drop to reorder them before clicking Merge. The final PDF will have pages in the order shown in the list."}},{"@type":"Question","name":"Why is my merged PDF larger than the sum of the originals?","acceptedAnswer":{"@type":"Answer","text":"PDF merging can sometimes increase file size because the tool preserves all embedded resources (fonts, images) from each source file, even if they are duplicated across files. To reduce the size, compress the merged PDF after merging."}},{"@type":"Question","name":"Does this tool work with password-protected PDFs?","acceptedAnswer":{"@type":"Answer","text":"No. Password-protected PDFs cannot be processed without the password. You will need to remove the password protection first using a PDF password remover tool before merging."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"PDF Merger","item":"https://webutilbox.com/pdf-merger/"}]}]};
+---
+
+<ToolLayout
+  title="PDF Merger - Combine Multiple PDFs Online | Webutilbox"
+  description="Merge multiple PDF files into one document online. Reorder pages and combine PDFs instantly in your browser. Free online PDF merger — no upload."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-pdf-tools.svg"
+  keywords="pdf merger, combine pdf, merge pdf, join pdf, pdf combiner"
+  h1="📄 PDF Merger"
+  subtitle="Combine multiple PDF files into one. Drag and drop to reorder pages."
+  lastUpdated=""
+  shareText="Free%20online%20PDF%20Merger%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="PDF Merger - Combine Multiple PDFs Online -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Upload Area -->
+            <div style="text-align: center; padding: 40px; border: 2px dashed var(--border); border-radius: 12px; background: var(--light); margin-bottom: 20px;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">??</div>
+                <input type="file" id="pdfFiles" accept=".pdf" multiple style="display: none;" onchange="loadPDFs()">
+                <button class="btn btn-primary" onclick="document.getElementById('pdfFiles').click()" style="padding: 15px 30px; font-size: 1rem;">
+                    Select PDF Files
+                </button>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--gray);">Select multiple PDF files to merge</p>
+            </div>
+
+            <!-- PDF List -->
+            <div id="pdfList" style="display: none; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="font-size: 1rem; margin: 0;">Selected PDFs (<span id="pdfCount">0</span>)</h3>
+                    <button class="btn" onclick="clearAll()" style="padding: 8px 16px;">Clear All</button>
+                </div>
+
+                <div id="pdfItems" style="background: var(--light); border-radius: 12px; padding: 15px; border: 1px solid var(--border);">
+                </div>
+
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="btn btn-success" onclick="mergePDFs()" style="padding: 15px 40px; font-size: 1.1rem;">
+                        ?? Merge PDFs
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div id="progress" style="display: none; background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border); text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 10px;">?</div>
+                <div id="progressText" style="font-size: 1rem; color: var(--gray);">Merging PDFs...</div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+<style>
+.pdf-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background: var(--dark);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: move;
+            transition: all 0.2s;
+        }
+        .pdf-item:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid var(--primary);
+        }
+        .pdf-item.dragging {
+            opacity: 0.5;
+        }
+        .drag-handle {
+            font-size: 1.5rem;
+            cursor: grab;
+            color: var(--gray);
+        }
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+</style>
+
+
+<script src="/js/pdf-merger.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>PDF Merger</h2>
+
+    <p>Merging PDFs is one of those tasks that comes up constantly — combining a cover letter with a resume, assembling a multi-chapter report, packaging invoices for an accountant, or consolidating scanned documents into a single file. Most solutions either require expensive software (Adobe Acrobat), a subscription service, or uploading sensitive documents to a third-party server. This tool does it in your browser, free, with no uploads.</p>
+
+    <h3>How to merge PDFs effectively</h3>
+    <p>The order of files in the list is the order of pages in the output. Drag files to reorder them before merging. A few things to check before you start:</p>
+    <ul>
+        <li>Make sure all files are actual PDFs, not images saved with a .pdf extension</li>
+        <li>Check that none of the files are password-protected — encrypted PDFs can't be merged without the password</li>
+        <li>If page orientation varies between files (some portrait, some landscape), the merged PDF will preserve each page's original orientation</li>
+        <li>Very large files (50MB+) may be slow to process since everything runs in your browser's memory</li>
+    </ul>
+
+    <h3>What gets preserved and what doesn't</h3>
+    <p><strong>Preserved:</strong> All page content (text, images, vector graphics), page dimensions and orientation, embedded fonts, colors and transparency.</p>
+    <p><strong>May not be preserved:</strong> Interactive form fields (the fields may appear but lose interactivity), bookmarks and table of contents entries, embedded JavaScript, digital signatures (signatures become invalid when the document is modified), and some PDF/A compliance metadata.</p>
+    <p>For most everyday use cases — combining scanned documents, assembling reports, packaging files for submission — these limitations don't matter. If you need to preserve interactive forms or digital signatures, use Adobe Acrobat or a dedicated PDF editor.</p>
+
+    <h3>Reducing the size of merged PDFs</h3>
+    <p>Merged PDFs can be larger than the sum of the originals because each source file's embedded resources (fonts, color profiles) are preserved separately even if they're identical across files. If file size is a concern, run the merged PDF through an image compressor or PDF optimizer after merging. For PDFs that are primarily scanned images, converting the images to JPEG before creating the PDF can dramatically reduce size.</p>
+
+    <h3>Common use cases</h3>
+    <ul>
+        <li>Job applications — combining resume, cover letter, portfolio, and references into one file</li>
+        <li>Tax documents — assembling W-2s, 1099s, and receipts for an accountant</li>
+        <li>Legal submissions — combining multiple exhibits into a single filing</li>
+        <li>Academic submissions — combining chapters, bibliography, and appendices</li>
+        <li>Business reports — assembling sections written by different team members</li>
+    </ul>
+
+    <h3>PDFs Are Never Sent to a Server</h3>
+    <p>PDF merging happens entirely in your browser using pdf-lib. Your documents are never uploaded to any server. This is especially important for sensitive documents like financial records, legal filings, and personal identification — they stay on your device throughout the entire process.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Is there a limit on how many PDFs I can merge?</button>
+                    <div class="faq-answer"><p>There is no hard limit set by the tool. You can add as many PDFs as your browser's memory can handle. In practice, merging 10-20 typical PDFs works smoothly. Very large files (100MB+) may be slow since all processing happens in your browser.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Will the merged PDF preserve bookmarks and hyperlinks?</button>
+                    <div class="faq-answer"><p>The merger combines the page content of all PDFs. Basic text, images, and layout are preserved. Complex features like interactive form fields, bookmarks, and embedded JavaScript may not be fully preserved depending on the source PDFs.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I reorder the PDFs before merging?</button>
+                    <div class="faq-answer"><p>Yes. The files appear in the order you add them. You can drag and drop to reorder them before clicking Merge. The final PDF will have pages in the order shown in the list.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why is my merged PDF larger than the sum of the originals?</button>
+                    <div class="faq-answer"><p>PDF merging can sometimes increase file size because the tool preserves all embedded resources (fonts, images) from each source file, even if they are duplicated across files. To reduce the size, compress the merged PDF after merging.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does this tool work with password-protected PDFs?</button>
+                    <div class="faq-answer"><p>No. Password-protected PDFs cannot be processed without the password. You will need to remove the password protection first using a PDF password remover tool before merging.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../pdf-splitter/" class="related-tool-link">PDF Splitter</a>
+                    <a href="../pdf-images-converter/" class="related-tool-link">PDF and Images Converter</a>
+                    <a href="../image-compressor/" class="related-tool-link">Image Compressor</a>
+                    <a href="../image-format-converter/" class="related-tool-link">Image Format Converter</a>
+                    <a href="../base64-encoder/" class="related-tool-link">Base64 Encoder</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

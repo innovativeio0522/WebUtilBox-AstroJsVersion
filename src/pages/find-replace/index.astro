@@ -1,0 +1,177 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/find-replace/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Find and Replace Tool - Advanced Text Search with Regex | Webutilbox","url":"https://webutilbox.com/find-replace/","description":"Find and replace text with regex support. Bulk replacement, case-sensitive search. Free online tool.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I use regular expressions in find and replace?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enable the regex mode to use pattern matching in the find field. For example, find \\\\d+ to match any number, or [aeiou] to match any vowel. The replace field supports backreferences like $1 to insert captured groups."}},{"@type":"Question","name":"Is the find and replace case-sensitive?","acceptedAnswer":{"@type":"Answer","text":"By default, the search is case-sensitive. Toggle the case-insensitive option to match regardless of letter case. For example, case-insensitive search for 'hello' will also match 'Hello' and 'HELLO'."}},{"@type":"Question","name":"Can I replace all occurrences at once?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the Replace All button to replace every occurrence in one click. The tool shows a count of how many replacements were made. Use Replace One to step through matches one at a time if you want to review each change."}},{"@type":"Question","name":"What is the difference between this and a text editor's find/replace?","acceptedAnswer":{"@type":"Answer","text":"This tool works entirely in your browser with no file size limits from a desktop app. It is useful for quick text transformations without opening a full editor. For large codebases or files, a desktop editor like VS Code with its multi-file find/replace is more powerful."}},{"@type":"Question","name":"Can I find and replace across multiple lines?","acceptedAnswer":{"@type":"Answer","text":"Yes. The tool treats the entire text as a single string, so patterns can match across line boundaries. In regex mode, use \\\\n to match newlines, or enable the dotAll flag (s) to make . match newlines too."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Find and Replace Tool","item":"https://webutilbox.com/find-replace/"}]}]};
+---
+
+<ToolLayout
+  title="Find and Replace - Text Search with Regex | Webutilbox"
+  description="Find and replace text in bulk using plain text or regular expressions. Supports case-sensitive matching and whole word options. Free online tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-text-tools.svg"
+  keywords="find and replace, text search replace, regex find replace, bulk text replace, advanced search replace online"
+  h1="🔍 Find & Replace"
+  subtitle="Advanced text search and replace with regex support, case sensitivity, and whole word matching."
+  lastUpdated=""
+  shareText="Free%20online%20Find%20and%20Replace%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Find and Replace - Text Search with Regex -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="find-replace-grid">
+                <!-- Left: Text Input -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 8px;">Input Text</label>
+                    <textarea id="inputText" placeholder="Paste your text here..." style="min-height: 300px; font-size: 0.9rem;"></textarea>
+                </div>
+                
+                <!-- Right: Options -->
+                <div>
+                    <div style="display: grid; gap: 10px;">
+                        <div>
+                            <label style="font-size: 0.85rem; margin-bottom: 6px;">Find:</label>
+                            <input type="text" id="findText" placeholder="Text to find..." style="padding: 10px; font-size: 0.9rem;">
+                        </div>
+                        
+                        <div>
+                            <label style="font-size: 0.85rem; margin-bottom: 6px;">Replace with:</label>
+                            <input type="text" id="replaceText" placeholder="Replacement text..." style="padding: 10px; font-size: 0.9rem;">
+                        </div>
+                        
+                        <div style="background: var(--light); padding: 10px; border-radius: 8px; border: 1px solid var(--border);">
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 8px;">
+                                <input type="checkbox" id="caseSensitive">
+                                <span style="font-size: 0.85rem;">Case Sensitive</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 8px;">
+                                <input type="checkbox" id="wholeWord">
+                                <span style="font-size: 0.85rem;">Match Whole Word</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                <input type="checkbox" id="useRegex">
+                                <span style="font-size: 0.85rem;">Use Regex</span>
+                            </label>
+                        </div>
+                        
+                        <div class="button-group" style="display: grid; gap: 8px;">
+                            <button class="btn btn-primary" onclick="findMatches()" style="width: 100%; padding: 10px;">Find</button>
+                            <button class="btn btn-success" onclick="replaceAll()" style="width: 100%; padding: 10px;">Replace All</button>
+                            <button class="btn btn-secondary" onclick="copyResult()" style="width: 100%; padding: 8px; font-size: 0.85rem;">Copy Result</button>
+                            <button class="btn btn-secondary" onclick="clearAll()" style="width: 100%; padding: 8px; font-size: 0.85rem;">Clear</button>
+                        </div>
+                        
+                        <div id="matchStats" style="background: var(--light); padding: 10px; border-radius: 8px; border: 1px solid var(--border); display: none;">
+                            <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 5px;">Matches Found:</div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);" id="matchCount">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="output-container show" id="outputContainer" style="margin-top: 15px; display: none;">
+                <div class="output-label">Result</div>
+                <div class="output-content" id="outputText" style="white-space: pre-wrap; font-size: 0.9rem;"></div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/find-replace.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Find and Replace Tool - Advanced Text Search</h2>
+    <p>The Find and Replace tool lets you search for text patterns within a block of text and replace them with new content. It supports plain text search, case-sensitive matching, whole word matching, and full regular expression (regex) support for advanced pattern matching — all running instantly in your browser with no data sent to any server.</p>
+
+    <h3>What Is Find and Replace Tool?</h3>
+    <p>The Find and Replace tool is a text processing utility that locates occurrences of a search term within your input text and replaces them with a specified replacement string. It mirrors the find-and-replace functionality found in code editors and word processors, but works directly in your browser for any text you paste in — no software installation required.</p>
+    <p>The tool offers four search modes that can be combined: plain text search, case-sensitive matching, whole word matching, and regular expression (regex) mode. These options give you precise control over what gets matched, from simple literal string replacement to complex pattern-based transformations using the full power of JavaScript's regex engine.</p>
+    <p>When you click Find, the tool highlights all matches in the output panel using a distinctive marker so you can see exactly what will be replaced before committing to the change. The match count is displayed prominently so you know how many occurrences were found. Replace All then performs all substitutions at once and shows the transformed text in the output panel, ready to copy.</p>
+
+    <h3>Find and Replace Modes</h3>
+    <ul>
+        <li>Plain text search that finds exact string matches, with options for case-sensitive and whole-word matching to narrow results precisely.</li>
+        <li>Full regular expression support using JavaScript regex syntax, including capture groups, character classes, quantifiers, and anchors.</li>
+        <li>Find mode that highlights all matches before replacing, so you can verify what will be changed before committing.</li>
+        <li>Match count display showing the total number of occurrences found, giving you a clear picture of the scope of the replacement.</li>
+        <li>Replace All functionality that performs all substitutions simultaneously and displays the result in the output panel.</li>
+        <li>Copy Result button that copies the transformed text to your clipboard for immediate use in another application.</li>
+    </ul>
+
+    <h3>How to Use Find and Replace Tool</h3>
+    <p>The tool follows a simple workflow: paste your text, enter your search and replacement terms, configure your options, and run the operation.</p>
+    <ul>
+        <li>Step 1: Paste the text you want to search through into the large "Input Text" area on the left side of the tool.</li>
+        <li>Step 2: Enter the text or pattern you want to find in the "Find:" field, and the replacement text in the "Replace with:" field.</li>
+        <li>Step 3: Check the appropriate options — Case Sensitive, Match Whole Word, and/or Use Regex — depending on your search requirements.</li>
+        <li>Step 4: Click "Find" to highlight all matches and see the match count, or click "Replace All" to perform all replacements immediately.</li>
+        <li>Step 5: Review the result in the output panel and click "Copy Result" to copy the transformed text to your clipboard.</li>
+    </ul>
+
+    <h3>Text Editing Use Cases</h3>
+    <p>Find and replace is one of the most frequently used text manipulation operations across many different workflows and professions.</p>
+    <ul>
+        <li>Code editing: Rename variables, update function names, change string values, or update API endpoints across a file when you don't have access to a code editor.</li>
+        <li>Data cleaning: Standardize formatting in CSV or plain text data — for example, replacing inconsistent date formats, fixing capitalization, or normalizing delimiters.</li>
+        <li>Content editing: Update terminology across a document, fix repeated typos, replace placeholder text with real content, or reformat text for a different context.</li>
+        <li>Log analysis: Extract or transform specific patterns from log files, such as replacing timestamps with a standard format or removing noise from log entries.</li>
+        <li>Template processing: Replace placeholder tokens in template text with actual values, useful for generating personalized content from a template.</li>
+    </ul>
+
+    <h3>Powerful Find and Replace Techniques</h3>
+    <p>Regular expressions are extremely powerful but can be tricky to get right. Always use the Find mode first to verify your regex matches exactly what you intend before running Replace All. A regex that's slightly too broad can match unintended text and produce incorrect results. The match count and highlighted output give you a clear preview of what will be affected.</p>
+    <p>When using regex with capture groups, you can reference the captured text in your replacement string using $1, $2, etc. for the first and second capture groups respectively. For example, to reformat a date from MM/DD/YYYY to YYYY-MM-DD, you would search for (\d{2})/(\d{2})/(\d{4}) and replace with $3-$1-$2. This kind of structural transformation would be tedious to do manually but takes seconds with regex.</p>
+    <p>The whole word matching option is particularly useful when you want to replace a short word that might appear as part of longer words. For example, replacing "cat" without whole word matching would also change "concatenate" and "category." Enabling whole word matching ensures only the standalone word "cat" is matched, leaving compound words intact.</p>
+
+    
+
+    <h3>Text Processed Locally, Not Stored</h3>
+    <p>Text processing runs locally. Your content never leaves your device.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I use regular expressions in find and replace?</button>
+                    <div class="faq-answer"><p>Yes. Enable the regex mode to use pattern matching in the find field. For example, find \d+ to match any number, or [aeiou] to match any vowel. The replace field supports backreferences like $1 to insert captured groups.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Is the find and replace case-sensitive?</button>
+                    <div class="faq-answer"><p>By default, the search is case-sensitive. Toggle the case-insensitive option to match regardless of letter case. For example, case-insensitive search for 'hello' will also match 'Hello' and 'HELLO'.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I replace all occurrences at once?</button>
+                    <div class="faq-answer"><p>Yes. Use the Replace All button to replace every occurrence in one click. The tool shows a count of how many replacements were made. Use Replace One to step through matches one at a time if you want to review each change.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between this and a text editor's find/replace?</button>
+                    <div class="faq-answer"><p>This tool works entirely in your browser with no file size limits from a desktop app. It is useful for quick text transformations without opening a full editor. For large codebases or files, a desktop editor like VS Code with its multi-file find/replace is more powerful.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I find and replace across multiple lines?</button>
+                    <div class="faq-answer"><p>Yes. The tool treats the entire text as a single string, so patterns can match across line boundaries. In regex mode, use \n to match newlines, or enable the dotAll flag (s) to make . match newlines too.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../text-cleaner/" class="related-tool-link">Text Cleaner</a>
+                    <a href="../regex-tester/" class="related-tool-link">Regex Tester</a>
+                    <a href="../text-diff/" class="related-tool-link">Text Diff</a>
+                    <a href="../case-converter/" class="related-tool-link">Case Converter</a>
+                    <a href="../word-counter/" class="related-tool-link">Word Counter</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

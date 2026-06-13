@@ -1,0 +1,152 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/syllable-counter/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Syllable Counter - Count Syllables in Text | Webutilbox","url":"https://webutilbox.com/syllable-counter/","description":"Count syllables in words and text for poetry and readability. Perfect for writers and students.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the syllable counter work?","acceptedAnswer":{"@type":"Answer","text":"The counter uses a rule-based algorithm that analyzes vowel patterns in English words to estimate syllable count. It handles common patterns like silent e, vowel combinations, and suffixes. The algorithm is accurate for most common English words but may occasionally miscount unusual words."}},{"@type":"Question","name":"What is a syllable?","acceptedAnswer":{"@type":"Answer","text":"A syllable is a unit of pronunciation with one vowel sound. 'Cat' has one syllable. 'Butter' has two (but-ter). 'Beautiful' has three (beau-ti-ful). Syllables are the building blocks of rhythm in speech and poetry."}},{"@type":"Question","name":"Why would I need to count syllables?","acceptedAnswer":{"@type":"Answer","text":"Syllable counting is essential for writing poetry (haiku requires 5-7-5 syllables), song lyrics, and understanding readability. The Flesch-Kincaid readability formula uses syllable count. Syllables also help with pronunciation and language learning."}},{"@type":"Question","name":"How do I write a haiku?","acceptedAnswer":{"@type":"Answer","text":"A haiku has three lines: 5 syllables, 7 syllables, 5 syllables (total 17). Traditional haiku focus on nature and a moment of insight. Use this tool to count syllables in each line as you write. Example: 'An old silent pond (5) / A frog jumps into the pond (7) / Splash! Silence again (5)'."}},{"@type":"Question","name":"Does the counter work for languages other than English?","acceptedAnswer":{"@type":"Answer","text":"The syllable counting algorithm is optimized for English. Other languages have different syllable rules and the results may not be accurate. For non-English text, the character and word counts are still accurate."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Syllable Counter","item":"https://webutilbox.com/syllable-counter/"}]}]};
+---
+
+<ToolLayout
+  title="Syllable Counter - Count Syllables | Webutilbox"
+  description="Count syllables in words and text for poetry, songwriting, and readability analysis. Supports multiple languages. Free online syllable counter."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-text-tools.svg"
+  keywords="syllable counter, count syllables, syllable calculator, haiku syllable counter, poetry syllable tool, readability score, flesch reading ease"
+  h1="🔤 Syllable Counter"
+  subtitle="Count syllables in words and text. Perfect for poetry, haiku, and readability analysis."
+  lastUpdated=""
+  shareText="Free%20online%20Syllable%20Counter%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Syllable Counter - Count Syllables -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="input-group">
+                <label>Your Text or Words</label>
+                <textarea id="inputText" placeholder="Enter text or words to count syllables...&#10;&#10;Example:&#10;Beautiful (3 syllables)&#10;Poetry (3 syllables)&#10;Haiku (2 syllables)" style="min-height:200px"></textarea>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="countSyllables()">Count Syllables</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+                <button class="btn btn-success" onclick="copyResults()">Copy Results</button>
+            </div>
+
+            <div id="results" style="display:none;margin-top:20px">
+                <div class="stats-grid" id="statsGrid"></div>
+                
+                <div style="background:var(--light);padding:20px;border-radius:12px;border:1px solid var(--border)">
+                    <h3 style="color:var(--primary);margin-bottom:10px">Word-by-Word Breakdown</h3>
+                    <div class="word-list" id="wordList"></div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+<style>
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:20px}
+        .stat-card{background:var(--light);padding:20px;border-radius:12px;text-align:center;border:1px solid var(--border)}
+        .stat-number{font-size:2.5rem;font-weight:700;color:var(--primary);margin-bottom:5px}
+        .stat-label{font-size:0.85rem;color:var(--gray)}
+        .word-list{max-height:400px;overflow-y:auto;background:var(--input-bg);padding:15px;border-radius:8px;margin-top:15px}
+        .word-item{display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid var(--border)}
+        .word-item:last-child{border-bottom:none}
+</style>
+
+
+<script src="/js/syllable-counter.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Syllable Counter - Count Syllables in Words and Text</h2>
+            <p>This free syllable counter analyzes your text and instantly counts the number of syllables in each word. Whether you're writing poetry, crafting song lyrics, analyzing readability, or teaching phonics, this tool gives you accurate syllable counts with a full word-by-word breakdown.</p>
+
+            <h3>What Is a Syllable?</h3>
+            <p>A syllable is a unit of spoken language that contains a single vowel sound, with or without surrounding consonants. Every word in English is made up of one or more syllables. For example, "cat" has one syllable, "happy" has two (hap-py), "beautiful" has three (beau-ti-ful), and "education" has four (ed-u-ca-tion).</p>
+            <p>Syllable counting is a fundamental skill in linguistics, poetry, and language education. In poetry, syllable counts determine meter and rhythm. In readability analysis, the average number of syllables per word is a key factor in formulas like the Flesch-Kincaid Reading Ease score, which measures how easy a text is to understand.</p>
+            <p>This tool uses an algorithmic approach to estimate syllable counts based on vowel patterns in English words. While no algorithm is perfect for every word in the language, this tool handles the vast majority of common English words accurately and is ideal for practical writing and analysis tasks.</p>
+
+            <h3>Syllable Counting Capabilities</h3>
+            <ul>
+                <li>Instant syllable counting for individual words or entire passages</li>
+                <li>Word-by-word breakdown showing syllable count for each word</li>
+                <li>Total syllable count for the full input text</li>
+                <li>Average syllables per word calculation</li>
+                <li>Readability level estimate based on syllable complexity</li>
+                <li>Copy results to clipboard for use in other applications</li>
+                <li>Works with any length of text, from single words to full paragraphs</li>
+            </ul>
+
+            <h3>How to Use the Syllable Counter</h3>
+            <p>Getting syllable counts is quick and easy with this tool:</p>
+            <ul>
+                <li>Step 1: Type or paste your text into the input area above.</li>
+                <li>Step 2: Click "Count Syllables" to analyze the text.</li>
+                <li>Step 3: Review the total syllable count, word count, and average syllables per word in the stats panel.</li>
+                <li>Step 4: Scroll through the word-by-word breakdown to see individual syllable counts.</li>
+                <li>Step 5: Click "Copy Results" to export the full breakdown to your clipboard.</li>
+            </ul>
+
+            <h3>Writing and Poetry Use Cases</h3>
+            <ul>
+                <li>Writing haiku poetry following the traditional 5-7-5 syllable structure</li>
+                <li>Composing sonnets, limericks, and other metered verse forms</li>
+                <li>Matching song lyrics to a melody by counting syllables per phrase</li>
+                <li>Analyzing text readability for educational materials and content writing</li>
+                <li>Teaching phonics and syllable division to elementary school students</li>
+                <li>Checking speech scripts for natural rhythm and flow</li>
+                <li>Improving SEO content by targeting appropriate reading levels</li>
+            </ul>
+
+            <h3>Counting Syllables Accurately</h3>
+            <p>When writing haiku, count syllables line by line rather than for the whole poem at once. Paste each line separately to verify the 5-7-5 pattern. This makes it easy to identify which line needs adjustment without recounting the entire poem.</p>
+            <p>For readability analysis, aim for an average of 1.5 to 2 syllables per word in content targeting a general audience. Text with an average above 2.5 syllables per word tends to feel academic or technical and may be harder for casual readers to follow.</p>
+            <p>Remember that syllable counting algorithms work best with standard English words. Proper nouns, technical jargon, foreign words, and unusual spellings may produce slightly different counts than expected. For critical poetry work, always verify counts manually for unusual words.</p>
+
+            
+
+            <h3>Text Analyzed Locally — Never Sent</h3>
+            <p>Counting runs in your browser. Your text never leaves your device.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How does the syllable counter work?</button>
+                    <div class="faq-answer"><p>The counter uses a rule-based algorithm that analyzes vowel patterns in English words to estimate syllable count. It handles common patterns like silent e, vowel combinations, and suffixes. The algorithm is accurate for most common English words but may occasionally miscount unusual words.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is a syllable?</button>
+                    <div class="faq-answer"><p>A syllable is a unit of pronunciation with one vowel sound. 'Cat' has one syllable. 'Butter' has two (but-ter). 'Beautiful' has three (beau-ti-ful). Syllables are the building blocks of rhythm in speech and poetry.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why would I need to count syllables?</button>
+                    <div class="faq-answer"><p>Syllable counting is essential for writing poetry (haiku requires 5-7-5 syllables), song lyrics, and understanding readability. The Flesch-Kincaid readability formula uses syllable count. Syllables also help with pronunciation and language learning.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I write a haiku?</button>
+                    <div class="faq-answer"><p>A haiku has three lines: 5 syllables, 7 syllables, 5 syllables (total 17). Traditional haiku focus on nature and a moment of insight. Use this tool to count syllables in each line as you write. Example: 'An old silent pond (5) / A frog jumps into the pond (7) / Splash! Silence again (5)'.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does the counter work for languages other than English?</button>
+                    <div class="faq-answer"><p>The syllable counting algorithm is optimized for English. Other languages have different syllable rules and the results may not be accurate. For non-English text, the character and word counts are still accurate.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../word-counter/" class="related-tool-link">Word Counter</a>
+                    <a href="../word-frequency-counter/" class="related-tool-link">Word Frequency Counter</a>
+                    <a href="../character-frequency-analyzer/" class="related-tool-link">Character Frequency Analyzer</a>
+                    <a href="../text-cleaner/" class="related-tool-link">Text Cleaner</a>
+                    <a href="../lorem-ipsum/" class="related-tool-link">Lorem Ipsum Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

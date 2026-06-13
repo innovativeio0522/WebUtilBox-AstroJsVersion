@@ -1,0 +1,37 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/salary-calculator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Salary Calculator - Hourly to Annual Salary Converter","url":"https://webutilbox.com/salary-calculator/","description":"Convert hourly, weekly, monthly, and annual salary. Calculate gross to net pay and take-home income.","applicationCategory":"FinanceApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I convert an annual salary to hourly rate?","acceptedAnswer":{"@type":"Answer","text":"Divide annual salary by 2080 (52 weeks x 40 hours). For example, $52,000 / 2080 = $25/hour. For part-time work, divide by your actual annual hours. This calculator handles the conversion automatically for different work schedules."}},{"@type":"Question","name":"What is the difference between gross and net salary?","acceptedAnswer":{"@type":"Answer","text":"Gross salary is your total pay before any deductions. Net salary (take-home pay) is what you receive after income tax, Social Security, Medicare, health insurance premiums, and other deductions are subtracted. The difference can be 20-40% depending on your tax bracket and benefits."}},{"@type":"Question","name":"How do I calculate my effective tax rate?","acceptedAnswer":{"@type":"Answer","text":"Effective tax rate = total tax paid / gross income x 100. This differs from your marginal tax rate (the rate on your last dollar of income). Most people's effective rate is significantly lower than their marginal rate because lower income brackets are taxed at lower rates."}},{"@type":"Question","name":"What is the difference between salary and total compensation?","acceptedAnswer":{"@type":"Answer","text":"Salary is your base pay. Total compensation includes salary plus benefits: health insurance, retirement contributions (401k match), paid time off, bonuses, stock options, and other perks. When comparing job offers, always compare total compensation, not just base salary."}},{"@type":"Question","name":"How much should I save from my salary?","acceptedAnswer":{"@type":"Answer","text":"The 50/30/20 rule suggests: 50% for needs (housing, food, utilities), 30% for wants (entertainment, dining out), 20% for savings and debt repayment. For retirement, aim to save at least 15% of gross income including any employer match."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Salary Calculator","item":"https://webutilbox.com/salary-calculator/"}]}]};
+---
+
+<ToolLayout
+  title="Salary Calculator - Hourly to Annual | Webutilbox"
+  description="Calculate your net salary, hourly rate, and tax deductions. Convert between annual, monthly, and hourly pay. Free online salary calculator tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-calculators.svg"
+  keywords="salary calculator, hourly to annual salary, gross to net calculator, take home pay calculator, overtime calculator, paycheck calculator"
+  h1="💰 Salary Calculator"
+  subtitle="Convert between hourly, daily, weekly, monthly, and annual salary with deductions"
+  lastUpdated=""
+  shareText="Free%20online%20Salary%20Calculator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Salary Calculator - Hourly to Annual -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+
+
+
+<script src="/js/salary-calculator.js" defer></script>
+
+<div class="info-section" slot="info">
+
+</div>
+
+</ToolLayout>

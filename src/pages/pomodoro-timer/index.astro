@@ -1,0 +1,187 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/pomodoro-timer/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Pomodoro Timer - Focus Timer with Breaks | Webutilbox","url":"https://webutilbox.com/pomodoro-timer/","description":"Free Pomodoro timer for productivity. 25-minute focus sessions with 5-minute breaks. Customizable work and break intervals.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the Pomodoro Technique?","acceptedAnswer":{"@type":"Answer","text":"The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late 1980s. You work in focused 25-minute intervals (pomodoros) separated by 5-minute short breaks. After 4 pomodoros, take a longer 15-30 minute break. The technique improves focus and reduces mental fatigue."}},{"@type":"Question","name":"Can I customize the work and break durations?","acceptedAnswer":{"@type":"Answer","text":"Yes. The standard is 25 minutes work / 5 minutes short break / 15-30 minutes long break, but you can adjust these to fit your workflow. Some people prefer 50/10 or 90/20 intervals for deeper work sessions."}},{"@type":"Question","name":"Does the timer send notifications when a session ends?","acceptedAnswer":{"@type":"Answer","text":"Yes. The timer plays an audio alert and shows a browser notification (if you grant permission) when each session ends. Make sure your browser tab is not muted and you have allowed notifications for the site."}},{"@type":"Question","name":"How many pomodoros should I do per day?","acceptedAnswer":{"@type":"Answer","text":"Most people can sustain 8-12 pomodoros (4-6 hours of focused work) per day. Track your daily pomodoro count to understand your productive capacity. Quality of focus matters more than quantity."}},{"@type":"Question","name":"Should I stop mid-pomodoro if interrupted?","acceptedAnswer":{"@type":"Answer","text":"The Pomodoro Technique recommends treating interruptions as either deferrable (note it down, continue working) or unavoidable (abandon the pomodoro, restart after handling the interruption). A pomodoro that is interrupted does not count — restart the full 25 minutes."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Pomodoro Timer","item":"https://webutilbox.com/pomodoro-timer/"}]}]};
+---
+
+<ToolLayout
+  title="Pomodoro Timer - Focus Timer with Breaks | Webutilbox"
+  description="Free Pomodoro timer for productivity. 25-minute focus sessions with 5-minute breaks. Customizable work and break intervals."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-timers.svg"
+  keywords="pomodoro timer, focus timer, productivity timer, work timer, break timer"
+  h1="🍅 Pomodoro Timer"
+  subtitle="Stay focused with the Pomodoro Technique. 25 minutes of work, 5 minutes of break."
+  lastUpdated=""
+  shareText="Free%20online%20Pomodoro%20Timer%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Pomodoro Timer - Focus Timer with Breaks -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Timer Display -->
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div id="timerDisplay" style="font-size: 5rem; font-weight: bold; color: var(--primary); margin-bottom: 10px; font-family: monospace;">25:00</div>
+                <div id="sessionType" style="font-size: 1.2rem; color: var(--gray); margin-bottom: 20px;">Focus Session</div>
+                <div id="sessionCount" style="font-size: 0.9rem; color: var(--gray);">Session 1 of 4</div>
+            </div>
+
+            <!-- Controls -->
+            <div class="button-group" style="justify-content: center;">
+                <button id="startBtn" class="btn btn-primary" onclick="startTimer()" style="padding: 15px 40px; font-size: 1.1rem;">Start</button>
+                <button id="pauseBtn" class="btn btn-secondary" onclick="pauseTimer()" style="padding: 15px 40px; font-size: 1.1rem; display: none;">Pause</button>
+                <button class="btn btn-secondary" onclick="resetTimer()" style="padding: 15px 40px; font-size: 1.1rem;">Reset</button>
+            </div>
+
+            <!-- Settings -->
+            <div style="margin-top: 40px; background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border);">
+                <h3 style="margin-bottom: 15px; font-size: 1rem;">Settings</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div>
+                        <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Focus Duration (minutes)</label>
+                        <input type="number" id="focusDuration" value="25" min="1" max="60" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Short Break (minutes)</label>
+                        <input type="number" id="shortBreak" value="5" min="1" max="30" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Long Break (minutes)</label>
+                        <input type="number" id="longBreak" value="15" min="1" max="60" style="width: 100%; padding: 8px;">
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="autoStart" checked>
+                        <span style="font-size: 0.9rem;">Auto-start next session</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div style="margin-top: 20px;">
+                <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Today's Progress</div>
+                <div style="display: flex; gap: 5px;">
+                    <div id="progress1" class="progress-dot"></div>
+                    <div id="progress2" class="progress-dot"></div>
+                    <div id="progress3" class="progress-dot"></div>
+                    <div id="progress4" class="progress-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+<style>
+.progress-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--dark);
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+        .progress-dot.completed {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+</style>
+
+
+<script src="/js/pomodoro-timer.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Pomodoro Timer - Boost Focus and Productivity with Time Blocking</h2>
+            <p>Our free Pomodoro Timer helps you work smarter by breaking your day into structured focus sessions and scheduled breaks. Based on the proven Pomodoro Technique, this tool keeps you on track, reduces mental fatigue, and helps you accomplish more in less time — all without any distractions or sign-ups.</p>
+            <p>Fully customizable work and break durations, automatic session progression, and audio alerts make this one of the most complete free Pomodoro timers available online.</p>
+
+            <h3>What Is the Pomodoro Technique?</h3>
+            <p>The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late 1980s. The core idea is simple: work in focused intervals (called "Pomodoros") separated by short breaks. After completing four Pomodoros, you take a longer break to recharge before starting the next cycle.</p>
+            <p>The traditional Pomodoro is 25 minutes of focused work followed by a 5-minute short break. After four sessions, you take a 15–30 minute long break. This rhythm leverages the brain's natural attention cycles, preventing the mental fatigue that comes from trying to focus for hours without rest.</p>
+            <p>Decades of research on cognitive performance support the idea that regular breaks improve sustained attention, creativity, and overall productivity. The Pomodoro Technique provides a simple, structured framework for building these breaks into your workflow automatically.</p>
+
+            <h3>Pomodoro Timer Settings</h3>
+            <ul>
+                <li>Customizable focus duration (default 25 minutes, adjustable from 1 to 60)</li>
+                <li>Configurable short break and long break durations</li>
+                <li>Automatic session progression — moves from focus to break and back</li>
+                <li>Audio alert when each session ends to notify you without needing to watch the screen</li>
+                <li>Visual progress tracker showing completed sessions in the current cycle</li>
+                <li>Auto-start option to begin the next session automatically after a break</li>
+                <li>Clean, distraction-free interface designed for focus</li>
+            </ul>
+
+            <h3>How to Use the Pomodoro Timer</h3>
+            <ul>
+                <li>Step 1: Optionally adjust the focus duration, short break, and long break times in the Settings section to match your preferred working style.</li>
+                <li>Step 2: Decide on a single task or project to work on during the upcoming focus session. Write it down or keep it in mind.</li>
+                <li>Step 3: Click "Start" to begin your focus session. Work on your chosen task without interruption until the timer ends.</li>
+                <li>Step 4: When the timer sounds, take your short break. Step away from your screen, stretch, or grab a drink.</li>
+                <li>Step 5: After four completed sessions, take your long break. Then start a new cycle refreshed and ready to focus again.</li>
+            </ul>
+
+            <h3>Using the Pomodoro Technique</h3>
+            <ul>
+                <li>Deep work sessions for writing, coding, or designing without distraction</li>
+                <li>Studying for exams or working through difficult academic material</li>
+                <li>Tackling large projects by breaking them into manageable 25-minute chunks</li>
+                <li>Overcoming procrastination by committing to just one focused session at a time</li>
+                <li>Managing energy levels throughout the workday to avoid afternoon burnout</li>
+                <li>Remote work time tracking — each completed Pomodoro represents a unit of productive time</li>
+                <li>Creative work like writing, drawing, or composing where sustained focus is essential</li>
+            </ul>
+
+            <h3>Building a Productive Work Rhythm</h3>
+            <p>The most important rule of the Pomodoro Technique is to treat each session as sacred. When the timer starts, commit fully to your chosen task and eliminate all interruptions. Put your phone on silent, close unnecessary browser tabs, and let colleagues know you're in a focus block. The 25-minute commitment is short enough to feel manageable, which makes it easier to start even when motivation is low.</p>
+            <p>During your short breaks, resist the urge to check email or social media. These activities engage the same cognitive resources you're trying to rest. Instead, stand up, walk around, look out a window, or do a few stretches. Physical movement during breaks has been shown to improve focus and energy levels when you return to work.</p>
+            <p>If you're interrupted mid-session by something urgent, you have two options: handle it quickly and restart the timer from scratch, or note it down and return to it after the session ends. The goal is to protect the integrity of each Pomodoro as a complete, uninterrupted unit of work. Over time, you'll get better at deferring non-urgent interruptions.</p>
+
+            
+
+            <h3>Timer Runs Client-Side — No Account Needed</h3>
+            <p>The timer runs entirely in your browser. No data is sent anywhere.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the Pomodoro Technique?</button>
+                    <div class="faq-answer"><p>The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late 1980s. You work in focused 25-minute intervals (pomodoros) separated by 5-minute short breaks. After 4 pomodoros, take a longer 15-30 minute break. The technique improves focus and reduces mental fatigue.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I customize the work and break durations?</button>
+                    <div class="faq-answer"><p>Yes. The standard is 25 minutes work / 5 minutes short break / 15-30 minutes long break, but you can adjust these to fit your workflow. Some people prefer 50/10 or 90/20 intervals for deeper work sessions.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does the timer send notifications when a session ends?</button>
+                    <div class="faq-answer"><p>Yes. The timer plays an audio alert and shows a browser notification (if you grant permission) when each session ends. Make sure your browser tab is not muted and you have allowed notifications for the site.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How many pomodoros should I do per day?</button>
+                    <div class="faq-answer"><p>Most people can sustain 8-12 pomodoros (4-6 hours of focused work) per day. Track your daily pomodoro count to understand your productive capacity. Quality of focus matters more than quantity.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Should I stop mid-pomodoro if interrupted?</button>
+                    <div class="faq-answer"><p>The Pomodoro Technique recommends treating interruptions as either deferrable (note it down, continue working) or unavoidable (abandon the pomodoro, restart after handling the interruption). A pomodoro that is interrupted does not count — restart the full 25 minutes.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../countdown-timer/" class="related-tool-link">Countdown Timer</a>
+                    <a href="../stopwatch/" class="related-tool-link">Stopwatch</a>
+                    <a href="../metronome/" class="related-tool-link">Metronome</a>
+                    <a href="../date-calculator/" class="related-tool-link">Date Calculator</a>
+                    <a href="../time-zone-converter/" class="related-tool-link">Time Zone Converter</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

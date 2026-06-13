@@ -1,0 +1,176 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/bmi-calculator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"BMI Calculator - Calculate Body Mass Index Online | Webutilbox","url":"https://webutilbox.com/bmi-calculator/","description":"Calculate your BMI instantly with metric and imperial units. Check if your weight is healthy.","applicationCategory":"HealthApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What do the BMI categories mean?","acceptedAnswer":{"@type":"Answer","text":"BMI under 18.5 is underweight, 18.5-24.9 is normal weight, 25-29.9 is overweight, and 30+ is obese. These are general population guidelines from the WHO. They do not account for muscle mass, bone density, age, or ethnicity."}},{"@type":"Question","name":"Is BMI an accurate measure of health?","acceptedAnswer":{"@type":"Answer","text":"BMI is a simple screening tool, not a diagnostic measure. It can misclassify muscular athletes as overweight and miss unhealthy body fat distribution in people with normal BMI. Waist circumference, body fat percentage, and other metrics give a more complete picture."}},{"@type":"Question","name":"How do I calculate BMI manually?","acceptedAnswer":{"@type":"Answer","text":"BMI = weight (kg) divided by height (m) squared. For example, 70kg at 1.75m: 70 divided by (1.75 x 1.75) = 22.9. In imperial: BMI = (weight in lbs x 703) divided by height in inches squared."}},{"@type":"Question","name":"Does BMI apply to children?","acceptedAnswer":{"@type":"Answer","text":"Standard adult BMI categories do not apply to children. For ages 2-19, BMI is plotted on age- and sex-specific growth charts to determine percentile. A pediatrician should interpret BMI for children."}},{"@type":"Question","name":"What is a healthy BMI for my age?","acceptedAnswer":{"@type":"Answer","text":"The standard healthy BMI range (18.5-24.9) applies to adults 20 and older. For older adults (65+), some research suggests a slightly higher BMI (22-27) may be associated with better outcomes. Always consult a healthcare provider for personalized guidance."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"BMI Calculator","item":"https://webutilbox.com/bmi-calculator/"}]}]};
+---
+
+<ToolLayout
+  title="BMI Calculator - Body Mass Index | Webutilbox"
+  description="Calculate your Body Mass Index (BMI) in seconds using metric or imperial units. Includes BMI categories chart and health guidance. Free and private."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-calculators.svg"
+  keywords="bmi calculator, body mass index calculator, calculate bmi online, bmi chart"
+  h1="⚖️ BMI Calculator"
+  subtitle="Calculate your Body Mass Index (BMI) and check if your weight is healthy."
+  lastUpdated=""
+  shareText="Free%20online%20BMI%20Calculator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="BMI Calculator - Body Mass Index -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Unit Toggle -->
+            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px;">
+                <button id="metricBtn" onclick="setUnit('metric')" style="padding: 8px 20px; background: var(--primary); color: var(--white); border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">Metric (kg, cm)</button>
+                <button id="imperialBtn" onclick="setUnit('imperial')" style="padding: 8px 20px; background: var(--light); color: var(--white); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.9rem;">Imperial (lb, in)</button>
+            </div>
+
+            <!-- Metric Inputs -->
+            <div id="metricInputs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Weight (kg)</label>
+                    <input type="number" id="weightKg" placeholder="70" oninput="calculate()" style="width: 100%; padding: 10px; font-size: 1rem;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Height (cm)</label>
+                    <input type="number" id="heightCm" placeholder="170" oninput="calculate()" style="width: 100%; padding: 10px; font-size: 1rem;">
+                </div>
+            </div>
+
+            <!-- Imperial Inputs -->
+            <div id="imperialInputs" style="display: none; margin-bottom: 15px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                    <div>
+                        <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Weight (lbs)</label>
+                        <input type="number" id="weightLbs" placeholder="154" oninput="calculate()" style="width: 100%; padding: 10px; font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Height (feet)</label>
+                        <input type="number" id="heightFt" placeholder="5" oninput="calculate()" style="width: 100%; padding: 10px; font-size: 1rem;">
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Height (inches)</label>
+                    <input type="number" id="heightIn" placeholder="7" oninput="calculate()" style="width: 100%; padding: 10px; font-size: 1rem;">
+                </div>
+            </div>
+
+            <!-- BMI Result -->
+            <div id="bmiResult" style="display: none; margin-bottom: 15px; padding: 20px; border-radius: 10px; text-align: center;">
+                <div style="font-size: 0.85rem; color: rgba(255,255,255,0.8); margin-bottom: 5px;">Your BMI</div>
+                <div style="font-size: 2.5rem; font-weight: bold; color: white;" id="bmiValue">0</div>
+                <div style="font-size: 1.1rem; font-weight: 600; margin-top: 5px;" id="bmiCategory">-</div>
+            </div>
+
+            <!-- BMI Chart -->
+            <div class="output-container show">
+                <div class="output-label">BMI Categories</div>
+                <div style="display: grid; gap: 8px; font-size: 0.85rem;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 10px; background: rgba(96, 165, 250, 0.2); border-radius: 6px; border-left: 3px solid #60a5fa;">
+                        <span>Underweight</span>
+                        <span style="font-weight: 600;">BMI &lt; 18.5</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 10px; background: rgba(52, 211, 153, 0.2); border-radius: 6px; border-left: 3px solid #34d399;">
+                        <span>Normal weight</span>
+                        <span style="font-weight: 600;">BMI 18.5 - 24.9</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 10px; background: rgba(251, 191, 36, 0.2); border-radius: 6px; border-left: 3px solid #fbbf24;">
+                        <span>Overweight</span>
+                        <span style="font-weight: 600;">BMI 25 - 29.9</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 10px; background: rgba(248, 113, 113, 0.2); border-radius: 6px; border-left: 3px solid #f87171;">
+                        <span>Obese</span>
+                        <span style="font-weight: 600;">BMI = 30</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/bmi-calculator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>BMI Calculator</h2>
+
+    <p>BMI (Body Mass Index) is a number calculated from your height and weight. It's widely used as a screening tool because it's simple and requires no equipment. But it's also widely misunderstood. This calculator gives you your BMI and explains what it does — and doesn't — tell you about your health.</p>
+
+    <h3>The formula</h3>
+    <p><strong>Metric:</strong> BMI = weight (kg) ÷ height (m)²<br>
+    <strong>Imperial:</strong> BMI = (weight (lbs) × 703) ÷ height (inches)²</p>
+    <p>Example: A person who is 175cm (1.75m) and weighs 70kg has a BMI of 70 ÷ (1.75 × 1.75) = 70 ÷ 3.0625 = 22.9. This falls in the "Normal weight" category.</p>
+
+    <h3>BMI categories (WHO standard)</h3>
+    <ul>
+        <li><strong>Under 18.5</strong> — Underweight</li>
+        <li><strong>18.5 – 24.9</strong> — Normal weight</li>
+        <li><strong>25.0 – 29.9</strong> — Overweight</li>
+        <li><strong>30.0 – 34.9</strong> — Obese (Class I)</li>
+        <li><strong>35.0 – 39.9</strong> — Obese (Class II)</li>
+        <li><strong>40.0 and above</strong> — Obese (Class III)</li>
+    </ul>
+
+    <h3>What BMI doesn't measure</h3>
+    <p>BMI is a ratio of weight to height. It has no way to distinguish between muscle and fat. A professional athlete with very low body fat can have a BMI of 27 (classified as "overweight") because muscle is denser than fat. Conversely, someone with a "normal" BMI of 23 can have high body fat percentage if they have low muscle mass — a condition sometimes called "skinny fat" or normal-weight obesity.</p>
+    <p>BMI also doesn't account for age, sex, or ethnicity. Older adults naturally lose muscle mass, so the same BMI represents more body fat than in younger adults. Research suggests that Asian populations have higher health risks at lower BMI thresholds — some health organizations use adjusted cutoffs for Asian patients.</p>
+
+    <h3>Better metrics to use alongside BMI</h3>
+    <ul>
+        <li><strong>Waist circumference:</strong> Men above 40 inches (102cm) and women above 35 inches (88cm) have elevated cardiovascular risk regardless of BMI</li>
+        <li><strong>Waist-to-height ratio:</strong> Waist circumference should be less than half your height. Simple and more predictive than BMI alone.</li>
+        <li><strong>Body fat percentage:</strong> Measured by DEXA scan, hydrostatic weighing, or bioelectrical impedance. More accurate but requires equipment.</li>
+    </ul>
+
+    <h3>When BMI is still useful</h3>
+    <p>Despite its limitations, BMI is a reasonable population-level screening tool. For most non-athletic adults, BMI correlates reasonably well with body fat percentage and health risk. It's useful for tracking changes over time in the same person, for initial screening before more detailed assessment, and for large-scale public health research where individual measurements aren't practical.</p>
+
+    <h3>Health Data Stays in Your Browser</h3>
+    <p>All calculations happen in your browser. No health data is stored or transmitted anywhere.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What do the BMI categories mean?</button>
+                    <div class="faq-answer"><p>BMI under 18.5 is underweight, 18.5-24.9 is normal weight, 25-29.9 is overweight, and 30+ is obese. These are general population guidelines from the WHO. They do not account for muscle mass, bone density, age, or ethnicity.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Is BMI an accurate measure of health?</button>
+                    <div class="faq-answer"><p>BMI is a simple screening tool, not a diagnostic measure. It can misclassify muscular athletes as overweight and miss unhealthy body fat distribution in people with normal BMI. Waist circumference, body fat percentage, and other metrics give a more complete picture.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I calculate BMI manually?</button>
+                    <div class="faq-answer"><p>BMI = weight (kg) divided by height (m) squared. For example, 70kg at 1.75m: 70 divided by (1.75 x 1.75) = 22.9. In imperial: BMI = (weight in lbs x 703) divided by height in inches squared.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does BMI apply to children?</button>
+                    <div class="faq-answer"><p>Standard adult BMI categories do not apply to children. For ages 2-19, BMI is plotted on age- and sex-specific growth charts to determine percentile. A pediatrician should interpret BMI for children.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is a healthy BMI for my age?</button>
+                    <div class="faq-answer"><p>The standard healthy BMI range (18.5-24.9) applies to adults 20 and older. For older adults (65+), some research suggests a slightly higher BMI (22-27) may be associated with better outcomes. Always consult a healthcare provider for personalized guidance.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../age-calculator/" class="related-tool-link">Age Calculator</a>
+                    <a href="../unit-converter/" class="related-tool-link">Unit Converter</a>
+                    <a href="../scientific-calculator/" class="related-tool-link">Scientific Calculator</a>
+                    <a href="../percentage-calculator/" class="related-tool-link">Percentage Calculator</a>
+                    <a href="../tip-calculator/" class="related-tool-link">Tip Calculator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

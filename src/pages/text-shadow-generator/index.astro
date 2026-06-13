@@ -1,0 +1,200 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/text-shadow-generator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Text Shadow Generator - CSS Text Shadow Tool | Webutilbox","url":"https://webutilbox.com/text-shadow-generator/","description":"Generate CSS text-shadow with live preview. Customize offset, blur, color, and multiple shadows.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What do the text-shadow values mean?","acceptedAnswer":{"@type":"Answer","text":"CSS text-shadow takes: horizontal offset (positive = right), vertical offset (positive = down), blur radius (higher = softer), and color. Unlike box-shadow, text-shadow does not have a spread value or inset option."}},{"@type":"Question","name":"Can I add multiple text shadows?","acceptedAnswer":{"@type":"Answer","text":"Yes. CSS allows multiple text-shadows separated by commas. Layering shadows creates effects like glows, 3D depth, embossing, and neon effects. This generator lets you add multiple shadow layers and combines them into a single CSS rule."}},{"@type":"Question","name":"How do I create a neon glow effect?","acceptedAnswer":{"@type":"Answer","text":"Use multiple shadows with the same color but different blur radii: a tight shadow (2px blur) for the core glow and a wider shadow (10-20px blur) for the outer glow. Use a bright color like cyan, magenta, or yellow on a dark background for the classic neon look."}},{"@type":"Question","name":"How do I create a 3D text effect?","acceptedAnswer":{"@type":"Answer","text":"Stack multiple shadows offset by 1px each in the same direction, using progressively darker colors. For example: 1px 1px #888, 2px 2px #777, 3px 3px #666, 4px 4px #555. This creates the illusion of depth."}},{"@type":"Question","name":"Does text-shadow affect layout or performance?","acceptedAnswer":{"@type":"Answer","text":"Text-shadow does not affect layout — it is purely visual and does not push other elements. Heavy use of large blur radii can impact rendering performance, especially on mobile devices. Keep blur values reasonable (under 20px) for smooth performance."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Text Shadow Generator","item":"https://webutilbox.com/text-shadow-generator/"}]}]};
+---
+
+<ToolLayout
+  title="Text Shadow Generator - CSS Text Shadow Tool | Webutilbox"
+  description="Generate CSS text-shadow effects visually with live preview. Adjust blur, offset, and color. Copy the CSS text shadow code instantly. Free tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-css-tools.svg"
+  keywords="text shadow generator, css text shadow, text effects, shadow css, text styling"
+  h1="✨ Text Shadow Generator"
+  subtitle="Create CSS text-shadow effects with live preview and copy the code."
+  lastUpdated=""
+  shareText="Free%20online%20Text%20Shadow%20Generator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Text Shadow Generator - CSS Text Shadow Tool -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Preview -->
+            <div style="background: var(--light); border-radius: 12px; padding: 40px; text-align: center; margin-bottom: 20px; border: 2px solid var(--border);">
+                <div style="margin-bottom: 15px;">
+                    <input type="text" id="previewText" value="Text Shadow" oninput="updatePreview()" style="font-size: 1rem; padding: 8px; text-align: center; max-width: 300px;">
+                </div>
+                <div id="preview" style="font-size: 4rem; font-weight: bold; color: #ffffff; transition: all 0.1s;">Text Shadow</div>
+                <div style="margin-top: 15px;">
+                    <label style="font-size: 0.85rem; margin-right: 10px;">Background:</label>
+                    <input type="color" id="bgColor" value="#1a1a1a" oninput="updateBackground()" style="width: 60px; height: 35px; cursor: pointer; border-radius: 6px;">
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                <!-- Horizontal Offset -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Horizontal Offset (px)</label>
+                    <input type="range" id="offsetX" min="-50" max="50" value="2" oninput="updatePreview()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="offsetXValue">2</span>px</div>
+                </div>
+
+                <!-- Vertical Offset -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Vertical Offset (px)</label>
+                    <input type="range" id="offsetY" min="-50" max="50" value="2" oninput="updatePreview()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="offsetYValue">2</span>px</div>
+                </div>
+
+                <!-- Blur Radius -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Blur Radius (px)</label>
+                    <input type="range" id="blur" min="0" max="50" value="4" oninput="updatePreview()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="blurValue">4</span>px</div>
+                </div>
+
+                <!-- Shadow Color -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Shadow Color</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="color" id="shadowColor" value="#000000" oninput="updatePreview()" style="width: 60px; height: 35px; cursor: pointer; border-radius: 6px;">
+                        <input type="range" id="opacity" min="0" max="100" value="75" oninput="updatePreview()" style="flex: 1;">
+                    </div>
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;">Opacity: <span id="opacityValue">75</span>%</div>
+                </div>
+
+                <!-- Text Color -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Text Color</label>
+                    <input type="color" id="textColor" value="#ffffff" oninput="updatePreview()" style="width: 100%; height: 35px; cursor: pointer; border-radius: 6px;">
+                </div>
+            </div>
+
+            <!-- Presets -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 10px; display: block; font-weight: 600;">Presets</label>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn" onclick="applyPreset('simple')" style="padding: 8px 16px;">Simple</button>
+                    <button class="btn" onclick="applyPreset('hard')" style="padding: 8px 16px;">Hard Shadow</button>
+                    <button class="btn" onclick="applyPreset('double')" style="padding: 8px 16px;">Double</button>
+                    <button class="btn" onclick="applyPreset('glow')" style="padding: 8px 16px;">Glow</button>
+                    <button class="btn" onclick="applyPreset('3d')" style="padding: 8px 16px;">3D</button>
+                    <button class="btn" onclick="applyPreset('neon')" style="padding: 8px 16px;">Neon</button>
+                </div>
+            </div>
+
+            <!-- CSS Output -->
+            <div>
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">CSS Code</label>
+                <div style="position: relative;">
+                    <textarea id="cssOutput" readonly style="width: 100%; height: 100px; padding: 12px; font-family: 'Courier New', monospace; font-size: 0.9rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; resize: vertical;"></textarea>
+                    <button class="btn btn-success" onclick="copyCss()" style="position: absolute; top: 10px; right: 10px;">Copy CSS</button>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/text-shadow-generator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>CSS Text Shadow Generator - Create Beautiful Text Shadow Effects</h2>
+            <p>This free CSS text shadow generator lets you create stunning text shadow effects with a live preview and instant CSS code output. Adjust horizontal offset, vertical offset, blur radius, color, and opacity using intuitive sliders, then copy the generated CSS directly into your stylesheet. No coding required.</p>
+
+            <h3>What Is CSS text-shadow?</h3>
+            <p>The CSS <code>text-shadow</code> property adds one or more shadow effects to text elements. Each shadow is defined by four values: horizontal offset (how far the shadow extends left or right), vertical offset (how far it extends up or down), blur radius (how soft or sharp the shadow edge is), and color (including opacity). Multiple shadows can be layered by separating them with commas.</p>
+            <p>Text shadows are one of the most versatile CSS properties for typography design. A subtle drop shadow can improve text legibility over busy backgrounds. A hard shadow with zero blur creates a bold, retro look. A glow effect with a colored shadow and high blur adds a neon or luminous quality. A 3D effect can be achieved by stacking multiple shadows at incremental offsets.</p>
+            <p>The <code>text-shadow</code> property is supported in all modern browsers and requires no vendor prefixes. It works on any text element — headings, paragraphs, buttons, labels, and more. This generator handles the syntax for you and outputs clean, ready-to-use CSS code.</p>
+
+            <h3>Shadow Style Controls</h3>
+            <ul>
+                <li>Live preview that updates instantly as you adjust any control</li>
+                <li>Horizontal and vertical offset sliders ranging from -50px to +50px</li>
+                <li>Blur radius slider from 0px (hard edge) to 50px (soft glow)</li>
+                <li>Shadow color picker with separate opacity control</li>
+                <li>Text color picker to style the preview text itself</li>
+                <li>Background color picker to test contrast and visibility</li>
+                <li>Six built-in presets: Simple, Hard Shadow, Double, Glow, 3D, and Neon</li>
+                <li>One-click CSS code copy to clipboard</li>
+                <li>Editable preview text to test with your actual content</li>
+            </ul>
+
+            <h3>How to Use the Text Shadow Generator</h3>
+            <p>Creating a custom text shadow takes just a few seconds:</p>
+            <ul>
+                <li>Step 1: Type your text into the preview text field to see how your actual content will look.</li>
+                <li>Step 2: Adjust the horizontal and vertical offset sliders to position the shadow.</li>
+                <li>Step 3: Set the blur radius — lower values create sharper shadows, higher values create softer glows.</li>
+                <li>Step 4: Choose a shadow color and adjust the opacity slider to control transparency.</li>
+                <li>Step 5: Click "Copy CSS" to copy the generated <code>text-shadow</code> property and paste it into your stylesheet.</li>
+            </ul>
+
+            <h3>Using Text Shadows in Design</h3>
+            <ul>
+                <li>Adding subtle drop shadows to headings to improve depth and visual hierarchy</li>
+                <li>Creating glowing text effects for dark-themed websites and landing pages</li>
+                <li>Designing neon-style typography for gaming, entertainment, or nightlife brands</li>
+                <li>Improving text legibility over hero images and background photos</li>
+                <li>Creating retro or vintage text effects with hard, offset shadows</li>
+                <li>Adding 3D depth to large display text on marketing pages</li>
+                <li>Styling button labels and call-to-action text for better visual impact</li>
+            </ul>
+
+            <h3>Crafting Readable Text Shadows</h3>
+            <p>For body text and small font sizes, keep shadows subtle. A shadow with 1-2px offset, 2-4px blur, and 50-70% opacity adds depth without making text harder to read. Heavy shadows on small text can reduce legibility, especially at lower screen resolutions or for users with visual impairments.</p>
+            <p>Use the background color picker to test your shadow against different backgrounds. A shadow that looks great on a dark background may be invisible on a light one, and vice versa. Always test your text shadow in context with the actual background color or image you'll be using on your site.</p>
+            <p>Explore the presets as starting points rather than final designs. The "Glow" preset, for example, uses the primary orange color — change the shadow color to match your brand palette and adjust the blur to get the exact intensity you want. Presets are meant to inspire, not constrain.</p>
+
+            
+
+            <h3>CSS Generated Client-Side Only</h3>
+            <p>CSS generation runs in your browser. No data is sent to any server.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What do the text-shadow values mean?</button>
+                    <div class="faq-answer"><p>CSS text-shadow takes: horizontal offset (positive = right), vertical offset (positive = down), blur radius (higher = softer), and color. Unlike box-shadow, text-shadow does not have a spread value or inset option.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I add multiple text shadows?</button>
+                    <div class="faq-answer"><p>Yes. CSS allows multiple text-shadows separated by commas. Layering shadows creates effects like glows, 3D depth, embossing, and neon effects. This generator lets you add multiple shadow layers and combines them into a single CSS rule.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I create a neon glow effect?</button>
+                    <div class="faq-answer"><p>Use multiple shadows with the same color but different blur radii: a tight shadow (2px blur) for the core glow and a wider shadow (10-20px blur) for the outer glow. Use a bright color like cyan, magenta, or yellow on a dark background for the classic neon look.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I create a 3D text effect?</button>
+                    <div class="faq-answer"><p>Stack multiple shadows offset by 1px each in the same direction, using progressively darker colors. For example: 1px 1px #888, 2px 2px #777, 3px 3px #666, 4px 4px #555. This creates the illusion of depth.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does text-shadow affect layout or performance?</button>
+                    <div class="faq-answer"><p>Text-shadow does not affect layout — it is purely visual and does not push other elements. Heavy use of large blur radii can impact rendering performance, especially on mobile devices. Keep blur values reasonable (under 20px) for smooth performance.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../box-shadow-generator/" class="related-tool-link">Box Shadow Generator</a>
+                    <a href="../css-gradient-generator/" class="related-tool-link">CSS Gradient Generator</a>
+                    <a href="../color-converter/" class="related-tool-link">Color Converter</a>
+                    <a href="../border-radius-generator/" class="related-tool-link">Border Radius Generator</a>
+                    <a href="../css-js-minifier/" class="related-tool-link">CSS/JS Minifier</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

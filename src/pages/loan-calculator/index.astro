@@ -1,0 +1,190 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/loan-calculator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Loan Calculator - Calculate EMI and Interest Online | Webutilbox","url":"https://webutilbox.com/loan-calculator/","description":"Calculate loan EMI, total interest, and payment schedule for home, car, and personal loans.","applicationCategory":"FinanceApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is an amortization schedule?","acceptedAnswer":{"@type":"Answer","text":"An amortization schedule shows each monthly payment broken down into principal and interest. Early payments are mostly interest; later payments are mostly principal. The schedule helps you see exactly how your loan balance decreases over time."}},{"@type":"Question","name":"How does the interest rate affect my monthly payment?","acceptedAnswer":{"@type":"Answer","text":"Even a small change in interest rate has a large impact over the life of a loan. On a 30-year mortgage, a 1% rate increase can add hundreds of dollars per month and tens of thousands over the loan term. Use the calculator to compare different rates."}},{"@type":"Question","name":"What is the difference between APR and interest rate?","acceptedAnswer":{"@type":"Answer","text":"The interest rate is the cost of borrowing the principal. APR (Annual Percentage Rate) includes the interest rate plus fees and other costs, giving a more complete picture of the loan's true cost. Always compare APR when shopping for loans."}},{"@type":"Question","name":"Should I make extra principal payments?","acceptedAnswer":{"@type":"Answer","text":"Yes, if your loan allows it without prepayment penalties. Extra principal payments reduce your balance faster, which means less interest accrues. Even small extra payments each month can save thousands and shorten the loan term significantly."}},{"@type":"Question","name":"What is a good debt-to-income ratio for a loan?","acceptedAnswer":{"@type":"Answer","text":"Most lenders prefer a debt-to-income (DTI) ratio below 36%, with no more than 28% going toward housing costs. DTI = total monthly debt payments divided by gross monthly income. A lower DTI improves your chances of loan approval and better rates."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Loan Calculator","item":"https://webutilbox.com/loan-calculator/"}]}]};
+---
+
+<ToolLayout
+  title="Loan Calculator - EMI & Interest | Webutilbox"
+  description="Calculate monthly loan payments, total interest, and amortization schedules. Supports any loan type. Free online loan payment calculator tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-calculators.svg"
+  keywords="loan calculator, emi calculator, loan interest calculator, calculate emi online"
+  h1="🏦 Loan Calculator"
+  subtitle="Calculate EMI, total interest, and payment schedule for your loan."
+  lastUpdated=""
+  shareText="Free%20online%20Loan%20Calculator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Loan Calculator - EMI & Interest -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Loan Amount -->
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <label style="font-size: 0.85rem; margin: 0;">Loan Amount</label>
+                    <span style="font-size: 1rem; font-weight: 600; color: var(--primary);" id="loanAmountDisplay">$10,000</span>
+                </div>
+                <input type="range" id="loanAmount" min="1000" max="1000000" step="1000" value="10000" oninput="calculate()" style="width: 100%;">
+                <input type="number" id="loanAmountInput" value="10000" oninput="syncLoanAmount()" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-top: 8px;">
+            </div>
+
+            <!-- Interest Rate -->
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <label style="font-size: 0.85rem; margin: 0;">Interest Rate (% per year)</label>
+                    <span style="font-size: 1rem; font-weight: 600; color: var(--primary);" id="interestRateDisplay">5%</span>
+                </div>
+                <input type="range" id="interestRate" min="0.1" max="20" step="0.1" value="5" oninput="calculate()" style="width: 100%;">
+                <input type="number" id="interestRateInput" value="5" step="0.1" oninput="syncInterestRate()" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-top: 8px;">
+            </div>
+
+            <!-- Loan Term -->
+            <div style="margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <label style="font-size: 0.85rem; margin: 0;">Loan Term (years)</label>
+                    <span style="font-size: 1rem; font-weight: 600; color: var(--primary);" id="loanTermDisplay">5 years</span>
+                </div>
+                <input type="range" id="loanTerm" min="1" max="30" value="5" oninput="calculate()" style="width: 100%;">
+                <input type="number" id="loanTermInput" value="5" min="1" max="30" oninput="syncLoanTerm()" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-top: 8px;">
+            </div>
+
+            <!-- Results -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 15px;">
+                <div style="background: var(--light); padding: 15px 10px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 5px;">Monthly EMI</div>
+                    <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);" id="monthlyEMI">$0</div>
+                </div>
+                <div style="background: var(--light); padding: 15px 10px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 5px;">Total Interest</div>
+                    <div style="font-size: 1.4rem; font-weight: bold; color: var(--warning);" id="totalInterest">$0</div>
+                </div>
+                <div style="background: var(--light); padding: 15px 10px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 5px;">Total Payment</div>
+                    <div style="font-size: 1.4rem; font-weight: bold; color: var(--secondary);" id="totalPayment">$0</div>
+                </div>
+            </div>
+
+            <!-- Breakdown -->
+            <div class="output-container show">
+                <div class="output-label">Payment Breakdown</div>
+                <div style="display: grid; gap: 8px; font-size: 0.85rem;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 10px; background: var(--light); border-radius: 6px;">
+                        <span>Principal Amount:</span>
+                        <span style="font-weight: 600;" id="principalAmount">$0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 10px; background: var(--light); border-radius: 6px;">
+                        <span>Total Interest:</span>
+                        <span style="font-weight: 600; color: var(--warning);" id="interestAmount">$0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 10px; background: var(--light); border-radius: 6px;">
+                        <span>Total Payments:</span>
+                        <span style="font-weight: 600;" id="totalPayments">0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 10px; background: var(--light); border-radius: 6px; border: 1px solid var(--primary);">
+                        <span style="font-weight: 600;">Total Amount:</span>
+                        <span style="font-weight: 600; color: var(--secondary); font-size: 1.1rem;" id="totalAmountBreakdown">$0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/loan-calculator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Loan Calculator - Calculate EMI, Interest, and Payment Schedule</h2>
+            <p>Our free Loan Calculator helps you calculate your Equated Monthly Installment (EMI), total interest payable, and total repayment amount for any type of loan. Whether you're planning a home loan, car loan, personal loan, or student loan, this tool gives you instant, accurate results to help you make informed financial decisions.</p>
+
+            <h3>What Is a Loan Calculator?</h3>
+            <p>A loan calculator uses the standard EMI formula to compute your monthly payment based on three inputs: the loan principal (amount borrowed), the annual interest rate, and the loan term in years. The EMI formula is: EMI = [P × R × (1+R)^N] / [(1+R)^N - 1], where P is the principal, R is the monthly interest rate (annual rate ÷ 12 ÷ 100), and N is the total number of monthly payments.</p>
+            <p>Understanding your EMI before taking a loan is essential for budgeting. It tells you exactly how much you'll pay each month, how much of that goes toward interest vs. principal, and what the total cost of the loan will be over its lifetime. This calculator makes all of that transparent and easy to understand.</p>
+
+            <h3>Loan Calculation Parameters</h3>
+            <ul>
+                <li>Slider and number input for loan amount, interest rate, and loan term</li>
+                <li>Instant calculation — results update as you move the sliders</li>
+                <li>Monthly EMI display with clear formatting</li>
+                <li>Total interest payable over the life of the loan</li>
+                <li>Total payment amount (principal + interest)</li>
+                <li>Detailed payment breakdown showing principal, interest, number of payments, and total amount</li>
+                <li>Supports loan amounts from $1,000 to $1,000,000 and terms from 1 to 30 years</li>
+            </ul>
+
+            <h3>How to Use the Loan Calculator</h3>
+            <ul>
+                <li>Step 1: Set your loan amount using the slider or type it directly into the number input.</li>
+                <li>Step 2: Set the annual interest rate — check your loan offer or use a typical rate for your loan type.</li>
+                <li>Step 3: Set the loan term in years — longer terms mean lower EMIs but more total interest paid.</li>
+                <li>Step 4: Read your monthly EMI, total interest, and total payment from the results panel.</li>
+                <li>Step 5: Adjust the inputs to compare different scenarios — for example, a 15-year vs. 30-year mortgage.</li>
+            </ul>
+
+            <h3>Comparing Loan Scenarios</h3>
+            <ul>
+                <li>Home loan / mortgage planning — comparing 15-year and 30-year terms</li>
+                <li>Car loan calculation — finding an affordable monthly payment for a vehicle purchase</li>
+                <li>Personal loan comparison — evaluating offers from different lenders with different rates</li>
+                <li>Student loan repayment planning — understanding the long-term cost of education debt</li>
+                <li>Business loan analysis — assessing the cash flow impact of a business loan</li>
+                <li>Refinancing decisions — comparing your current loan terms with a potential refinance offer</li>
+            </ul>
+
+            <h3>Understanding Your Loan Terms</h3>
+            <p>One of the most important insights this calculator reveals is the dramatic effect of loan term on total interest paid. For example, a $300,000 mortgage at 6% over 30 years costs about $347,000 in interest — more than the original loan amount. The same loan over 15 years costs only about $155,000 in interest. The monthly payment is higher, but the total savings are enormous.</p>
+            <p>When comparing loan offers, don't just look at the interest rate — also consider the loan term and any fees. A loan with a slightly higher rate but shorter term may cost less overall. Use this calculator to model both scenarios side by side to find the true cost of each option.</p>
+            <p>If you're planning to make extra payments or pay off the loan early, keep in mind that this calculator shows the standard amortization schedule. Extra payments reduce your principal faster, which reduces the total interest you pay. Many lenders allow prepayment without penalty — check your loan agreement for details.</p>
+
+            
+
+            <h3>Financial Data Never Leaves Your Browser</h3>
+            <p>All calculations run in your browser. No financial data is sent anywhere.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is an amortization schedule?</button>
+                    <div class="faq-answer"><p>An amortization schedule shows each monthly payment broken down into principal and interest. Early payments are mostly interest; later payments are mostly principal. The schedule helps you see exactly how your loan balance decreases over time.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How does the interest rate affect my monthly payment?</button>
+                    <div class="faq-answer"><p>Even a small change in interest rate has a large impact over the life of a loan. On a 30-year mortgage, a 1% rate increase can add hundreds of dollars per month and tens of thousands over the loan term. Use the calculator to compare different rates.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between APR and interest rate?</button>
+                    <div class="faq-answer"><p>The interest rate is the cost of borrowing the principal. APR (Annual Percentage Rate) includes the interest rate plus fees and other costs, giving a more complete picture of the loan's true cost. Always compare APR when shopping for loans.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Should I make extra principal payments?</button>
+                    <div class="faq-answer"><p>Yes, if your loan allows it without prepayment penalties. Extra principal payments reduce your balance faster, which means less interest accrues. Even small extra payments each month can save thousands and shorten the loan term significantly.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is a good debt-to-income ratio for a loan?</button>
+                    <div class="faq-answer"><p>Most lenders prefer a debt-to-income (DTI) ratio below 36%, with no more than 28% going toward housing costs. DTI = total monthly debt payments divided by gross monthly income. A lower DTI improves your chances of loan approval and better rates.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../mortgage-calculator/" class="related-tool-link">Mortgage Calculator</a>
+                    <a href="../compound-interest-calculator/" class="related-tool-link">Compound Interest Calculator</a>
+                    <a href="../investment-calculator/" class="related-tool-link">Investment Calculator</a>
+                    <a href="../salary-calculator/" class="related-tool-link">Salary Calculator</a>
+                    <a href="../percentage-calculator/" class="related-tool-link">Percentage Calculator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

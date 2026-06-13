@@ -1,0 +1,184 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/instagram-bio-generator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Instagram Bio Generator - Create Stylish IG Bios | Webutilbox","url":"https://webutilbox.com/instagram-bio-generator/","description":"Create stylish Instagram bios with fancy fonts, emojis, and symbols. 150+ templates. Free tool.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How long can an Instagram bio be?","acceptedAnswer":{"@type":"Answer","text":"Instagram allows up to 150 characters in your bio. This generator counts characters in real time and warns you when you are approaching the limit. Every character counts, so make each one work for you."}},{"@type":"Question","name":"Can I add line breaks to my Instagram bio?","acceptedAnswer":{"@type":"Answer","text":"Yes, but Instagram's web interface sometimes removes line breaks. The most reliable method is to type your bio with line breaks in a notes app, copy it, and paste it directly into the Instagram app on your phone."}},{"@type":"Question","name":"Should I include keywords in my Instagram bio?","acceptedAnswer":{"@type":"Answer","text":"Yes. Instagram's search indexes your name and username fields, but not the bio text itself. However, keywords in your bio help human visitors understand what you do and improve your profile's relevance. Include your niche, location, and what you offer."}},{"@type":"Question","name":"What should I include in a professional Instagram bio?","acceptedAnswer":{"@type":"Answer","text":"A strong professional bio includes: what you do (your role or niche), who you help or serve, a unique value proposition or achievement, a call to action (link in bio, DM for inquiries), and relevant emojis to add visual interest and break up text."}},{"@type":"Question","name":"Can I use special fonts in my Instagram bio?","acceptedAnswer":{"@type":"Answer","text":"Instagram does not support custom fonts natively, but you can use Unicode characters that look like different fonts. This generator can include stylized text using Unicode letter variants. Note that these may not display correctly on all devices or screen readers."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Instagram Bio Generator","item":"https://webutilbox.com/instagram-bio-generator/"}]}]};
+---
+
+<ToolLayout
+  title="Instagram Bio Generator - Fonts & Emojis | Webutilbox"
+  description="Generate creative and catchy Instagram bio ideas instantly. Customize by niche, mood, and style. Free Instagram bio generator with copy feature."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-text-tools.svg"
+  keywords="instagram bio generator, ig bio maker, fancy fonts instagram, instagram bio ideas, stylish bio, instagram fonts, bio templates"
+  h1="📸 Instagram Bio Generator"
+  subtitle="Create stylish Instagram bios with fancy fonts, emojis, and symbols. Stand out on IG!"
+  lastUpdated=""
+  shareText="Free%20online%20Instagram%20Bio%20Generator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Instagram Bio Generator - Fonts & Emojis -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="tab-container">
+                <button class="tab-btn active" onclick="switchTab('editor')">?? Editor</button>
+                <button class="tab-btn" onclick="switchTab('templates')">?? Templates</button>
+                <button class="tab-btn" onclick="switchTab('fonts')">?? Fonts</button>
+                <button class="tab-btn" onclick="switchTab('emojis')">?? Emojis</button>
+            </div>
+            <div id="editorTab">
+                <div class="input-group">
+                    <label>Your Bio</label>
+                    <textarea id="bioText" placeholder="Type your Instagram bio here..." oninput="updatePreview()" style="min-height:120px"></textarea>
+                    <div class="char-count" id="charCount">0 / 150 characters</div>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="copyBio()">Copy Bio</button>
+                    <button class="btn btn-secondary" onclick="clearBio()">Clear</button>
+                    <button class="btn btn-success" onclick="addLineBreak()">Add Line Break</button>
+                </div>
+                <div class="bio-preview" id="preview">Your bio preview will appear here...</div>
+            </div>
+            <div id="templatesTab" style="display:none">
+                <h3 style="color:var(--primary);margin-bottom:15px">Bio Templates</h3>
+                <div id="templateList"></div>
+            </div>
+            <div id="fontsTab" style="display:none">
+                <h3 style="color:var(--primary);margin-bottom:15px">Fancy Fonts</h3>
+                <div class="input-group">
+                    <input type="text" id="fontInput" placeholder="Type text to convert..." style="width:100%;padding:10px">
+                </div>
+                <div class="font-grid" id="fontGrid"></div>
+            </div>
+            <div id="emojisTab" style="display:none">
+                <h3 style="color:var(--primary);margin-bottom:15px">Emojis</h3>
+                <div class="emoji-grid" id="emojiGrid"></div>
+            </div>
+        </div>
+        
+        <!-- Share Bar -->
+
+<style>
+.bio-preview{background:#fff;color:#000;padding:20px;border-radius:12px;margin:20px 0;border:2px solid #dbdbdb;font-family:system-ui,-apple-system,sans-serif;min-height:150px}
+        .char-count{text-align:right;color:var(--gray);font-size:0.9rem;margin-top:5px}
+        .char-count.warning{color:#fbbf24}
+        .char-count.error{color:#f87171}
+        .font-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin:15px 0}
+        .font-btn{padding:10px;background:var(--light);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-align:center;transition:all 0.2s}
+        .font-btn:hover{border-color:var(--primary);transform:translateY(-2px)}
+        .emoji-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:5px;max-height:200px;overflow-y:auto;padding:10px;background:var(--input-bg);border-radius:8px}
+        .emoji-btn{font-size:1.5rem;padding:8px;cursor:pointer;border-radius:6px;transition:all 0.2s}
+        .emoji-btn:hover{background:var(--light);transform:scale(1.2)}
+        .template-card{background:var(--light);padding:15px;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;margin-bottom:10px}
+        .template-card:hover{border-color:var(--primary);transform:translateX(5px)}
+        .tab-container{display:flex;gap:5px;margin-bottom:15px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+        .tab-btn{padding:10px 20px;background:var(--light);border:1px solid var(--border);border-radius:8px 8px 0 0;cursor:pointer;white-space:nowrap;flex-shrink:0}
+        .tab-btn.active{background:var(--primary);color:var(--dark);border-color:var(--primary)}
+        
+        @media (max-width: 768px) {
+            .tab-btn{padding:8px 12px;font-size:0.85rem}
+            .font-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
+            .emoji-grid{grid-template-columns:repeat(auto-fill,minmax(35px,1fr))}
+            .bio-preview{padding:15px;font-size:0.9rem}
+        }
+        
+        @media (max-width: 480px) {
+            .tab-btn{padding:6px 10px;font-size:0.8rem}
+            .font-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr))}
+        }
+</style>
+
+
+<script src="/js/instagram-bio-generator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Instagram Bio Generator - Create Stylish IG Bios</h2>
+            <p>Your Instagram bio is the first thing people see when they visit your profile — it's your digital first impression. Our free Instagram Bio Generator helps you craft a standout bio using fancy Unicode fonts, emojis, pre-made templates, and a live character counter to keep you within Instagram's 150-character limit.</p>
+
+            <h3>What Is the Instagram Bio Generator?</h3>
+            <p>This tool is a browser-based bio builder that combines a text editor, font converter, emoji picker, and template library in one place. It lets you write your bio, style it with Unicode fonts that display on Instagram, add emojis for personality, and preview exactly how it will look before you copy it to your profile.</p>
+            <p>Instagram doesn't support rich text formatting natively, but Unicode characters — which look like bold, italic, or script versions of regular letters — render correctly in bios, captions, and comments. This tool converts your plain text into those Unicode styles instantly.</p>
+
+            <h3>Bio Generation Options</h3>
+            <ul>
+                <li>Live bio editor with real-time character count (150-character limit warning)</li>
+                <li>Fancy font converter — bold, italic, script, and more Unicode styles</li>
+                <li>150+ emoji picker organized for quick access</li>
+                <li>10+ pre-made bio templates for personal, business, and creative profiles</li>
+                <li>Line break insertion button for multi-line bios</li>
+                <li>Live preview showing how your bio will appear on Instagram</li>
+                <li>One-click copy to clipboard</li>
+            </ul>
+
+            <h3>How to Use the Instagram Bio Generator</h3>
+            <ul>
+                <li>Step 1: Type or paste your bio text into the editor on the "Editor" tab.</li>
+                <li>Step 2: Switch to the "Templates" tab to load a pre-made bio structure and customize it.</li>
+                <li>Step 3: Use the "Fonts" tab to convert words or phrases into fancy Unicode styles and add them to your bio.</li>
+                <li>Step 4: Open the "Emojis" tab to browse and insert emojis anywhere in your bio.</li>
+                <li>Step 5: Watch the character counter — stay under 150 characters to avoid truncation.</li>
+                <li>Step 6: Click "Copy Bio" and paste it directly into your Instagram profile settings.</li>
+            </ul>
+
+            <h3>Crafting a Stand-Out Instagram Bio</h3>
+            <ul>
+                <li>Personal profiles looking to add personality and style with fancy fonts</li>
+                <li>Business accounts that need a professional, structured bio with clear CTAs</li>
+                <li>Influencers and content creators wanting to stand out in a crowded niche</li>
+                <li>Artists, photographers, and designers showcasing their work and style</li>
+                <li>Fitness coaches, nutritionists, and wellness professionals promoting services</li>
+                <li>Students and job seekers building a personal brand on social media</li>
+            </ul>
+
+            <h3>Writing a Bio That Gets Followers</h3>
+            <p>The most effective Instagram bios are clear, specific, and action-oriented. Start with who you are or what you do, then add a line about what value you provide or what makes you unique. End with a call-to-action — whether that's "DM for collabs," "Link below," or "New post every Monday." This structure works for both personal and business accounts.</p>
+            <p>Use emojis strategically as visual bullet points rather than decoration. A well-placed emoji at the start of each line makes your bio easier to scan and adds personality without wasting characters. Avoid using too many emojis in a row, as it can look cluttered and reduce readability.</p>
+            <p>Update your bio regularly to reflect your current focus, projects, or promotions. A stale bio that references old content or outdated information can hurt your credibility. Use the templates as a starting point and make them your own — authenticity resonates more than a generic template.</p>
+
+            
+
+            <h3>Bios Generated Locally — No Account Needed</h3>
+            <p>Formatting runs in your browser. No text or profile data is sent to any server.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How long can an Instagram bio be?</button>
+                    <div class="faq-answer"><p>Instagram allows up to 150 characters in your bio. This generator counts characters in real time and warns you when you are approaching the limit. Every character counts, so make each one work for you.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I add line breaks to my Instagram bio?</button>
+                    <div class="faq-answer"><p>Yes, but Instagram's web interface sometimes removes line breaks. The most reliable method is to type your bio with line breaks in a notes app, copy it, and paste it directly into the Instagram app on your phone.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Should I include keywords in my Instagram bio?</button>
+                    <div class="faq-answer"><p>Yes. Instagram's search indexes your name and username fields, but not the bio text itself. However, keywords in your bio help human visitors understand what you do and improve your profile's relevance. Include your niche, location, and what you offer.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What should I include in a professional Instagram bio?</button>
+                    <div class="faq-answer"><p>A strong professional bio includes: what you do (your role or niche), who you help or serve, a unique value proposition or achievement, a call to action (link in bio, DM for inquiries), and relevant emojis to add visual interest and break up text.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I use special fonts in my Instagram bio?</button>
+                    <div class="faq-answer"><p>Instagram does not support custom fonts natively, but you can use Unicode characters that look like different fonts. This generator can include stylized text using Unicode letter variants. Note that these may not display correctly on all devices or screen readers.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../username-generator/" class="related-tool-link">Username Generator</a>
+                    <a href="../slug-generator/" class="related-tool-link">Slug Generator</a>
+                    <a href="../lorem-ipsum/" class="related-tool-link">Lorem Ipsum Generator</a>
+                    <a href="../word-counter/" class="related-tool-link">Word Counter</a>
+                    <a href="../case-converter/" class="related-tool-link">Case Converter</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

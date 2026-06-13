@@ -1,0 +1,284 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/sha256-generator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"SHA-256 Hash Generator — MD5, HMAC & Bcrypt Online | Webutilbox","url":"https://webutilbox.com/sha256-generator/","description":"Free online SHA-256 hash generator. Also supports SHA-512, MD5, HMAC, and Bcrypt. All hashing runs locally in your browser — no uploads, no server, no data stored.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","browserRequirements":"Requires JavaScript","featureList":["SHA-256 hash generation","SHA-1 and SHA-512 support","MD5 hash generation","HMAC-SHA256, HMAC-SHA1, HMAC-SHA512","Bcrypt password hashing with configurable cost factor","Bcrypt password verification","100% client-side — no server upload"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is SHA-256 and what is it used for?","acceptedAnswer":{"@type":"Answer","text":"SHA-256 (Secure Hash Algorithm 256-bit) is a cryptographic hash function that produces a fixed 64-character hexadecimal output from any input. It is used for verifying file integrity, storing passwords (with salting), digital signatures, blockchain transactions, and data fingerprinting."}},{"@type":"Question","name":"Can I reverse a SHA-256 hash back to the original text?","acceptedAnswer":{"@type":"Answer","text":"No. SHA-256 is a one-way function — it is computationally infeasible to reverse. You can only verify a hash by hashing the original input again and comparing. This is why it is used for password storage: the original password is never stored, only its hash."}},{"@type":"Question","name":"What is the difference between SHA-256 and MD5?","acceptedAnswer":{"@type":"Answer","text":"MD5 produces a 128-bit (32 hex character) hash and is considered cryptographically broken — collisions (two different inputs producing the same hash) can be found quickly. SHA-256 produces a 256-bit hash and is currently considered secure. Never use MD5 for security purposes."}},{"@type":"Question","name":"What is salting and why is it important for password hashing?","acceptedAnswer":{"@type":"Answer","text":"A salt is a random value added to a password before hashing. Without salting, identical passwords produce identical hashes, making them vulnerable to rainbow table attacks (precomputed hash lookups). With a unique salt per password, each hash is unique even for identical passwords."}},{"@type":"Question","name":"What is the difference between hashing and encryption?","acceptedAnswer":{"@type":"Answer","text":"Hashing is one-way — you cannot get the original data back from a hash. Encryption is two-way — you can decrypt encrypted data with the right key. Use hashing for passwords and data integrity checks. Use encryption when you need to retrieve the original data later."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"SHA-256 Hash Generator","item":"https://webutilbox.com/sha256-generator/"}]}]};
+---
+
+<ToolLayout
+  title="SHA-256 Hash Generator — SHA-512, MD5, HMAC &amp; Bcrypt Online | Webutilbox"
+  description="Free online SHA-256 hash generator — also supports SHA-512, MD5, HMAC, and Bcrypt. All hashing runs in your browser. No uploads, no server, no data stored."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="sha256 generator, sha-256 hash generator, md5 hash generator, hmac generator, bcrypt generator, hash generator online, sha512 generator, cryptographic hash, online hash tool"
+  h1="#️⃣ SHA-256 Hash Generator — SHA-512, MD5, HMAC &amp; Bcrypt Online"
+  subtitle="Generate SHA-256, SHA-512, MD5, HMAC, and Bcrypt hashes instantly in your browser. Free, private, and no server uploads."
+  lastUpdated="2026-06-05"
+  shareText="Free%20online%20SHA-256%20hash%20generator%20%E2%80%94%20also%20supports%20MD5%2C%20HMAC%20%26%20Bcrypt.%20Runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="SHA-256 Hash Generator — SHA-512, MD5, HMAC &amp; Bcrypt Online -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+
+
+<style>
+.mode-tab {
+            padding: 10px 20px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .mode-tab:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--primary);
+        }
+        .mode-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+</style>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
+<script src="/js/sha256-generator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>SHA-256 Hash Generator — Online Cryptographic Hashing</h2>
+            <p>This free online SHA-256 hash generator supports multiple cryptographic algorithms — SHA-256, SHA-1, SHA-512, MD5, HMAC, and Bcrypt — all running directly in your browser with no server uploads. Generate hashes for data integrity verification, password storage, API authentication, and digital signatures in seconds.</p>
+            <p>Whether you're a developer implementing security features, a sysadmin verifying file integrity, or a student learning about cryptography, this tool provides professional-grade hashing in a single interface.</p>
+
+            <h3>SHA-256 vs SHA-512 vs MD5 vs Bcrypt — comparison table</h3>
+            <p>Not sure which algorithm to use? Here's a quick reference covering output size, speed, security status, and the right use case for each:</p>
+
+            <table style="width:100%;border-collapse:collapse;font-size:.875rem;margin:12px 0">
+                <thead>
+                    <tr style="border-bottom:1px solid var(--border);text-align:left">
+                        <th style="padding:10px 12px;color:var(--gray);font-weight:600">Algorithm</th>
+                        <th style="padding:10px 12px;color:var(--gray);font-weight:600">Output size</th>
+                        <th style="padding:10px 12px;color:var(--gray);font-weight:600">Speed</th>
+                        <th style="padding:10px 12px;color:var(--gray);font-weight:600">Security status</th>
+                        <th style="padding:10px 12px;color:var(--gray);font-weight:600">Use case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom:1px solid var(--border)">
+                        <td style="padding:10px 12px"><strong>MD5</strong></td>
+                        <td style="padding:10px 12px">128-bit (32 hex chars)</td>
+                        <td style="padding:10px 12px">Very fast</td>
+                        <td style="padding:10px 12px;color:#f56565">Broken ✗</td>
+                        <td style="padding:10px 12px">Non-security checksums only (file deduplication, cache keys)</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid var(--border)">
+                        <td style="padding:10px 12px"><strong>SHA-1</strong></td>
+                        <td style="padding:10px 12px">160-bit (40 hex chars)</td>
+                        <td style="padding:10px 12px">Fast</td>
+                        <td style="padding:10px 12px;color:#ed8936">Deprecated ⚠</td>
+                        <td style="padding:10px 12px">Legacy systems only — avoid for new projects</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid var(--border)">
+                        <td style="padding:10px 12px"><strong>SHA-256</strong></td>
+                        <td style="padding:10px 12px">256-bit (64 hex chars)</td>
+                        <td style="padding:10px 12px">Fast</td>
+                        <td style="padding:10px 12px;color:#48bb78">Secure ✓</td>
+                        <td style="padding:10px 12px">File integrity, digital signatures, blockchain, TLS certificates</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid var(--border)">
+                        <td style="padding:10px 12px"><strong>SHA-512</strong></td>
+                        <td style="padding:10px 12px">512-bit (128 hex chars)</td>
+                        <td style="padding:10px 12px">Fast</td>
+                        <td style="padding:10px 12px;color:#38a169">Secure ✓✓</td>
+                        <td style="padding:10px 12px">High-security applications, when larger output is required</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid var(--border)">
+                        <td style="padding:10px 12px"><strong>HMAC-SHA256</strong></td>
+                        <td style="padding:10px 12px">256-bit (64 hex chars)</td>
+                        <td style="padding:10px 12px">Fast</td>
+                        <td style="padding:10px 12px;color:#38a169">Secure ✓✓</td>
+                        <td style="padding:10px 12px">API request signing, webhook verification, JWT signatures</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px 12px"><strong>Bcrypt</strong></td>
+                        <td style="padding:10px 12px">60 chars (fixed format)</td>
+                        <td style="padding:10px 12px">Intentionally slow</td>
+                        <td style="padding:10px 12px;color:#38a169">Secure ✓✓</td>
+                        <td style="padding:10px 12px">Password storage only — designed to resist brute-force</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="font-size:.8rem;color:var(--gray)">Rule of thumb: use SHA-256 for data integrity, HMAC-SHA256 for authentication, Bcrypt for passwords. Never use MD5 or SHA-1 for anything security-related.</p>
+
+            <h3>What Is a Cryptographic Hash?</h3>
+            <p>A cryptographic hash function takes an input of any size and produces a fixed-size output (the hash or digest) that uniquely represents that input. The same input always produces the same hash, but even a tiny change — a single character — produces a completely different hash. This makes hashes ideal for verifying data integrity: if the SHA-256 hash of a file matches the expected hash, the file hasn't been tampered with.</p>
+            <p>Hash functions are one-way: you can compute a hash from data, but you cannot reverse the process to recover the original data. This makes them suitable for storing passwords — instead of storing the password itself, you store its hash. When a user logs in, you hash their input and compare it to the stored hash.</p>
+
+            <h3>Hashing Options and Outputs</h3>
+            <ul>
+                <li>SHA-256 hashing using the browser's native Web Crypto API for maximum performance</li>
+                <li>SHA-1 and SHA-512 support for compatibility with different security requirements</li>
+                <li>MD5 hash generation for legacy compatibility and non-security checksums</li>
+                <li>HMAC (Hash-based Message Authentication Code) with SHA-256, SHA-1, and SHA-512</li>
+                <li>Bcrypt password hashing with configurable cost factor (rounds 4–12)</li>
+                <li>Bcrypt password verification to check if a password matches a stored hash</li>
+                <li>One-click copy for all hash outputs</li>
+            </ul>
+
+            <h3>How to Use the SHA-256 Hash Generator</h3>
+            <ul>
+                <li><strong>Step 1:</strong> Select the hashing mode using the tabs at the top: "Hash (SHA/MD5)" for standard hashing, "HMAC" for keyed message authentication, or "Bcrypt" for password hashing.</li>
+                <li><strong>Step 2:</strong> For standard hashing, enter your text and click the algorithm button (SHA-256, SHA-1, SHA-512, or MD5) to generate the hash.</li>
+                <li><strong>Step 3:</strong> For HMAC, enter both the message and the secret key, then click the desired HMAC algorithm button.</li>
+                <li><strong>Step 4:</strong> For Bcrypt, enter the password, adjust the cost factor with the slider, and click "Generate Bcrypt Hash." Use "Verify Password" to check a password against an existing hash.</li>
+                <li><strong>Step 5:</strong> Click "Copy Hash" to copy the result to your clipboard.</li>
+            </ul>
+
+            <h3>When SHA-256 Hashing Is Used</h3>
+            <ul>
+                <li>Verifying file integrity by comparing SHA-256 hashes before and after download or transfer</li>
+                <li>Generating password hashes for secure storage in databases using Bcrypt</li>
+                <li>Creating HMAC signatures for API request authentication and webhook verification</li>
+                <li>Generating checksums for data validation in software development and testing</li>
+                <li>Verifying that two pieces of data are identical without comparing them character by character</li>
+                <li>Generating deterministic identifiers from content for caching or deduplication</li>
+            </ul>
+
+            <h3>Using Hash Values Correctly</h3>
+            <p>For password storage, always use Bcrypt (or Argon2, scrypt, or PBKDF2) rather than SHA-256 or MD5. General-purpose hash functions are designed to be fast, which makes them vulnerable to brute-force attacks when used for passwords. Bcrypt is intentionally slow — each additional round doubles the computation time. A cost factor of 10–12 is recommended for most applications; increase it as hardware gets faster.</p>
+            <p>For HMAC, keep your secret key truly secret. The security of HMAC depends entirely on the secrecy of the key. Use a long, random key (at least 32 characters) generated by a cryptographically secure random number generator. Never hardcode HMAC keys in client-side code or commit them to version control.</p>
+            <p>When using SHA-256 for file integrity verification, compare hashes in a case-insensitive manner — some systems output uppercase hex and others lowercase. SHA-256 hashes are always exactly 64 hexadecimal characters long.</p>
+
+            <h3>Data Hashed Locally — Never Transmitted</h3>
+            <p>All hashing happens entirely in your browser using the Web Crypto API. No files, text, or inputs are ever uploaded to any server. You can safely hash sensitive data — passwords, API secrets, personal information — without worrying about interception or storage on a remote server.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is SHA-256 and what is it used for?</button>
+                    <div class="faq-answer"><p>SHA-256 (Secure Hash Algorithm 256-bit) is a cryptographic hash function that produces a fixed 64-character hexadecimal output from any input. It is used for verifying file integrity, storing passwords (with salting), digital signatures, blockchain transactions, and data fingerprinting.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I reverse a SHA-256 hash back to the original text?</button>
+                    <div class="faq-answer"><p>No. SHA-256 is a one-way function — it is computationally infeasible to reverse. You can only verify a hash by hashing the original input again and comparing. This is why it is used for password storage: the original password is never stored, only its hash.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between SHA-256 and MD5?</button>
+                    <div class="faq-answer"><p>MD5 produces a 128-bit (32 hex character) hash and is considered cryptographically broken — collisions (two different inputs producing the same hash) can be found quickly. SHA-256 produces a 256-bit hash and is currently considered secure. Never use MD5 for security purposes.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is salting and why is it important for password hashing?</button>
+                    <div class="faq-answer"><p>A salt is a random value added to a password before hashing. Without salting, identical passwords produce identical hashes, making them vulnerable to rainbow table attacks (precomputed hash lookups). With a unique salt per password, each hash is unique even for identical passwords.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between hashing and encryption?</button>
+                    <div class="faq-answer"><p>Hashing is one-way — you cannot get the original data back from a hash. Encryption is two-way — you can decrypt encrypted data with the right key. Use hashing for passwords and data integrity checks. Use encryption when you need to retrieve the original data later.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../password-generator/" class="related-tool-link">Password Generator</a>
+                    <a href="../password-strength/" class="related-tool-link">Password Strength Checker</a>
+                    <a href="../base64-encoder/" class="related-tool-link">Base64 Encoder</a>
+                    <a href="../text-encryption/" class="related-tool-link">Text Encryption</a>
+                    <a href="../uuid-generator/" class="related-tool-link">UUID Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+        <!-- Mode Tabs -->
+        <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+            <button id="hashTab" class="mode-tab active" onclick="switchMode('hash')">Hash (SHA/MD5)</button>
+            <button id="hmacTab" class="mode-tab" onclick="switchMode('hmac')">HMAC</button>
+            <button id="bcryptTab" class="mode-tab" onclick="switchMode('bcrypt')">Bcrypt</button>
+        </div>
+
+        <!-- Hash Mode -->
+        <div id="hashMode" class="workspace">
+            <div class="input-group">
+                <label>Input Text</label>
+                <textarea id="hashInput" placeholder="Enter text to hash..."></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateHash('SHA-256')">SHA-256</button>
+                <button class="btn btn-primary" onclick="generateHash('SHA-1')">SHA-1</button>
+                <button class="btn btn-primary" onclick="generateHash('SHA-512')">SHA-512</button>
+                <button class="btn btn-secondary" onclick="generateMD5()">MD5</button>
+            </div>
+            
+            <div class="output-container" id="hashOutput">
+                <div class="output-label" id="hashLabel">Hash Output</div>
+                <div class="output-content" id="hashText"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copyHash()">Copy Hash</button>
+            </div>
+        </div>
+
+        <!-- HMAC Mode -->
+        <div id="hmacMode" class="workspace" style="display: none;">
+            <div class="input-group">
+                <label>Message</label>
+                <textarea id="hmacMessage" placeholder="Enter message to sign..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>Secret Key</label>
+                <input type="text" id="hmacKey" placeholder="Enter secret key..." style="padding: 12px; font-size: 1rem;">
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateHMAC('SHA-256')">HMAC-SHA256</button>
+                <button class="btn btn-primary" onclick="generateHMAC('SHA-1')">HMAC-SHA1</button>
+                <button class="btn btn-primary" onclick="generateHMAC('SHA-512')">HMAC-SHA512</button>
+            </div>
+            
+            <div class="output-container" id="hmacOutput">
+                <div class="output-label" id="hmacLabel">HMAC Output</div>
+                <div class="output-content" id="hmacText"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copyHMAC()">Copy HMAC</button>
+            </div>
+        </div>
+
+        <!-- Bcrypt Mode -->
+        <div id="bcryptMode" class="workspace" style="display: none;">
+            <div class="input-group">
+                <label>Password</label>
+                <input type="text" id="bcryptPassword" placeholder="Enter password to hash..." style="padding: 12px; font-size: 1rem;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Rounds (Cost Factor): <span id="roundsValue">10</span></label>
+                <input type="range" id="bcryptRounds" min="4" max="12" value="10" oninput="updateRounds()" style="width: 100%;">
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 5px;">Higher rounds = more secure but slower (4=fast, 12=very slow)</div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateBcrypt()">Generate Bcrypt Hash</button>
+                <button class="btn btn-secondary" onclick="verifyBcrypt()">Verify Password</button>
+            </div>
+
+            <div class="output-container" id="bcryptOutput">
+                <div class="output-label">Bcrypt Hash</div>
+                <div class="output-content" id="bcryptText" style="word-break: break-all;"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copyBcrypt()">Copy Hash</button>
+            </div>
+
+            <div class="output-container" id="bcryptVerifyOutput" style="display: none;">
+                <div class="output-label">Verification Result</div>
+                <div class="output-content" id="bcryptVerifyText"></div>
+            </div>
+
+            <div style="margin-top: 15px; padding: 12px; background: rgba(249, 115, 22, 0.1); border-radius: 8px; font-size: 0.85rem; color: var(--gray);">
+                <strong>Note:</strong> Bcrypt is intentionally slow for security. Higher rounds exponentially increase computation time. Use for password storage, not general hashing.
+            </div>
+        </div>
+</ToolLayout>

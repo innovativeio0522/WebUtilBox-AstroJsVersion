@@ -1,0 +1,185 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/word-frequency-counter/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Word Frequency Counter - Analyze Word Usage | Webutilbox","url":"https://webutilbox.com/word-frequency-counter/","description":"Analyze word usage and count occurrences. Find most common words. SEO keyword density tool.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does word frequency analysis show?","acceptedAnswer":{"@type":"Answer","text":"It counts how many times each unique word appears in your text and ranks them from most to least frequent. This reveals the key topics and themes in a piece of writing, helps identify overused words, and is useful for SEO keyword density analysis."}},{"@type":"Question","name":"Is the analysis case-sensitive?","acceptedAnswer":{"@type":"Answer","text":"By default, the analysis is case-insensitive — 'The' and 'the' are counted as the same word. You can toggle case-sensitive mode if you need to distinguish between capitalized and lowercase versions."}},{"@type":"Question","name":"Can I exclude common words (stop words)?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enable the stop words filter to exclude common words like 'the', 'a', 'is', 'in', etc. This reveals the meaningful content words in your text. Stop word filtering is essential for useful keyword analysis."}},{"@type":"Question","name":"How is this different from the character frequency analyzer?","acceptedAnswer":{"@type":"Answer","text":"Word frequency counts whole words. Character frequency counts individual letters and symbols. Use word frequency to find key topics and repeated phrases; use character frequency for cryptanalysis or detailed text composition analysis."}},{"@type":"Question","name":"Can I use this for SEO keyword density checking?","acceptedAnswer":{"@type":"Answer","text":"Yes. Paste your page content and check the frequency of your target keywords. A keyword density of 1-2% is generally considered natural. Higher density may be seen as keyword stuffing by search engines. This tool helps you find the right balance."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Word Frequency Counter","item":"https://webutilbox.com/word-frequency-counter/"}]}]};
+---
+
+<ToolLayout
+  title="Word Frequency Counter | Webutilbox"
+  description="Analyze word frequency and find the most common words in any text. Useful for SEO keyword analysis and writing. Free online word frequency counter."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-text-tools.svg"
+  keywords="word frequency counter, word occurrence counter, keyword density checker, most common words, word usage analyzer, SEO keyword tool, content analysis"
+  h1="📊 Word Frequency Counter"
+  subtitle="Analyze word usage and find the most common words in your text. Perfect for SEO keyword density analysis."
+  lastUpdated=""
+  shareText="Free%20online%20Word%20Frequency%20Counter%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Word Frequency Counter -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="input-group">
+                <label>Your Text</label>
+                <textarea id="inputText" placeholder="Paste your text here to analyze word frequency..." style="min-height:200px"></textarea>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="caseSensitive">
+                    <span style="font-size:0.9rem">Case sensitive</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="ignoreCommon" checked>
+                    <span style="font-size:0.9rem">Ignore common words (the, and, is, etc.)</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:8px">
+                    <span style="font-size:0.9rem">Min word length:</span>
+                    <input type="number" id="minLength" value="1" min="1" max="20" style="width:60px;padding:6px">
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="analyzeFrequency()">Analyze Frequency</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+                <button class="btn btn-success" onclick="exportCSV()">Export CSV</button>
+            </div>
+
+            <div id="results" style="display:none;margin-top:20px">
+                <div class="summary-grid" id="summary"></div>
+                
+                <div style="background:var(--light);padding:20px;border-radius:12px;border:1px solid var(--border)">
+                    <h3 style="color:var(--primary);margin-bottom:15px">Word Frequency Analysis</h3>
+                    <div style="overflow-x:auto">
+                        <table class="freq-table">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable('rank')">#</th>
+                                    <th onclick="sortTable('word')">Word</th>
+                                    <th onclick="sortTable('count')">Count</th>
+                                    <th onclick="sortTable('percent')">Percentage</th>
+                                    <th>Frequency</th>
+                                </tr>
+                            </thead>
+                            <tbody id="freqTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+<style>
+.freq-table{width:100%;border-collapse:collapse;margin-top:15px}
+        .freq-table th,.freq-table td{padding:10px;text-align:left;border-bottom:1px solid var(--border)}
+        .freq-table th{background:var(--input-bg);color:var(--primary);font-weight:600;cursor:pointer;user-select:none}
+        .freq-table th:hover{background:var(--light)}
+        .freq-table tr:hover{background:var(--light)}
+        .freq-bar{height:8px;background:var(--primary);border-radius:4px;transition:width 0.3s}
+        .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin-bottom:20px}
+        .summary-card{background:var(--light);padding:15px;border-radius:8px;text-align:center;border:1px solid var(--border)}
+        .summary-number{font-size:1.8rem;font-weight:700;color:var(--primary)}
+        .summary-label{font-size:0.85rem;color:var(--gray);margin-top:5px}
+</style>
+
+
+<script src="/js/word-frequency-counter.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Word Frequency Counter - Analyze Word Usage and Keyword Density Online</h2>
+            <p>Ever wonder which words you use most in your writing? Or need to check keyword density before publishing an SEO article? This free Word Frequency Counter analyzes any text and shows you exactly how often each word appears, ranked from most to least frequent. It's a powerful tool for writers, SEO specialists, researchers, and anyone who wants to understand the patterns in their text.</p>
+
+            <h3>What Is a Word Frequency Counter?</h3>
+            <p>A word frequency counter scans a body of text and tallies how many times each unique word appears. The results are displayed in a ranked table showing each word, its occurrence count, and its percentage of the total word count. This gives you a clear, data-driven view of your writing's vocabulary distribution — which words dominate, which are used sparingly, and whether your keyword usage is balanced or over-concentrated.</p>
+            <p>This kind of analysis is used across many fields. SEO professionals use it to check keyword density and ensure a target keyword appears at the right frequency without over-optimization. Writers use it to spot repetitive language and diversify their vocabulary. Researchers use it to identify key themes and terminology in large documents. Translators use it to build glossaries of frequently used terms.</p>
+            <p>This tool goes beyond a simple count. It lets you filter out common stop words (like "the", "and", "is") so you can focus on meaningful content words. You can set a minimum word length to exclude short filler words, toggle case sensitivity for precise analysis, sort results by any column, and export the full frequency table as a CSV file for use in spreadsheets or further analysis.</p>
+
+            <h3>Frequency Analysis Output</h3>
+            <ul>
+                <li>Complete word frequency analysis with occurrence counts and percentages</li>
+                <li>Visual frequency bars for quick at-a-glance comparison between words</li>
+                <li>Summary panel showing total words, unique words, most common word, and average frequency</li>
+                <li>Common word filter to exclude stop words (the, and, is, it, etc.) and focus on meaningful terms</li>
+                <li>Case-sensitive mode for distinguishing between "Apple" and "apple"</li>
+                <li>Minimum word length filter to exclude very short words from results</li>
+                <li>Sortable table — click any column header to sort by rank, word, count, or percentage</li>
+                <li>CSV export to download the full frequency table for use in Excel or Google Sheets</li>
+            </ul>
+
+            <h3>How to Use the Word Frequency Counter</h3>
+            <ul>
+                <li>Step 1: Paste or type your text into the input box</li>
+                <li>Step 2: Configure your analysis options — toggle "Ignore common words" to filter stop words, enable "Case sensitive" if needed, and set a minimum word length</li>
+                <li>Step 3: Click "Analyze Frequency" to run the analysis</li>
+                <li>Step 4: Review the summary cards for a quick overview of total words, unique words, and the most common term</li>
+                <li>Step 5: Browse the frequency table — click column headers to sort by word, count, or percentage</li>
+                <li>Step 6: Click "Export CSV" to download the results as a spreadsheet-compatible file</li>
+                <li>Step 7: Click "Clear" to reset and analyze a new piece of text</li>
+            </ul>
+
+            <h3>Text and Writing Analysis Uses</h3>
+            <ul>
+                <li>SEO keyword density analysis — check that your target keyword appears at the right frequency (typically 1–2% for on-page SEO)</li>
+                <li>Identifying overused words in blog posts, essays, or reports to improve writing variety</li>
+                <li>Academic text analysis — finding dominant themes and terminology in research papers or literature</li>
+                <li>Copywriting review — ensuring marketing copy doesn't over-repeat brand names or product terms</li>
+                <li>Building translation glossaries by identifying the most frequently used terms in a source document</li>
+                <li>Comparing word usage across multiple drafts of the same document</li>
+                <li>Analyzing customer feedback or survey responses to identify the most commonly mentioned topics</li>
+            </ul>
+
+            <h3>Reading Word Frequency Results</h3>
+            <p>For SEO analysis, always enable the "Ignore common words" filter. Stop words like "the", "and", "of", and "in" will always dominate any text and aren't relevant to keyword density. With the filter on, the results will surface your actual content keywords — the terms that matter for search engine optimization. A keyword density of 1–2% is generally considered healthy; anything above 3–4% may be flagged as keyword stuffing.</p>
+            <p>Use the minimum word length filter to further refine results. Setting it to 4 or 5 characters eliminates short words that often slip through the stop word filter (like "also", "just", "very") and keeps the focus on substantive vocabulary. For technical or academic writing, a minimum length of 5–6 characters often produces the most meaningful frequency data.</p>
+            <p>The CSV export is particularly useful when you need to do deeper analysis. Import the file into Google Sheets or Excel to create charts, apply conditional formatting, or compare frequency data across multiple documents. This is especially handy for content audits, where you might want to compare keyword usage across several pages of a website at once.</p>
+
+            
+
+            <h3>Text Analyzed Only in Your Browser</h3>
+            <p>Analysis runs in your browser. Your text never leaves your device.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What does word frequency analysis show?</button>
+                    <div class="faq-answer"><p>It counts how many times each unique word appears in your text and ranks them from most to least frequent. This reveals the key topics and themes in a piece of writing, helps identify overused words, and is useful for SEO keyword density analysis.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Is the analysis case-sensitive?</button>
+                    <div class="faq-answer"><p>By default, the analysis is case-insensitive — 'The' and 'the' are counted as the same word. You can toggle case-sensitive mode if you need to distinguish between capitalized and lowercase versions.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I exclude common words (stop words)?</button>
+                    <div class="faq-answer"><p>Yes. Enable the stop words filter to exclude common words like 'the', 'a', 'is', 'in', etc. This reveals the meaningful content words in your text. Stop word filtering is essential for useful keyword analysis.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How is this different from the character frequency analyzer?</button>
+                    <div class="faq-answer"><p>Word frequency counts whole words. Character frequency counts individual letters and symbols. Use word frequency to find key topics and repeated phrases; use character frequency for cryptanalysis or detailed text composition analysis.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I use this for SEO keyword density checking?</button>
+                    <div class="faq-answer"><p>Yes. Paste your page content and check the frequency of your target keywords. A keyword density of 1-2% is generally considered natural. Higher density may be seen as keyword stuffing by search engines. This tool helps you find the right balance.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../word-counter/" class="related-tool-link">Word Counter</a>
+                    <a href="../character-frequency-analyzer/" class="related-tool-link">Character Frequency Analyzer</a>
+                    <a href="../text-cleaner/" class="related-tool-link">Text Cleaner</a>
+                    <a href="../find-replace/" class="related-tool-link">Find and Replace</a>
+                    <a href="../regex-tester/" class="related-tool-link">Regex Tester</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

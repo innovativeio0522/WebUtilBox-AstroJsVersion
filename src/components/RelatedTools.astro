@@ -1,0 +1,21 @@
+---
+export interface RelatedTool {
+  href: string;   // e.g. "/json-to-csv/"
+  label: string;  // e.g. "JSON to CSV Converter"
+}
+
+export interface Props {
+  tools: RelatedTool[];
+}
+
+const { tools } = Astro.props;
+---
+
+<div class="related-tools">
+  <h3>Related Tools</h3>
+  <div class="related-tools-grid">
+    {tools.map((tool) => (
+      <a href={tool.href} class="related-tool-link">{tool.label}</a>
+    ))}
+  </div>
+</div>

@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const canonical = 'https://webutilbox.com/contact';
+---
+
+<BaseLayout
+    title="Contact Us - Webutilbox | Get in Touch"
+    description="Contact Webutilbox for feedback, suggestions, bug reports, or partnership inquiries. We'd love to hear from you!"
+    canonical={canonical}
+    keywords="contact webutilbox, feedback, bug reports, tool suggestions, partnership inquiries"
+>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">
+                <span>🧰</span>
+                <span>Webutilbox</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container" style="max-width: 800px; margin: 0 auto; padding: 40px 20px;">
+        <h1 style="text-align: center; margin-bottom: 20px;">Contact Us</h1>
+        <p style="text-align: center; color: var(--gray); font-size: 1.1rem; margin-bottom: 50px;">
+            We'd love to hear from you! Send us an email and we'll get back to you within 24-48 hours.
+        </p>
+
+        <div style="background: var(--light); padding: 40px; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--border); text-align: center;">
+            <h2 style="margin-bottom: 20px; font-size: 1.5rem;">Email Us</h2>
+            <p style="color: var(--gray); margin-bottom: 30px; line-height: 1.8;">
+                For any questions, feedback, or inquiries, please email us at:
+            </p>
+            <div style="background: var(--dark); padding: 25px; border-radius: 10px; display: inline-block; margin-bottom: 20px; cursor: pointer;" onclick="copyEmail()" id="emailBox">
+                <div style="font-size: 2.5rem; margin-bottom: 15px;">📧</div>
+                <div style="color: var(--primary); text-decoration: none; font-size: 1.3rem; font-weight: 600;">
+                        innovativeme.dev@gmail.com
+                    </div>
+            </div>
+            <p style="color: var(--gray); font-size: 0.9rem;">
+                Click the email above to copy it to your clipboard
+            </p>
+            <div id="copyMessage" style="display: none; margin-top: 15px; padding: 10px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 8px; color: #22c55e;">
+                ✅ Email copied to clipboard!
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div style="background: var(--light); padding: 25px; border-radius: 12px; text-align: center; border: 1px solid var(--border);">
+                <div style="font-size: 2.5rem; margin-bottom: 15px;">💬</div>
+                <h3 style="margin-bottom: 10px; font-size: 1.1rem;">General Inquiries</h3>
+                <p style="color: var(--gray); font-size: 0.9rem;">Questions or feedback about our tools</p>
+            </div>
+
+            <div style="background: var(--light); padding: 25px; border-radius: 12px; text-align: center; border: 1px solid var(--border);">
+                <div style="font-size: 2.5rem; margin-bottom: 15px;">🐛</div>
+                <h3 style="margin-bottom: 10px; font-size: 1.1rem;">Report a Bug</h3>
+                <p style="color: var(--gray); font-size: 0.9rem;">Found an issue? Let us know!</p>
+            </div>
+
+            <div style="background: var(--light); padding: 25px; border-radius: 12px; text-align: center; border: 1px solid var(--border);">
+                <div style="font-size: 2.5rem; margin-bottom: 15px;">💡</div>
+                <h3 style="margin-bottom: 10px; font-size: 1.1rem;">Suggest a Tool</h3>
+                <p style="color: var(--gray); font-size: 0.9rem;">Have an idea for a new tool?</p>
+            </div>
+        </div>
+
+        <div style="background: var(--light); padding: 30px; border-radius: 12px; border: 1px solid var(--border);">
+            <h2 style="margin-bottom: 15px; font-size: 1.3rem;">Frequently Asked Questions</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 8px; font-size: 1rem; color: var(--primary);">How quickly will I get a response?</h3>
+                <p style="color: var(--gray); line-height: 1.6;">We typically respond within 24-48 hours during business days.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 8px; font-size: 1rem; color: var(--primary);">Can I request a new tool?</h3>
+                <p style="color: var(--gray); line-height: 1.6;">Absolutely! We love hearing suggestions for new tools. Just email us with your idea.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 8px; font-size: 1rem; color: var(--primary);">Do you offer custom tool development?</h3>
+                <p style="color: var(--gray); line-height: 1.6;">For partnership and custom development inquiries, please email us with "Partnership" in the subject line.</p>
+            </div>
+
+            <div>
+                <h3 style="margin-bottom: 8px; font-size: 1rem; color: var(--primary);">How do I report a security issue?</h3>
+                <p style="color: var(--gray); line-height: 1.6;">For security-related concerns, please email us with "Security" in the subject line and we'll prioritize your message.</p>
+            </div>
+        </div>
+    </div>
+
+    <Fragment slot="scripts" set:html={`
+        <script>
+            function copyEmail() {
+                const email = 'innovativeme.dev@gmail.com';
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(email).then(() => {
+                    // Show success message
+                    const message = document.getElementById('copyMessage');
+                    message.style.display = 'block';
+                    
+                    // Hide after 3 seconds
+                    setTimeout(() => {
+                        message.style.display = 'none';
+                    }, 3000);
+                }).catch(err => {
+                    // Fallback for older browsers
+                    alert('Email: ' + email + '\\n\\nPlease copy this email address manually.');
+                });
+            }
+        </script>
+    `} />
+</BaseLayout>

@@ -1,0 +1,198 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/password-generator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Strong Password Generator - Free, Secure & Private | Webutilbox","url":"https://webutilbox.com/password-generator/","description":"Generate strong, random passwords instantly. Customise length, symbols, numbers, and character types. Cryptographically secure using the Web Crypto API. Nothing sent to any server.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","browserRequirements":"Requires JavaScript","featureList":["Cryptographically secure random password generation","Adjustable password length 8–64 characters","Uppercase, lowercase, numbers, symbols options","Real-time entropy strength meter","100% client-side — no server upload"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"HowTo","name":"How to Generate a Strong Password","step":[{"@type":"HowToStep","position":1,"name":"Set password length","text":"Drag the length slider to your desired length. 16 characters is the recommended minimum; use 20+ for banking and email accounts."},{"@type":"HowToStep","position":2,"name":"Choose character types","text":"Check the character types to include: uppercase letters, lowercase letters, numbers, and symbols. Using all four gives the strongest result."},{"@type":"HowToStep","position":3,"name":"Click Generate Password","text":"Click the Generate Password button. A cryptographically secure random password is created instantly in your browser."},{"@type":"HowToStep","position":4,"name":"Check the strength meter","text":"Review the entropy strength indicator. Aim for 'Strong' or 'Very Strong' — that means 80+ bits of entropy."},{"@type":"HowToStep","position":5,"name":"Copy and save in a password manager","text":"Click Copy Password, then immediately paste it into your password manager (Bitwarden, 1Password, KeePass). Never store it in a plain text file."}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How random are the generated passwords?","acceptedAnswer":{"@type":"Answer","text":"Passwords are generated using the browser's built-in crypto.getRandomValues() API, which uses a cryptographically secure random number generator (CSPRNG). This is the same level of randomness used by security software and is suitable for generating real passwords."}},{"@type":"Question","name":"What makes a password strong?","acceptedAnswer":{"@type":"Answer","text":"A strong password is at least 16 characters long and uses a mix of uppercase letters, lowercase letters, numbers, and symbols. Avoid dictionary words, names, dates, or keyboard patterns like 'qwerty'. The strength meter on this tool rates your password in real time."}},{"@type":"Question","name":"Should I use a passphrase instead of a random password?","acceptedAnswer":{"@type":"Answer","text":"Passphrases (like 'correct-horse-battery-staple') are easier to remember and can be very secure if long enough. Random character passwords are harder to remember but slightly more resistant to brute force at the same length. For most accounts, a 20+ character random password stored in a password manager is the best approach."}},{"@type":"Question","name":"Is it safe to generate passwords in a browser?","acceptedAnswer":{"@type":"Answer","text":"Yes. This tool uses the Web Crypto API and never sends anything to a server. The generated passwords exist only in your browser's memory. Close the tab and they are gone. Always copy your password immediately and store it in a password manager."}},{"@type":"Question","name":"How often should I change my passwords?","acceptedAnswer":{"@type":"Answer","text":"Current security guidance (NIST SP 800-63B) recommends changing passwords only when you have reason to believe they have been compromised, not on a fixed schedule. Using a unique, strong password for every account is more important than frequent rotation."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Strong Password Generator","item":"https://webutilbox.com/password-generator/"}]}]};
+---
+
+<ToolLayout
+  title="Strong Password Generator - Free, Secure & Private | Webutilbox"
+  description="Generate strong, random passwords instantly — customise length, symbols, numbers, and character types. Cryptographically secure, 100% free, and nothing ever leaves your browser."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="strong password generator, random password generator, password generator, secure password generator, free password generator, password maker, generate strong password, cryptographically secure password, password creator online"
+  h1="🔑 Strong Password Generator — Free, Secure &amp; Private"
+  subtitle="Generate strong, random passwords instantly. Free, customisable, and 100% private — everything runs in your browser, nothing is ever sent to a server."
+  lastUpdated="2026-06-05"
+  shareText="Free%20strong%20password%20generator%20%E2%80%94%20cryptographically%20secure%2C%20100%25%20private%2C%20runs%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Strong Password Generator - Free, Secure & Private -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="options-grid">
+                <div class="option-item">
+                    <label for="passLength">Password Length: <strong id="lenVal">16</strong></label>
+                    <input type="range" id="passLength" min="8" max="64" value="16" oninput="document.getElementById('lenVal').textContent=this.value">
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="useUpper" checked>
+                    <label for="useUpper">Uppercase Letters (ABC)</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="useLower" checked>
+                    <label for="useLower">Lowercase Letters (abc)</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="useNumbers" checked>
+                    <label for="useNumbers">Numbers (123)</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="useSymbols" checked>
+                    <label for="useSymbols">Symbols (!@#$)</label>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generatePassword()">Generate Password</button>
+                <button class="btn btn-success" onclick="copyPassword()">Copy Password</button>
+            </div>
+            
+            <div class="output-container" id="outputContainer">
+                <div class="output-content" id="outputText"></div>
+                <div class="strength-indicator" id="strengthIndicator"></div>
+            </div>
+        </div><!-- end workspace -->
+
+        <!-- Share Bar -->
+
+<style>
+.output-content {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin: 20px 0;
+            text-align: center;
+        }
+</style>
+
+
+<script src="/js/password-generator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Strong Password Generator</h2>
+
+    <p>The average person reuses the same password across 14 different accounts. When one of those sites gets breached — and breaches happen constantly — every account sharing that password is compromised. This free strong password generator creates cryptographically secure random passwords using your browser's <code>crypto.getRandomValues()</code> API, the same randomness source used by security software. Passwords are generated locally and never transmitted anywhere.</p>
+
+    <p>Need a random password generator you can trust? Everything stays in your browser. No accounts, no server logs, no tracking.</p>
+
+    <h3>How to generate a strong password</h3>
+    <ol style="padding-left:1.4em;line-height:2">
+        <li><strong>Set the length</strong> — drag the slider to your desired length. 16 characters is the minimum for most accounts; use 20+ for banking and email.</li>
+        <li><strong>Choose character types</strong> — tick uppercase, lowercase, numbers, and symbols. Using all four maximises the character set and entropy.</li>
+        <li><strong>Click Generate Password</strong> — a cryptographically secure random password is created instantly in your browser.</li>
+        <li><strong>Check the strength meter</strong> — aim for "Strong" or "Very Strong." That means 80+ bits of entropy (see the table below).</li>
+        <li><strong>Copy and paste into your password manager</strong> — click Copy Password and immediately paste it into Bitwarden, 1Password, or KeePass. Never store passwords in a plain text file.</li>
+    </ol>
+
+    <h3>What "80+ bits of entropy" looks like in practice</h3>
+    <p>The strength meter rates your password by entropy — the mathematical measure of unpredictability. Higher bits means exponentially more guesses needed to crack it. Here's what each level means for a password using all character types (uppercase + lowercase + numbers + symbols = 94 characters):</p>
+
+    <table style="width:100%;border-collapse:collapse;font-size:.875rem;margin:12px 0">
+        <thead>
+            <tr style="border-bottom:1px solid var(--border);text-align:left">
+                <th style="padding:10px 12px;color:var(--gray);font-weight:600">Length</th>
+                <th style="padding:10px 12px;color:var(--gray);font-weight:600">Entropy (bits)</th>
+                <th style="padding:10px 12px;color:var(--gray);font-weight:600">Strength rating</th>
+                <th style="padding:10px 12px;color:var(--gray);font-weight:600">Example use</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px">8 chars</td>
+                <td style="padding:10px 12px">~52 bits</td>
+                <td style="padding:10px 12px;color:#f56565">Weak</td>
+                <td style="padding:10px 12px">Avoid — crackable in hours with modern hardware</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px">12 chars</td>
+                <td style="padding:10px 12px">~79 bits</td>
+                <td style="padding:10px 12px;color:#ecc94b">Fair</td>
+                <td style="padding:10px 12px">Low-stakes accounts only</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px">16 chars</td>
+                <td style="padding:10px 12px">~105 bits</td>
+                <td style="padding:10px 12px;color:#48bb78">Strong ✓</td>
+                <td style="padding:10px 12px">Social media, shopping, forums</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px">20 chars</td>
+                <td style="padding:10px 12px">~131 bits</td>
+                <td style="padding:10px 12px;color:#38a169">Very Strong ✓✓</td>
+                <td style="padding:10px 12px">Banking, email, work accounts</td>
+            </tr>
+            <tr>
+                <td style="padding:10px 12px">24 chars</td>
+                <td style="padding:10px 12px">~157 bits</td>
+                <td style="padding:10px 12px;color:#38a169">Extremely Strong ✓✓✓</td>
+                <td style="padding:10px 12px">Master password manager password</td>
+            </tr>
+        </tbody>
+    </table>
+    <p style="font-size:.8rem;color:var(--gray)">Entropy = log₂(94<sup>length</sup>). A 1-bit increase doubles the guessing work. Going from 8 to 16 characters doesn't double the security — it cubes it.</p>
+
+    <h3>What makes a password actually strong</h3>
+    <p>Length matters more than complexity. A 20-character password using only lowercase letters has more entropy than a 10-character password using all character types. That said, combining length with character variety is best. A 20-character password with uppercase, lowercase, numbers, and symbols is the gold standard for a strong random password.</p>
+
+    <h3>Password length recommendations by account type</h3>
+    <ul>
+        <li><strong>Master password manager password:</strong> 20+ characters, memorised, maximum complexity</li>
+        <li><strong>Banking and financial accounts:</strong> 16–20 characters</li>
+        <li><strong>Email accounts:</strong> 16–20 characters (email is the recovery method for everything else)</li>
+        <li><strong>Social media:</strong> 14–16 characters</li>
+        <li><strong>Low-stakes accounts:</strong> 12–14 characters</li>
+        <li><strong>Wi-Fi passwords:</strong> 16+ characters (typed rarely, so length is fine)</li>
+    </ul>
+
+    <h3>Passphrases vs random passwords</h3>
+    <p>A passphrase like "correct-horse-battery-staple" (4 random words) is easier to remember and can be very secure — 4 random words from a 7,776-word list gives about 51 bits of entropy. A 16-character random password generator with full character set gives about 105 bits. For accounts you need to type regularly without a password manager, a passphrase is a reasonable trade-off. For everything else, use a random password stored in a manager.</p>
+
+    <h3>How to use generated passwords safely</h3>
+    <p>Generate the password, immediately copy it, and paste it into your password manager before doing anything else. Don't type it manually — transcription errors are common with random strings. Don't save it in a text file, email it to yourself, or write it on a sticky note. A password manager (Bitwarden, 1Password, KeePass) is the right storage mechanism.</p>
+    <p>Enable two-factor authentication (2FA) on every account that supports it. A strong password plus 2FA means an attacker needs both your password and physical access to your second factor — a dramatically higher bar.</p>
+
+    <h3>Passwords Generated Locally — Never Transmitted</h3>
+    <p>Passwords are generated entirely in your browser using the Web Crypto API. Nothing is sent to any server. The generated passwords exist only in your browser's memory until you copy them. Close the tab and they are gone.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How random are the generated passwords?</button>
+                    <div class="faq-answer"><p>Passwords are generated using the browser's built-in crypto.getRandomValues() API, which uses a cryptographically secure random number generator (CSPRNG). This is the same level of randomness used by security software and is suitable for generating real passwords.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What makes a password strong?</button>
+                    <div class="faq-answer"><p>A strong password is at least 16 characters long and uses a mix of uppercase letters, lowercase letters, numbers, and symbols. Avoid dictionary words, names, dates, or keyboard patterns like 'qwerty'. The strength meter on this tool rates your password in real time.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Should I use a passphrase instead of a random password?</button>
+                    <div class="faq-answer"><p>Passphrases (like 'correct-horse-battery-staple') are easier to remember and can be very secure if long enough. Random character passwords are harder to remember but slightly more resistant to brute force at the same length. For most accounts, a 20+ character random password stored in a password manager is the best approach.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Is it safe to generate passwords in a browser?</button>
+                    <div class="faq-answer"><p>Yes. This tool uses the Web Crypto API and never sends anything to a server. The generated passwords exist only in your browser's memory. Close the tab and they are gone. Always copy your password immediately and store it in a password manager.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How often should I change my passwords?</button>
+                    <div class="faq-answer"><p>Current security guidance (NIST SP 800-63B) recommends changing passwords only when you have reason to believe they have been compromised, not on a fixed schedule. Using a unique, strong password for every account is more important than frequent rotation.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../password-strength/" class="related-tool-link">Password Strength Checker</a>
+                    <a href="../sha256-generator/" class="related-tool-link">SHA-256 Generator</a>
+                    <a href="../random-string-generator/" class="related-tool-link">Random String Generator</a>
+                    <a href="../uuid-generator/" class="related-tool-link">UUID Generator</a>
+                    <a href="../text-encryption/" class="related-tool-link">Text Encryption</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

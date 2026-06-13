@@ -1,0 +1,162 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/color-converter/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Color Converter - HEX, RGB, HSL, CMYK + Contrast Checker | Webutilbox","url":"https://webutilbox.com/color-converter/","description":"Convert colors between HEX, RGB, HSL, CMYK. Includes WCAG contrast checker with live preview.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What color formats does this converter support?","acceptedAnswer":{"@type":"Answer","text":"The converter supports HEX (#rrggbb), RGB (red, green, blue 0-255), HSL (hue 0-360, saturation %, lightness %), and HSB/HSV (hue, saturation, brightness). All formats can be converted to any other format instantly."}},{"@type":"Question","name":"What is the difference between HSL and HSB/HSV?","acceptedAnswer":{"@type":"Answer","text":"Both use hue and saturation, but the third value differs. HSL uses Lightness (50% = pure color, 100% = white). HSB/HSV uses Brightness/Value (100% = pure color, 0% = black). HSL is used in CSS; HSB is used in design tools like Photoshop and Figma."}},{"@type":"Question","name":"Why does my HEX color look different in different apps?","acceptedAnswer":{"@type":"Answer","text":"Color appearance varies by display calibration, color profile (sRGB vs P3), and rendering engine. The same HEX value can look slightly different on different monitors. For consistent results, use a calibrated display and work in the sRGB color space."}},{"@type":"Question","name":"What does the alpha channel do?","acceptedAnswer":{"@type":"Answer","text":"Alpha controls transparency. An alpha of 1 (or 255 in 0-255 scale) is fully opaque. An alpha of 0 is fully transparent. In CSS, use rgba() or hsla() to include transparency. HEX supports alpha with an 8-digit format (#rrggbbaa)."}},{"@type":"Question","name":"How do I find the HEX code for a color on my screen?","acceptedAnswer":{"@type":"Answer","text":"Use the Image Color Picker tool on this site to pick a color from any image. For colors anywhere on your screen, use your operating system's built-in color picker or a browser extension like ColorZilla."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Color Converter","item":"https://webutilbox.com/color-converter/"}]}]};
+---
+
+<ToolLayout
+  title="Color Converter - HEX, RGB, HSL, CMYK | Webutilbox"
+  description="Convert colors between HEX, RGB, HSL, HSV, CMYK and more. Instant color format conversion with live preview. Free online color converter."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-css-tools.svg"
+  keywords="color converter, hex to rgb, rgb to hex, hsl converter, cmyk converter, contrast checker, wcag contrast, accessibility checker"
+  h1="🎨 Color Converter & Contrast Checker"
+  subtitle="Convert colors between HEX, RGB, HSL, CMYK formats and check WCAG contrast ratios."
+  lastUpdated=""
+  shareText="Free%20online%20Color%20Converter%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Color Converter - HEX, RGB, HSL, CMYK -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+<style>
+.mode-tab {
+            padding: 10px 20px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .mode-tab:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--primary);
+        }
+        .mode-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        .badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+</style>
+
+
+<script src="/js/color-converter.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Color Converter — HEX, RGB, HSL, CMYK</h2>
+
+    <p>Every design tool, browser, and print system speaks a different color dialect. Figma gives you HSL. Your CSS needs HEX. Your printer wants CMYK. This converter translates instantly between all of them — no formulas, no guesswork.</p>
+
+    <h3>Color format comparison — when to use each</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:.875rem;margin:12px 0">
+        <thead>
+            <tr style="border-bottom:1px solid var(--border);text-align:left">
+                <th style="padding:10px 12px;color:var(--gray);font-weight:600">Format</th>
+                <th style="padding:10px 12px;color:var(--gray);font-weight:600">Example</th>
+                <th style="padding:10px 12px;color:var(--gray);font-weight:600">Range</th>
+                <th style="padding:10px 12px;color:var(--gray);font-weight:600">Best for</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px"><strong>HEX</strong></td>
+                <td style="padding:10px 12px"><code>#f97316</code></td>
+                <td style="padding:10px 12px">#000000 – #ffffff</td>
+                <td style="padding:10px 12px">CSS, HTML, design tokens, most common on the web</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px"><strong>RGB</strong></td>
+                <td style="padding:10px 12px"><code>rgb(249, 115, 22)</code></td>
+                <td style="padding:10px 12px">0–255 per channel</td>
+                <td style="padding:10px 12px">CSS, canvas/WebGL, image processing, JavaScript manipulation</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px"><strong>HSL</strong></td>
+                <td style="padding:10px 12px"><code>hsl(24, 95%, 53%)</code></td>
+                <td style="padding:10px 12px">H: 0–360, S/L: 0–100%</td>
+                <td style="padding:10px 12px">CSS theming, generating tints/shades programmatically, dark mode</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px"><strong>HSB / HSV</strong></td>
+                <td style="padding:10px 12px"><code>hsb(24, 91%, 98%)</code></td>
+                <td style="padding:10px 12px">H: 0–360, S/B: 0–100%</td>
+                <td style="padding:10px 12px">Photoshop, Figma, Sketch color pickers — this is what design tools show</td>
+            </tr>
+            <tr>
+                <td style="padding:10px 12px"><strong>CMYK</strong></td>
+                <td style="padding:10px 12px"><code>cmyk(0, 54, 91, 2)</code></td>
+                <td style="padding:10px 12px">0–100% per channel</td>
+                <td style="padding:10px 12px">Print design, InDesign, physical materials — not used in CSS</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>HSL vs HSB — the one that always confuses people</h3>
+    <p>Both use Hue (0–360°) and Saturation, but the third value means completely different things. In <strong>HSL</strong>, Lightness of 50% is the pure colour, 0% is black, 100% is white. In <strong>HSB</strong> (also called HSV), Brightness of 100% is the pure colour, 0% is black — and there's no direct "white" slider. CSS uses HSL. Photoshop and Figma use HSB. Converting between them requires a formula, not just renaming the value.</p>
+
+    <h3>Why the same HEX looks different on different screens</h3>
+    <p>Colour appearance varies by display calibration, colour profile (sRGB vs Display P3), and rendering engine. A wide-gamut P3 display can show colours that sRGB can't represent — so the same HEX value looks more vivid on a MacBook Pro than on a standard monitor. For consistent web work, design in sRGB. The <code>color-gamut</code> CSS media query lets you serve P3 colours to wide-gamut displays while providing sRGB fallbacks.</p>
+
+    <h3>WCAG contrast and accessibility</h3>
+    <p>The contrast ratio between text and background determines whether your design meets WCAG accessibility standards. WCAG 2.1 requires:</p>
+    <ul>
+        <li><strong>4.5:1</strong> — normal text (Level AA, the legal minimum in most jurisdictions)</li>
+        <li><strong>3:1</strong> — large text (18pt+ or 14pt+ bold) at Level AA</li>
+        <li><strong>7:1</strong> — normal text at Level AAA (enhanced accessibility)</li>
+    </ul>
+    <p>White text on the orange <code>#f97316</code> fails AA (contrast ~2.9:1). Black text on the same orange passes AA (contrast ~3.1:1 for large text). Use the contrast checker tab to test your specific colour combinations before shipping.</p>
+
+    <h3>All processing runs in your browser</h3>
+    <p>No colour data is sent to any server. Everything stays on your device.</p>
+
+    <h3>Frequently Asked Questions</h3>
+    <div class="faq-list">
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">What color formats does this converter support?</button>
+            <div class="faq-answer"><p>HEX (#rrggbb), RGB (0–255 per channel), HSL (hue 0–360, saturation %, lightness %), HSB/HSV (hue, saturation, brightness), and CMYK (0–100% per channel). All formats convert to any other instantly.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">What is the difference between HSL and HSB/HSV?</button>
+            <div class="faq-answer"><p>Both use hue and saturation, but the third value differs. HSL Lightness: 50% = pure colour, 100% = white. HSB Brightness: 100% = pure colour, 0% = black. HSL is used in CSS; HSB is used in Photoshop and Figma.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">Why does my HEX color look different in different apps?</button>
+            <div class="faq-answer"><p>Colour appearance varies by display calibration and colour profile (sRGB vs P3). The same HEX value looks more vivid on a wide-gamut display. For consistent results, work in the sRGB colour space.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">What does the alpha channel do?</button>
+            <div class="faq-answer"><p>Alpha controls transparency. 1 (or 255) is fully opaque; 0 is fully transparent. In CSS use rgba() or hsla(). HEX supports alpha with an 8-digit format: #rrggbbaa.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">How do I find the HEX code for a color on my screen?</button>
+            <div class="faq-answer"><p>Use the Image Color Picker tool on this site to pick a colour from any image. For colours anywhere on your screen, use your OS colour picker or a browser extension like ColorZilla.</p></div>
+        </div>
+    </div>
+
+    <div class="related-tools">
+        <h3>Related Tools</h3>
+        <div class="related-tools-grid">
+            <a href="../color-contrast-checker/" class="related-tool-link">Color Contrast Checker</a>
+            <a href="../color-shades-generator/" class="related-tool-link">Color Shades Generator</a>
+            <a href="../css-gradient-generator/" class="related-tool-link">CSS Gradient Generator</a>
+            <a href="../image-color-picker/" class="related-tool-link">Image Color Picker</a>
+            <a href="../box-shadow-generator/" class="related-tool-link">Box Shadow Generator</a>
+        </div>
+    </div>
+</div>
+
+</ToolLayout>

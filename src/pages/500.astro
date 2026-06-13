@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const canonical = 'https://webutilbox.com/500';
+---
+
+<BaseLayout
+  title="500 - Server Error | Webutilbox"
+  description="Something went wrong on our end. Return to Webutilbox's free online tools."
+  canonical={canonical}
+  ogTitle="500 - Server Error | Webutilbox"
+  ogImage="https://webutilbox.com/assets/og-image.png"
+  keywords="500 error, server error, webutilbox"
+>
+  <header>
+    <div class="header-content">
+      <a href="/" class="logo">
+        <span>💼</span>
+        <span>Webutilbox</span>
+      </a>
+      <a href="/tools" class="all-tools-btn">All Tools</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div style="text-align: center; padding: 80px 20px;">
+      <div style="font-size: 8rem; margin-bottom: 20px;">⚡</div>
+      <h1 style="font-size: 3rem; margin-bottom: 15px; background: linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">500</h1>
+      <p class="subtitle" style="font-size: 1.3rem; margin-bottom: 30px;">Oops! Something Went Wrong</p>
+      <p style="color: var(--gray); margin-bottom: 40px; font-size: 1.05rem;">We're experiencing a temporary issue. Please try again later.</p>
+      <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <a href="/" class="all-tools-btn" style="padding: 12px 30px; font-size: 1rem;">🏠 Go Home</a>
+        <a href="/tools" style="padding: 12px 30px; background: var(--card-bg); color: var(--white); text-decoration: none; border-radius: 8px; font-weight: 600; border: 1px solid var(--border); transition: all 0.3s;">🛠️ Browse Tools</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

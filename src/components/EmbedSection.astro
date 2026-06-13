@@ -1,0 +1,21 @@
+---
+export interface Props {
+  embedUrl: string;
+  embedTitle: string;
+  embedHeight?: number;
+}
+
+const { embedUrl, embedTitle, embedHeight = 600 } = Astro.props;
+const iframeCode = `<iframe src="${embedUrl}" width="100%" height="${embedHeight}" frameborder="0" title="${embedTitle}" loading="lazy"></iframe>`;
+---
+
+<div class="embed-section">
+  <button class="embed-toggle" onclick="toggleEmbed(this)" aria-expanded="false">
+    📎 Embed this tool on your website — free
+  </button>
+  <div class="embed-body">
+    <p>Copy the iframe code below and paste it into your HTML. The tool runs entirely client-side so it works on any static site.</p>
+    <textarea class="embed-code" rows="3" readonly aria-label="Embed code">{iframeCode}</textarea>
+    <button class="embed-copy-btn" onclick="copyEmbedCode(this)">Copy embed code</button>
+  </div>
+</div>

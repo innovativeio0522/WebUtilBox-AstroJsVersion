@@ -1,0 +1,162 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/audio-trimmer/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Audio Trimmer - Cut and Trim Audio Files | Webutilbox","url":"https://webutilbox.com/audio-trimmer/","description":"Trim and cut audio files online. Upload audio, select start/end points, and download trimmed audio. Free offline audio trimmer.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What audio formats can I trim?","acceptedAnswer":{"@type":"Answer","text":"The trimmer supports MP3, WAV, OGG, AAC, and M4A — any format your browser's audio decoder supports. The output is saved as a WAV file for maximum compatibility."}},{"@type":"Question","name":"How precise is the trim?","acceptedAnswer":{"@type":"Answer","text":"The trim is accurate to the millisecond. You can drag the start and end handles on the waveform or type exact timestamps to set precise cut points."}},{"@type":"Question","name":"Can I trim multiple sections from one file?","acceptedAnswer":{"@type":"Answer","text":"The tool trims a single continuous segment (start to end). For removing a section from the middle of a file, you would need to trim twice and combine the two resulting clips."}},{"@type":"Question","name":"Does trimming reduce audio quality?","acceptedAnswer":{"@type":"Answer","text":"No. The trim operation cuts the audio at the specified points without re-encoding the audio data. The quality of the kept portion is identical to the original."}},{"@type":"Question","name":"Can I use this to remove silence from the beginning or end of a recording?","acceptedAnswer":{"@type":"Answer","text":"Yes. Play the audio, find where the actual content starts and ends, then set your trim points accordingly. This is a common use case for cleaning up voice recordings and podcasts."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Audio Trimmer","item":"https://webutilbox.com/audio-trimmer/"}]}]};
+---
+
+<ToolLayout
+  title="Audio Trimmer - Cut and Trim Audio Files | Webutilbox"
+  description="Trim and cut audio files online. Upload audio, select start/end points, and download trimmed audio. Free offline audio trimmer."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-media-tools.svg"
+  keywords="audio trimmer, audio cutter, trim audio, cut audio, audio editor"
+  h1="✂️ Audio Trimmer"
+  subtitle="Trim and cut audio files. Select start and end points to extract the part you need."
+  lastUpdated=""
+  shareText="Free%20online%20Audio%20Trimmer%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Audio Trimmer - Cut and Trim Audio Files -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Upload -->
+            <div style="text-align: center; padding: 40px; border: 2px dashed var(--border); border-radius: 12px; background: var(--light); margin-bottom: 20px;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">??</div>
+                <input type="file" id="audioFile" accept="audio/*" style="display: none;" onchange="loadAudio()">
+                <button class="btn btn-primary" onclick="document.getElementById('audioFile').click()">Upload Audio File</button>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--gray);">Supports MP3, WAV, OGG, M4A</p>
+            </div>
+
+            <!-- Audio Player & Controls -->
+            <div id="audioControls" style="display: none;">
+                <div style="background: var(--light); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border);">
+                    <audio id="audioPlayer" controls style="width: 100%; margin-bottom: 15px;"></audio>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <canvas id="waveform" style="width: 100%; height: 80px; background: var(--dark); border-radius: 8px; cursor: pointer;"></canvas>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                        <div>
+                            <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Start Time (seconds)</label>
+                            <input type="number" id="startTime" value="0" min="0" step="0.1" oninput="updateSelection()" style="width: 100%; padding: 10px;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">End Time (seconds)</label>
+                            <input type="number" id="endTime" value="0" min="0" step="0.1" oninput="updateSelection()" style="width: 100%; padding: 10px;">
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; justify-content: center;">
+                        <button class="btn btn-primary" onclick="previewTrimmed()">Preview Trimmed</button>
+                        <button class="btn btn-success" onclick="downloadTrimmed()">Download Trimmed Audio</button>
+                    </div>
+
+                    <div id="trimInfo" style="margin-top: 15px; padding: 12px; background: rgba(249, 115, 22, 0.1); border-radius: 8px; text-align: center; font-size: 0.9rem;">
+                        <span id="durationInfo"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/audio-trimmer.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Audio Trimmer - Cut and Trim Audio Files Online</h2>
+    <p>The Audio Trimmer lets you cut and trim audio files directly in your browser with precision and ease. Whether you need to remove silence from the start of a recording, extract a specific clip from a longer file, or cut out an unwanted section in the middle, this tool handles it all without requiring any software installation or file uploads to a server.</p>
+
+    <h3>What Is the Audio Trimmer?</h3>
+    <p>The Audio Trimmer is a browser-based audio editing tool that uses the Web Audio API to load, analyze, and export specific segments of audio files. You set a start time and an end time, and the tool extracts exactly that portion of the audio and exports it as a high-quality WAV file. The entire process happens locally in your browser, so your audio files never leave your device.</p>
+    <p>The tool includes a visual waveform display that renders the amplitude of your audio over time, giving you a clear picture of the audio content before you make your cuts. This is especially useful for identifying silence, speech segments, music sections, and other audio features at a glance. Combined with the precise time input fields, you can trim to the exact second or fraction of a second you need.</p>
+    <p>A preview feature lets you listen to your selected segment before committing to the export. This saves time and ensures you get exactly the clip you want on the first try, without having to download and re-upload multiple times to fine-tune your selection.</p>
+
+    <h3>Audio Trimming Capabilities</h3>
+    <ul>
+        <li>Visual waveform display that renders the full audio file so you can see the content before trimming.</li>
+        <li>Precise start and end time inputs with 0.1-second increments for accurate, frame-level trimming.</li>
+        <li>Preview button to listen to your selected segment before exporting, ensuring the cut is exactly right.</li>
+        <li>One-click download of the trimmed audio as a WAV file with no quality loss or re-encoding.</li>
+        <li>Real-time duration display showing the length of your selected segment as you adjust the trim points.</li>
+        <li>Supports MP3, WAV, OGG, M4A, and other common browser-supported audio formats as input.</li>
+    </ul>
+
+    <h3>How to Use the Audio Trimmer</h3>
+    <p>Trimming audio with this tool is straightforward and takes just a few steps from upload to download.</p>
+    <ul>
+        <li>Step 1: Click the "Upload Audio File" button and select the audio file you want to trim from your device. Supported formats include MP3, WAV, OGG, and M4A.</li>
+        <li>Step 2: Once the file loads, the waveform visualization and audio player will appear. Listen to the full file to identify the section you want to keep.</li>
+        <li>Step 3: Enter the start time in seconds in the "Start Time" field. This is the point where your trimmed clip will begin.</li>
+        <li>Step 4: Enter the end time in seconds in the "End Time" field. The duration display will update to show the length of your selected segment.</li>
+        <li>Step 5: Click "Preview Trimmed" to listen to your selection. If it sounds right, click "Download Trimmed Audio" to export the clip as a WAV file.</li>
+    </ul>
+
+    <h3>When to Trim Audio Files</h3>
+    <p>Audio trimming is one of the most common audio editing tasks, with applications across many fields and hobbies.</p>
+    <ul>
+        <li>Podcast editing — remove dead air, false starts, or filler content from the beginning and end of recorded episodes before publishing.</li>
+        <li>Ringtone creation — extract the catchiest or most recognizable part of a song to use as a custom ringtone on your phone.</li>
+        <li>Voice memo cleanup — trim silence and background noise from the start and end of voice recordings to make them cleaner and more professional.</li>
+        <li>Sample extraction — pull a specific musical phrase, sound effect, or spoken word clip from a longer recording for use in a project.</li>
+        <li>Content creation — extract audio clips from interviews, lectures, or recordings for use in social media posts, highlight reels, or presentations.</li>
+        <li>Music production — isolate a specific section of a reference track or recording for analysis, sampling, or use in a digital audio workstation.</li>
+    </ul>
+
+    <h3>Precise Audio Cutting Tips</h3>
+    <p>For the cleanest cuts, use the waveform display to visually identify natural pause points or silence in the audio. Cutting at a point of silence or low amplitude produces a cleaner result than cutting in the middle of a sound, which can create an abrupt or jarring transition. Zoom in on the waveform if you need to identify a precise cut point.</p>
+    <p>When creating ringtones or short clips, aim for a segment that starts and ends cleanly without abrupt cuts. If the audio has a natural fade-in or fade-out, try to include those in your selection for a more polished result. For speech recordings, cut just after the last word ends and just before the first word begins to avoid clipping any syllables.</p>
+    <p>The output is saved as a WAV file, which is uncompressed and lossless. This is ideal for further editing or professional use. If you need a smaller file for sharing or uploading, you can convert the WAV to MP3 using a separate audio converter after downloading. WAV ensures you always have the highest quality version of your trimmed clip.</p>
+
+    
+
+    <h3>Audio Never Leaves Your Device</h3>
+    <p>Audio trimming happens locally in your browser. No file is ever sent to a server.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What audio formats can I trim?</button>
+                    <div class="faq-answer"><p>The trimmer supports MP3, WAV, OGG, AAC, and M4A — any format your browser's audio decoder supports. The output is saved as a WAV file for maximum compatibility.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How precise is the trim?</button>
+                    <div class="faq-answer"><p>The trim is accurate to the millisecond. You can drag the start and end handles on the waveform or type exact timestamps to set precise cut points.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I trim multiple sections from one file?</button>
+                    <div class="faq-answer"><p>The tool trims a single continuous segment (start to end). For removing a section from the middle of a file, you would need to trim twice and combine the two resulting clips.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does trimming reduce audio quality?</button>
+                    <div class="faq-answer"><p>No. The trim operation cuts the audio at the specified points without re-encoding the audio data. The quality of the kept portion is identical to the original.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I use this to remove silence from the beginning or end of a recording?</button>
+                    <div class="faq-answer"><p>Yes. Play the audio, find where the actual content starts and ends, then set your trim points accordingly. This is a common use case for cleaning up voice recordings and podcasts.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../audio-speed-changer/" class="related-tool-link">Audio Speed Changer</a>
+                    <a href="../audio-visualizer/" class="related-tool-link">Audio Visualizer</a>
+                    <a href="../voice-recorder/" class="related-tool-link">Voice Recorder</a>
+                    <a href="../video-to-audio-extractor/" class="related-tool-link">Video to Audio Extractor</a>
+                    <a href="../metronome/" class="related-tool-link">Metronome</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

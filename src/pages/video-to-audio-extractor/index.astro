@@ -1,0 +1,214 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/video-to-audio-extractor/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Video to Audio Extractor - Extract Audio from Video | Webutilbox","url":"https://webutilbox.com/video-to-audio-extractor/","description":"Extract audio track from video files. Convert video to MP3 or WAV. Free video to audio converter.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What video formats can I extract audio from?","acceptedAnswer":{"@type":"Answer","text":"The tool supports MP4, WebM, and OGG — the formats supported by the HTML5 Web Audio API. For other formats like MOV or AVI, you may need to convert to MP4 first. The extracted audio is saved as a WAV file."}},{"@type":"Question","name":"Will the extracted audio quality match the original?","acceptedAnswer":{"@type":"Answer","text":"The audio is extracted from the video's audio track without re-encoding, preserving the original quality. The output is a WAV file (lossless), so there is no additional quality loss from the extraction process."}},{"@type":"Question","name":"Can I extract audio from a YouTube video?","acceptedAnswer":{"@type":"Answer","text":"This tool works with video files you upload from your device. It does not download or process online videos. To extract audio from a YouTube video, you would need to download the video file first (where legally permitted)."}},{"@type":"Question","name":"What is the difference between WAV and MP3 output?","acceptedAnswer":{"@type":"Answer","text":"WAV is lossless — it preserves all audio data but produces larger files. MP3 is lossy — it compresses audio by removing some data, resulting in smaller files with slightly reduced quality. For archival, use WAV. For sharing or streaming, MP3 is more practical."}},{"@type":"Question","name":"Can I extract only a portion of the audio?","acceptedAnswer":{"@type":"Answer","text":"This tool extracts the full audio track. To get a specific segment, extract the full audio first, then use the Audio Trimmer tool to cut out the portion you need."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Video to Audio Extractor","item":"https://webutilbox.com/video-to-audio-extractor/"}]}]};
+---
+
+<ToolLayout
+  title="Video to Audio Extractor | Webutilbox"
+  description="Extract audio from video files and download as MP3 or WAV directly in your browser. Free online video to audio extractor — no upload needed."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-media-tools.svg"
+  keywords="video to audio, extract audio, video converter, mp3 converter, audio extractor"
+  h1="🎵 Video to Audio Extractor"
+  subtitle="Extract audio track from video files. Convert video to audio format."
+  lastUpdated=""
+  shareText="Free%20online%20Video%20to%20Audio%20Extractor%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Video to Audio Extractor -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Upload Area -->
+            <div style="text-align: center; padding: 40px; border: 2px dashed var(--border); border-radius: 12px; background: var(--light); margin-bottom: 20px;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">??</div>
+                <input type="file" id="videoFile" accept="video/*" style="display: none;" onchange="loadVideo()">
+                <button class="btn btn-primary" onclick="document.getElementById('videoFile').click()" style="padding: 15px 30px;">
+                    Select Video File
+                </button>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--gray);">Supports MP4, WebM, MOV, AVI, etc.</p>
+            </div>
+
+            <!-- Video Info & Controls -->
+            <div id="videoControls" style="display: none;">
+                <!-- Video Preview -->
+                <div style="background: var(--light); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border);">
+                    <h3 style="font-size: 1rem; margin-bottom: 15px;">Video Preview</h3>
+                    <video id="videoPlayer" controls style="width: 100%; max-height: 300px; border-radius: 8px; background: #000; margin-bottom: 15px;"></video>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--gray);">File Name</div>
+                            <div id="fileName" style="font-weight: 600; word-break: break-all;"></div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--gray);">Duration</div>
+                            <div id="videoDuration" style="font-weight: 600; font-size: 1.1rem;"></div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--gray);">Resolution</div>
+                            <div id="videoResolution" style="font-weight: 600; font-size: 1.1rem;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Extraction Options -->
+                <div style="background: var(--light); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border);">
+                    <h3 style="font-size: 1rem; margin-bottom: 15px;">Audio Extraction Options</h3>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                        <div>
+                            <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Output Format</label>
+                            <select id="audioFormat" style="width: 100%; padding: 10px;">
+                                <option value="mp3">MP3 (Compressed)</option>
+                                <option value="wav">WAV (Uncompressed)</option>
+                                <option value="ogg">OGG (Compressed)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Quality</label>
+                            <select id="audioQuality" style="width: 100%; padding: 10px;">
+                                <option value="high">High (192 kbps)</option>
+                                <option value="medium" selected>Medium (128 kbps)</option>
+                                <option value="low">Low (96 kbps)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Extract Range (Optional)</label>
+                        <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center;">
+                            <input type="number" id="startTime" min="0" step="0.1" placeholder="Start (seconds)" style="padding: 10px;">
+                            <span style="color: var(--gray);">to</span>
+                            <input type="number" id="endTime" min="0" step="0.1" placeholder="End (seconds)" style="padding: 10px;">
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--gray); margin-top: 5px;">Leave empty to extract full audio</p>
+                    </div>
+
+                    <button class="btn btn-success" onclick="extractAudio()" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+                        ?? Extract Audio
+                    </button>
+                </div>
+
+                <!-- Audio Preview -->
+                <div id="audioPreview" style="display: none; background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border);">
+                    <h3 style="font-size: 1rem; margin-bottom: 15px;">Extracted Audio</h3>
+                    <audio id="audioPlayer" controls style="width: 100%; margin-bottom: 15px;"></audio>
+                    <button class="btn btn-success" onclick="downloadAudio()" style="width: 100%; padding: 12px;">
+                        Download Audio
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div id="progress" style="display: none; background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border); text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 10px;">?</div>
+                <div id="progressText" style="font-size: 1rem; color: var(--gray);">Extracting audio...</div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/video-to-audio-extractor.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Video to Audio Extractor - Extract Audio from Any Video File</h2>
+            <p>Need just the audio from a video? This free online Video to Audio Extractor lets you pull the audio track out of any video file and save it as MP3, WAV, or OGG — right in your browser, with no software to install. Whether you're ripping a soundtrack, saving a podcast recording, or archiving a lecture, this tool gets it done in seconds.</p>
+
+            <h3>What Is a Video to Audio Extractor?</h3>
+            <p>A video to audio extractor is a tool that separates the audio track from a video file and saves it as a standalone audio file. Video files like MP4, WebM, MOV, and AVI contain both a video stream and an audio stream bundled together. This tool isolates the audio stream and lets you download it independently.</p>
+            <p>This is useful in countless situations — from content creators who want to repurpose video content as a podcast, to students who want to listen to a recorded lecture on the go, to musicians who want to extract a backing track from a video performance. Instead of downloading heavy desktop software, you can do it instantly in your browser.</p>
+            <p>The tool supports multiple output formats and quality levels, and even lets you extract just a specific time range from the video — so you don't have to extract the entire file if you only need a clip.</p>
+
+            <h3>Audio Extraction Options</h3>
+            <ul>
+                <li>Supports all major video formats: MP4, WebM, MOV, AVI, MKV, and more</li>
+                <li>Multiple output formats: MP3 (compressed), WAV (uncompressed), and OGG</li>
+                <li>Three quality levels: High (192 kbps), Medium (128 kbps), and Low (96 kbps)</li>
+                <li>Time range extraction — specify a start and end time to extract only a portion of the audio</li>
+                <li>Built-in video preview so you can review the file before extracting</li>
+                <li>Audio playback preview before downloading the extracted file</li>
+                <li>Displays file metadata: name, duration, and video resolution</li>
+                <li>Completely browser-based — no uploads, no installs, no accounts required</li>
+            </ul>
+
+            <h3>How to Use the Video to Audio Extractor</h3>
+            <ul>
+                <li>Step 1: Click "Select Video File" and choose a video from your device (MP4, WebM, MOV, AVI, etc.)</li>
+                <li>Step 2: Preview the video and review its metadata (duration, resolution, filename)</li>
+                <li>Step 3: Choose your output format — MP3 for smaller files, WAV for lossless quality, or OGG for open-format compatibility</li>
+                <li>Step 4: Select a quality level based on your needs (High for music, Medium for speech, Low for minimal file size)</li>
+                <li>Step 5: Optionally set a start and end time if you only want to extract a specific segment</li>
+                <li>Step 6: Click "Extract Audio" and wait for processing to complete</li>
+                <li>Step 7: Preview the extracted audio, then click "Download Audio" to save it to your device</li>
+            </ul>
+
+            <h3>When to Extract Audio from Video</h3>
+            <ul>
+                <li>Extracting music or soundtracks from music videos or concert recordings</li>
+                <li>Converting recorded video lectures or webinars into audio for offline listening</li>
+                <li>Pulling audio from video interviews to create podcast episodes</li>
+                <li>Saving voice memos or narrations recorded as video files</li>
+                <li>Extracting specific audio clips from longer video files for editing or sampling</li>
+                <li>Converting video tutorials into audio guides for hands-free learning</li>
+                <li>Archiving audio content from video files before deleting the larger video</li>
+            </ul>
+
+            <h3>Getting the Best Audio Extraction</h3>
+            <p>For the best audio quality, choose WAV format if you plan to edit the extracted audio further in a DAW or audio editor. WAV is uncompressed, meaning no quality is lost during extraction. If file size matters more than quality — for example, for a podcast or voice note — MP3 at Medium quality (128 kbps) is a great balance between size and clarity.</p>
+            <p>When using the time range feature, enter the start and end times in seconds. For example, to extract from the 1-minute mark to the 2-minute mark, enter 60 as the start and 120 as the end. This is especially handy for long videos where you only need a short clip. Leave both fields empty to extract the full audio track.</p>
+            <p>If your video has no audio track (e.g., a screen recording with no microphone), the extraction will still complete but the resulting file will be silent. Always preview the extracted audio before downloading to confirm it contains the sound you expect.</p>
+
+            
+
+            <h3>Video Processed Client-Side — Not Uploaded</h3>
+            <p>Audio extraction runs in your browser. Your video files are never uploaded to any server.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What video formats can I extract audio from?</button>
+                    <div class="faq-answer"><p>The tool supports MP4, WebM, and OGG — the formats supported by the HTML5 Web Audio API. For other formats like MOV or AVI, you may need to convert to MP4 first. The extracted audio is saved as a WAV file.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Will the extracted audio quality match the original?</button>
+                    <div class="faq-answer"><p>The audio is extracted from the video's audio track without re-encoding, preserving the original quality. The output is a WAV file (lossless), so there is no additional quality loss from the extraction process.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I extract audio from a YouTube video?</button>
+                    <div class="faq-answer"><p>This tool works with video files you upload from your device. It does not download or process online videos. To extract audio from a YouTube video, you would need to download the video file first (where legally permitted).</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between WAV and MP3 output?</button>
+                    <div class="faq-answer"><p>WAV is lossless — it preserves all audio data but produces larger files. MP3 is lossy — it compresses audio by removing some data, resulting in smaller files with slightly reduced quality. For archival, use WAV. For sharing or streaming, MP3 is more practical.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I extract only a portion of the audio?</button>
+                    <div class="faq-answer"><p>This tool extracts the full audio track. To get a specific segment, extract the full audio first, then use the Audio Trimmer tool to cut out the portion you need.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../audio-trimmer/" class="related-tool-link">Audio Trimmer</a>
+                    <a href="../audio-speed-changer/" class="related-tool-link">Audio Speed Changer</a>
+                    <a href="../audio-visualizer/" class="related-tool-link">Audio Visualizer</a>
+                    <a href="../video-thumbnail-generator/" class="related-tool-link">Video Thumbnail Generator</a>
+                    <a href="../voice-recorder/" class="related-tool-link">Voice Recorder</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

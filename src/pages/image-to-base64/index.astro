@@ -1,0 +1,179 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import FAQ from '../../components/FAQ.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+
+const canonical = 'https://webutilbox.com/image-to-base64/';
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Image to Base64 Converter - Convert Images to Base64 Online | Webutilbox",
+      "url": canonical,
+      "description": "Convert images to Base64 strings online for free. Encode JPG, PNG, GIF, WebP to Base64. Works offline in your browser.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "Webutilbox", "url": "https://webutilbox.com" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is a Base64 image data URI?", "acceptedAnswer": { "@type": "Answer", "text": "A data URI is a way to embed image data directly in HTML or CSS as a text string, instead of linking to an external file. It starts with data:image/png;base64, followed by the Base64-encoded image data. The browser decodes and displays it without making an HTTP request." } },
+        { "@type": "Question", "name": "When should I use Base64 images vs regular image files?", "acceptedAnswer": { "@type": "Answer", "text": "Use Base64 for small images (icons, logos under 5KB) where eliminating an HTTP request is worth the size overhead. Avoid it for large images — Base64 encoding increases file size by ~33%, and the encoded string cannot be cached separately by the browser." } },
+        { "@type": "Question", "name": "How do I use a Base64 image in HTML?", "acceptedAnswer": { "@type": "Answer", "text": "Use it as the src attribute: img src='data:image/png;base64,iVBORw0KGgo...' alt='image'. Or in CSS: background-image: url('data:image/png;base64,iVBORw0KGgo...')." } },
+        { "@type": "Question", "name": "How do I use a Base64 image in CSS?", "acceptedAnswer": { "@type": "Answer", "text": "Set it as a background-image value: .icon { background-image: url('data:image/png;base64,YOUR_BASE64_HERE'); }. This is commonly used for small UI icons and sprites to reduce HTTP requests." } },
+        { "@type": "Question", "name": "Can I convert Base64 back to an image file?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Paste the Base64 string into the decoder field and the tool will reconstruct the original image file for download. Make sure to include the full data URI string or just the Base64 portion depending on what the tool expects." } }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://webutilbox.com/" },
+        { "@type": "ListItem", "position": 2, "name": "All Tools", "item": "https://webutilbox.com/tools/" },
+        { "@type": "ListItem", "position": 3, "name": "Image to Base64 Converter", "item": canonical }
+      ]
+    }
+  ]
+};
+
+const faqItems = [
+  { question: "What is a Base64 image data URI?", answer: "A data URI is a way to embed image data directly in HTML or CSS as a text string, instead of linking to an external file. It starts with data:image/png;base64, followed by the Base64-encoded image data. The browser decodes and displays it without making an HTTP request." },
+  { question: "When should I use Base64 images vs regular image files?", answer: "Use Base64 for small images (icons, logos under 5KB) where eliminating an HTTP request is worth the size overhead. Avoid it for large images — Base64 encoding increases file size by ~33%, and the encoded string cannot be cached separately by the browser." },
+  { question: "How do I use a Base64 image in HTML?", answer: "Use it as the src attribute: img src='data:image/png;base64,iVBORw0KGgo...' alt='image'. Or in CSS: background-image: url('data:image/png;base64,iVBORw0KGgo...')." },
+  { question: "How do I use a Base64 image in CSS?", answer: "Set it as a background-image value: .icon { background-image: url('data:image/png;base64,YOUR_BASE64_HERE'); }. This is commonly used for small UI icons and sprites to reduce HTTP requests." },
+  { question: "Can I convert Base64 back to an image file?", answer: "Yes. Paste the Base64 string into the decoder field and the tool will reconstruct the original image file for download. Make sure to include the full data URI string or just the Base64 portion depending on what the tool expects." }
+];
+
+const relatedTools = [
+  { href: '/base64-encoder/', label: 'Base64 Encoder' },
+  { href: '/image-compressor/', label: 'Image Compressor' },
+  { href: '/image-format-converter/', label: 'Image Format Converter' },
+  { href: '/favicon-generator/', label: 'Favicon Generator' },
+  { href: '/html-entity-encoder/', label: 'HTML Entity Encoder' }
+];
+---
+
+<ToolLayout
+  title="Image to Base64 Converter | Webutilbox"
+  description="Convert images to Base64 encoded strings for use in CSS, HTML, or JavaScript. Supports PNG, JPG, SVG, and more. Free image to Base64 converter."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-image-tools.svg"
+  keywords="image to base64, base64 encoder, image encoder, convert image to base64"
+  h1="🖼️ Image to Base64 Converter"
+  subtitle="Convert images to Base64 encoded strings. Perfect for embedding images in HTML, CSS, or JSON."
+  lastUpdated="2026-06-05"
+  shareText="Free%20online%20Image%20to%20Base64%20Converter%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Image to Base64 Converter — Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+  <div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+    <!-- Left Column: Upload & Preview -->
+    <div>
+      <!-- Upload Area -->
+      <div style="margin-bottom: 12px;">
+        <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+          <div style="font-size: 2rem; margin-bottom: 5px;">📁</div>
+          <div style="font-size: 0.85rem; color: var(--white); margin-bottom: 3px;">Click to upload</div>
+          <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, GIF, WebP, SVG</div>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+      </div>
+
+      <!-- Preview -->
+      <div id="previewSection" style="display: none;">
+        <div style="background: var(--light); border-radius: 8px; padding: 12px; text-align: center; border: 1px solid var(--border);">
+          <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Preview</div>
+          <img id="preview" style="max-width: 100%; max-height: 200px; border-radius: 6px;">
+          <div style="margin-top: 8px; font-size: 0.75rem; color: var(--gray);" id="imageInfo">-</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Output -->
+    <div id="outputSection" style="display: none;">
+      <!-- Format Options -->
+      <div style="margin-bottom: 10px;">
+        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Output Format</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;">
+          <button onclick="setFormat('datauri')" id="btn-datauri" class="format-btn active" style="padding: 6px; background: var(--primary); border: 1px solid var(--primary); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: white;">Data URI</button>
+          <button onclick="setFormat('plain')" id="btn-plain" class="format-btn" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Plain</button>
+          <button onclick="setFormat('css')" id="btn-css" class="format-btn" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">CSS</button>
+        </div>
+      </div>
+
+      <!-- Base64 Output -->
+      <div style="margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label style="font-size: 0.75rem; color: var(--gray);">Base64 String</label>
+          <span style="font-size: 0.7rem; color: var(--gray);" id="stringLength">0 chars</span>
+        </div>
+        <textarea id="base64Output" readonly style="width: 100%; height: 240px; padding: 10px; font-family: 'Courier New', monospace; font-size: 0.7rem; resize: none; background: var(--light); border: 1px solid var(--border); border-radius: 6px; color: var(--white);"></textarea>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+        <button class="btn btn-primary" onclick="copyToClipboard()" style="padding: 8px; font-size: 0.85rem;">📋 Copy</button>
+        <button class="btn btn-secondary" onclick="downloadAsText()" style="padding: 8px; font-size: 0.85rem;">💾 Download</button>
+      </div>
+    </div>
+  </div>
+
+  <Fragment slot="scripts" set:html={`<script src="/js/image-to-base64.js" defer></script>`} />
+
+  <div class="info-section" slot="info">
+    <h2>Image to Base64 Converter - Encode Images as Data URIs Online</h2>
+    <p>The Image to Base64 Converter encodes any image file as a Base64 string or data URI, ready to embed directly in HTML, CSS, or JavaScript. Convert JPG, PNG, GIF, WebP, and SVG files instantly in your browser — no upload, no server, no waiting.</p>
+
+    <h3>What Is Base64 Image Encoding?</h3>
+    <p>Base64 encoding is a method of converting binary data — such as an image file — into a string of ASCII text characters. This allows binary content to be safely embedded in text-based formats like HTML, CSS, JSON, and XML, which are designed to handle text rather than raw binary data. The resulting string is longer than the original binary data (by approximately 33%), but it can be used anywhere a text string is accepted, including directly in HTML attributes and CSS property values.</p>
+    <p>A Base64-encoded image is typically represented as a data URI, which combines the MIME type of the image with the encoded data in a single string. For example, a PNG image encoded as a data URI looks like: <code>data:image/png;base64,iVBORw0KGgo...</code>. This complete string can be used as the value of an HTML img tag's src attribute, a CSS background-image URL, or any other context where an image URL is expected — and the browser will decode and display it exactly like a regular image file.</p>
+    <p>The tool supports three output formats: the full data URI (including the MIME type prefix), the plain Base64 string (without the prefix, for use in contexts where you need to provide the MIME type separately), and a ready-to-use CSS background-image declaration. All three formats are generated from the same encoded data, so you can switch between them instantly without re-encoding the image.</p>
+
+    <h3>Base64 Output Options</h3>
+    <ul>
+      <li>Instant encoding — upload an image and the Base64 string is generated immediately, with no processing delay even for large files.</li>
+      <li>Three output formats — choose between full data URI, plain Base64 string, or CSS background-image declaration, depending on where you plan to use the encoded image.</li>
+      <li>Character count display — the tool shows the total length of the encoded string so you can assess the impact on your file size before using it in your code.</li>
+      <li>One-click copy — copy the entire encoded string to your clipboard with a single button click, ready to paste directly into your code editor.</li>
+      <li>Download as text file — save the encoded string as a .txt file for reference or for use in automated workflows and build processes.</li>
+      <li>Image preview with metadata — see a preview of the uploaded image alongside its dimensions, file size, and format for quick reference.</li>
+    </ul>
+
+    <h3>How to Use the Image to Base64 Converter</h3>
+    <p>Converting an image to Base64 takes just a few seconds — follow these steps.</p>
+    <ul>
+      <li>Step 1: Upload your image by clicking the upload area or dragging and dropping a file. Supported formats include JPG, PNG, GIF, WebP, and SVG.</li>
+      <li>Step 2: The tool immediately generates the Base64 encoded string and displays it in the output text area. The character count is shown above the text area.</li>
+      <li>Step 3: Select your preferred output format using the format buttons: "Data URI" for the complete data URI string, "Plain" for just the Base64 data, or "CSS" for a ready-to-use CSS background-image declaration.</li>
+      <li>Step 4: Click "Copy" to copy the encoded string to your clipboard, then paste it directly into your HTML, CSS, or JavaScript code.</li>
+      <li>Step 5: Optionally click "Download" to save the encoded string as a text file for future reference or use in build scripts.</li>
+    </ul>
+
+    <h3>Using Images as Base64 in Code</h3>
+    <ul>
+      <li>Eliminating HTTP requests for small images — embed small icons, logos, and UI elements directly in your CSS or HTML to reduce the number of network requests and improve page load performance.</li>
+      <li>HTML email templates — embed images directly in email HTML to prevent them from being blocked by email clients that restrict external image loading, ensuring your emails display correctly for all recipients.</li>
+      <li>Single-file web applications — bundle all assets including images into a single HTML file for easy distribution, offline use, or deployment in environments where separate asset files are not practical.</li>
+      <li>CSS sprites alternative — embed individual small icons directly in your CSS as background images without needing to create and maintain sprite sheets.</li>
+      <li>Offline-capable web apps — include images in service worker caches or local storage as Base64 strings to ensure they are available when the user is offline.</li>
+    </ul>
+
+    <h3>Embedding Images with Base64</h3>
+    <p>Base64 encoding increases file size by approximately 33% compared to the original binary file. For small images under 5KB — such as icons, small logos, and simple UI elements — this overhead is acceptable and the elimination of an HTTP request provides a net performance benefit. For larger images, the increased file size and the inability to cache the image separately from the HTML or CSS file typically makes Base64 encoding a poor choice compared to using a regular image URL with proper caching headers.</p>
+    <p>When embedding Base64 images in CSS, be aware that the encoded string will be included in every page that loads that stylesheet, even pages that do not display the image. For images used on only a subset of pages, consider using inline styles or a separate stylesheet to avoid loading the Base64 data unnecessarily. Alternatively, use JavaScript to inject the Base64 image only when it is needed.</p>
+    <p>For SVG images, Base64 encoding is often unnecessary since SVG is already a text format that can be embedded directly in HTML without encoding. You can paste SVG markup directly into an HTML file using an inline SVG element, which is more readable and maintainable than a Base64-encoded data URI. Reserve Base64 encoding for raster formats like PNG and JPEG where direct embedding is not possible.</p>
+
+    <h3>Images Encoded Locally — Never Uploaded</h3>
+    <p>Base64 conversion runs in your browser. Your images are never uploaded to any server.</p>
+
+    <FAQ items={faqItems} />
+    <RelatedTools tools={relatedTools} />
+  </div>
+</ToolLayout>

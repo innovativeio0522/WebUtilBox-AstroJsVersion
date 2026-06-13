@@ -1,0 +1,163 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/password-strength/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Password Strength Checker - Test Password Security Online | Webutilbox","url":"https://webutilbox.com/password-strength/","description":"Check password strength instantly. See security score, crack time, and improvement suggestions.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is password strength calculated?","acceptedAnswer":{"@type":"Answer","text":"Password strength is evaluated based on length, character variety (uppercase, lowercase, numbers, symbols), absence of common patterns (keyboard walks, repeated characters), and whether the password appears in known breach databases. Longer passwords with more character types score higher."}},{"@type":"Question","name":"What is entropy in the context of passwords?","acceptedAnswer":{"@type":"Answer","text":"Entropy measures how unpredictable a password is, expressed in bits. Higher entropy = harder to crack. Each additional character type and length increases entropy. A password with 60+ bits of entropy is considered strong; 80+ bits is very strong for most purposes."}},{"@type":"Question","name":"How long would it take to crack my password?","acceptedAnswer":{"@type":"Answer","text":"Crack time estimates assume an attacker is using offline brute-force with modern hardware (billions of guesses per second). A 12-character random password with mixed characters would take millions of years to crack. Simple dictionary words can be cracked in seconds."}},{"@type":"Question","name":"What are the most common weak password patterns?","acceptedAnswer":{"@type":"Answer","text":"Common weak patterns include: dictionary words, names and dates, keyboard patterns (qwerty, 123456), simple substitutions (p@ssw0rd), short passwords under 8 characters, and reused passwords. The strength checker identifies these patterns and warns you."}},{"@type":"Question","name":"Does checking my password here expose it?","acceptedAnswer":{"@type":"Answer","text":"No. The password is analyzed entirely in your browser using JavaScript. It is never sent to any server. You can verify this by checking your browser's network tab — no requests are made when you type."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Password Strength Checker","item":"https://webutilbox.com/password-strength/"}]}]};
+---
+
+<ToolLayout
+  title="Password Strength Checker | Webutilbox"
+  description="Check the strength of your passwords instantly. See entropy, crack time estimates, and weakness patterns. Free online password strength checker."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="password strength checker, password security test, check password strength online, password strength meter"
+  h1="🔒 Password Strength Checker"
+  subtitle="Test your password strength and get instant feedback on security. See estimated crack time and improvement suggestions."
+  lastUpdated=""
+  shareText="Free%20online%20Password%20Strength%20Checker%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Password Strength Checker -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Password Input -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px;">Enter Password to Test</label>
+                <div style="position: relative;">
+                    <input type="password" id="passwordInput" placeholder="Type your password..." oninput="checkStrength()" style="padding: 15px; font-size: 1.1rem; padding-right: 50px;">
+                    <button onclick="togglePassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.3rem; color: var(--gray);" id="toggleBtn">???</button>
+                </div>
+            </div>
+
+            <!-- Strength Meter -->
+            <div id="strengthMeter" style="display: none; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 0.9rem; color: var(--gray);">Password Strength:</span>
+                    <span id="strengthLabel" style="font-size: 1.1rem; font-weight: bold;"></span>
+                </div>
+                <div style="height: 12px; background: var(--border); border-radius: 6px; overflow: hidden;">
+                    <div id="strengthBar" style="height: 100%; width: 0%; transition: all 0.3s; border-radius: 6px;"></div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-bar" id="statsBar" style="display: none; margin-bottom: 20px;">
+                <div class="stat">?? Length: <span class="stat-value" id="lengthStat">0</span></div>
+                <div class="stat">?? Score: <span class="stat-value" id="scoreStat">0</span>/100</div>
+                <div class="stat">?? Crack Time: <span class="stat-value" id="crackTime">-</span></div>
+            </div>
+
+            <!-- Requirements Checklist -->
+            <div class="output-container show" id="requirementsBox" style="display: none; margin-bottom: 15px;">
+                <div class="output-label">Security Requirements</div>
+                <div id="requirementsList" style="display: grid; gap: 8px; font-size: 0.9rem;"></div>
+            </div>
+
+            <!-- Suggestions -->
+            <div class="output-container show" id="suggestionsBox" style="display: none;">
+                <div class="output-label">?? Suggestions to Improve</div>
+                <div id="suggestionsList" style="display: grid; gap: 6px; font-size: 0.85rem;"></div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/password-strength.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Password Strength Checker - Test Your Password Security Instantly</h2>
+            <p>Our free Password Strength Checker analyzes your password in real time and gives you a security score, estimated crack time, and specific suggestions for improvement. Find out if your passwords are strong enough to protect your accounts — without sending them to any server.</p>
+
+            <h3>What Does Password Strength Mean?</h3>
+            <p>Password strength is a measure of how difficult a password would be for an attacker to guess or crack. It's determined by several factors: the length of the password, the variety of character types used, the absence of common patterns, and whether the password appears in known breach databases or dictionary lists.</p>
+            <p>A password's strength is often expressed in terms of "entropy" — a measure of unpredictability. Higher entropy means more possible combinations, which means more time and resources required to crack it. A password like "password123" has very low entropy because it's a common word followed by a common number sequence. A password like "kX#9mP2@vL5qR8nW" has high entropy because it's long, random, and uses all character types.</p>
+            <p>This checker evaluates your password against multiple criteria: length, character variety, common password lists, sequential patterns (like "abc" or "123"), and repeating characters. Each criterion contributes to your overall security score out of 100.</p>
+
+            <h3>Password Strength Analysis Criteria</h3>
+            <ul>
+                <li>Real-time strength analysis as you type — no button click required</li>
+                <li>Security score out of 100 with color-coded strength label</li>
+                <li>Estimated crack time: Instant, Minutes, Hours, Days, or Years</li>
+                <li>Checklist of security requirements with pass/fail indicators</li>
+                <li>Specific, actionable suggestions for improving weak passwords</li>
+                <li>Detection of common passwords, sequential patterns, and repeating characters</li>
+                <li>Show/hide password toggle for easy reading</li>
+                <li>Fully client-side — your password never leaves your browser</li>
+            </ul>
+
+            <h3>How to Use the Password Strength Checker</h3>
+            <p>Testing your password is instant and requires no setup. Here's how it works:</p>
+            <ul>
+                <li>Step 1: Type or paste your password into the input field. The analysis begins immediately.</li>
+                <li>Step 2: Review the strength meter and score to get an at-a-glance assessment.</li>
+                <li>Step 3: Check the "Security Requirements" list to see which criteria your password passes and fails.</li>
+                <li>Step 4: Read the "Suggestions to Improve" section for specific, actionable advice.</li>
+                <li>Step 5: Use the eye icon to toggle password visibility if you need to read what you've typed.</li>
+            </ul>
+
+            <h3>Understanding Password Weakness</h3>
+            <ul>
+                <li>Auditing existing passwords to identify weak ones that need to be updated</li>
+                <li>Testing a new password before setting it on an important account</li>
+                <li>Learning what makes a password strong through interactive feedback</li>
+                <li>Verifying that a manually created password meets security policy requirements</li>
+                <li>Educating users about password security in training or awareness programs</li>
+                <li>Checking passwords for compliance with organizational security standards</li>
+            </ul>
+
+            <h3>Building Stronger Passwords</h3>
+            <p>The single most effective thing you can do to improve password security is to increase length. A 20-character password made of only lowercase letters is stronger than a 10-character password using all character types. Length beats complexity when it comes to brute-force resistance. Aim for at least 16 characters for any account that matters.</p>
+            <p>Avoid using personal information in passwords — your name, birthday, pet's name, or favorite sports team are all easily guessable by someone who knows you or can find your social media profiles. Attackers often use targeted wordlists built from publicly available personal information in what's called a "personalized dictionary attack."</p>
+            <p>If you struggle to create strong passwords manually, use a password generator (like the one available on this site) to create truly random passwords, then store them in a password manager. This approach gives you maximum security without the cognitive burden of memorizing complex strings.</p>
+
+            
+
+            <h3>Password Never Sent to Any Server</h3>
+            <p>Password analysis runs locally. Your password is never sent to any server.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How is password strength calculated?</button>
+                    <div class="faq-answer"><p>Password strength is evaluated based on length, character variety (uppercase, lowercase, numbers, symbols), absence of common patterns (keyboard walks, repeated characters), and whether the password appears in known breach databases. Longer passwords with more character types score higher.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is entropy in the context of passwords?</button>
+                    <div class="faq-answer"><p>Entropy measures how unpredictable a password is, expressed in bits. Higher entropy = harder to crack. Each additional character type and length increases entropy. A password with 60+ bits of entropy is considered strong; 80+ bits is very strong for most purposes.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How long would it take to crack my password?</button>
+                    <div class="faq-answer"><p>Crack time estimates assume an attacker is using offline brute-force with modern hardware (billions of guesses per second). A 12-character random password with mixed characters would take millions of years to crack. Simple dictionary words can be cracked in seconds.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What are the most common weak password patterns?</button>
+                    <div class="faq-answer"><p>Common weak patterns include: dictionary words, names and dates, keyboard patterns (qwerty, 123456), simple substitutions (p@ssw0rd), short passwords under 8 characters, and reused passwords. The strength checker identifies these patterns and warns you.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does checking my password here expose it?</button>
+                    <div class="faq-answer"><p>No. The password is analyzed entirely in your browser using JavaScript. It is never sent to any server. You can verify this by checking your browser's network tab — no requests are made when you type.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../password-generator/" class="related-tool-link">Password Generator</a>
+                    <a href="../sha256-generator/" class="related-tool-link">SHA-256 Generator</a>
+                    <a href="../text-encryption/" class="related-tool-link">Text Encryption</a>
+                    <a href="../random-string-generator/" class="related-tool-link">Random String Generator</a>
+                    <a href="../uuid-generator/" class="related-tool-link">UUID Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

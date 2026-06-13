@@ -1,0 +1,156 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/text-diff/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Text Diff Checker - Compare Two Texts Online | Webutilbox","url":"https://webutilbox.com/text-diff/","description":"Compare two texts and see differences instantly. Highlights additions, deletions, and changes.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What algorithm does the diff tool use?","acceptedAnswer":{"@type":"Answer","text":"The tool uses a line-by-line diff algorithm similar to the Unix diff command. It identifies added lines (shown in green), removed lines (shown in red), and unchanged lines. This is the same approach used by Git for showing file changes."}},{"@type":"Question","name":"Can I compare code files with this tool?","acceptedAnswer":{"@type":"Answer","text":"Yes. Paste any text including code, configuration files, JSON, SQL, or prose. The tool compares line by line regardless of content type. For best results with code, make sure both versions use consistent indentation."}},{"@type":"Question","name":"Why does the diff show many changes when I only changed one word?","acceptedAnswer":{"@type":"Answer","text":"If the line endings or whitespace differ between the two versions, the entire line will show as changed. Try using the ignore whitespace option if available, or ensure both texts use the same line ending format (LF vs CRLF)."}},{"@type":"Question","name":"Can I use this to compare two versions of a document?","acceptedAnswer":{"@type":"Answer","text":"Yes. Paste the old version in the left panel and the new version in the right panel. The diff will highlight exactly what changed, making it easy to review edits in contracts, articles, or any text document."}},{"@type":"Question","name":"What is the difference between a word diff and a line diff?","acceptedAnswer":{"@type":"Answer","text":"A line diff shows entire lines as added or removed. A word diff highlights the specific words that changed within a line, which is more precise for prose. This tool uses line-level diffing, which is standard for code comparison."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Text Diff Checker","item":"https://webutilbox.com/text-diff/"}]}]};
+---
+
+<ToolLayout
+  title="Text Diff Checker - Compare Two Texts Online | Webutilbox"
+  description="Compare two texts and highlight the differences side by side. Supports line-by-line and word-by-word diff. Free online text difference checker tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-text-tools.svg"
+  keywords="text diff, compare text online, text difference checker, diff tool, text comparison, code diff, document compare"
+  h1="📝 Text Diff Checker"
+  subtitle="Compare two texts and see differences highlighted. Perfect for code review, document comparison, and version control."
+  lastUpdated=""
+  shareText="Free%20online%20Text%20Diff%20Checker%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Text Diff Checker - Compare Two Texts Online -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <!-- Left Text -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 8px;">Original Text</label>
+                    <textarea id="text1" placeholder="Paste original text here..." oninput="compareDiff()" style="min-height: 200px; font-size: 0.9rem;"></textarea>
+                </div>
+                
+                <!-- Right Text -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 8px;">Modified Text</label>
+                    <textarea id="text2" placeholder="Paste modified text here..." oninput="compareDiff()" style="min-height: 200px; font-size: 0.9rem;"></textarea>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="compareDiff()">Compare</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+                <button class="btn btn-secondary" onclick="swapTexts()">Swap Texts</button>
+            </div>
+
+            <div class="stats-bar" id="statsBar" style="display:none;">
+                <div class="stat">? Added: <span class="stat-value" id="addedCount">0</span> lines</div>
+                <div class="stat">? Removed: <span class="stat-value" id="removedCount">0</span> lines</div>
+                <div class="stat">?? Changed: <span class="stat-value" id="changedCount">0</span> lines</div>
+                <div class="stat">? Identical: <span class="stat-value" id="identicalCount">0</span> lines</div>
+            </div>
+
+            <div class="output-container show" id="diffOutput" style="margin-top: 15px; display: none;">
+                <div class="output-label">Differences</div>
+                <div id="diffContent" style="font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6;"></div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/text-diff.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Text Diff Checker - Compare Two Texts and Find Differences</h2>
+            <p>This free text diff tool compares two blocks of text line by line and highlights every difference between them. Additions are shown in green, deletions in red, and unchanged lines in gray, giving you an instant visual overview of what changed between two versions of any text.</p>
+
+            <h3>What Is a Text Diff?</h3>
+            <p>A "diff" (short for difference) is a comparison between two versions of a text that shows exactly what was added, removed, or changed. The concept comes from software development, where diff tools are used to compare versions of source code files. However, text diff is equally useful for comparing documents, configuration files, emails, articles, and any other text content.</p>
+            <p>A line-by-line diff is the most common format. Each line in the original text is compared to the corresponding line in the modified text. Lines that match are shown as unchanged. Lines that exist only in the original are marked as deleted. Lines that exist only in the modified version are marked as added. Lines that exist in both but with different content are shown as a deletion followed by an addition.</p>
+            <p>This tool provides a clear, color-coded diff view along with statistics showing the total number of added, removed, changed, and identical lines. This makes it easy to assess the scope of changes at a glance before diving into the details.</p>
+
+            <h3>Diff Display Options</h3>
+            <ul>
+                <li>Line-by-line comparison with color-coded output (green for additions, red for deletions)</li>
+                <li>Real-time diff as you type in either text box</li>
+                <li>Statistics panel showing added, removed, changed, and identical line counts</li>
+                <li>Swap texts button to reverse the comparison direction</li>
+                <li>Clear all button to reset both inputs at once</li>
+                <li>Works with any text content — code, prose, data, configuration files</li>
+                <li>No file size limits for typical text comparison tasks</li>
+            </ul>
+
+            <h3>How to Use the Text Diff Checker</h3>
+            <p>Comparing two texts is straightforward with this tool:</p>
+            <ul>
+                <li>Step 1: Paste your original text into the left input box labeled "Original Text."</li>
+                <li>Step 2: Paste your modified text into the right input box labeled "Modified Text."</li>
+                <li>Step 3: The diff is generated automatically as you type, or click "Compare" to trigger it manually.</li>
+                <li>Step 4: Review the color-coded diff output below the inputs.</li>
+                <li>Step 5: Check the statistics bar to see a summary of how many lines were added, removed, or changed.</li>
+            </ul>
+
+            <h3>Comparing Text for Changes</h3>
+            <ul>
+                <li>Comparing two versions of a document to see what was edited or revised</li>
+                <li>Reviewing code changes before committing to version control</li>
+                <li>Checking configuration file differences between environments (dev, staging, production)</li>
+                <li>Proofreading edited articles or essays to verify all changes are intentional</li>
+                <li>Comparing API responses to identify unexpected changes in data structure</li>
+                <li>Verifying that a text transformation tool produced the expected output</li>
+                <li>Detecting plagiarism or unauthorized modifications in documents</li>
+            </ul>
+
+            <h3>Reading Diff Results Effectively</h3>
+            <p>For the most useful diff output, make sure both texts are consistently formatted before comparing. If one version uses Windows-style line endings (CRLF) and the other uses Unix-style (LF), you may see false differences. Pasting text directly from the same source type avoids this issue.</p>
+            <p>Use the "Swap Texts" button when you want to see the diff from the opposite perspective — for example, to see what was removed from the modified version rather than what was added. This is useful when reviewing rollbacks or reversions.</p>
+            <p>For large documents, focus on the statistics first. If the number of changed lines is small relative to the total, the documents are mostly identical and you only need to review a few sections. If most lines are marked as changed, the documents may be fundamentally different and a full review is needed.</p>
+
+            
+
+            <h3>Text Compared Locally in Browser</h3>
+            <p>Diff computation runs in your browser. Neither text input leaves your device.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What algorithm does the diff tool use?</button>
+                    <div class="faq-answer"><p>The tool uses a line-by-line diff algorithm similar to the Unix diff command. It identifies added lines (shown in green), removed lines (shown in red), and unchanged lines. This is the same approach used by Git for showing file changes.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I compare code files with this tool?</button>
+                    <div class="faq-answer"><p>Yes. Paste any text including code, configuration files, JSON, SQL, or prose. The tool compares line by line regardless of content type. For best results with code, make sure both versions use consistent indentation.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why does the diff show many changes when I only changed one word?</button>
+                    <div class="faq-answer"><p>If the line endings or whitespace differ between the two versions, the entire line will show as changed. Try using the ignore whitespace option if available, or ensure both texts use the same line ending format (LF vs CRLF).</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I use this to compare two versions of a document?</button>
+                    <div class="faq-answer"><p>Yes. Paste the old version in the left panel and the new version in the right panel. The diff will highlight exactly what changed, making it easy to review edits in contracts, articles, or any text document.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between a word diff and a line diff?</button>
+                    <div class="faq-answer"><p>A line diff shows entire lines as added or removed. A word diff highlights the specific words that changed within a line, which is more precise for prose. This tool uses line-level diffing, which is standard for code comparison.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../find-replace/" class="related-tool-link">Find and Replace</a>
+                    <a href="../text-cleaner/" class="related-tool-link">Text Cleaner</a>
+                    <a href="../json-formatter/" class="related-tool-link">JSON Formatter</a>
+                    <a href="../sql-formatter/" class="related-tool-link">SQL Formatter</a>
+                    <a href="../regex-tester/" class="related-tool-link">Regex Tester</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

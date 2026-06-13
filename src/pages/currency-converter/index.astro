@@ -1,0 +1,188 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/currency-converter/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Currency Converter - Convert USD to EUR, GBP Online | Webutilbox","url":"https://webutilbox.com/currency-converter/","description":"Convert currencies instantly: USD to EUR, GBP, JPY and more. Free converter with popular rates.","applicationCategory":"FinanceApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How current are the exchange rates?","acceptedAnswer":{"@type":"Answer","text":"Exchange rates are updated periodically from a public rates API. For real financial transactions, always verify rates with your bank or broker, as rates fluctuate continuously and may differ from interbank rates by a small margin."}},{"@type":"Question","name":"What is the difference between the mid-market rate and the rate I get at a bank?","acceptedAnswer":{"@type":"Answer","text":"The mid-market rate (also called the interbank rate) is the midpoint between buy and sell rates. Banks and exchange services add a markup (spread) on top of this rate as their fee. The difference can be 1-5% or more. Services like Wise typically offer rates much closer to the mid-market rate."}},{"@type":"Question","name":"Can I convert between cryptocurrency and fiat currency?","acceptedAnswer":{"@type":"Answer","text":"This tool focuses on fiat (government-issued) currencies. For crypto-to-fiat conversion, use the Crypto Profit Calculator or check a dedicated crypto exchange for live rates."}},{"@type":"Question","name":"Why do exchange rates change constantly?","acceptedAnswer":{"@type":"Answer","text":"Currency values are determined by supply and demand in the foreign exchange (forex) market, which trades 24 hours a day. Rates are influenced by interest rates, inflation, economic data, political events, and market sentiment. Major currencies can move 0.5-1% in a single day."}},{"@type":"Question","name":"What is a pip in currency exchange?","acceptedAnswer":{"@type":"Answer","text":"A pip (percentage in point) is the smallest standard price move in a currency pair. For most pairs, it is 0.0001 (the fourth decimal place). For JPY pairs, it is 0.01. Pips are used by forex traders to measure price movements and calculate profit/loss."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Currency Converter","item":"https://webutilbox.com/currency-converter/"}]}]};
+---
+
+<ToolLayout
+  title="Currency Converter - USD, EUR, GBP | Webutilbox"
+  description="Convert between 150+ currencies with up-to-date exchange rates. Free online currency converter with real-time rate updates and history."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-calculators.svg"
+  keywords="currency converter, usd to eur, convert currency online, exchange rate calculator"
+  h1="💱 Currency Converter"
+  subtitle="Convert between major world currencies. Rates are approximate and for reference only."
+  lastUpdated=""
+  shareText="Free%20online%20Currency%20Converter%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Currency Converter - USD, EUR, GBP -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Converter Grid -->
+            <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 15px; align-items: end; margin-bottom: 15px;">
+                <!-- From -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">From</label>
+                    <input type="number" id="fromValue" value="100" oninput="convert()" style="width: 100%; padding: 10px; font-size: 1rem; margin-bottom: 8px;">
+                    <select id="fromCurrency" onchange="convert()" style="width: 100%; padding: 8px; font-size: 0.9rem;">
+                        <option value="USD">???? USD - US Dollar</option>
+                        <option value="EUR">???? EUR - Euro</option>
+                        <option value="GBP">???? GBP - British Pound</option>
+                        <option value="JPY">???? JPY - Japanese Yen</option>
+                        <option value="CNY">???? CNY - Chinese Yuan</option>
+                        <option value="INR">???? INR - Indian Rupee</option>
+                        <option value="CAD">???? CAD - Canadian Dollar</option>
+                        <option value="AUD">???? AUD - Australian Dollar</option>
+                        <option value="CHF">???? CHF - Swiss Franc</option>
+                        <option value="MXN">???? MXN - Mexican Peso</option>
+                    </select>
+                </div>
+
+                <!-- Swap Button -->
+                <button onclick="swap()" style="background: var(--primary); color: var(--white); border: none; border-radius: 50%; width: 45px; height: 45px; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; margin-bottom: 8px;" onmouseover="this.style.transform='rotate(180deg)'" onmouseout="this.style.transform='rotate(0deg)'">?</button>
+
+                <!-- To -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">To</label>
+                    <input type="number" id="toValue" readonly style="width: 100%; padding: 10px; font-size: 1rem; margin-bottom: 8px; background: var(--light); cursor: not-allowed;">
+                    <select id="toCurrency" onchange="convert()" style="width: 100%; padding: 8px; font-size: 0.9rem;">
+                        <option value="EUR">???? EUR - Euro</option>
+                        <option value="USD">???? USD - US Dollar</option>
+                        <option value="GBP">???? GBP - British Pound</option>
+                        <option value="JPY">???? JPY - Japanese Yen</option>
+                        <option value="CNY">???? CNY - Chinese Yuan</option>
+                        <option value="INR">???? INR - Indian Rupee</option>
+                        <option value="CAD">???? CAD - Canadian Dollar</option>
+                        <option value="AUD">???? AUD - Australian Dollar</option>
+                        <option value="CHF">???? CHF - Swiss Franc</option>
+                        <option value="MXN">???? MXN - Mexican Peso</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Result Display -->
+            <div class="output-container show">
+                <div class="output-label">Result</div>
+                <div id="result" style="font-size: 1.1rem; color: var(--primary); font-weight: 600;"></div>
+                <div style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">Exchange Rate: <span id="rate"></span></div>
+            </div>
+
+            <!-- Popular Conversions -->
+            <div class="output-container show" style="margin-top: 15px;">
+                <div class="output-label">Popular Conversions</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; font-size: 0.85rem;">
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">1 USD = 0.92 EUR</div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">1 USD = 0.79 GBP</div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">1 USD = 149.50 JPY</div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">1 EUR = 1.09 USD</div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">1 GBP = 1.27 USD</div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">1 USD = 83.20 INR</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 15px; padding: 12px; background: rgba(251, 191, 36, 0.1); border-radius: 8px; border: 1px solid var(--warning);">
+                <div style="color: var(--warning); font-size: 0.85rem;">?? <strong>Note:</strong> Exchange rates are approximate and for reference only. For actual transactions, check with your bank or financial institution.</div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/currency-converter.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Currency Converter - Convert Between World Currencies</h2>
+    <p>The Currency Converter lets you quickly convert amounts between major world currencies with a clean, easy-to-use interface. Whether you're planning international travel, making cross-border purchases, comparing prices across markets, or doing financial calculations, this tool provides fast and convenient currency conversion with a single click.</p>
+
+    <h3>What Is Currency Converter?</h3>
+    <p>The Currency Converter is a straightforward tool that calculates the equivalent value of an amount in one currency expressed in another currency, using reference exchange rates. You enter an amount, choose your source currency, choose your target currency, and the converted result appears instantly. A swap button lets you reverse the conversion direction without re-entering your values.</p>
+    <p>The tool supports ten of the world's most widely traded currencies, covering the vast majority of international transactions. The popular conversions panel at the bottom shows common reference rates at a glance, so you can quickly orient yourself to current approximate exchange relationships without needing to perform a specific calculation.</p>
+    <p>Exchange rates in this tool are approximate reference rates intended for informational and educational purposes. For actual financial transactions — including wire transfers, currency purchases, or international payments — always check with your bank, currency exchange service, or financial institution for the exact rate that will apply to your transaction, as rates vary by provider and include fees and spreads.</p>
+
+    <h3>Currency Conversion Capabilities</h3>
+    <ul>
+        <li>Instant conversion between ten major world currencies including USD, EUR, GBP, JPY, CNY, INR, CAD, AUD, CHF, and MXN.</li>
+        <li>One-click swap button that reverses the from and to currencies instantly, with an animated rotation effect for visual feedback.</li>
+        <li>Live exchange rate display showing the exact rate used for the current conversion (e.g., 1 USD = 0.92 EUR).</li>
+        <li>Popular conversions reference panel showing common currency pairs at a glance for quick orientation.</li>
+        <li>Clean two-column layout with clearly labeled input and output fields that update automatically as you type.</li>
+        <li>Disclaimer notice reminding users that rates are approximate, ensuring responsible use for financial planning.</li>
+    </ul>
+
+    <h3>How to Use Currency Converter</h3>
+    <p>Converting between currencies takes just a few seconds with this straightforward interface.</p>
+    <ul>
+        <li>Step 1: Enter the amount you want to convert in the "From" input field on the left side of the converter.</li>
+        <li>Step 2: Select the source currency from the dropdown below the amount field (e.g., USD for US Dollar).</li>
+        <li>Step 3: Select the target currency from the "To" dropdown on the right side of the converter.</li>
+        <li>Step 4: The converted amount and the exchange rate used appear automatically — no button press needed.</li>
+        <li>Step 5: Click the swap button (?) in the middle to reverse the conversion direction if needed.</li>
+    </ul>
+
+    <h3>When to Convert Currency</h3>
+    <p>Currency conversion is needed in many everyday and professional situations across travel, business, and personal finance.</p>
+    <ul>
+        <li>Travel planning: Estimate how much local currency you'll need for a trip and budget your expenses in your home currency before you depart.</li>
+        <li>Online shopping: Quickly check the cost of international purchases in your local currency before completing a transaction on a foreign website.</li>
+        <li>Freelance and remote work: Convert client payments or invoices between currencies to understand your actual earnings in your home currency.</li>
+        <li>Investment research: Compare asset prices, stock values, or cryptocurrency amounts across different currency denominations.</li>
+        <li>Academic and business analysis: Perform currency conversions for reports, presentations, financial models, or market research involving international data.</li>
+    </ul>
+
+    <h3>Reading Exchange Rate Results</h3>
+    <p>Understanding the difference between the mid-market rate and the rate you'll actually receive is important for financial planning. The mid-market rate (also called the interbank rate) is the midpoint between buy and sell rates and represents the "true" exchange rate. Banks and currency exchange services add a markup or fee on top of this rate, which is how they make money on currency transactions. This tool uses reference rates close to the mid-market rate for informational purposes.</p>
+    <p>When traveling internationally, avoid exchanging currency at airport kiosks or hotel desks, where markups are typically the highest. Using an ATM at your destination often gives you a rate closer to the mid-market rate, though your bank may charge a foreign transaction fee. Travel credit cards with no foreign transaction fees are often the most cost-effective option for purchases abroad, as they typically use the card network's exchange rate with no additional markup.</p>
+    <p>For business transactions involving significant amounts, exchange rate fluctuations can have a meaningful impact on costs and revenues. If you regularly deal in multiple currencies, consider monitoring rates over time and using forward contracts or hedging strategies to lock in favorable rates for future transactions. For everyday reference and planning purposes, this converter gives you a reliable starting point for your calculations.</p>
+
+    
+
+    <h3>Rates Fetched Publicly, No Account Needed</h3>
+    <p>Rate lookups use a public API. No personal data is ever sent or stored.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How current are the exchange rates?</button>
+                    <div class="faq-answer"><p>Exchange rates are updated periodically from a public rates API. For real financial transactions, always verify rates with your bank or broker, as rates fluctuate continuously and may differ from interbank rates by a small margin.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between the mid-market rate and the rate I get at a bank?</button>
+                    <div class="faq-answer"><p>The mid-market rate (also called the interbank rate) is the midpoint between buy and sell rates. Banks and exchange services add a markup (spread) on top of this rate as their fee. The difference can be 1-5% or more. Services like Wise typically offer rates much closer to the mid-market rate.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I convert between cryptocurrency and fiat currency?</button>
+                    <div class="faq-answer"><p>This tool focuses on fiat (government-issued) currencies. For crypto-to-fiat conversion, use the Crypto Profit Calculator or check a dedicated crypto exchange for live rates.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why do exchange rates change constantly?</button>
+                    <div class="faq-answer"><p>Currency values are determined by supply and demand in the foreign exchange (forex) market, which trades 24 hours a day. Rates are influenced by interest rates, inflation, economic data, political events, and market sentiment. Major currencies can move 0.5-1% in a single day.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is a pip in currency exchange?</button>
+                    <div class="faq-answer"><p>A pip (percentage in point) is the smallest standard price move in a currency pair. For most pairs, it is 0.0001 (the fourth decimal place). For JPY pairs, it is 0.01. Pips are used by forex traders to measure price movements and calculate profit/loss.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../crypto-profit-calculator/" class="related-tool-link">Crypto Profit Calculator</a>
+                    <a href="../discount-calculator/" class="related-tool-link">Discount Calculator</a>
+                    <a href="../percentage-calculator/" class="related-tool-link">Percentage Calculator</a>
+                    <a href="../tax-calculator/" class="related-tool-link">Tax Calculator</a>
+                    <a href="../tip-calculator/" class="related-tool-link">Tip Calculator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

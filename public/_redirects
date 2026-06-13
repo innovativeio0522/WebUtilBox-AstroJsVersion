@@ -1,0 +1,13 @@
+﻿# ============================================================
+# Alias redirects — Cloudflare Pages
+# Trailing-slash redirects are NOT needed — Astro generates
+# /tool/index.html which Cloudflare Pages serves at /tool/ natively
+# ============================================================
+
+# /hash-generator/ -> SHA-256 page
+/hash-generator/        /sha256-generator/      301
+/hash-generator         /sha256-generator/      301
+
+# /tools/ -> canonical Tools page
+/tools/                 /tools/                 200
+/tools                  /tools/                 301

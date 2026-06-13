@@ -1,0 +1,165 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/unix-timestamp-converter/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Unix Timestamp Converter - Convert Timestamp to Date Online | Webutilbox","url":"https://webutilbox.com/unix-timestamp-converter/","description":"Convert Unix timestamps to readable dates and vice versa. Free epoch time converter with timezone.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a Unix timestamp?","acceptedAnswer":{"@type":"Answer","text":"A Unix timestamp is the number of seconds (or milliseconds) that have elapsed since January 1, 1970, 00:00:00 UTC (the Unix epoch). It is a universal, timezone-independent way to represent a specific moment in time. For example, 1700000000 represents November 14, 2023, 22:13:20 UTC."}},{"@type":"Question","name":"Why do some timestamps have 13 digits instead of 10?","acceptedAnswer":{"@type":"Answer","text":"10-digit timestamps are in seconds. 13-digit timestamps are in milliseconds (seconds x 1000). JavaScript's Date.now() returns milliseconds. Most Unix systems use seconds. This converter handles both automatically."}},{"@type":"Question","name":"What is the Year 2038 problem?","acceptedAnswer":{"@type":"Answer","text":"32-bit systems store Unix timestamps as a signed 32-bit integer, which overflows on January 19, 2038 at 03:14:07 UTC. After that point, the timestamp wraps to a negative number representing 1901. Modern 64-bit systems are not affected and can represent dates billions of years in the future."}},{"@type":"Question","name":"How do I get the current Unix timestamp?","acceptedAnswer":{"@type":"Answer","text":"In JavaScript: Math.floor(Date.now() / 1000). In Python: import time; int(time.time()). In PHP: time(). In SQL (MySQL): UNIX_TIMESTAMP(). In Linux terminal: date +%s. This tool also shows the current timestamp in real time."}},{"@type":"Question","name":"How do I convert a Unix timestamp to a human-readable date in code?","acceptedAnswer":{"@type":"Answer","text":"JavaScript: new Date(timestamp * 1000).toISOString(). Python: datetime.fromtimestamp(timestamp). PHP: date('Y-m-d H:i:s', timestamp). The multiplication by 1000 is needed in JavaScript because it expects milliseconds."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Unix Timestamp Converter","item":"https://webutilbox.com/unix-timestamp-converter/"}]}]};
+---
+
+<ToolLayout
+  title="Unix Timestamp Converter | Webutilbox"
+  description="Convert Unix timestamps to human-readable dates and back. Supports milliseconds and seconds. Free online Unix timestamp converter and calculator."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="unix timestamp converter, epoch converter, timestamp to date, convert unix time"
+  h1="⏱️ Unix Timestamp Converter"
+  subtitle="Convert Unix timestamps to readable dates and dates to Unix timestamps."
+  lastUpdated=""
+  shareText="Free%20online%20Unix%20Timestamp%20Converter%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Unix Timestamp Converter -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Current Timestamp -->
+            <div style="margin-bottom: 20px; padding: 15px; background: var(--light); border-radius: 10px; border: 1px solid var(--border); text-align: center;">
+                <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 5px;">Current Unix Timestamp</div>
+                <div id="currentTimestamp" style="font-size: 1.8rem; font-weight: bold; color: var(--primary); font-family: 'Courier New', monospace;"></div>
+                <div id="currentDate" style="font-size: 0.9rem; color: var(--gray); margin-top: 5px;"></div>
+            </div>
+
+            <!-- Timestamp to Date -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Unix Timestamp</label>
+                <div class="timestamp-input-row">
+                    <input type="number" id="timestampInput" placeholder="1234567890" oninput="convertTimestamp()" style="flex: 1; padding: 10px; font-size: 1rem; font-family: 'Courier New', monospace;">
+                    <button class="btn btn-primary" onclick="useNow()" style="padding: 10px 16px; font-size: 0.85rem;">Now</button>
+                </div>
+            </div>
+
+            <div class="output-container show" style="margin-bottom: 20px;">
+                <div class="output-label">Converted Date & Time</div>
+                <div id="convertedDate" style="font-size: 1rem; color: var(--white); margin-bottom: 8px;">-</div>
+                <div style="display: grid; gap: 6px; font-size: 0.85rem; color: var(--gray);">
+                    <div>?? Date: <span id="dateOnly">-</span></div>
+                    <div>?? Time: <span id="timeOnly">-</span></div>
+                    <div>?? UTC: <span id="utcTime">-</span></div>
+                    <div>?? ISO 8601: <span id="isoTime">-</span></div>
+                </div>
+            </div>
+
+            <!-- Date to Timestamp -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Date & Time</label>
+                <input type="datetime-local" id="dateInput" oninput="convertDate()" style="width: 100%; padding: 10px; font-size: 0.95rem;">
+            </div>
+
+            <div class="output-container show">
+                <div class="output-label">Unix Timestamp</div>
+                <div class="timestamp-output-row">
+                    <div id="convertedTimestamp" style="font-size: 1.3rem; color: var(--primary); font-weight: bold; font-family: 'Courier New', monospace;">-</div>
+                    <button class="btn btn-success" onclick="copyTimestamp()" style="padding: 8px 16px; font-size: 0.85rem;">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/unix-timestamp-converter.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Unix Timestamp Converter - Convert Epoch Time to Human-Readable Dates</h2>
+            <p>The Unix Timestamp Converter is a free, browser-based tool that translates Unix timestamps (also called epoch time or POSIX time) into readable dates and times, and converts dates back into Unix timestamps. It is an essential utility for developers, system administrators, and data analysts who regularly work with timestamp values in code, databases, APIs, and log files.</p>
+
+            <h3>What Is a Unix Timestamp?</h3>
+            <p>A Unix timestamp is a number representing the total count of seconds that have elapsed since January 1, 1970, at 00:00:00 UTC — a reference point known as the Unix epoch. For example, the timestamp 1700000000 corresponds to November 14, 2023, at 22:13:20 UTC. This system was introduced with the Unix operating system and has since become the universal standard for representing time in computing.</p>
+            <p>Unix timestamps are used everywhere in software: database records store creation and modification times as integers, API responses include timestamps for events and expiration times, server logs record each entry with an epoch value, and programming languages use timestamps internally for date arithmetic. Being able to quickly convert between a raw number and a human-readable date is a daily need for anyone working in software development or data engineering.</p>
+            <p>This tool handles both directions of conversion. Paste a timestamp in and get the full date, time, UTC string, and ISO 8601 format back. Or pick a date and time from the datetime picker and get the corresponding Unix timestamp to use in your code or queries. A live counter at the top of the page shows the current Unix timestamp updating every second.</p>
+
+            <h3>Timestamp Conversion Options</h3>
+            <ul>
+                <li>Live Unix timestamp counter showing the current epoch time updating every second</li>
+                <li>Convert any Unix timestamp to local date, local time, UTC string, and ISO 8601 format simultaneously</li>
+                <li>Convert any date and time back to a Unix timestamp using the datetime picker</li>
+                <li>One-click "Now" button to load the current timestamp instantly for conversion</li>
+                <li>Copy button to copy the generated Unix timestamp to your clipboard with one click</li>
+                <li>Displays multiple date formats at once so you can pick the one you need</li>
+                <li>Handles both seconds-based Unix timestamps and milliseconds-based timestamps</li>
+            </ul>
+
+            <h3>How to Use the Unix Timestamp Converter</h3>
+            <ul>
+                <li>Step 1: To convert a timestamp to a date, paste or type the Unix timestamp into the "Unix Timestamp" input field</li>
+                <li>Step 2: The converted date, time, UTC string, and ISO 8601 format appear instantly below</li>
+                <li>Step 3: Click "Now" to load the current Unix timestamp and see what it converts to</li>
+                <li>Step 4: To convert a date to a timestamp, use the "Date &amp; Time" datetime picker to select your date and time</li>
+                <li>Step 5: The corresponding Unix timestamp appears in the output panel below the picker</li>
+                <li>Step 6: Click "Copy" to copy the Unix timestamp to your clipboard for use in code or queries</li>
+            </ul>
+
+            <h3>Working with Unix Timestamps</h3>
+            <ul>
+                <li>Debugging API responses that return timestamps as integers and need to be verified against expected dates</li>
+                <li>Reading database records where created_at or updated_at columns store Unix timestamps</li>
+                <li>Analyzing server logs where each line begins with an epoch timestamp</li>
+                <li>Generating Unix timestamps for use in SQL queries, date range filters, or scheduled job configurations</li>
+                <li>Verifying JWT token expiration times, which are stored as Unix timestamps in the payload</li>
+                <li>Converting timestamps from third-party data exports or analytics platforms</li>
+                <li>Checking when a cached resource or session token will expire based on its timestamp value</li>
+            </ul>
+
+            <h3>Understanding Unix Time</h3>
+            <p>Be aware of the difference between second-precision and millisecond-precision timestamps. Standard Unix timestamps count seconds since the epoch, giving a 10-digit number for dates in the current era (e.g., 1700000000). JavaScript's Date.now() and many modern APIs return milliseconds, giving a 13-digit number (e.g., 1700000000000). If your timestamp has 13 digits, divide by 1000 before entering it here, or the converted date will be far in the future.</p>
+            <p>The ISO 8601 format shown in the output (e.g., 2023-11-14T22:13:20.000Z) is the most portable date format for use in APIs, databases, and data interchange. It is unambiguous, sortable as a string, and understood by virtually every programming language and database system. When you need to store or transmit a date, ISO 8601 is almost always the right choice.</p>
+            <p>The Unix epoch (January 1, 1970) is the zero point, so timestamps before that date are negative numbers. This tool handles negative timestamps correctly, which is useful when working with historical data or legacy systems that record dates before 1970.</p>
+
+            
+
+            <h3>Timestamps Converted Locally in Browser</h3>
+            <p>Timestamp conversion runs in your browser. No data is sent to any server.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is a Unix timestamp?</button>
+                    <div class="faq-answer"><p>A Unix timestamp is the number of seconds (or milliseconds) that have elapsed since January 1, 1970, 00:00:00 UTC (the Unix epoch). It is a universal, timezone-independent way to represent a specific moment in time. For example, 1700000000 represents November 14, 2023, 22:13:20 UTC.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why do some timestamps have 13 digits instead of 10?</button>
+                    <div class="faq-answer"><p>10-digit timestamps are in seconds. 13-digit timestamps are in milliseconds (seconds x 1000). JavaScript's Date.now() returns milliseconds. Most Unix systems use seconds. This converter handles both automatically.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the Year 2038 problem?</button>
+                    <div class="faq-answer"><p>32-bit systems store Unix timestamps as a signed 32-bit integer, which overflows on January 19, 2038 at 03:14:07 UTC. After that point, the timestamp wraps to a negative number representing 1901. Modern 64-bit systems are not affected and can represent dates billions of years in the future.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I get the current Unix timestamp?</button>
+                    <div class="faq-answer"><p>In JavaScript: Math.floor(Date.now() / 1000). In Python: import time; int(time.time()). In PHP: time(). In SQL (MySQL): UNIX_TIMESTAMP(). In Linux terminal: date +%s. This tool also shows the current timestamp in real time.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I convert a Unix timestamp to a human-readable date in code?</button>
+                    <div class="faq-answer"><p>JavaScript: new Date(timestamp * 1000).toISOString(). Python: datetime.fromtimestamp(timestamp). PHP: date('Y-m-d H:i:s', timestamp). The multiplication by 1000 is needed in JavaScript because it expects milliseconds.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../date-calculator/" class="related-tool-link">Date Calculator</a>
+                    <a href="../time-zone-converter/" class="related-tool-link">Time Zone Converter</a>
+                    <a href="../age-calculator/" class="related-tool-link">Age Calculator</a>
+                    <a href="../cron-expression-generator/" class="related-tool-link">Cron Expression Generator</a>
+                    <a href="../jwt-decoder/" class="related-tool-link">JWT Decoder</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

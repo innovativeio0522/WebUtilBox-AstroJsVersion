@@ -1,0 +1,210 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/url-parser/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"URL Parser - Parse and Decode URLs | Webutilbox","url":"https://webutilbox.com/url-parser/","description":"Parse URLs into components. Extract protocol, host, path, query parameters, and more. Free online URL parser and decoder.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What parts of a URL does this tool parse?","acceptedAnswer":{"@type":"Answer","text":"The parser breaks a URL into: protocol (https://), hostname (example.com), port (:8080 if present), pathname (/path/to/page), query string (?key=value pairs), and fragment (#section). Each component is displayed separately for easy inspection."}},{"@type":"Question","name":"What is URL encoding and when is it needed?","acceptedAnswer":{"@type":"Answer","text":"URL encoding (percent-encoding) replaces characters that are not allowed in URLs with a % followed by their hex code. Spaces become %20, & becomes %26, etc. This is needed when including special characters in query parameters or path segments."}},{"@type":"Question","name":"What is the difference between a query string and a fragment?","acceptedAnswer":{"@type":"Answer","text":"The query string (?key=value) is sent to the server as part of the request. The fragment (#section) is processed only by the browser and is never sent to the server. Fragments are used for in-page navigation and single-page app routing."}},{"@type":"Question","name":"How do I build a URL with query parameters?","acceptedAnswer":{"@type":"Answer","text":"Start with the base URL, add ? before the first parameter, then key=value pairs separated by &. For example: https://example.com/search?q=hello+world&page=2&sort=date. Use URL encoding for special characters in values."}},{"@type":"Question","name":"What is the maximum length of a URL?","acceptedAnswer":{"@type":"Answer","text":"There is no official limit in the HTTP spec, but practical limits exist. Most browsers support URLs up to 2,048 characters. Some servers limit URLs to 8,192 characters. For very long query strings, consider using a POST request with the data in the request body instead."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"URL Parser","item":"https://webutilbox.com/url-parser/"}]}]};
+---
+
+<ToolLayout
+  title="URL Parser - Parse and Decode URLs | Webutilbox"
+  description="Parse URLs into components. Extract protocol, host, path, query parameters, and more. Free online URL parser and decoder."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="url parser, parse url, url decoder, query string parser, url analyzer"
+  h1="🔗 URL Parser"
+  subtitle="Parse URLs into components and decode query parameters."
+  lastUpdated=""
+  shareText="Free%20online%20URL%20Parser%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="URL Parser - Parse and Decode URLs -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="input-group">
+                <label>URL Input</label>
+                <input type="text" id="urlInput" placeholder="https://example.com/path?param=value#hash" oninput="parseURL()" style="padding: 12px; font-size: 1rem;">
+            </div>
+
+            <button class="btn btn-primary" onclick="loadSample()">Load Sample URL</button>
+
+            <!-- Parsed Components -->
+            <div id="output" style="display: none; margin-top: 20px;">
+                <h3 style="margin-bottom: 15px; font-size: 1rem;">URL Components</h3>
+                
+                <div style="background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border); margin-bottom: 15px;">
+                    <div class="url-component">
+                        <span class="label">Full URL:</span>
+                        <span class="value" id="fullUrl"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Protocol:</span>
+                        <span class="value" id="protocol"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Host:</span>
+                        <span class="value" id="host"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Hostname:</span>
+                        <span class="value" id="hostname"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Port:</span>
+                        <span class="value" id="port"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Pathname:</span>
+                        <span class="value" id="pathname"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Search:</span>
+                        <span class="value" id="search"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Hash:</span>
+                        <span class="value" id="hash"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Origin:</span>
+                        <span class="value" id="origin"></span>
+                    </div>
+                </div>
+
+                <!-- Query Parameters -->
+                <div id="paramsSection" style="display: none;">
+                    <h3 style="margin-bottom: 15px; font-size: 1rem;">Query Parameters</h3>
+                    <div style="background: var(--light); border-radius: 12px; padding: 15px; border: 1px solid var(--border);">
+                        <table id="paramsTable" style="width: 100%; font-size: 0.9rem;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <th style="padding: 8px; text-align: left;">Parameter</th>
+                                    <th style="padding: 8px; text-align: left;">Value</th>
+                                    <th style="padding: 8px; text-align: left;">Decoded</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paramsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+<style>
+.url-component {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        .url-component:last-child {
+            border-bottom: none;
+        }
+        .url-component .label {
+            font-weight: 600;
+            color: var(--gray);
+        }
+        .url-component .value {
+            font-family: monospace;
+            word-break: break-all;
+        }
+</style>
+
+
+<script src="/js/url-parser.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>URL Parser - Parse and Decode URLs into Their Components</h2>
+            <p>The URL Parser is a free, browser-based tool that breaks any URL into its individual components — protocol, hostname, port, pathname, query string, and hash fragment — and displays them in a clear, structured format. It also decodes URL-encoded query parameters so you can read their actual values at a glance. This is an essential tool for web developers, QA engineers, and anyone who works with links and web addresses regularly.</p>
+
+            <h3>What Is a URL Parser?</h3>
+            <p>A URL (Uniform Resource Locator) is a structured string that identifies a resource on the web. While a URL looks like a single piece of text, it is actually composed of several distinct parts, each with a specific role. The protocol (http or https) defines how the resource is accessed. The hostname identifies the server. The port specifies which network port to use. The pathname points to a specific resource on the server. The query string passes parameters to the server or application. The hash fragment identifies a specific section within the page.</p>
+            <p>Parsing a URL manually is tedious and error-prone, especially when query strings contain URL-encoded characters like %20 for spaces or %2F for slashes. This tool uses the browser's built-in URL API to parse the input accurately and then presents each component in a labeled table, with query parameters decoded and displayed in a separate section showing both the raw encoded value and the decoded human-readable value.</p>
+            <p>The tool is useful for debugging, analysis, and learning. Developers use it to inspect URLs from API responses, verify redirect targets, or understand how query parameters are structured in a third-party service. QA engineers use it to validate that links in a web application are correctly formed. Anyone can use it to understand what a complex URL actually means.</p>
+
+            <h3>URL Parsing Capabilities</h3>
+            <ul>
+                <li>Parses any valid URL into protocol, host, hostname, port, pathname, search string, hash, and origin</li>
+                <li>Displays all URL components in a clean, labeled table for easy reading</li>
+                <li>Extracts and lists all query parameters in a separate table with parameter name, raw value, and decoded value</li>
+                <li>Automatically URL-decodes percent-encoded characters in query parameter values</li>
+                <li>Real-time parsing that updates as you type in the URL input field</li>
+                <li>Sample URL button to load a complex example URL and see how parsing works</li>
+                <li>Clear error handling that alerts you when the input is not a valid URL format</li>
+            </ul>
+
+            <h3>How to Use the URL Parser</h3>
+            <ul>
+                <li>Step 1: Paste or type a URL into the input field at the top of the tool</li>
+                <li>Step 2: The URL components appear instantly in the table below as you type</li>
+                <li>Step 3: If the URL contains query parameters, they appear in a separate table showing the parameter name, raw value, and decoded value</li>
+                <li>Step 4: Click "Load Sample URL" to see a complex example with multiple query parameters and a hash fragment</li>
+                <li>Step 5: Review each component to understand the structure of the URL or debug any issues</li>
+            </ul>
+
+            <h3>Inspecting and Debugging URLs</h3>
+            <ul>
+                <li>Debugging API endpoint URLs to verify that query parameters are correctly encoded and structured</li>
+                <li>Inspecting redirect URLs to understand where a link will take a user after following redirects</li>
+                <li>Extracting specific query parameter values from a URL without writing code</li>
+                <li>Validating that URLs generated by a web application contain the correct path and parameters</li>
+                <li>Understanding the structure of OAuth callback URLs, webhook endpoints, or tracking links</li>
+                <li>Decoding URL-encoded values in query strings that contain special characters or non-ASCII text</li>
+                <li>Learning how URLs are structured as part of web development education or onboarding</li>
+            </ul>
+
+            <h3>Reading URL Component Breakdowns</h3>
+            <p>URLs must include the protocol (http:// or https://) to be parsed correctly. If you paste a URL without the protocol, the parser will report an invalid URL. Always include the full URL starting with the scheme when using this tool.</p>
+            <p>The decoded value column in the query parameters table is especially useful when working with URLs that contain encoded spaces (%20), encoded slashes (%2F), or encoded special characters. The raw value shows exactly what is in the URL string, while the decoded value shows what the server or application will actually receive after decoding.</p>
+            <p>If a URL contains a port number (e.g., https://example.com:8080/path), the port is shown separately from the hostname. If no port is specified, the tool shows "(default)" to indicate that the standard port for the protocol is being used — port 80 for HTTP and port 443 for HTTPS.</p>
+
+            
+
+            <h3>URLs Parsed Locally — Never Sent</h3>
+            <p>URL parsing runs entirely client-side. Your URLs never leave your browser.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What parts of a URL does this tool parse?</button>
+                    <div class="faq-answer"><p>The parser breaks a URL into: protocol (https://), hostname (example.com), port (:8080 if present), pathname (/path/to/page), query string (?key=value pairs), and fragment (#section). Each component is displayed separately for easy inspection.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is URL encoding and when is it needed?</button>
+                    <div class="faq-answer"><p>URL encoding (percent-encoding) replaces characters that are not allowed in URLs with a % followed by their hex code. Spaces become %20, & becomes %26, etc. This is needed when including special characters in query parameters or path segments.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between a query string and a fragment?</button>
+                    <div class="faq-answer"><p>The query string (?key=value) is sent to the server as part of the request. The fragment (#section) is processed only by the browser and is never sent to the server. Fragments are used for in-page navigation and single-page app routing.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I build a URL with query parameters?</button>
+                    <div class="faq-answer"><p>Start with the base URL, add ? before the first parameter, then key=value pairs separated by &. For example: https://example.com/search?q=hello+world&page=2&sort=date. Use URL encoding for special characters in values.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the maximum length of a URL?</button>
+                    <div class="faq-answer"><p>There is no official limit in the HTTP spec, but practical limits exist. Most browsers support URLs up to 2,048 characters. Some servers limit URLs to 8,192 characters. For very long query strings, consider using a POST request with the data in the request body instead.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../html-entity-encoder/" class="related-tool-link">HTML Entity Encoder</a>
+                    <a href="../base64-encoder/" class="related-tool-link">Base64 Encoder</a>
+                    <a href="../meta-tag-generator/" class="related-tool-link">Meta Tag Generator</a>
+                    <a href="../slug-generator/" class="related-tool-link">Slug Generator</a>
+                    <a href="../regex-tester/" class="related-tool-link">Regex Tester</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

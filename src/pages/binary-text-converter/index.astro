@@ -1,0 +1,177 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/binary-text-converter/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Binary & Hex Text Converter - Text to Binary/Hex | Webutilbox","url":"https://webutilbox.com/binary-text-converter/","description":"Convert text to binary, hexadecimal, and octal. Free online text encoding converter with bidirectional conversion.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does binary text encoding work?","acceptedAnswer":{"@type":"Answer","text":"Each character is converted to its ASCII or Unicode code point, then that number is written in binary (base 2). For example, the letter 'A' has ASCII code 65, which is 01000001 in 8-bit binary. The converter handles this automatically for every character in your text."}},{"@type":"Question","name":"Why are binary values 8 digits long?","acceptedAnswer":{"@type":"Answer","text":"8 bits make one byte, which is the standard unit for storing a single ASCII character. Leading zeros are padded to always produce 8-digit groups, making it easier to read and split the binary string back into individual characters."}},{"@type":"Question","name":"Can I convert binary back to text?","acceptedAnswer":{"@type":"Answer","text":"Yes. Paste your binary string (groups of 8 bits separated by spaces) into the binary input field and the tool will decode it back to readable text. Make sure the binary is properly formatted with spaces between each 8-bit group."}},{"@type":"Question","name":"What character encoding does this tool use?","acceptedAnswer":{"@type":"Answer","text":"The tool uses UTF-8 / Unicode code points for conversion. Standard ASCII characters (A-Z, 0-9, punctuation) use values 0-127. Extended characters like accented letters or emoji use higher Unicode values and may produce binary groups longer than 8 bits."}},{"@type":"Question","name":"What is binary used for in computing?","acceptedAnswer":{"@type":"Answer","text":"Binary is the fundamental language of computers. All data — text, images, programs — is ultimately stored and processed as binary. Understanding binary is essential for low-level programming, networking (IP addresses, subnet masks), and computer science fundamentals."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Binary & Hex Text Converter","item":"https://webutilbox.com/binary-text-converter/"}]}]};
+---
+
+<ToolLayout
+  title="Binary & Hex Text Converter | Webutilbox"
+  description="Convert text to binary and binary back to text online. Supports ASCII, UTF-8, and hex formats. Free binary text converter in your browser."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="binary converter, text to binary, hex converter, text to hex, octal converter, text encoding"
+  h1="💻 Binary & Hex Text Converter"
+  subtitle="Convert text to binary, hexadecimal, octal, and decimal formats."
+  lastUpdated=""
+  shareText="Free%20online%20Binary%20%26%20Hex%20Text%20Converter%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Binary & Hex Text Converter -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="input-group">
+                <label>Text Input</label>
+                <textarea id="textInput" placeholder="Enter text to convert..." oninput="convertFromText()"></textarea>
+            </div>
+
+            <!-- Binary -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Binary</label>
+                <div class="binary-output-row">
+                    <textarea id="binaryOutput" readonly placeholder="Binary output..."></textarea>
+                    <button class="btn btn-success binary-copy-btn" onclick="copyBinary()">Copy</button>
+                </div>
+                <button class="btn btn-secondary" onclick="convertFromBinary()" style="margin-top: 8px; padding: 8px 16px; font-size: 0.85rem;">Decode Binary to Text</button>
+            </div>
+
+            <!-- Hexadecimal -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Hexadecimal</label>
+                <div class="binary-output-row">
+                    <textarea id="hexOutput" readonly placeholder="Hex output..."></textarea>
+                    <button class="btn btn-success binary-copy-btn" onclick="copyHex()">Copy</button>
+                </div>
+                <button class="btn btn-secondary" onclick="convertFromHex()" style="margin-top: 8px; padding: 8px 16px; font-size: 0.85rem;">Decode Hex to Text</button>
+            </div>
+
+            <!-- Octal -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Octal</label>
+                <div class="binary-output-row">
+                    <textarea id="octalOutput" readonly placeholder="Octal output..."></textarea>
+                    <button class="btn btn-success binary-copy-btn" onclick="copyOctal()">Copy</button>
+                </div>
+                <button class="btn btn-secondary" onclick="convertFromOctal()" style="margin-top: 8px; padding: 8px 16px; font-size: 0.85rem;">Decode Octal to Text</button>
+            </div>
+
+            <!-- Decimal -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Decimal (ASCII Codes)</label>
+                <div class="binary-output-row">
+                    <textarea id="decimalOutput" readonly placeholder="Decimal output..."></textarea>
+                    <button class="btn btn-success binary-copy-btn" onclick="copyDecimal()">Copy</button>
+                </div>
+                <button class="btn btn-secondary" onclick="convertFromDecimal()" style="margin-top: 8px; padding: 8px 16px; font-size: 0.85rem;">Decode Decimal to Text</button>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/binary-text-converter.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Binary &amp; Hex Text Converter - Text to Binary, Hex, Octal, and Decimal</h2>
+    <p>The Binary &amp; Hex Text Converter lets you instantly convert text to binary, hexadecimal, octal, and decimal representations, and convert back from any of those formats to plain text. It is an essential tool for developers, students, security researchers, and anyone working with low-level data encoding, computer science concepts, or network protocols.</p>
+
+    <h3>What Is Binary Encoding?</h3>
+    <p>Binary encoding represents text characters as sequences of 0s and 1s. Every character in a text string has a corresponding numeric code — its ASCII or Unicode code point — and binary encoding expresses that code in base-2 notation. For example, the uppercase letter 'A' has ASCII code 65, which is represented as 01000001 in binary (eight bits, or one byte). Each character in a string is converted to its own 8-bit binary sequence, and the sequences are typically separated by spaces for readability.</p>
+    <p>Binary is the fundamental language of computers. All data stored and processed by a computer — text, images, audio, video, programs — is ultimately represented as binary. Understanding binary encoding helps you understand how computers store and manipulate text at the lowest level, which is foundational knowledge for computer science, programming, and cybersecurity.</p>
+    <p>This tool uses ASCII encoding for standard characters (codes 0–127) and extends to Unicode code points for international characters and symbols. Each character is padded to 8 bits for consistency, making it easy to count characters and identify individual bytes in the binary output.</p>
+
+    <h3>What Is Hexadecimal Encoding?</h3>
+    <p>Hexadecimal (hex) uses base-16 notation with the digits 0–9 and the letters A–F to represent values from 0 to 15. It is a compact and human-readable way to represent binary data — each hex digit represents exactly four binary bits (a nibble), so two hex digits represent one byte. This makes hex much more concise than binary while still maintaining a direct correspondence to the underlying bit patterns.</p>
+    <p>Hexadecimal is ubiquitous in computing and programming. Memory addresses, color codes in CSS and design tools, cryptographic hashes, network MAC addresses, and raw byte data in debugging tools are all commonly expressed in hex. Being able to convert between text and hex is a fundamental skill for developers working with low-level systems, networking, or security.</p>
+    <p>In this tool, each character is converted to its ASCII code and then expressed as a two-digit uppercase hex value, padded with a leading zero if necessary. The hex values are separated by spaces for readability, making it easy to identify individual characters in the output.</p>
+
+    <h3>Binary Conversion Capabilities</h3>
+    <ul>
+        <li>Simultaneous conversion to all four formats — binary, hexadecimal, octal, and decimal — from a single text input.</li>
+        <li>Bidirectional conversion — convert text to any encoding, or decode any encoding back to plain text.</li>
+        <li>Real-time conversion that updates all output fields instantly as you type in the text input.</li>
+        <li>Individual copy buttons for each output format so you can quickly grab the encoding you need.</li>
+        <li>Clear All button to reset all fields at once for a fresh start.</li>
+        <li>Completely browser-based with no server calls, ensuring fast performance and full privacy.</li>
+    </ul>
+
+    <h3>How to Use the Binary &amp; Hex Text Converter</h3>
+    <p>Converting text to binary, hex, octal, or decimal is instant and requires no technical setup.</p>
+    <ul>
+        <li>Step 1: Type or paste your text into the "Text Input" field at the top of the tool. All four output fields will update automatically as you type.</li>
+        <li>Step 2: Find the encoding format you need — Binary, Hexadecimal, Octal, or Decimal — and review the output in the corresponding field.</li>
+        <li>Step 3: Click the "Copy" button next to the output field you want to use to copy the encoded value to your clipboard.</li>
+        <li>Step 4: To decode back to text, paste an encoded value into the appropriate output field and click the "Decode [Format] to Text" button below it. The decoded text will appear in the Text Input field.</li>
+        <li>Step 5: Click "Clear All" to reset all fields and start a new conversion.</li>
+    </ul>
+
+    <h3>When Binary Conversion Is Useful</h3>
+    <p>Binary and hex conversion is useful across a wide range of technical and educational contexts.</p>
+    <ul>
+        <li>Computer science education — learn how text is stored as binary data in computer memory, and understand the relationship between characters, ASCII codes, and their binary representations.</li>
+        <li>Networking and protocols — inspect packet data, protocol headers, and raw byte streams in binary or hex format for analysis and debugging.</li>
+        <li>Cryptography and security — work with binary representations of encrypted data, hash values, and cryptographic keys in security research and development.</li>
+        <li>Debugging and reverse engineering — inspect raw byte values of strings and data structures in different number bases to understand how data is encoded and stored.</li>
+        <li>Steganography — encode hidden messages in binary or hex representations for steganographic applications and puzzles.</li>
+        <li>Programming and bitwise operations — convert between number bases to understand and verify bitwise operations, bit masks, and flag values in code.</li>
+    </ul>
+
+    <h3>Binary Conversion Tips</h3>
+    <p>When working with binary output, remember that each group of eight digits (separated by spaces) represents one character. You can count the groups to determine the number of characters in the original text, or identify specific characters by their position in the sequence. This is useful for verifying that a binary string represents the expected text before using it in a program or protocol.</p>
+    <p>Hexadecimal is generally the most practical format for working with raw byte data because it is much more compact than binary while still being directly mappable to individual bytes. Two hex digits always equal one byte, which makes it easy to count bytes, identify byte boundaries, and compare values. When debugging network packets or binary file formats, hex is almost always the preferred representation.</p>
+    <p>When decoding binary or hex back to text, make sure the values are space-separated as the tool expects. If you have a continuous binary string without spaces (e.g., from a file or protocol), you will need to manually insert spaces every 8 characters for binary or every 2 characters for hex before pasting it into the decode field.</p>
+
+    
+
+    <h3>Conversions Run Client-Side Only</h3>
+    <p>Conversion runs in your browser. No text or binary data is sent to any server.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How does binary text encoding work?</button>
+                    <div class="faq-answer"><p>Each character is converted to its ASCII or Unicode code point, then that number is written in binary (base 2). For example, the letter 'A' has ASCII code 65, which is 01000001 in 8-bit binary. The converter handles this automatically for every character in your text.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why are binary values 8 digits long?</button>
+                    <div class="faq-answer"><p>8 bits make one byte, which is the standard unit for storing a single ASCII character. Leading zeros are padded to always produce 8-digit groups, making it easier to read and split the binary string back into individual characters.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I convert binary back to text?</button>
+                    <div class="faq-answer"><p>Yes. Paste your binary string (groups of 8 bits separated by spaces) into the binary input field and the tool will decode it back to readable text. Make sure the binary is properly formatted with spaces between each 8-bit group.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What character encoding does this tool use?</button>
+                    <div class="faq-answer"><p>The tool uses UTF-8 / Unicode code points for conversion. Standard ASCII characters (A-Z, 0-9, punctuation) use values 0-127. Extended characters like accented letters or emoji use higher Unicode values and may produce binary groups longer than 8 bits.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is binary used for in computing?</button>
+                    <div class="faq-answer"><p>Binary is the fundamental language of computers. All data — text, images, programs — is ultimately stored and processed as binary. Understanding binary is essential for low-level programming, networking (IP addresses, subnet masks), and computer science fundamentals.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../number-base-converter/" class="related-tool-link">Number Base Converter</a>
+                    <a href="../base64-encoder/" class="related-tool-link">Base64 Encoder</a>
+                    <a href="../html-entity-encoder/" class="related-tool-link">HTML Entity Encoder</a>
+                    <a href="../text-encryption/" class="related-tool-link">Text Encryption</a>
+                    <a href="../sha256-generator/" class="related-tool-link">SHA-256 Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

@@ -1,0 +1,141 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/text-reverser/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Text Reverser & Character Frequency Analyzer | Webutilbox","url":"https://webutilbox.com/text-reverser/","description":"Reverse text, words, or letters. Analyze character frequency and text statistics. Free online text transformation tool.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I reverse individual words or the entire text?","acceptedAnswer":{"@type":"Answer","text":"Yes. You can reverse the entire string character by character, reverse the order of words while keeping each word intact, or reverse each word individually while keeping word order. Each mode produces a different result."}},{"@type":"Question","name":"What is text reversal used for?","acceptedAnswer":{"@type":"Answer","text":"Text reversal has several uses: creating mirror text for design effects, simple obfuscation (not secure), palindrome checking, word games and puzzles, and testing text rendering in right-to-left languages. It is also used in some encoding schemes."}},{"@type":"Question","name":"What is a palindrome?","acceptedAnswer":{"@type":"Answer","text":"A palindrome is a word, phrase, or sequence that reads the same forwards and backwards. Examples: 'racecar', 'level', 'A man a plan a canal Panama' (ignoring spaces and punctuation). Reverse your text and compare it to the original to check if it is a palindrome."}},{"@type":"Question","name":"Does reversing text work with Unicode and emoji?","acceptedAnswer":{"@type":"Answer","text":"Basic Unicode characters reverse correctly. However, some emoji and complex Unicode characters are made up of multiple code points (like skin tone modifiers or ZWJ sequences). These may not reverse correctly since the combining characters get separated from their base characters."}},{"@type":"Question","name":"Can I reverse lines in a text?","acceptedAnswer":{"@type":"Answer","text":"Yes. The reverse lines option reverses the order of lines in your text (last line becomes first, etc.) without changing the content of each line. This is useful for reversing sorted lists or log files."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Text Reverser & Character Frequency Analyzer","item":"https://webutilbox.com/text-reverser/"}]}]};
+---
+
+<ToolLayout
+  title="Text Reverser & Character Frequency Analyzer | Webutilbox"
+  description="Reverse text, words, or individual characters online. Supports sentence reversal and word order reversal. Free online text reverser and flipper."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-text-tools.svg"
+  keywords="text reverser, reverse text, character frequency, text analyzer, flip text"
+  h1="🔄 Text Reverser & Analyzer"
+  subtitle="Reverse text, words, or letters. Analyze character frequency and text patterns."
+  lastUpdated=""
+  shareText="Free%20online%20Text%20Reverser%20%26%20Character%20Frequency%20Analyzer%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Text Reverser & Character Frequency Analyzer -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+
+
+<style>
+.mode-tab {
+            padding: 10px 20px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .mode-tab:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--primary);
+        }
+        .mode-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+</style>
+
+
+<script src="/js/text-reverser.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Text Reverser - Reverse Text, Words, and Analyze Characters</h2>
+            <p>This free text reverser and analyzer provides multiple text transformation and analysis utilities in one place. Reverse entire strings, flip word order, reverse letters within words, or perform a detailed character frequency analysis to understand the composition of any text.</p>
+
+            <h3>What Is Text Reversal?</h3>
+            <p>Text reversal is the process of outputting the characters of a string in the opposite order. "Hello World" becomes "dlroW olleH" when fully reversed. This is a fundamental string operation in programming and has practical applications in puzzles, cryptography, palindrome detection, and creative writing.</p>
+            <p>This tool offers three distinct reversal modes. "Reverse Text" flips the entire string character by character. "Reverse Words" keeps the letters within each word intact but reverses the order of the words in the sentence. "Reverse Letters in Words" keeps the word order the same but reverses the letters within each individual word. Each mode produces a different result and serves different purposes.</p>
+            <p>The character frequency analyzer is a separate but complementary feature. It counts how many times each character appears in your text and displays the results in a sortable table with percentage breakdowns and visual bars. This is useful for linguistic analysis, cryptography, and understanding the statistical properties of text.</p>
+
+            <h3>Text Reversal Modes</h3>
+            <ul>
+                <li>Full text reversal — reverses every character in the input</li>
+                <li>Word order reversal — flips the sequence of words while preserving each word's spelling</li>
+                <li>Per-word letter reversal — reverses letters within each word independently</li>
+                <li>Character frequency analysis with count, percentage, and visual bar chart</li>
+                <li>Text statistics: total characters, letters, digits, spaces, and unique characters</li>
+                <li>Copy result to clipboard with one click</li>
+                <li>Tabbed interface for easy switching between reversal and analysis modes</li>
+            </ul>
+
+            <h3>How to Use the Text Reverser</h3>
+            <p>The tool has two main modes accessible via tabs at the top:</p>
+            <ul>
+                <li>Step 1: Select the "Reverse Text" tab for reversal operations or "Character Frequency" for analysis.</li>
+                <li>Step 2: Type or paste your text into the input area.</li>
+                <li>Step 3: For reversal, click "Reverse Text," "Reverse Words," or "Reverse Letters in Words" depending on the transformation you need.</li>
+                <li>Step 4: For frequency analysis, click "Analyze" to generate the character breakdown table and statistics.</li>
+                <li>Step 5: Click "Copy Result" to copy the reversed text or use the results directly from the table.</li>
+            </ul>
+
+            <h3>Creative Uses for Reversed Text</h3>
+            <ul>
+                <li>Checking if a word or phrase is a palindrome (reads the same forwards and backwards)</li>
+                <li>Creating mirror text for creative design, social media posts, or puzzles</li>
+                <li>Reversing word order in sentences for language learning exercises</li>
+                <li>Analyzing character frequency for cryptography and cipher-breaking exercises</li>
+                <li>Generating reversed strings for programming tests and algorithm practice</li>
+                <li>Creating fun reversed text for games, riddles, or entertainment</li>
+                <li>Linguistic analysis of letter distribution in different languages or writing styles</li>
+            </ul>
+
+            <h3>Text Reversal Tips</h3>
+            <p>To check if a word is a palindrome, use "Reverse Text" and compare the output to the original. If they match, the word reads the same in both directions. Classic palindromes include "racecar," "level," and "madam." Phrases like "A man a plan a canal Panama" are also palindromes when spaces are ignored.</p>
+            <p>The character frequency analyzer is particularly useful for frequency analysis attacks on simple substitution ciphers. In English text, the most common letters are E, T, A, O, I, N, S, H, R, and D. If you're trying to decode a cipher, comparing the frequency distribution of the ciphertext to known English letter frequencies can reveal the substitution pattern.</p>
+            <p>When analyzing frequency, the tool counts all characters including spaces, punctuation, and digits. If you want to analyze only letters, remove punctuation and numbers from your input first using the Text Cleaner tool before running the frequency analysis.</p>
+
+            
+
+            <h3>Text Reversed Locally — Not Transmitted</h3>
+            <p>Text processing runs in your browser. Your content never leaves your device.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I reverse individual words or the entire text?</button>
+                    <div class="faq-answer"><p>Yes. You can reverse the entire string character by character, reverse the order of words while keeping each word intact, or reverse each word individually while keeping word order. Each mode produces a different result.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is text reversal used for?</button>
+                    <div class="faq-answer"><p>Text reversal has several uses: creating mirror text for design effects, simple obfuscation (not secure), palindrome checking, word games and puzzles, and testing text rendering in right-to-left languages. It is also used in some encoding schemes.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is a palindrome?</button>
+                    <div class="faq-answer"><p>A palindrome is a word, phrase, or sequence that reads the same forwards and backwards. Examples: 'racecar', 'level', 'A man a plan a canal Panama' (ignoring spaces and punctuation). Reverse your text and compare it to the original to check if it is a palindrome.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does reversing text work with Unicode and emoji?</button>
+                    <div class="faq-answer"><p>Basic Unicode characters reverse correctly. However, some emoji and complex Unicode characters are made up of multiple code points (like skin tone modifiers or ZWJ sequences). These may not reverse correctly since the combining characters get separated from their base characters.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I reverse lines in a text?</button>
+                    <div class="faq-answer"><p>Yes. The reverse lines option reverses the order of lines in your text (last line becomes first, etc.) without changing the content of each line. This is useful for reversing sorted lists or log files.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../case-converter/" class="related-tool-link">Case Converter</a>
+                    <a href="../text-cleaner/" class="related-tool-link">Text Cleaner</a>
+                    <a href="../find-replace/" class="related-tool-link">Find and Replace</a>
+                    <a href="../word-counter/" class="related-tool-link">Word Counter</a>
+                    <a href="../text-sorter/" class="related-tool-link">Text Sorter</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

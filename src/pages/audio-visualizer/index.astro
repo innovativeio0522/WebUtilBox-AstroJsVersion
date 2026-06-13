@@ -1,0 +1,188 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/audio-visualizer/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Audio Visualizer - Frequency & Waveform Display | Webutilbox","url":"https://webutilbox.com/audio-visualizer/","description":"Visualize audio with frequency spectrum and waveform display. Upload audio or use microphone. Free audio visualizer.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What types of visualizations are available?","acceptedAnswer":{"@type":"Answer","text":"The visualizer offers waveform (oscilloscope), frequency bar chart, and circular spectrum views. Each gives a different perspective on the audio — waveform shows amplitude over time, frequency bars show which frequencies are present, and the circular view is a stylized version of the frequency display."}},{"@type":"Question","name":"Can I visualize audio from my microphone?","acceptedAnswer":{"@type":"Answer","text":"Yes. Click the microphone input option to visualize live audio from your device's microphone in real time. This is useful for checking microphone levels or just for fun."}},{"@type":"Question","name":"Can I take a screenshot of the visualization?","acceptedAnswer":{"@type":"Answer","text":"Use your browser's built-in screenshot tool or your OS screenshot shortcut (Windows: Win+Shift+S, Mac: Cmd+Shift+4) to capture the visualization. Some browsers also allow right-clicking a canvas element to save it as an image."}},{"@type":"Question","name":"Why does the visualization look flat for some audio?","acceptedAnswer":{"@type":"Answer","text":"Very quiet audio or audio with limited frequency range will produce a less dynamic visualization. Try increasing the gain/sensitivity setting if available, or use a louder audio source."}},{"@type":"Question","name":"Does the visualizer work with video files?","acceptedAnswer":{"@type":"Answer","text":"The tool accepts audio files. For video files, use the Video to Audio Extractor tool first to pull out the audio track, then visualize it here."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Audio Visualizer","item":"https://webutilbox.com/audio-visualizer/"}]}]};
+---
+
+<ToolLayout
+  title="Audio Visualizer - Frequency & Waveform Display | Webutilbox"
+  description="Visualize audio files as animated waveforms and frequency bars. Upload any audio and watch it come alive. Free browser-based audio visualizer."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-media-tools.svg"
+  keywords="audio visualizer, frequency spectrum, waveform, audio analyzer, music visualizer"
+  h1="🎵 Audio Visualizer"
+  subtitle="Visualize audio with frequency spectrum and waveform display."
+  lastUpdated=""
+  shareText="Free%20online%20Audio%20Visualizer%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Audio Visualizer - Frequency & Waveform Display -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Source Selection -->
+            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;">
+                <input type="file" id="audioFile" accept="audio/*" style="display: none;" onchange="loadAudioFile()">
+                <button class="btn btn-primary" onclick="document.getElementById('audioFile').click()">
+                    ?? Upload Audio File
+                </button>
+                <button class="btn btn-primary" onclick="useMicrophone()">
+                    ?? Use Microphone
+                </button>
+            </div>
+
+            <!-- Visualization Canvas -->
+            <div style="background: #000000; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 2px solid var(--border);">
+                <canvas id="visualizer" style="width: 100%; height: 300px; border-radius: 8px;"></canvas>
+            </div>
+
+            <!-- Audio Player (for file mode) -->
+            <div id="audioPlayerSection" style="display: none; margin-bottom: 20px;">
+                <audio id="audioPlayer" controls style="width: 100%;"></audio>
+            </div>
+
+            <!-- Controls -->
+            <div style="background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border);">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <!-- Visualization Type -->
+                    <div>
+                        <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Visualization Type</label>
+                        <select id="vizType" onchange="updateSettings()" style="width: 100%; padding: 10px;">
+                            <option value="bars">Frequency Bars</option>
+                            <option value="wave">Waveform</option>
+                            <option value="circular">Circular</option>
+                            <option value="mirror">Mirror Bars</option>
+                        </select>
+                    </div>
+
+                    <!-- Color Scheme -->
+                    <div>
+                        <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Color Scheme</label>
+                        <select id="colorScheme" onchange="updateSettings()" style="width: 100%; padding: 10px;">
+                            <option value="orange">Orange</option>
+                            <option value="rainbow">Rainbow</option>
+                            <option value="blue">Blue</option>
+                            <option value="green">Green</option>
+                            <option value="purple">Purple</option>
+                            <option value="red">Red</option>
+                        </select>
+                    </div>
+
+                    <!-- Smoothing -->
+                    <div>
+                        <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Smoothing</label>
+                        <input type="range" id="smoothing" min="0" max="0.9" step="0.1" value="0.8" oninput="updateSettings()" style="width: 100%;">
+                        <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;">
+                            <span id="smoothingValue">0.8</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <button id="stopBtn" class="btn btn-danger" onclick="stopVisualization()" style="display: none;">
+                        Stop Visualization
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/audio-visualizer.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Audio Visualizer - Real-Time Frequency and Waveform Display</h2>
+    <p>The Audio Visualizer creates stunning real-time visual representations of audio, transforming sound into animated graphics that respond to every beat, note, and frequency. Whether you are analyzing music, demonstrating audio concepts, or simply enjoying a visual experience while listening, this tool brings your audio to life in a way that is both informative and visually captivating.</p>
+
+    <h3>What Is an Audio Visualizer?</h3>
+    <p>An audio visualizer is a tool that analyzes the frequency and amplitude content of an audio signal in real time and renders it as animated graphics on screen. The visualization updates continuously as the audio plays, creating a dynamic display that reflects the changing characteristics of the sound. Different visualization modes highlight different aspects of the audio — frequency bars show the energy at each frequency band, waveforms show amplitude over time, and circular visualizations create artistic, symmetrical patterns.</p>
+    <p>The technology behind audio visualization is the Fast Fourier Transform (FFT), a mathematical algorithm that decomposes a complex audio signal into its individual frequency components. The Web Audio API's AnalyserNode performs this FFT analysis in real time, providing a frequency spectrum that the visualizer renders as animated graphics at up to 60 frames per second using the HTML5 Canvas API.</p>
+    <p>This tool supports two audio input sources: uploaded audio files and live microphone input. The file mode is ideal for analyzing recorded music, podcasts, or any audio you have saved on your device. The microphone mode enables real-time visualization of live sound, making it useful for voice analysis, instrument tuning, and live performance monitoring.</p>
+
+    <h3>Visualization Modes and Settings</h3>
+    <ul>
+        <li>Four visualization modes: Frequency Bars, Waveform, Circular, and Mirror Bars, each offering a distinct visual style.</li>
+        <li>Six color schemes including Orange, Rainbow, Blue, Green, Purple, and Red for full visual customization.</li>
+        <li>Adjustable smoothing control to fine-tune how quickly the visualization responds to changes in the audio signal.</li>
+        <li>Dual input support — upload an audio file or use your device's microphone for live real-time visualization.</li>
+        <li>High-performance Canvas rendering at up to 60 frames per second for smooth, fluid animations.</li>
+        <li>No installation required — runs entirely in your browser using the Web Audio API and HTML5 Canvas.</li>
+    </ul>
+
+    <h3>How to Use the Audio Visualizer</h3>
+    <p>Getting started with the Audio Visualizer takes just a few seconds, whether you are using a file or your microphone.</p>
+    <ul>
+        <li>Step 1: Choose your audio source — click "Upload Audio File" to select a file from your device, or click "Use Microphone" to visualize live audio from your microphone. If using the microphone, your browser will ask for permission to access it.</li>
+        <li>Step 2: Once the audio source is active, the visualization will begin immediately. For file mode, the audio player will appear and playback will start automatically.</li>
+        <li>Step 3: Select a visualization type from the dropdown menu — try Frequency Bars for a classic equalizer look, Waveform for a time-domain view, Circular for an artistic display, or Mirror Bars for a symmetric effect.</li>
+        <li>Step 4: Choose a color scheme that suits your preference. The Rainbow option creates a multi-colored display that maps different colors to different frequency bands.</li>
+        <li>Step 5: Adjust the Smoothing slider to control how quickly the visualization reacts to changes. Higher smoothing creates a more fluid, flowing animation, while lower smoothing creates a more reactive, snappy display.</li>
+    </ul>
+
+    <h3>Creative Uses for Audio Visualization</h3>
+    <p>Audio visualization has a wide range of practical and creative applications across many fields.</p>
+    <ul>
+        <li>Music analysis — visually inspect the frequency content and dynamic range of a track to understand its tonal balance and energy distribution.</li>
+        <li>Education — demonstrate sound wave concepts, frequency spectrums, and the physics of sound to students in a visually engaging way.</li>
+        <li>Content creation — capture screenshots or screen recordings of the visualizer to create visually interesting audio content for videos, social media, or presentations.</li>
+        <li>Live performance monitoring — use the microphone mode to monitor the frequency content of a live instrument or voice in real time during rehearsal or performance.</li>
+        <li>Audio debugging — identify frequency imbalances, resonances, or issues in recordings or mixes by visually inspecting the frequency spectrum.</li>
+        <li>Accessibility — provide a visual representation of audio for users who are deaf or hard of hearing, helping them perceive the rhythm and dynamics of sound.</li>
+    </ul>
+
+    <h3>Optimizing Your Visualization</h3>
+    <p>For the most visually impressive results with music, try the Circular visualization mode with the Rainbow color scheme. This combination creates a symmetrical, kaleidoscopic display that responds beautifully to the rhythm and melody of music. The smoothing slider at around 0.8 provides a good balance between responsiveness and visual fluidity for most music genres.</p>
+    <p>When using the microphone mode for voice analysis or instrument monitoring, the Frequency Bars mode with a lower smoothing value (around 0.4 to 0.6) gives you the most responsive and informative display. You can clearly see which frequency bands are most active and how the spectrum changes as you speak or play. This is useful for identifying the fundamental frequency of an instrument or the tonal characteristics of a voice.</p>
+    <p>If you want to capture the visualization as a video, use your operating system's built-in screen recording feature or a browser extension. The visualizer runs at up to 60 frames per second, so screen recordings will be smooth and high quality. For the best results, use a dark background and a vibrant color scheme like Rainbow or Orange to maximize visual contrast.</p>
+
+    
+
+    <h3>Audio Analyzed Locally Only</h3>
+    <p>Audio analysis runs in your browser via the Web Audio API. No audio data is transmitted anywhere.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What types of visualizations are available?</button>
+                    <div class="faq-answer"><p>The visualizer offers waveform (oscilloscope), frequency bar chart, and circular spectrum views. Each gives a different perspective on the audio — waveform shows amplitude over time, frequency bars show which frequencies are present, and the circular view is a stylized version of the frequency display.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I visualize audio from my microphone?</button>
+                    <div class="faq-answer"><p>Yes. Click the microphone input option to visualize live audio from your device's microphone in real time. This is useful for checking microphone levels or just for fun.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I take a screenshot of the visualization?</button>
+                    <div class="faq-answer"><p>Use your browser's built-in screenshot tool or your OS screenshot shortcut (Windows: Win+Shift+S, Mac: Cmd+Shift+4) to capture the visualization. Some browsers also allow right-clicking a canvas element to save it as an image.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why does the visualization look flat for some audio?</button>
+                    <div class="faq-answer"><p>Very quiet audio or audio with limited frequency range will produce a less dynamic visualization. Try increasing the gain/sensitivity setting if available, or use a louder audio source.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does the visualizer work with video files?</button>
+                    <div class="faq-answer"><p>The tool accepts audio files. For video files, use the Video to Audio Extractor tool first to pull out the audio track, then visualize it here.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../audio-speed-changer/" class="related-tool-link">Audio Speed Changer</a>
+                    <a href="../audio-trimmer/" class="related-tool-link">Audio Trimmer</a>
+                    <a href="../voice-recorder/" class="related-tool-link">Voice Recorder</a>
+                    <a href="../metronome/" class="related-tool-link">Metronome</a>
+                    <a href="../video-to-audio-extractor/" class="related-tool-link">Video to Audio Extractor</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

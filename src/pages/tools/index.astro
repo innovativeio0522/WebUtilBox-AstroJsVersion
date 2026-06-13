@@ -1,0 +1,294 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ShareBar from '../../components/ShareBar.astro';
+
+const canonical = 'https://webutilbox.com/tools';
+const shareText = encodeURIComponent('Browse all free online tools at Webutilbox — 94+ utilities for developers, designers, and creators.');
+const shareUrl = 'https://webutilbox.com/tools';
+
+// Tool categories and their tools with icons matching original design
+const toolCategories = [
+  {
+    name: 'Text Tools',
+    icon: '📝',
+    description: 'Essential utilities for every writing and editing task. Convert case, count words, clean text, and generate placeholder content instantly in your browser. No data is ever sent to our servers.',
+    tools: [
+      { name: 'Case Converter', href: '/case-converter/', desc: 'Convert text between camelCase, PascalCase, and more', icon: 'abc' },
+      { name: 'Word Counter', href: '/word-counter/', desc: 'Count words, characters, and reading time', icon: '123' },
+      { name: 'Lorem Ipsum', href: '/lorem-ipsum/', desc: 'Generate placeholder text and paragraphs', icon: '📄' },
+      { name: 'Slug Generator', href: '/slug-generator/', desc: 'Create URL-friendly slugs from any text', icon: '🔗' },
+      { name: 'Text Diff', href: '/text-diff/', desc: 'Compare two texts and see differences', icon: '📊' },
+      { name: 'Find & Replace', href: '/find-replace/', desc: 'Advanced text search and replace with regex', icon: '🔍' },
+      { name: 'Text Sorter', href: '/text-sorter/', desc: 'Sort lines alphabetically, numerically, or by length', icon: '📋' },
+      { name: 'Text Cleaner', href: '/text-cleaner/', desc: 'Remove duplicates, fix whitespace, and more', icon: '🧹' },
+      { name: 'Text Reverser', href: '/text-reverser/', desc: 'Reverse text and reverse text word-by-word', icon: '🔄' },
+      { name: 'ASCII Art Generator', href: '/ascii-art-generator/', desc: 'Convert text to ASCII art with multiple fonts', icon: '🎨' },
+      { name: 'Morse Code Translator', href: '/morse-code-translator/', desc: 'Translate text to Morse code and decode with audio', icon: '📻' },
+      { name: 'Binary Text Converter', href: '/binary-text-converter/', desc: 'Convert text to binary, hex, octal, decimal', icon: '🔢' },
+      { name: 'Word Frequency Counter', href: '/word-frequency-counter/', desc: 'Analyze word usage and keyword density', icon: '📈' },
+      { name: 'Syllable Counter', href: '/syllable-counter/', desc: 'Count syllables for poetry and readability', icon: '🎵' },
+      { name: 'Text Splitter', href: '/text-splitter/', desc: 'Split text by comma, custom delimiter, or regex', icon: '✂️' },
+      { name: 'Character Frequency Analyzer', href: '/character-frequency-analyzer/', desc: 'Analyze character frequency for cryptography', icon: '🔤' },
+    ]
+  },
+  {
+    name: 'Developer Tools',
+    icon: '💻',
+    description: 'Powerful tools for developers and programmers. Format code, encode data, parse URLs, and test regex patterns—all without installing anything.',
+    tools: [
+      { name: 'JSON Formatter', href: '/json-formatter/', desc: 'Format, validate, and minify JSON data', icon: '{}' },
+      { name: 'JSON to CSV Converter', href: '/json-to-csv/', desc: 'Convert between JSON and CSV formats', icon: '📊' },
+      { name: 'Base64 Encoder', href: '/base64-encoder/', desc: 'Encode and decode Base64 data', icon: '🔡' },
+      { name: 'URL Parser', href: '/url-parser/', desc: 'Parse and analyze URLs', icon: '🔗' },
+      { name: 'UUID Generator', href: '/uuid-generator/', desc: 'Generate random UUIDs', icon: '🆔' },
+      { name: 'Binary Text Converter', href: '/binary-text-converter/', desc: 'Convert between binary and text', icon: '🔢' },
+      { name: 'Number Base Converter', href: '/number-base-converter/', desc: 'Convert numbers between bases', icon: '🔄' },
+      { name: 'HTML Entity Encoder', href: '/html-entity-encoder/', desc: 'Encode and decode HTML entities', icon: '🔤' },
+      { name: 'JavaScript Obfuscator', href: '/js-obfuscator/', desc: 'Obfuscate JavaScript code', icon: '🔒' },
+      { name: 'Cron Expression Generator', href: '/cron-expression-generator/', desc: 'Generate and parse cron expressions', icon: '⏰' },
+      { name: 'Markdown to HTML', href: '/markdown-to-html/', desc: 'Convert Markdown to HTML', icon: '📝' },
+      { name: 'SQL Formatter', href: '/sql-formatter/', desc: 'Format SQL queries', icon: '📊' },
+      { name: 'CSS/JS Minifier', href: '/css-js-minifier/', desc: 'Minify CSS and JavaScript', icon: '📉' },
+      { name: 'Random String Generator', href: '/random-string-generator/', desc: 'Generate random strings', icon: '🔀' },
+      { name: 'Text Encryption', href: '/text-encryption/', desc: 'Encrypt and decrypt text', icon: '🔐' },
+      { name: 'Slug Generator', href: '/slug-generator/', desc: 'Generate URL-friendly slugs', icon: '🔗' },
+      { name: 'Unix Timestamp Converter', href: '/unix-timestamp-converter/', desc: 'Convert between timestamps and dates', icon: '⏱️' },
+      { name: 'Regex Tester', href: '/regex-tester/', desc: 'Test regular expressions', icon: '🔍' },
+    ]
+  },
+  {
+    name: 'Password & Security',
+    icon: '🔐',
+    description: 'Secure tools for passwords and encryption. Generate strong passwords, check password strength, create hashes, and decode JWT tokens—all in your browser.',
+    tools: [
+      { name: 'Password Generator', href: '/password-generator/', desc: 'Create strong, secure passwords', icon: '🔑' },
+      { name: 'Password Strength', href: '/password-strength/', desc: 'Check password strength', icon: '💪' },
+      { name: 'SHA-256 Generator', href: '/sha256-generator/', desc: 'Generate SHA-256, SHA-1, and MD5 hashes', icon: '🔒' },
+      { name: 'JWT Decoder', href: '/jwt-decoder/', desc: 'Decode JSON Web Tokens', icon: '🔓' },
+    ]
+  },
+  {
+    name: 'Image Tools',
+    icon: '🖼️',
+    description: 'Edit and transform images without leaving your browser. Compress, resize, crop, rotate, flip, and convert images—all client-side for maximum privacy.',
+    tools: [
+      { name: 'Image to Base64', href: '/image-to-base64/', desc: 'Convert images to Base64', icon: '📷' },
+      { name: 'Image Compressor', href: '/image-compressor/', desc: 'Compress images without losing quality', icon: '📉' },
+      { name: 'Image Resizer', href: '/image-resizer/', desc: 'Resize images', icon: '📐' },
+      { name: 'Image Cropper', href: '/image-cropper/', desc: 'Crop images', icon: '✂️' },
+      { name: 'Image Format Converter', href: '/image-format-converter/', desc: 'Convert between image formats', icon: '🔄' },
+      { name: 'Image Filters', href: '/image-filters/', desc: 'Apply filters to images', icon: '🎨' },
+      { name: 'Image Rotate/Flip', href: '/image-rotate-flip/', desc: 'Rotate and flip images', icon: '🔄' },
+      { name: 'Image Watermark', href: '/image-watermark/', desc: 'Add watermarks to images', icon: '💧' },
+      { name: 'Image Blur/Pixelate', href: '/image-blur-pixelate/', desc: 'Blur or pixelate images', icon: '🌫️' },
+      { name: 'Image Color Picker', href: '/image-color-picker/', desc: 'Pick colors from images', icon: '🎨' },
+      { name: 'Image Comparison Slider', href: '/image-comparison-slider/', desc: 'Compare two images', icon: '📊' },
+      { name: 'Image Metadata', href: '/image-metadata/', desc: 'View and edit image metadata', icon: '📋' },
+      { name: 'GIF Maker', href: '/gif-maker/', desc: 'Create GIFs from images', icon: '🎬' },
+      { name: 'Meme Generator', href: '/meme-generator/', desc: 'Create memes', icon: '😂' },
+      { name: 'Favicon Generator', href: '/favicon-generator/', desc: 'Generate favicons', icon: '🎨' },
+    ]
+  },
+  {
+    name: 'CSS & Design',
+    icon: '🎨',
+    description: 'Beautiful CSS tools for designers and developers. Generate gradients, shadows, borders, and more with live previews.',
+    tools: [
+      { name: 'CSS Gradient Generator', href: '/css-gradient-generator/', desc: 'Create CSS gradients', icon: '🌈' },
+      { name: 'CSS Grid Generator', href: '/css-grid-generator/', desc: 'Generate CSS grid layouts', icon: '📐' },
+      { name: 'Flexbox Generator', href: '/flexbox-generator/', desc: 'Generate flexbox layouts', icon: '📦' },
+      { name: 'Box Shadow Generator', href: '/box-shadow-generator/', desc: 'Generate box shadow CSS', icon: '💫' },
+      { name: 'Border Radius Generator', href: '/border-radius-generator/', desc: 'Generate border radius CSS', icon: '⬜' },
+      { name: 'Color Converter', href: '/color-converter/', desc: 'Convert between color formats', icon: '🎨' },
+      { name: 'Color Contrast Checker', href: '/color-contrast-checker/', desc: 'Check color contrast', icon: '👁️' },
+      { name: 'Color Shades Generator', href: '/color-shades-generator/', desc: 'Generate color shades', icon: '🎨' },
+      { name: 'Text Shadow Generator', href: '/text-shadow-generator/', desc: 'Generate text shadow CSS', icon: '✍️' },
+    ]
+  },
+  {
+    name: 'Calculators',
+    icon: '🧮',
+    description: 'Every calculator you need. Percentage, BMI, loan, mortgage, and more—all free and easy to use.',
+    tools: [
+      { name: 'Percentage Calculator', href: '/percentage-calculator/', desc: 'Calculate percentages', icon: '%' },
+      { name: 'BMI Calculator', href: '/bmi-calculator/', desc: 'Calculate BMI', icon: '⚖️' },
+      { name: 'Compound Interest Calculator', href: '/compound-interest-calculator/', desc: 'Calculate compound interest', icon: '💰' },
+      { name: 'Discount Calculator', href: '/discount-calculator/', desc: 'Calculate discounts', icon: '💸' },
+      { name: 'Tip Calculator', href: '/tip-calculator/', desc: 'Calculate tips', icon: '💵' },
+      { name: 'Tax Calculator', href: '/tax-calculator/', desc: 'Calculate taxes', icon: '📊' },
+      { name: 'Loan Calculator', href: '/loan-calculator/', desc: 'Calculate loan payments', icon: '🏦' },
+      { name: 'Mortgage Calculator', href: '/mortgage-calculator/', desc: 'Calculate mortgage payments', icon: '🏠' },
+      { name: 'Salary Calculator', href: '/salary-calculator/', desc: 'Calculate salary', icon: '💰' },
+      { name: 'Investment Calculator', href: '/investment-calculator/', desc: 'Calculate investment returns', icon: '📈' },
+      { name: 'Crypto Profit Calculator', href: '/crypto-profit-calculator/', desc: 'Calculate crypto profits', icon: '₿' },
+      { name: 'Scientific Calculator', href: '/scientific-calculator/', desc: 'Scientific calculator', icon: '🔢' },
+      { name: 'Age Calculator', href: '/age-calculator/', desc: 'Calculate age', icon: '🎂' },
+      { name: 'Date Calculator', href: '/date-calculator/', desc: 'Calculate dates', icon: '📅' },
+      { name: 'Unit Converter', href: '/unit-converter/', desc: 'Convert units', icon: '📏' },
+      { name: 'Currency Converter', href: '/currency-converter/', desc: 'Convert currencies', icon: '💱' },
+    ]
+  },
+  {
+    name: 'PDF Tools',
+    icon: '📄',
+    description: 'PDF manipulation tools that respect your privacy. Merge, split, and extract images—all in your browser.',
+    tools: [
+      { name: 'PDF Merger', href: '/pdf-merger/', desc: 'Merge PDF files', icon: '📎' },
+      { name: 'PDF Splitter', href: '/pdf-splitter/', desc: 'Split PDF files', icon: '✂️' },
+      { name: 'PDF to Images Converter', href: '/pdf-images-converter/', desc: 'Convert PDF to images', icon: '🖼️' },
+    ]
+  },
+  {
+    name: 'Media & Audio',
+    icon: '🎵',
+    description: 'Audio and video tools for content creators. Change audio speed, trim audio, extract audio from video, and more.',
+    tools: [
+      { name: 'Audio Speed Changer', href: '/audio-speed-changer/', desc: 'Change audio speed', icon: '⏩' },
+      { name: 'Audio Trimmer', href: '/audio-trimmer/', desc: 'Trim audio files', icon: '✂️' },
+      { name: 'Audio Visualizer', href: '/audio-visualizer/', desc: 'Visualize audio', icon: '📊' },
+      { name: 'Video Thumbnail Generator', href: '/video-thumbnail-generator/', desc: 'Generate video thumbnails', icon: '🎬' },
+      { name: 'Video to Audio Extractor', href: '/video-to-audio-extractor/', desc: 'Extract audio from video', icon: '🎵' },
+      { name: 'Voice Recorder', href: '/voice-recorder/', desc: 'Record audio', icon: '🎙️' },
+      { name: 'Metronome', href: '/metronome/', desc: 'Metronome tool', icon: '⏱️' },
+    ]
+  },
+  {
+    name: 'Timers',
+    icon: '⏱️',
+    description: 'Timers and time management tools. Countdown, stopwatch, pomodoro, and time zone conversion.',
+    tools: [
+      { name: 'Countdown Timer', href: '/countdown-timer/', desc: 'Countdown timer', icon: '⏰' },
+      { name: 'Stopwatch', href: '/stopwatch/', desc: 'Stopwatch tool', icon: '⏱️' },
+      { name: 'Pomodoro Timer', href: '/pomodoro-timer/', desc: 'Pomodoro technique timer', icon: '🍅' },
+      { name: 'Time Zone Converter', href: '/time-zone-converter/', desc: 'Convert between time zones', icon: '🌍' },
+    ]
+  },
+  {
+    name: 'QR & Barcodes',
+    icon: '📱',
+    description: 'Generate QR codes and barcodes for free. Perfect for sharing links, Wi-Fi credentials, and more.',
+    tools: [
+      { name: 'QR & Barcode Generator', href: '/qr-barcode-generator/', desc: 'Generate QR codes and barcodes', icon: '📱' },
+    ]
+  },
+  {
+    name: 'Meta & SEO',
+    icon: '🔍',
+    description: 'Tools for SEO and meta tag generation. Create meta tags for your website easily.',
+    tools: [
+      { name: 'Meta Tag Generator', href: '/meta-tag-generator/', desc: 'Generate meta tags', icon: '📋' },
+    ]
+  },
+  {
+    name: 'Username & Social',
+    icon: '👤',
+    description: 'Fun tools for social media and online presence. Generate Instagram bios, usernames, and more.',
+    tools: [
+      { name: 'Instagram Bio Generator', href: '/instagram-bio-generator/', desc: 'Generate Instagram bios', icon: '📸' },
+      { name: 'Username Generator', href: '/username-generator/', desc: 'Generate usernames', icon: '👤' },
+    ]
+  }
+];
+---
+
+<BaseLayout
+    title="All Tools | Webutilbox"
+    description="Browse our complete collection of free online utilities, organized by category."
+    canonical={canonical}
+    keywords="all tools, webutilbox tools, free online tools, developer tools, web tools"
+>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">
+                <span>💼</span>
+                <span>Webutilbox</span>
+            </a>
+            <a href="/" class="all-tools-btn">Home</a>
+        </div>
+    </header>
+
+    <div class="container" style="max-width: 1400px;">
+        <div class="hero" style="text-align: center; margin-bottom: 40px;">
+            <h1 style="color: var(--primary);">All Tools</h1>
+            <p style="color: var(--gray); font-size: 1.1rem; max-width: 600px; margin: 10px auto 30px;">
+                Browse our complete collection of free online utilities, organized by category.
+            </p>
+            <input 
+                type="text" 
+                id="tool-search" 
+                placeholder="Search tools by name or description... 🔍"
+                style="width: 100%; max-width: 500px; padding: 12px 20px; font-size: 1rem; border-radius: 8px; border: 2px solid var(--border); background: var(--card-bg); color: var(--white);"
+            />
+        </div>
+
+        {toolCategories.map(category => (
+            <div class="category-section" data-category={category.name.toLowerCase()} style="margin-bottom: 60px;">
+                <div style="background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius); padding: 24px; margin-bottom: 20px;">
+                    <h2 class="category-title" style="display: flex; align-items: center; gap: 10px; font-size: 1.5rem; color: var(--primary); margin: 0 0 8px;">
+                        <span>{category.icon}</span>
+                        <span>{category.name}</span>
+                    </h2>
+                    <p style="color: var(--gray); font-size: 0.95rem; margin: 0;">
+                        {category.description}
+                    </p>
+                </div>
+                <div class="tools-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px;">
+                    {category.tools.map(tool => (
+                        <a 
+                            href={tool.href} 
+                            class="tool-card" 
+                            data-tool-name={tool.name.toLowerCase()} 
+                            data-tool-desc={tool.desc.toLowerCase()}
+                            style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 16px 12px; background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius); text-decoration: none; color: var(--white); transition: all 0.2s; box-shadow: var(--shadow);"
+                        >
+                            <div class="tool-icon-box" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 10px; color: var(--primary); font-weight: bold;">
+                                {tool.icon}
+                            </div>
+                            <h3 class="tool-title" style="font-size: 0.875rem; margin-bottom: 4px; font-weight: 600;">{tool.name}</h3>
+                            <p class="tool-desc" style="font-size: 0.65rem; color: var(--gray); line-height: 1.3; margin: 0;">{tool.desc}</p>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        ))}
+
+        <ShareBar shareText={shareText} shareUrl={shareUrl} />
+    </div>
+
+    <slot name="head">
+        <link rel="stylesheet" href="/assets/css/home.css" />
+        <script is:inline>
+            document.addEventListener('DOMContentLoaded', () => {
+                const searchInput = document.getElementById('tool-search');
+                if (!searchInput) {
+                    console.error('Search input not found');
+                    return;
+                }
+                
+                searchInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const sections = document.querySelectorAll('.category-section');
+                    
+                    sections.forEach(section => {
+                        const tools = section.querySelectorAll('.tool-card');
+                        let visibleCount = 0;
+                        
+                        tools.forEach(card => {
+                            const name = card.getAttribute('data-tool-name');
+                            const desc = card.getAttribute('data-tool-desc');
+                            
+                            if (searchTerm === '' || (name && name.includes(searchTerm)) || (desc && desc.includes(searchTerm))) {
+                                card.style.display = 'flex';
+                                visibleCount++;
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                        
+                        section.style.display = searchTerm === '' || visibleCount > 0 ? 'block' : 'none';
+                    });
+                });
+            });
+        </script>
+    </slot>
+</BaseLayout>

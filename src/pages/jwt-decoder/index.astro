@@ -1,0 +1,169 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/jwt-decoder/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"JWT Decoder - Decode JSON Web Tokens Online Free | Webutilbox","url":"https://webutilbox.com/jwt-decoder/","description":"Decode JWT tokens instantly. View header, payload, and signature. Validate JWT structure online.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a JWT and what are its three parts?","acceptedAnswer":{"@type":"Answer","text":"A JWT (JSON Web Token) has three Base64URL-encoded parts separated by dots: Header (algorithm and token type), Payload (claims/data), and Signature (verification). The header and payload are just Base64-encoded JSON — anyone can read them. Only the signature requires the secret key to verify."}},{"@type":"Question","name":"Is it safe to paste a JWT into an online decoder?","acceptedAnswer":{"@type":"Answer","text":"The header and payload of a JWT are not secret — they are just Base64-encoded. However, the full JWT token (including signature) should be treated as a credential. If the token is still valid and grants access, avoid pasting it into untrusted tools. Use this tool for expired tokens or tokens from development environments."}},{"@type":"Question","name":"Can this tool verify a JWT signature?","acceptedAnswer":{"@type":"Answer","text":"Signature verification requires the secret key (for HMAC algorithms) or the public key (for RSA/ECDSA). This tool decodes and displays the header and payload without verifying the signature, since the secret key is never shared."}},{"@type":"Question","name":"What are JWT claims?","acceptedAnswer":{"@type":"Answer","text":"Claims are statements about the subject in the payload. Standard claims include: iss (issuer), sub (subject), aud (audience), exp (expiration time), iat (issued at), and nbf (not before). Custom claims can be anything your application needs. The exp claim is a Unix timestamp — this tool shows it as a human-readable date."}},{"@type":"Question","name":"Why does my JWT say it is expired?","acceptedAnswer":{"@type":"Answer","text":"The exp claim contains a Unix timestamp for when the token expires. If the current time is past that timestamp, the token is expired and should be rejected by your server. Generate a new token by logging in again or refreshing the token using your refresh token."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"JWT Decoder","item":"https://webutilbox.com/jwt-decoder/"}]}]};
+---
+
+<ToolLayout
+  title="JWT Decoder - Decode JSON Web Tokens | Webutilbox"
+  description="Decode and inspect JSON Web Tokens (JWT) without verification. View header, payload, and signature. Free online JWT decoder and debugger tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="jwt decoder, json web token decoder, decode jwt online, jwt inspector, jwt validator free"
+  h1="🔐 JWT Decoder"
+  subtitle="Decode and inspect JSON Web Tokens (JWT). View header, payload, and signature without verification."
+  lastUpdated=""
+  shareText="Free%20online%20JWT%20Decoder%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="JWT Decoder - Decode JSON Web Tokens -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- JWT Input -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px;">JWT Token</label>
+                <textarea id="jwtInput" placeholder="Paste your JWT token here (e.g., eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)" oninput="decodeJWT()" style="min-height: 120px; font-size: 0.85rem; font-family: 'Courier New', monospace;"></textarea>
+                <div style="display: flex; gap: 8px; margin-top: 10px;">
+                    <button class="btn btn-secondary" onclick="clearAll()" style="padding: 8px 16px; font-size: 0.85rem;">Clear</button>
+                    <button class="btn btn-secondary" onclick="loadSample()" style="padding: 8px 16px; font-size: 0.85rem;">Load Sample</button>
+                </div>
+            </div>
+
+            <!-- Token Parts Visualization -->
+            <div id="tokenParts" style="display: none; margin-bottom: 15px; padding: 15px; background: var(--light); border-radius: 8px; border: 1px solid var(--border); font-family: 'Courier New', monospace; font-size: 0.8rem; word-break: break-all; line-height: 1.8;">
+                <div style="margin-bottom: 8px; color: var(--gray);">Token Structure:</div>
+                <div>
+                    <span id="headerPart" style="color: #fb923c;"></span><span style="color: var(--gray);">.</span><span id="payloadPart" style="color: #a78bfa;"></span><span style="color: var(--gray);">.</span><span id="signaturePart" style="color: #34d399;"></span>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <!-- Header -->
+                <div class="output-container show" id="headerOutput" style="display: none;">
+                    <div class="output-label" style="color: #fb923c;">?? Header (Algorithm & Token Type)</div>
+                    <pre id="headerContent" style="margin: 0; white-space: pre-wrap; font-size: 0.85rem; color: var(--white); font-family: 'Courier New', monospace;"></pre>
+                </div>
+
+                <!-- Payload -->
+                <div class="output-container show" id="payloadOutput" style="display: none;">
+                    <div class="output-label" style="color: #a78bfa;">?? Payload (Claims & Data)</div>
+                    <pre id="payloadContent" style="margin: 0; white-space: pre-wrap; font-size: 0.85rem; color: var(--white); font-family: 'Courier New', monospace;"></pre>
+                </div>
+            </div>
+
+            <!-- Signature -->
+            <div class="output-container show" id="signatureOutput" style="margin-top: 15px; display: none;">
+                <div class="output-label" style="color: #34d399;">?? Signature (Verification)</div>
+                <div id="signatureContent" style="font-family: 'Courier New', monospace; font-size: 0.85rem; word-break: break-all; color: var(--white);"></div>
+            </div>
+
+            <!-- Claims Info -->
+            <div class="output-container show" id="claimsInfo" style="margin-top: 15px; display: none;">
+                <div class="output-label">?? Standard Claims</div>
+                <div id="claimsList" style="display: grid; gap: 8px; font-size: 0.85rem;"></div>
+            </div>
+
+            <!-- Validation Status -->
+            <div id="validationStatus" style="display: none; margin-top: 15px; padding: 12px; border-radius: 8px; border: 1px solid var(--border);"></div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/jwt-decoder.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>JWT Decoder - Decode and Inspect JSON Web Tokens Online</h2>
+            <p>Our free JWT Decoder lets you instantly decode and inspect JSON Web Tokens (JWTs) without any verification. View the header, payload, and signature of any JWT, inspect standard claims like expiration time and issuer, and debug authentication issues — all directly in your browser.</p>
+
+            <h3>What Is a JWT?</h3>
+            <p>A JSON Web Token (JWT) is a compact, URL-safe token format defined in RFC 7519. It's widely used for authentication and authorization in web applications, APIs, and microservices. A JWT consists of three Base64URL-encoded parts separated by dots: the Header (algorithm and token type), the Payload (claims and data), and the Signature (used for verification).</p>
+            <p>JWTs are commonly issued by OAuth 2.0 authorization servers, OpenID Connect providers, and custom authentication systems. They're passed in HTTP headers (typically as <code>Authorization: Bearer &lt;token&gt;</code>) and can be decoded by anyone who has the token — the signature is what prevents tampering, not the encoding. This means decoding a JWT reveals its contents, which is exactly what this tool does.</p>
+
+            <h3>JWT Decoding Capabilities</h3>
+            <ul>
+                <li>Instant JWT decoding — paste a token and see results immediately as you type</li>
+                <li>Color-coded token structure visualization (header in orange, payload in purple, signature in green)</li>
+                <li>Formatted JSON display for both header and payload sections</li>
+                <li>Standard claims inspector with human-readable timestamps for <code>exp</code>, <code>iat</code>, and <code>nbf</code></li>
+                <li>Expiration status indicator — shows if a token is expired or not yet valid</li>
+                <li>Validation status display with clear success/error messages</li>
+                <li>Sample JWT loader for quick testing and learning</li>
+            </ul>
+
+            <h3>How to Use the JWT Decoder</h3>
+            <ul>
+                <li>Step 1: Paste your JWT token into the input textarea. The decoder processes it automatically as you type.</li>
+                <li>Step 2: View the color-coded token structure showing the three parts of your JWT.</li>
+                <li>Step 3: Inspect the Header section to see the signing algorithm (e.g., HS256, RS256) and token type.</li>
+                <li>Step 4: Review the Payload section to see all claims — user ID, roles, permissions, and custom data.</li>
+                <li>Step 5: Check the Standard Claims panel for human-readable expiration times and issuer information.</li>
+                <li>Step 6: Use the "Load Sample" button to see a working example if you don't have a token handy.</li>
+            </ul>
+
+            <h3>Debugging and Inspecting JWTs</h3>
+            <ul>
+                <li>Debugging authentication issues by inspecting what claims are in a token</li>
+                <li>Checking if a JWT has expired by reading the <code>exp</code> claim</li>
+                <li>Verifying that the correct user ID, roles, or permissions are encoded in a token</li>
+                <li>Understanding the structure of JWTs when learning OAuth 2.0 or OpenID Connect</li>
+                <li>Inspecting tokens from third-party identity providers (Auth0, Okta, Firebase, etc.)</li>
+                <li>Troubleshooting API authorization errors in development and staging environments</li>
+            </ul>
+
+            <h3>Reading JWT Payloads Correctly</h3>
+            <p>Remember that JWTs are encoded, not encrypted. Anyone with the token can decode and read its contents. Never put sensitive information like passwords, credit card numbers, or private keys in a JWT payload. The payload is meant for identity claims and authorization data that the recipient needs to process the request.</p>
+            <p>Pay close attention to the <code>exp</code> (expiration) claim when debugging authentication issues. A token that has expired will be rejected by your API even if everything else looks correct. This tool shows the expiration time in human-readable format and flags expired tokens with a warning, making it easy to spot this common issue.</p>
+            <p>When working with JWTs in production, never paste real user tokens into online tools you don't control. Use this tool for development tokens, test tokens, or sample tokens only. For production debugging, use your application's logging system or a local debugging tool instead.</p>
+
+            
+
+            <h3>Tokens Decoded Client-Side — Not Sent</h3>
+            <p>Decoding runs entirely client-side. Your tokens are never sent to any server.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is a JWT and what are its three parts?</button>
+                    <div class="faq-answer"><p>A JWT (JSON Web Token) has three Base64URL-encoded parts separated by dots: Header (algorithm and token type), Payload (claims/data), and Signature (verification). The header and payload are just Base64-encoded JSON — anyone can read them. Only the signature requires the secret key to verify.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Is it safe to paste a JWT into an online decoder?</button>
+                    <div class="faq-answer"><p>The header and payload of a JWT are not secret — they are just Base64-encoded. However, the full JWT token (including signature) should be treated as a credential. If the token is still valid and grants access, avoid pasting it into untrusted tools. Use this tool for expired tokens or tokens from development environments.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can this tool verify a JWT signature?</button>
+                    <div class="faq-answer"><p>Signature verification requires the secret key (for HMAC algorithms) or the public key (for RSA/ECDSA). This tool decodes and displays the header and payload without verifying the signature, since the secret key is never shared.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What are JWT claims?</button>
+                    <div class="faq-answer"><p>Claims are statements about the subject in the payload. Standard claims include: iss (issuer), sub (subject), aud (audience), exp (expiration time), iat (issued at), and nbf (not before). Custom claims can be anything your application needs. The exp claim is a Unix timestamp — this tool shows it as a human-readable date.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why does my JWT say it is expired?</button>
+                    <div class="faq-answer"><p>The exp claim contains a Unix timestamp for when the token expires. If the current time is past that timestamp, the token is expired and should be rejected by your server. Generate a new token by logging in again or refreshing the token using your refresh token.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../base64-encoder/" class="related-tool-link">Base64 Encoder</a>
+                    <a href="../sha256-generator/" class="related-tool-link">SHA-256 Generator</a>
+                    <a href="../uuid-generator/" class="related-tool-link">UUID Generator</a>
+                    <a href="../unix-timestamp-converter/" class="related-tool-link">Unix Timestamp Converter</a>
+                    <a href="../json-formatter/" class="related-tool-link">JSON Formatter</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

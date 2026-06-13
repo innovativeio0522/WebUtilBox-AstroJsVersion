@@ -1,0 +1,37 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/crypto-profit-calculator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Crypto Profit Calculator - Bitcoin & Ethereum Trading Calculator","url":"https://webutilbox.com/crypto-profit-calculator/","description":"Calculate crypto profit, loss, ROI, and fees for Bitcoin, Ethereum, and altcoins. Free tool.","applicationCategory":"FinanceApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is crypto profit calculated?","acceptedAnswer":{"@type":"Answer","text":"Profit = (sell price - buy price) x quantity, minus any fees. The calculator also shows your return on investment (ROI) as a percentage: ((sell price - buy price) / buy price) x 100. It accounts for both the price change and the amount you invested."}},{"@type":"Question","name":"Does the calculator account for trading fees?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enter your buy fee and sell fee percentages (typically 0.1-0.5% on most exchanges). Fees are subtracted from your profit, giving you the actual net profit after costs. Fees have a significant impact on small trades."}},{"@type":"Question","name":"What is the difference between realized and unrealized profit?","acceptedAnswer":{"@type":"Answer","text":"Realized profit is from trades you have already completed (sold). Unrealized profit (paper profit) is the gain on assets you still hold. This calculator computes realized profit when you enter both buy and sell prices."}},{"@type":"Question","name":"How do I calculate profit for multiple buys at different prices?","acceptedAnswer":{"@type":"Answer","text":"Calculate the average buy price: total amount spent divided by total coins purchased. Use that average as your buy price in the calculator. This is called dollar-cost averaging (DCA) and is a common investment strategy."}},{"@type":"Question","name":"Do I need to pay taxes on crypto profits?","acceptedAnswer":{"@type":"Answer","text":"In most countries, cryptocurrency profits are taxable as capital gains. Short-term gains (held less than a year) are often taxed at a higher rate than long-term gains. Consult a tax professional for advice specific to your jurisdiction."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Crypto Profit Calculator","item":"https://webutilbox.com/crypto-profit-calculator/"}]}]};
+---
+
+<ToolLayout
+  title="Crypto Profit Calculator | Webutilbox"
+  description="Calculate your cryptocurrency profit or loss based on buy price, sell price, and fees. Track ROI for any coin. Free crypto profit calculator."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-calculators.svg"
+  keywords="crypto profit calculator, bitcoin calculator, ethereum calculator, cryptocurrency profit, crypto ROI calculator, trading profit calculator"
+  h1="₿ Crypto Profit Calculator"
+  subtitle=""
+  lastUpdated=""
+  shareText="Free%20online%20Crypto%20Profit%20Calculator%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Crypto Profit Calculator -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+
+
+
+<script src="/js/crypto-profit-calculator.js" defer></script>
+
+<div class="info-section" slot="info">
+
+</div>
+
+</ToolLayout>

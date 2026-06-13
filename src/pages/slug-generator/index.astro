@@ -1,0 +1,144 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/slug-generator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Slug Generator - Create URL-Friendly Slugs Online | Webutilbox","url":"https://webutilbox.com/slug-generator/","description":"Generate URL-friendly slugs from any text. Convert titles to SEO-friendly URLs. Free tool.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a URL slug?","acceptedAnswer":{"@type":"Answer","text":"A URL slug is the part of a URL that identifies a specific page in a human-readable way. For example, in 'example.com/blog/how-to-make-coffee', the slug is 'how-to-make-coffee'. Slugs are lowercase, use hyphens instead of spaces, and contain no special characters."}},{"@type":"Question","name":"Why are hyphens used instead of underscores in slugs?","acceptedAnswer":{"@type":"Answer","text":"Google treats hyphens as word separators in URLs, so 'how-to-make-coffee' is read as four separate words. Underscores are treated as word joiners, so 'how_to_make_coffee' is read as one word. Hyphens are better for SEO and readability."}},{"@type":"Question","name":"Should I include stop words in my slug?","acceptedAnswer":{"@type":"Answer","text":"Stop words (a, an, the, in, of, etc.) can be removed to keep slugs shorter. For example, 'the-best-way-to-make-coffee' could become 'best-way-make-coffee'. However, removing stop words can sometimes make slugs less readable. Use your judgment based on the specific title."}},{"@type":"Question","name":"How long should a URL slug be?","acceptedAnswer":{"@type":"Answer","text":"Keep slugs under 60 characters for readability and to avoid truncation in search results. Include your primary keyword near the beginning. Shorter slugs are generally better — they are easier to share, remember, and type."}},{"@type":"Question","name":"Can I change a slug after publishing?","acceptedAnswer":{"@type":"Answer","text":"You can, but it requires setting up a 301 redirect from the old URL to the new one. Without a redirect, the old URL returns a 404 error and you lose any SEO value built up at that URL. Plan your slugs carefully before publishing to avoid needing to change them."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Slug Generator","item":"https://webutilbox.com/slug-generator/"}]}]};
+---
+
+<ToolLayout
+  title="Slug Generator - URL-Friendly Slugs | Webutilbox"
+  description="Convert any text into a clean, SEO-friendly URL slug. Supports custom separators and character normalization. Free online URL slug generator."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="slug generator, url slug generator, seo friendly url, create url slug, text to slug converter, url friendly text"
+  h1="🔗 Slug Generator"
+  subtitle="Create URL-friendly slugs from any text. Perfect for blog posts, articles, and SEO-friendly URLs."
+  lastUpdated=""
+  shareText="Free%20online%20Slug%20Generator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Slug Generator - URL-Friendly Slugs -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="input-group">
+                <label>Input Text / Title</label>
+                <input type="text" id="inputText" placeholder="e.g., My Awesome Blog Post!" oninput="generateSlug()" style="font-size: 1.1rem; padding: 15px;">
+            </div>
+
+            <div class="output-container show" style="margin-top: 20px;">
+                <div class="output-label">URL Slug</div>
+                <div class="output-content" id="outputText" style="font-size: 1.3rem; color: var(--primary); word-break: break-all;">Type above to generate slug...</div>
+            </div>
+
+            <div class="button-group" style="margin-top: 15px;">
+                <button class="btn btn-success" onclick="copySlug()">Copy Slug</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+            </div>
+
+            <div class="stats-bar" id="statsBar" style="display:none; margin-top: 15px;">
+                <div class="stat">?? Length: <span class="stat-value" id="slugLength">0</span> characters</div>
+                <div class="stat">?? Original: <span class="stat-value" id="originalLength">0</span> characters</div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/slug-generator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Slug Generator - Create SEO-Friendly URL Slugs Instantly</h2>
+            <p>This free slug generator converts any text into clean, URL-friendly slugs in real time. Whether you're building a blog, an e-commerce site, or a CMS-powered platform, generating proper slugs is a critical step for both usability and search engine optimization. Simply type or paste your title and get a ready-to-use slug immediately.</p>
+
+            <h3>What Is a URL Slug?</h3>
+            <p>A URL slug is the human-readable portion of a web address that identifies a specific page. For example, in the URL <code>https://example.com/how-to-bake-bread</code>, the slug is <code>how-to-bake-bread</code>. Slugs replace spaces with hyphens, strip special characters, and use lowercase letters to create clean, readable links.</p>
+            <p>Search engines like Google use slugs as a ranking signal. A descriptive, keyword-rich slug tells both users and crawlers what a page is about before they even visit it. A well-crafted slug can improve click-through rates from search results and make your URLs easier to share and remember.</p>
+            <p>Poorly formatted URLs — full of percent-encoded characters, underscores, or random strings — hurt user experience and can negatively impact SEO. This tool ensures every slug you generate follows best practices automatically.</p>
+
+            <h3>Slug Generation Options</h3>
+            <ul>
+                <li>Real-time slug generation as you type — no button click needed</li>
+                <li>Automatic conversion to lowercase for consistency</li>
+                <li>Spaces and special characters replaced with hyphens</li>
+                <li>Multiple consecutive hyphens collapsed into a single hyphen</li>
+                <li>Leading and trailing hyphens automatically trimmed</li>
+                <li>One-click copy to clipboard for fast workflow integration</li>
+                <li>Character length stats for both original text and generated slug</li>
+            </ul>
+
+            <h3>How to Use the Slug Generator</h3>
+            <p>Using this tool takes just seconds. Follow these simple steps to generate a perfect slug every time:</p>
+            <ul>
+                <li>Step 1: Type or paste your page title or any text into the input field above.</li>
+                <li>Step 2: The slug is generated instantly in the output area as you type.</li>
+                <li>Step 3: Review the slug and make sure it accurately reflects your content.</li>
+                <li>Step 4: Click "Copy Slug" to copy it to your clipboard.</li>
+                <li>Step 5: Paste the slug into your CMS, blog platform, or URL field.</li>
+            </ul>
+
+            <h3>Creating URL-Friendly Slugs</h3>
+            <ul>
+                <li>Blog post permalinks in WordPress, Ghost, or custom CMS platforms</li>
+                <li>Product page URLs in e-commerce stores like Shopify or WooCommerce</li>
+                <li>Category and tag slugs for content organization</li>
+                <li>Article URLs for news sites and online magazines</li>
+                <li>Landing page URLs for marketing campaigns</li>
+                <li>Documentation page paths in developer portals and wikis</li>
+                <li>Video or podcast episode URLs for media platforms</li>
+            </ul>
+
+            <h3>SEO Benefits of Clean Slugs</h3>
+            <p>Keep your slugs short and focused. Aim for 3–5 meaningful words that capture the core topic of the page. Avoid stop words like "a", "the", "and", or "of" unless they are essential to the meaning. Shorter slugs are easier to share, remember, and type manually.</p>
+            <p>Always include your primary keyword in the slug. If your article is about "best running shoes for beginners," a slug like <code>best-running-shoes-beginners</code> is ideal. This signals relevance to search engines and improves organic ranking potential for that keyword.</p>
+            <p>Avoid changing slugs after a page is published. If you must change a slug, set up a 301 redirect from the old URL to the new one to preserve SEO value and prevent broken links. Consistency in URL structure also helps users navigate your site more intuitively.</p>
+
+            
+
+            <h3>Slugs Generated Client-Side Only</h3>
+            <p>Slug generation runs in your browser. Your text never leaves your device.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is a URL slug?</button>
+                    <div class="faq-answer"><p>A URL slug is the part of a URL that identifies a specific page in a human-readable way. For example, in 'example.com/blog/how-to-make-coffee', the slug is 'how-to-make-coffee'. Slugs are lowercase, use hyphens instead of spaces, and contain no special characters.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why are hyphens used instead of underscores in slugs?</button>
+                    <div class="faq-answer"><p>Google treats hyphens as word separators in URLs, so 'how-to-make-coffee' is read as four separate words. Underscores are treated as word joiners, so 'how_to_make_coffee' is read as one word. Hyphens are better for SEO and readability.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Should I include stop words in my slug?</button>
+                    <div class="faq-answer"><p>Stop words (a, an, the, in, of, etc.) can be removed to keep slugs shorter. For example, 'the-best-way-to-make-coffee' could become 'best-way-make-coffee'. However, removing stop words can sometimes make slugs less readable. Use your judgment based on the specific title.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How long should a URL slug be?</button>
+                    <div class="faq-answer"><p>Keep slugs under 60 characters for readability and to avoid truncation in search results. Include your primary keyword near the beginning. Shorter slugs are generally better — they are easier to share, remember, and type.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I change a slug after publishing?</button>
+                    <div class="faq-answer"><p>You can, but it requires setting up a 301 redirect from the old URL to the new one. Without a redirect, the old URL returns a 404 error and you lose any SEO value built up at that URL. Plan your slugs carefully before publishing to avoid needing to change them.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../case-converter/" class="related-tool-link">Case Converter</a>
+                    <a href="../meta-tag-generator/" class="related-tool-link">Meta Tag Generator</a>
+                    <a href="../text-cleaner/" class="related-tool-link">Text Cleaner</a>
+                    <a href="../find-replace/" class="related-tool-link">Find and Replace</a>
+                    <a href="../url-parser/" class="related-tool-link">URL Parser</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

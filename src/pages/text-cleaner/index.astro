@@ -1,0 +1,142 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/text-cleaner/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Text Cleaner - Remove Duplicates, Line Numbers, Whitespace | Webutilbox","url":"https://webutilbox.com/text-cleaner/","description":"Clean and format text with duplicate line remover, line number generator, and whitespace cleaner. Free online text cleaning tool.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does the text cleaner remove?","acceptedAnswer":{"@type":"Answer","text":"The cleaner can remove extra whitespace, duplicate spaces, blank lines, HTML tags, special characters, line breaks, and more. Each cleaning operation can be toggled independently so you only apply the transformations you need."}},{"@type":"Question","name":"Can I remove HTML tags from text?","acceptedAnswer":{"@type":"Answer","text":"Yes. The strip HTML tags option removes all HTML markup and leaves only the plain text content. This is useful for cleaning up text copied from web pages that includes formatting tags."}},{"@type":"Question","name":"How do I remove duplicate lines from text?","acceptedAnswer":{"@type":"Answer","text":"Enable the remove duplicate lines option. The tool keeps the first occurrence of each line and removes subsequent duplicates. This is useful for cleaning up lists, log files, or any text with repeated entries."}},{"@type":"Question","name":"Can I clean up text copied from a PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDF-copied text often has extra line breaks, hyphenated words split across lines, and inconsistent spacing. Use the text cleaner to remove extra line breaks, fix spacing, and join hyphenated words. You may need to apply multiple cleaning operations."}},{"@type":"Question","name":"Does the cleaner preserve paragraph breaks?","acceptedAnswer":{"@type":"Answer","text":"You can choose to remove all line breaks (joining everything into one block) or preserve paragraph breaks (double line breaks) while removing single line breaks. This is useful for reflowing text that was hard-wrapped at a specific column width."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Text Cleaner","item":"https://webutilbox.com/text-cleaner/"}]}]};
+---
+
+<ToolLayout
+  title="Text Cleaner - Remove Duplicates & Whitespace | Webutilbox"
+  description="Clean and format text with duplicate line remover, line number generator, and whitespace cleaner. Free online text cleaning tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-text-tools.svg"
+  keywords="text cleaner, remove duplicates, line numbers, whitespace remover, text formatter"
+  h1="🧹 Text Cleaner"
+  subtitle="Remove duplicates, add/remove line numbers, and clean whitespace from text."
+  lastUpdated=""
+  shareText="Free%20online%20Text%20Cleaner%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Text Cleaner - Remove Duplicates & Whitespace -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+
+
+<style>
+.mode-tab {
+            padding: 10px 20px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .mode-tab:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--primary);
+        }
+        .mode-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+</style>
+
+
+<script src="/js/text-cleaner.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Text Cleaner - Remove Duplicates, Line Numbers, and Whitespace</h2>
+            <p>This free text cleaner provides three powerful utilities in one tool: duplicate line removal, line number management, and whitespace cleanup. Whether you're processing data exports, cleaning up code, or formatting lists, this tool handles the tedious text manipulation tasks so you don't have to do them manually.</p>
+
+            <h3>What Is Text Cleaning?</h3>
+            <p>Text cleaning is the process of removing unwanted characters, formatting, or redundant content from a block of text to make it usable for a specific purpose. Raw text from databases, spreadsheets, web scraping, or copy-paste operations often contains duplicate entries, inconsistent spacing, stray line numbers, or extra blank lines that need to be removed before the data can be used effectively.</p>
+            <p>Manual text cleaning is tedious and error-prone, especially with large datasets. This tool automates the most common cleaning tasks, processing hundreds or thousands of lines in milliseconds. The three modes — Remove Duplicates, Line Numbers, and Whitespace — cover the most frequent text cleaning scenarios encountered by developers, data analysts, writers, and content managers.</p>
+            <p>Each mode is designed to be intuitive and flexible. Options like case sensitivity, alphabetical sorting, custom separators, and targeted whitespace removal give you precise control over the output without requiring any programming knowledge.</p>
+
+            <h3>Text Cleaning Options</h3>
+            <ul>
+                <li>Remove duplicate lines with optional case-sensitive or case-insensitive matching</li>
+                <li>Sort deduplicated results alphabetically with one checkbox</li>
+                <li>Trim leading and trailing whitespace from each line before deduplication</li>
+                <li>Add sequential line numbers with customizable starting number and separator</li>
+                <li>Remove existing line numbers from numbered lists or code snippets</li>
+                <li>Remove extra spaces, all spaces, empty lines, or trim line ends</li>
+                <li>One-click copy for all output modes</li>
+                <li>Duplicate count displayed after processing</li>
+            </ul>
+
+            <h3>How to Use the Text Cleaner</h3>
+            <p>Switch between the three modes using the tabs at the top of the tool. Each mode has its own input and options:</p>
+            <ul>
+                <li>Step 1: Click the tab for the operation you need: Remove Duplicates, Line Numbers, or Whitespace.</li>
+                <li>Step 2: Paste or type your text into the input area.</li>
+                <li>Step 3: Configure any options (case sensitivity, sort order, start number, etc.).</li>
+                <li>Step 4: Click the action button to process the text.</li>
+                <li>Step 5: Review the result and click "Copy Result" to copy it to your clipboard.</li>
+            </ul>
+
+            <h3>When to Clean Text Data</h3>
+            <ul>
+                <li>Deduplicating email lists, keyword lists, or product SKU lists from spreadsheets</li>
+                <li>Removing line numbers from code snippets copied from documentation or tutorials</li>
+                <li>Adding line numbers to configuration files, scripts, or numbered instructions</li>
+                <li>Cleaning up extra spaces in text copied from PDFs or web pages</li>
+                <li>Removing blank lines from data exports before importing into a database</li>
+                <li>Trimming whitespace from each line in a CSV or TSV file</li>
+                <li>Preparing clean word lists for vocabulary tools, spell checkers, or NLP processing</li>
+            </ul>
+
+            <h3>Cleaning Text Efficiently</h3>
+            <p>When removing duplicates from a list that may have inconsistent capitalization — like a list of names or tags — use the case-insensitive option to catch duplicates like "Apple" and "apple" as the same entry. Enable "Trim whitespace" at the same time to catch entries that differ only by leading or trailing spaces.</p>
+            <p>The "Sort alphabetically" option in the duplicates mode is useful for creating clean, organized lists from messy input. Sorting after deduplication makes it easy to scan the result for any remaining issues and produces output that's ready to use in dropdowns, autocomplete lists, or documentation.</p>
+            <p>For the whitespace mode, "Remove Extra Spaces" is the safest option — it collapses multiple consecutive spaces into one without removing intentional single spaces. Use "Remove All Spaces" only when you specifically need to strip all spacing, such as when processing code tokens or identifiers.</p>
+
+            
+
+            <h3>Text Cleaned Locally — Never Stored</h3>
+            <p>Text processing runs locally. Your content never leaves your device.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What does the text cleaner remove?</button>
+                    <div class="faq-answer"><p>The cleaner can remove extra whitespace, duplicate spaces, blank lines, HTML tags, special characters, line breaks, and more. Each cleaning operation can be toggled independently so you only apply the transformations you need.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I remove HTML tags from text?</button>
+                    <div class="faq-answer"><p>Yes. The strip HTML tags option removes all HTML markup and leaves only the plain text content. This is useful for cleaning up text copied from web pages that includes formatting tags.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I remove duplicate lines from text?</button>
+                    <div class="faq-answer"><p>Enable the remove duplicate lines option. The tool keeps the first occurrence of each line and removes subsequent duplicates. This is useful for cleaning up lists, log files, or any text with repeated entries.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I clean up text copied from a PDF?</button>
+                    <div class="faq-answer"><p>Yes. PDF-copied text often has extra line breaks, hyphenated words split across lines, and inconsistent spacing. Use the text cleaner to remove extra line breaks, fix spacing, and join hyphenated words. You may need to apply multiple cleaning operations.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does the cleaner preserve paragraph breaks?</button>
+                    <div class="faq-answer"><p>You can choose to remove all line breaks (joining everything into one block) or preserve paragraph breaks (double line breaks) while removing single line breaks. This is useful for reflowing text that was hard-wrapped at a specific column width.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../find-replace/" class="related-tool-link">Find and Replace</a>
+                    <a href="../text-diff/" class="related-tool-link">Text Diff</a>
+                    <a href="../case-converter/" class="related-tool-link">Case Converter</a>
+                    <a href="../word-counter/" class="related-tool-link">Word Counter</a>
+                    <a href="../html-entity-encoder/" class="related-tool-link">HTML Entity Encoder</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

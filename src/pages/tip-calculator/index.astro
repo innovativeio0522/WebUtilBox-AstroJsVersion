@@ -1,0 +1,185 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/tip-calculator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Tip Calculator - Calculate Tips and Split Bills Online | Webutilbox","url":"https://webutilbox.com/tip-calculator/","description":"Calculate tips and split bills easily. Custom percentages and bill splitting for group dining.","applicationCategory":"FinanceApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much should I tip at a restaurant?","acceptedAnswer":{"@type":"Answer","text":"Standard restaurant tipping in the US: 15% for adequate service, 18-20% for good service, 20-25% for excellent service. For takeout, 10-15% is appreciated but not always expected. For delivery, $3-5 minimum or 15-20% of the order total."}},{"@type":"Question","name":"How do I split a bill evenly among multiple people?","acceptedAnswer":{"@type":"Answer","text":"Enter the total bill amount, tip percentage, and number of people. The calculator shows the tip amount, total with tip, and each person's share. For uneven splits (different orders), calculate the total with tip first, then split proportionally."}},{"@type":"Question","name":"Should I tip on the pre-tax or post-tax amount?","acceptedAnswer":{"@type":"Answer","text":"Tipping on the pre-tax amount is technically correct and slightly less. Tipping on the post-tax total is more common in practice and easier to calculate. The difference is small — on a $50 meal with 8% tax, it is about $0.80 difference at 20% tip."}},{"@type":"Question","name":"What is the standard tip for other services?","acceptedAnswer":{"@type":"Answer","text":"Common tipping guidelines: Hair salon 15-20%, taxi/rideshare 15-20%, hotel housekeeping $2-5 per night, food delivery 15-20% (minimum $3-5), coffee shop $1-2 per drink, bartender $1-2 per drink or 15-20% of tab, movers $20-50 per person."}},{"@type":"Question","name":"How do I calculate a tip quickly in my head?","acceptedAnswer":{"@type":"Answer","text":"For 20%: move the decimal one place left (10%), then double it. For a $45 bill: 10% = $4.50, doubled = $9.00 tip. For 15%: calculate 10% and add half. $45: 10% = $4.50, half = $2.25, total tip = $6.75."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Tip Calculator","item":"https://webutilbox.com/tip-calculator/"}]}]};
+---
+
+<ToolLayout
+  title="Tip Calculator - Tips & Bill Splitter | Webutilbox"
+  description="Calculate tip amounts and split bills between multiple people. Supports custom tip percentages and rounding options. Free online tip calculator."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-calculators.svg"
+  keywords="tip calculator, calculate tip, split bill calculator, tip percentage calculator"
+  h1="💰 Tip Calculator"
+  subtitle="Calculate tips and split bills among multiple people easily."
+  lastUpdated=""
+  shareText="Free%20online%20Tip%20Calculator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Tip Calculator - Tips & Bill Splitter -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Bill Amount -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Bill Amount</label>
+                <div style="position: relative;">
+                    <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--gray);">$</span>
+                    <input type="number" id="billAmount" placeholder="0.00" oninput="calculate()" style="width: 100%; padding: 12px 12px 12px 30px; font-size: 1.2rem;">
+                </div>
+            </div>
+
+            <!-- Tip Percentage -->
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="font-size: 0.9rem; margin: 0;">Tip Percentage</label>
+                    <span style="font-size: 1.1rem; font-weight: bold; color: var(--primary);" id="tipPercentDisplay">15%</span>
+                </div>
+                <input type="range" id="tipPercent" min="0" max="30" value="15" oninput="calculate()" style="width: 100%;">
+                <div style="display: flex; gap: 8px; margin-top: 10px;">
+                    <button onclick="setTip(10)" style="flex: 1; padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">10%</button>
+                    <button onclick="setTip(15)" style="flex: 1; padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">15%</button>
+                    <button onclick="setTip(18)" style="flex: 1; padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">18%</button>
+                    <button onclick="setTip(20)" style="flex: 1; padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">20%</button>
+                    <button onclick="setTip(25)" style="flex: 1; padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">25%</button>
+                </div>
+            </div>
+
+            <!-- Number of People -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Split Between</label>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button onclick="changePeople(-1)" style="width: 45px; height: 45px; background: var(--light); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 1.5rem; color: var(--white);">-</button>
+                    <input type="number" id="numPeople" value="1" min="1" oninput="calculate()" style="flex: 1; padding: 12px; font-size: 1.2rem; text-align: center;">
+                    <button onclick="changePeople(1)" style="width: 45px; height: 45px; background: var(--light); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 1.5rem; color: var(--white);">+</button>
+                    <span style="font-size: 0.9rem; color: var(--gray);">people</span>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <div style="background: var(--light); padding: 20px; border-radius: 10px; text-align: center; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 5px;">Tip Amount</div>
+                    <div style="font-size: 2rem; font-weight: bold; color: var(--secondary);" id="tipAmount">$0.00</div>
+                </div>
+                <div style="background: var(--light); padding: 20px; border-radius: 10px; text-align: center; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 5px;">Total Amount</div>
+                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary);" id="totalAmount">$0.00</div>
+                </div>
+            </div>
+
+            <!-- Per Person -->
+            <div class="output-container show">
+                <div class="output-label">Per Person</div>
+                <div style="display: grid; gap: 10px; font-size: 0.95rem;">
+                    <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--light); border-radius: 6px;">
+                        <span>Tip per person:</span>
+                        <span style="color: var(--secondary); font-weight: 600;" id="tipPerPerson">$0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--light); border-radius: 6px;">
+                        <span>Total per person:</span>
+                        <span style="color: var(--primary); font-weight: 600; font-size: 1.2rem;" id="totalPerPerson">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/tip-calculator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Tip Calculator - Calculate Tips and Split Bills Easily</h2>
+            <p>The Tip Calculator is a free, instant tool that helps you figure out how much to tip and how to split a bill among multiple people. Whether you are at a restaurant, a bar, a hair salon, or any service-based business, this tool gives you a clear breakdown of the tip amount, total bill, and per-person share in real time as you adjust the inputs.</p>
+
+            <h3>What Is a Tip Calculator?</h3>
+            <p>A tip calculator takes your bill amount and a tip percentage, then computes the tip amount and the total you owe. When dining or paying for services in a group, it also divides the total evenly among the number of people splitting the bill. This eliminates the mental math and awkward moments at the table when everyone is trying to figure out what they owe.</p>
+            <p>Tipping customs vary by country, culture, and type of service. In the United States, 15–20% is the standard range for restaurant service, with 20–25% reserved for exceptional service. In other countries, tipping may be less common or handled differently. This tool lets you set any percentage from 0 to 30% using the slider, or jump to a common preset with a single click.</p>
+            <p>The calculator updates instantly as you change any input — the bill amount, the tip percentage, or the number of people. There is no submit button to click; the results are always current and visible, making it easy to explore different scenarios before deciding on a tip.</p>
+
+            <h3>Tip Calculation Options</h3>
+            <ul>
+                <li>Real-time calculation that updates instantly as you type or adjust any input</li>
+                <li>Tip percentage slider ranging from 0% to 30% for fine-grained control</li>
+                <li>Quick-select preset buttons for the most common tip percentages: 10%, 15%, 18%, 20%, and 25%</li>
+                <li>Bill splitting with plus and minus buttons to easily adjust the number of people</li>
+                <li>Clear breakdown showing tip amount, total amount, tip per person, and total per person</li>
+                <li>Supports any bill amount including decimals for precise calculations</li>
+                <li>Works on mobile devices for easy use at the table</li>
+            </ul>
+
+            <h3>How to Use the Tip Calculator</h3>
+            <ul>
+                <li>Step 1: Enter your bill amount in the input field at the top (before tax, or after — your choice)</li>
+                <li>Step 2: Adjust the tip percentage using the slider or click one of the preset buttons (10%, 15%, 18%, 20%, 25%)</li>
+                <li>Step 3: Use the plus and minus buttons to set the number of people splitting the bill</li>
+                <li>Step 4: Read the results — tip amount, total amount, tip per person, and total per person update instantly</li>
+                <li>Step 5: Round up or down as needed based on the per-person total shown</li>
+            </ul>
+
+            <h3>Splitting Bills at Restaurants</h3>
+            <ul>
+                <li>Calculating a restaurant tip after a meal, whether dining alone or with a group</li>
+                <li>Splitting a bar tab evenly among friends without anyone doing mental math</li>
+                <li>Figuring out how much to tip a delivery driver, hairdresser, or spa technician</li>
+                <li>Determining the right tip for hotel housekeeping, valet parking, or concierge services</li>
+                <li>Teaching children or young adults about tipping etiquette and how percentages work in practice</li>
+                <li>Quickly checking if a suggested tip on a receipt is accurate before signing</li>
+            </ul>
+
+            <h3>Calculating Fair Tips</h3>
+            <p>A common question is whether to tip on the pre-tax or post-tax amount. In most cases, tipping on the pre-tax subtotal is considered standard, though tipping on the total is also widely accepted and makes the math simpler. Either approach is fine — what matters most is that the service provider receives a fair gratuity for their work.</p>
+            <p>When splitting a bill, it is often easier to round each person's share up to the nearest dollar rather than dealing with exact cents. For example, if the total per person comes to $23.47, having everyone pay $24 is simpler and results in a slightly larger tip for the server. This tool shows you the exact figure so you can decide how to round.</p>
+            <p>If the service was exceptional, do not hesitate to go above the standard range. Conversely, if service was genuinely poor, it is acceptable to tip less — though many service workers rely on tips as a significant part of their income, so consider whether the issue was within their control before reducing the tip significantly.</p>
+
+            
+
+            <h3>No Payment Data Stored or Sent</h3>
+            <p>Calculations run in your browser. No financial data is sent anywhere.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How much should I tip at a restaurant?</button>
+                    <div class="faq-answer"><p>Standard restaurant tipping in the US: 15% for adequate service, 18-20% for good service, 20-25% for excellent service. For takeout, 10-15% is appreciated but not always expected. For delivery, $3-5 minimum or 15-20% of the order total.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I split a bill evenly among multiple people?</button>
+                    <div class="faq-answer"><p>Enter the total bill amount, tip percentage, and number of people. The calculator shows the tip amount, total with tip, and each person's share. For uneven splits (different orders), calculate the total with tip first, then split proportionally.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Should I tip on the pre-tax or post-tax amount?</button>
+                    <div class="faq-answer"><p>Tipping on the pre-tax amount is technically correct and slightly less. Tipping on the post-tax total is more common in practice and easier to calculate. The difference is small — on a $50 meal with 8% tax, it is about $0.80 difference at 20% tip.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the standard tip for other services?</button>
+                    <div class="faq-answer"><p>Common tipping guidelines: Hair salon 15-20%, taxi/rideshare 15-20%, hotel housekeeping $2-5 per night, food delivery 15-20% (minimum $3-5), coffee shop $1-2 per drink, bartender $1-2 per drink or 15-20% of tab, movers $20-50 per person.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I calculate a tip quickly in my head?</button>
+                    <div class="faq-answer"><p>For 20%: move the decimal one place left (10%), then double it. For a $45 bill: 10% = $4.50, doubled = $9.00 tip. For 15%: calculate 10% and add half. $45: 10% = $4.50, half = $2.25, total tip = $6.75.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../percentage-calculator/" class="related-tool-link">Percentage Calculator</a>
+                    <a href="../discount-calculator/" class="related-tool-link">Discount Calculator</a>
+                    <a href="../tax-calculator/" class="related-tool-link">Tax Calculator</a>
+                    <a href="../currency-converter/" class="related-tool-link">Currency Converter</a>
+                    <a href="../salary-calculator/" class="related-tool-link">Salary Calculator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

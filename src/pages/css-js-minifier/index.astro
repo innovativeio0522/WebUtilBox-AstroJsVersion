@@ -1,0 +1,119 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/css-js-minifier/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"CSS & JS Minifier - Compress Code Online | Webutilbox","url":"https://webutilbox.com/css-js-minifier/","description":"Minify CSS and JavaScript to reduce file size. Remove whitespace and comments. Free online tool.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much does minification reduce file size?","acceptedAnswer":{"@type":"Answer","text":"Typical CSS minification reduces file size by 20-40%. JavaScript minification can reduce size by 40-70% depending on how much whitespace, comments, and long variable names are in the original. Combining minification with gzip compression (done by web servers) can achieve 80-90% total reduction."}},{"@type":"Question","name":"Does minification change how my code works?","acceptedAnswer":{"@type":"Answer","text":"For CSS, minification only removes whitespace and comments — the behavior is identical. For JavaScript, basic minification (whitespace/comment removal) is safe. Advanced minification that renames variables can occasionally break code that relies on specific variable names (like eval or dynamic property access)."}},{"@type":"Question","name":"Should I minify my CSS and JS in production?","acceptedAnswer":{"@type":"Answer","text":"Yes, always. Minified files load faster, which improves user experience and Core Web Vitals scores. Most build tools (Webpack, Vite, Parcel) minify automatically in production builds. This tool is useful for quick manual minification without a build pipeline."}},{"@type":"Question","name":"What is the difference between minification and obfuscation?","acceptedAnswer":{"@type":"Answer","text":"Minification removes unnecessary characters to reduce file size while keeping the code readable (just compressed). Obfuscation intentionally makes code hard to understand by renaming variables to meaningless names and restructuring logic. Use the JS Obfuscator tool for obfuscation."}},{"@type":"Question","name":"Can I minify multiple files at once?","acceptedAnswer":{"@type":"Answer","text":"This tool processes one file at a time. For batch minification of a whole project, use a build tool like Webpack, Vite, or a task runner like Gulp. This tool is best for quick one-off minification tasks."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"CSS & JS Minifier","item":"https://webutilbox.com/css-js-minifier/"}]}]};
+---
+
+<ToolLayout
+  title="CSS & JS Minifier - Compress Code Online | Webutilbox"
+  description="Minify CSS and JavaScript files online to reduce file size. Compress code for faster page loads instantly. Free online CSS and JS minifier."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="css minifier, js minifier, minify css, minify javascript, code compression, optimize css"
+  h1="⚡ CSS & JS Minifier"
+  subtitle="Compress and optimize CSS and JavaScript code for production."
+  lastUpdated=""
+  shareText="Free%20online%20CSS%20%26%20JS%20Minifier%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="CSS & JS Minifier - Compress Code Online -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+
+
+
+<script src="/js/css-js-minifier.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>CSS & JS Minifier - Compress Code Online</h2>
+    <p>The CSS & JS Minifier removes unnecessary whitespace, comments, and redundant code from your CSS and JavaScript files to reduce their file size. Smaller files load faster, improving your website's performance and user experience. This free online tool handles both CSS and JavaScript minification with instant results and a clear compression report.</p>
+
+    <h3>What Is CSS & JS Minifier?</h3>
+    <p>Minification is the process of removing all unnecessary characters from source code without changing its functionality. This includes whitespace, newlines, comments, and redundant syntax. The result is functionally identical code that occupies significantly less disk space and transfers faster over the network to your users' browsers.</p>
+    <p>This tool supports both CSS and JavaScript minification in a single interface. Switch between modes using the tabs at the top, paste your code, and click Minify to get the compressed output instantly. The compression stats panel shows you exactly how much space you saved and the percentage reduction achieved.</p>
+    <p>Unlike build tools that require configuration and setup, this online minifier works immediately with no installation required. It's ideal for quick one-off tasks, verifying minification output, or working on projects where a full build pipeline isn't set up yet. The download button lets you save the minified file directly with the correct .min.css or .min.js extension.</p>
+
+    <h3>Minification Options and Settings</h3>
+    <ul>
+        <li>CSS and JavaScript minification in one tool, with a simple tab interface to switch between the two modes.</li>
+        <li>Real-time compression statistics showing original size, minified size, bytes saved, and percentage reduction.</li>
+        <li>Sample code loader that populates the input with example CSS or JavaScript so you can see the tool in action immediately.</li>
+        <li>One-click copy button to copy the minified output directly to your clipboard for immediate use.</li>
+        <li>Download button that saves the minified file with the proper naming convention (.min.css or .min.js).</li>
+        <li>Character and line count display for both input and output, giving you a clear picture of the compression achieved.</li>
+    </ul>
+
+    <h3>How to Use CSS & JS Minifier</h3>
+    <p>The minifier is designed to be as simple as possible — paste your code and get compressed output in seconds.</p>
+    <ul>
+        <li>Step 1: Select the CSS Minifier or JS Minifier tab depending on the type of code you want to compress.</li>
+        <li>Step 2: Paste your unminified CSS or JavaScript code into the left input panel, or click "Sample" to load example code.</li>
+        <li>Step 3: Click the "Minify Code" button to process your code and generate the compressed output.</li>
+        <li>Step 4: Review the compression stats to see how much space was saved and the percentage reduction.</li>
+        <li>Step 5: Click "Copy" to copy the minified code to your clipboard, or "Download" to save it as a file.</li>
+    </ul>
+
+    <h3>When to Minify CSS and JS</h3>
+    <p>Minification is a standard step in web development workflows and applies to a wide range of situations.</p>
+    <ul>
+        <li>Production deployment: Minify your CSS and JS files before deploying to production to reduce page load times for all visitors.</li>
+        <li>Performance optimization: Quickly reduce the size of third-party scripts or stylesheets that you're hosting yourself.</li>
+        <li>Email templates: Minify inline CSS in HTML email templates to reduce message size and improve deliverability.</li>
+        <li>CDN uploads: Compress files before uploading to a CDN to reduce storage costs and improve cache efficiency.</li>
+        <li>Learning and verification: Compare minified output against your source to understand what a minifier removes and how it transforms your code.</li>
+    </ul>
+
+    <h3>Getting the Best Minification Results</h3>
+    <p>Always keep your original, unminified source files in version control. Minified code is not meant to be edited directly — it's a build artifact. Your development workflow should always work from the readable source files, with minification applied as a final step before deployment or as part of an automated build process.</p>
+    <p>Minification and server-side compression (gzip or Brotli) are complementary techniques that work together. Minification reduces the logical size of the code by removing unnecessary characters, while gzip compression reduces the transmitted size by encoding repeated patterns. Applying both gives you the maximum possible reduction in file size. Most web servers and CDNs apply gzip automatically, so minifying your files first ensures you get the best of both techniques.</p>
+    <p>For ongoing projects, consider integrating minification into your build pipeline using tools like webpack, Vite, Parcel, esbuild, or Gulp. These tools automate minification as part of every build, ensuring your production files are always optimized without any manual steps. This online tool is best suited for quick tasks, one-off files, or situations where a full build pipeline isn't available.</p>
+
+    
+
+    <h3>Code Minified Locally — Never Uploaded</h3>
+    <p>Minification runs in your browser. Your code is never uploaded to any server.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How much does minification reduce file size?</button>
+                    <div class="faq-answer"><p>Typical CSS minification reduces file size by 20-40%. JavaScript minification can reduce size by 40-70% depending on how much whitespace, comments, and long variable names are in the original. Combining minification with gzip compression (done by web servers) can achieve 80-90% total reduction.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does minification change how my code works?</button>
+                    <div class="faq-answer"><p>For CSS, minification only removes whitespace and comments — the behavior is identical. For JavaScript, basic minification (whitespace/comment removal) is safe. Advanced minification that renames variables can occasionally break code that relies on specific variable names (like eval or dynamic property access).</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Should I minify my CSS and JS in production?</button>
+                    <div class="faq-answer"><p>Yes, always. Minified files load faster, which improves user experience and Core Web Vitals scores. Most build tools (Webpack, Vite, Parcel) minify automatically in production builds. This tool is useful for quick manual minification without a build pipeline.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between minification and obfuscation?</button>
+                    <div class="faq-answer"><p>Minification removes unnecessary characters to reduce file size while keeping the code readable (just compressed). Obfuscation intentionally makes code hard to understand by renaming variables to meaningless names and restructuring logic. Use the JS Obfuscator tool for obfuscation.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I minify multiple files at once?</button>
+                    <div class="faq-answer"><p>This tool processes one file at a time. For batch minification of a whole project, use a build tool like Webpack, Vite, or a task runner like Gulp. This tool is best for quick one-off minification tasks.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../js-obfuscator/" class="related-tool-link">JS Obfuscator</a>
+                    <a href="../json-formatter/" class="related-tool-link">JSON Formatter</a>
+                    <a href="../sql-formatter/" class="related-tool-link">SQL Formatter</a>
+                    <a href="../html-entity-encoder/" class="related-tool-link">HTML Entity Encoder</a>
+                    <a href="../regex-tester/" class="related-tool-link">Regex Tester</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

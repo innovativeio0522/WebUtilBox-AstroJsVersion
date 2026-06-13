@@ -1,0 +1,171 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import FAQ from '../../components/FAQ.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+
+const canonical = 'https://webutilbox.com/json-to-csv/';
+
+const jsonLd = {
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebApplication",
+      "name":"JSON ↔ CSV Converter - Bidirectional Converter | Webutilbox",
+      "url":"https://webutilbox.com/json-to-csv/",
+      "description":"Convert between JSON and CSV formats instantly. Bidirectional converter with preview. Works offline, no upload required.",
+      "applicationCategory":"UtilitiesApplication",
+      "operatingSystem":"Web Browser",
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+      "creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {
+          "@type":"Question",
+          "name":"What JSON structure works best for CSV conversion?",
+          "acceptedAnswer":{"@type":"Answer","text":"An array of objects works best. Each object becomes a row, and the keys become column headers. Nested objects and arrays are flattened or stringified since CSV is a flat format."}
+        },
+        {
+          "@type":"Question",
+          "name":"What happens to nested JSON objects during conversion?",
+          "acceptedAnswer":{"@type":"Answer","text":"Nested objects are typically flattened (parent.child becomes a column name) or stringified as a JSON string in the cell. The exact behavior depends on the nesting depth and structure. For deeply nested data, consider flattening your JSON first."}
+        },
+        {
+          "@type":"Question",
+          "name":"Can I convert CSV back to JSON?",
+          "acceptedAnswer":{"@type":"Answer","text":"Yes. Paste your CSV data and the tool will parse it back into a JSON array of objects, using the first row as keys. Make sure your CSV has a header row for the conversion to work correctly."}
+        },
+        {
+          "@type":"Question",
+          "name":"How do I handle special characters in CSV?",
+          "acceptedAnswer":{"@type":"Answer","text":"CSV fields containing commas, quotes, or newlines must be wrapped in double quotes. Double quotes within a field are escaped by doubling them. This tool handles this automatically when generating CSV output."}
+        },
+        {
+          "@type":"Question",
+          "name":"What delimiter should I use?",
+          "acceptedAnswer":{"@type":"Answer","text":"Comma (,) is the standard CSV delimiter. However, some regions use semicolons (;) as the default (especially in European locales where commas are used as decimal separators). Tab-separated values (TSV) are also common for data that contains commas. Choose the delimiter that matches your target application."}
+        }
+      ]
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},
+        {"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/tools/"},
+        {"@type":"ListItem","position":3,"name":"JSON ↔ CSV Converter","item":"https://webutilbox.com/json-to-csv/"}
+      ]
+    }
+  ]
+};
+
+const faqItems = [
+  { question: "What JSON structure works best for CSV conversion?", answer: "An array of objects works best. Each object becomes a row, and the keys become column headers. Nested objects and arrays are flattened or stringified since CSV is a flat format." },
+  { question: "What happens to nested JSON objects during conversion?", answer: "Nested objects are typically flattened (parent.child becomes a column name) or stringified as a JSON string in the cell. The exact behavior depends on the nesting depth and structure. For deeply nested data, consider flattening your JSON first." },
+  { question: "Can I convert CSV back to JSON?", answer: "Yes. Paste your CSV data and the tool will parse it back into a JSON array of objects, using the first row as keys. Make sure your CSV has a header row for the conversion to work correctly." },
+  { question: "How do I handle special characters in CSV?", answer: "CSV fields containing commas, quotes, or newlines must be wrapped in double quotes. Double quotes within a field are escaped by doubling them. This tool handles this automatically when generating CSV output." },
+  { question: "What delimiter should I use?", answer: "Comma (,) is the standard CSV delimiter. However, some regions use semicolons (;) as the default (especially in European locales where commas are used as decimal separators). Tab-separated values (TSV) are also common for data that contains commas. Choose the delimiter that matches your target application." }
+];
+
+const relatedTools = [
+  { href: "/json-formatter/", label: "JSON Formatter" },
+  { href: "/sql-formatter/", label: "SQL Formatter" },
+  { href: "/find-replace/", label: "Find and Replace" },
+  { href: "/text-diff/", label: "Text Diff" },
+  { href: "/regex-tester/", label: "Regex Tester" }
+];
+---
+
+<ToolLayout
+  title="JSON to CSV Converter | Webutilbox"
+  description="Convert between JSON and CSV formats instantly. Bidirectional converter with preview. Works offline, no upload required."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="json to csv, csv to json, json converter, csv converter, bidirectional converter, convert json csv"
+  h1="📊 JSON ↔ CSV Converter"
+  subtitle="Convert between JSON and CSV formats with preview and download."
+  lastUpdated=""
+  shareText="Free%20online%20JSON%20to%20CSV%20Converter%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="JSON to CSV Converter -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+  <style>
+    .direction-tab {
+      padding: 10px 20px;
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--white);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .direction-tab:hover {
+      background: rgba(249, 115, 22, 0.1);
+      border-color: var(--primary);
+    }
+    .direction-tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+  </style>
+
+  <Fragment slot="scripts" set:html={`<script src="/js/json-to-csv.js" defer></script>`} />
+
+  <div class="info-section" slot="info">
+    <h2>JSON to CSV Converter - Bidirectional Data Format Conversion</h2>
+    <p>Our free JSON ↔ CSV Converter lets you convert between JSON and CSV formats instantly, with a live table preview and one-click download. Whether you're preparing data for a spreadsheet, importing records into a database, or transforming API responses for analysis, this tool handles both directions of conversion with ease.</p>
+
+    <h3>What Is the JSON to CSV Converter?</h3>
+    <p>This tool converts JSON arrays to CSV (Comma-Separated Values) format and vice versa. JSON is the standard format for web APIs and JavaScript applications, while CSV is the universal format for spreadsheets, databases, and data analysis tools like Excel, Google Sheets, and pandas. Being able to move data between these two formats is a fundamental task in data engineering and web development.</p>
+    <p>The converter automatically detects column headers from JSON keys, handles nested objects using dot notation (e.g., <code>address.city</code>), and properly escapes values that contain commas or quotes. In the reverse direction (CSV to JSON), it intelligently parses data types — converting numeric strings to numbers and "true"/"false" strings to booleans.</p>
+
+    <h3>Conversion Options and Settings</h3>
+    <ul>
+      <li>Bidirectional conversion — JSON to CSV and CSV to JSON with a single click</li>
+      <li>Live table preview showing your data in a formatted grid</li>
+      <li>Automatic column detection from JSON object keys</li>
+      <li>Nested object flattening using dot notation for keys</li>
+      <li>Automatic data type detection when converting CSV to JSON</li>
+      <li>Proper CSV escaping for values containing commas, quotes, or newlines</li>
+      <li>Copy to clipboard and download as file (.csv or .json)</li>
+      <li>Sample data loader for quick testing</li>
+    </ul>
+
+    <h3>How to Use the JSON to CSV Converter</h3>
+    <ul>
+      <li>Step 1: Select your conversion direction using the "JSON ↔ CSV" or "CSV ↔ JSON" tab.</li>
+      <li>Step 2: Paste your data into the input textarea, or click "Sample" to load example data.</li>
+      <li>Step 3: Click the "Convert" button to process your data.</li>
+      <li>Step 4: View the result in the "Table Preview" tab for a visual grid, or "CSV Text" for the raw output.</li>
+      <li>Step 5: Click "Copy CSV" to copy the result, or "Download CSV" to save it as a file.</li>
+    </ul>
+
+    <h3>When to Convert JSON to CSV</h3>
+    <ul>
+      <li>Exporting API response data to CSV for analysis in Excel or Google Sheets</li>
+      <li>Converting database query results (JSON) to CSV for reporting</li>
+      <li>Importing CSV data from spreadsheets into a JSON-based application</li>
+      <li>Preparing datasets for machine learning pipelines that require CSV input</li>
+      <li>Transforming e-commerce product data between formats for different platforms</li>
+      <li>Converting user export data (CSV) to JSON for processing in Node.js or Python</li>
+      <li>Migrating data between systems that use different formats</li>
+    </ul>
+
+    <h3>Handling Complex JSON Structures</h3>
+    <p>For JSON to CSV conversion, your JSON input should be an array of objects where each object has the same keys. If objects have different keys, the converter will include all unique keys as columns and leave cells empty where a key is missing. This is handled gracefully, but for the cleanest output, normalize your JSON structure before converting.</p>
+    <p>When converting CSV to JSON, make sure your CSV has a header row as the first line. The converter uses the header values as JSON object keys. If your CSV uses non-standard delimiters or has complex quoting, you may need to clean it up first. The converter follows RFC 4180 CSV standards.</p>
+    <p>For large datasets, the table preview may be slow to render. Switch to the "CSV Text" tab for faster access to the raw output when working with thousands of rows. The download function works efficiently regardless of data size.</p>
+
+    <h3>Data Converted Locally — Not Uploaded</h3>
+    <p>Conversion runs in your browser. Your JSON data never leaves your device.</p>
+
+    <FAQ items={faqItems} />
+    <RelatedTools tools={relatedTools} />
+  </div>
+</ToolLayout>

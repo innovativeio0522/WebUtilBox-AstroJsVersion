@@ -1,0 +1,118 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/image-metadata/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Image Metadata Viewer & Remover - View and Remove EXIF Data | Webutilbox","url":"https://webutilbox.com/image-metadata/","description":"View and remove image EXIF metadata online. Check camera info, GPS, date. Works offline.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is EXIF data?","acceptedAnswer":{"@type":"Answer","text":"EXIF (Exchangeable Image File Format) is metadata embedded in image files by cameras and smartphones. It includes camera model, lens, aperture, shutter speed, ISO, GPS coordinates, date/time, and more. This tool reads and displays all available EXIF fields."}},{"@type":"Question","name":"Does my photo contain GPS location data?","acceptedAnswer":{"@type":"Answer","text":"If your phone's camera had location services enabled when you took the photo, the GPS coordinates are embedded in the EXIF data. This tool will show the latitude and longitude if present. Be aware that sharing photos online may expose your location unless you strip the EXIF data first."}},{"@type":"Question","name":"How do I remove EXIF data from a photo?","acceptedAnswer":{"@type":"Answer","text":"This tool reads EXIF data but does not remove it. To strip EXIF data, use an image editor like Photoshop (Save for Web option), or re-export the image through the Image Format Converter which may strip metadata depending on the output format."}},{"@type":"Question","name":"Why does my image show no EXIF data?","acceptedAnswer":{"@type":"Answer","text":"EXIF data may be absent if: the image was edited and saved in a way that strips metadata, it was screenshotted rather than photographed, it was downloaded from a social media platform (most platforms strip EXIF on upload), or it was created digitally rather than photographed."}},{"@type":"Question","name":"Can I edit EXIF data?","acceptedAnswer":{"@type":"Answer","text":"This tool is read-only. To edit EXIF data, use dedicated tools like ExifTool (command line) or desktop applications like Adobe Bridge or DigiKam."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Image Metadata Viewer & Remover","item":"https://webutilbox.com/image-metadata/"}]}]};
+---
+
+<ToolLayout
+  title="Image Metadata Viewer & EXIF Remover | Webutilbox"
+  description="Read and view EXIF metadata from images online. Extract camera settings, GPS location, date, and other metadata. Free image metadata viewer."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-image-tools.svg"
+  keywords="exif viewer, metadata remover, image privacy, remove exif data"
+  h1="🔍 Image Metadata Viewer & Remover"
+  subtitle="View EXIF data (camera, location, date) and remove metadata for privacy protection."
+  lastUpdated=""
+  shareText="Free%20online%20Image%20Metadata%20Viewer%20%26%20EXIF%20Remover%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Image Metadata Viewer & EXIF Remover -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+<script src="/js/image-metadata.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Image Metadata Viewer &amp; EXIF Remover - View and Strip Image Data</h2>
+    <p>The Image Metadata Viewer lets you inspect all EXIF data and metadata embedded in your photos, then remove it with a single click before sharing. See camera settings, GPS coordinates, timestamps, and device information — and strip it all out to protect your privacy.</p>
+
+    <h3>What Is Image Metadata?</h3>
+    <p>Image metadata is information embedded within an image file that describes the image and how it was captured. The most common metadata standard for photos is EXIF (Exchangeable Image File Format), which was developed for digital cameras and is now used by virtually all smartphones and digital cameras. EXIF data is stored invisibly inside the image file and travels with the image whenever it is copied, shared, or uploaded — unless it is explicitly removed.</p>
+    <p>Beyond EXIF, images can also contain IPTC metadata (used by news agencies for copyright and caption information), XMP metadata (used by Adobe software for editing history and color profiles), and basic file metadata such as creation date, modification date, and file size. This tool reads and displays all available metadata fields, giving you a complete picture of what information is embedded in your image before you share it.</p>
+    <p>The amount of metadata in an image depends on the device and software used to create it. A photo taken with a modern smartphone typically contains dozens of EXIF fields, including GPS coordinates accurate to within a few meters, the exact make and model of the phone, the date and time the photo was taken, and detailed camera settings. A photo processed in Adobe Lightroom may also contain editing history, color profile information, and copyright notices added during post-processing.</p>
+
+    <h3>Metadata Fields Extracted</h3>
+    <ul>
+        <li>Complete EXIF data display — view all metadata fields embedded in your image, including camera make and model, date and time, GPS coordinates, aperture, shutter speed, ISO, and focal length.</li>
+        <li>GPS location detection — the tool highlights whether your image contains GPS coordinates and displays a warning, since location data is one of the most sensitive pieces of information in photo metadata.</li>
+        <li>Key metadata summary — the most important fields are displayed prominently in a summary panel for quick review, with the option to expand and see all metadata fields.</li>
+        <li>One-click metadata removal — strip all EXIF and metadata from your image with a single button click, downloading a clean version that is visually identical to the original but contains no embedded data.</li>
+        <li>Image preview with file information — see a preview of your image alongside its dimensions, file size, and format for quick reference.</li>
+        <li>Supports JPEG and PNG formats — the most common formats for photos that contain EXIF data.</li>
+    </ul>
+
+    <h3>How to Use the Image Metadata Viewer</h3>
+    <p>Viewing and removing metadata from your images is straightforward — follow these steps.</p>
+    <ul>
+        <li>Step 1: Upload your image by clicking the upload area or dragging and dropping a file. JPEG files typically contain the most metadata, as PNG files store less EXIF data by default.</li>
+        <li>Step 2: The tool immediately reads and displays all available metadata. The summary panel shows the most important fields, including GPS status, camera model, and capture date.</li>
+        <li>Step 3: Review the metadata to understand what information is embedded in your image. Pay particular attention to the GPS status indicator — if it shows "Yes," your image contains location data.</li>
+        <li>Step 4: Click "Show All" to expand the full metadata panel and see every field embedded in the image, including technical camera settings and software information.</li>
+        <li>Step 5: Click "Remove All Metadata &amp; Download" to strip all EXIF data from the image and download a clean version. The downloaded image is visually identical to the original but contains no metadata.</li>
+    </ul>
+
+    <h3>Reading and Using Image Metadata</h3>
+    <ul>
+        <li>Privacy protection before sharing photos online — remove GPS coordinates and device information from photos before posting them on social media, forums, or public websites to prevent location tracking.</li>
+        <li>Professional photography — review EXIF data to verify camera settings used for a particular shot, useful for learning from your own work and understanding what settings produce the best results in different conditions.</li>
+        <li>Copyright and attribution — check EXIF data for copyright notices and author information embedded in images you have received, to verify ownership and attribution before using them in your work.</li>
+        <li>Forensic and verification purposes — examine metadata to verify when and where a photo was taken, useful for journalism, legal proceedings, and fact-checking.</li>
+        <li>Preparing images for publication — strip metadata from images before submitting them to publications, stock photo agencies, or clients who require clean files without embedded personal information.</li>
+    </ul>
+
+    <h3>Understanding EXIF and IPTC Data</h3>
+    <p>Always check your photos for GPS data before sharing them publicly, especially photos taken at your home, workplace, or other locations you visit regularly. GPS coordinates in EXIF data can reveal your home address, daily routine, and frequently visited locations to anyone who downloads your photos and checks the metadata. This is a significant privacy risk that many people are unaware of.</p>
+    <p>Most social media platforms automatically strip EXIF data when you upload photos, but this is not universal and should not be relied upon. Some platforms preserve metadata, and even platforms that strip it may retain it internally. The safest approach is to remove metadata yourself before uploading, using this tool, so you have full control over what information leaves your device.</p>
+    <p>If you are a photographer who wants to protect your copyright, consider adding copyright information to your EXIF data before sharing images rather than removing all metadata. You can use photo editing software to add your name, copyright notice, and contact information to the EXIF fields, which travels with the image and makes it easier for people to find and credit you as the original creator.</p>
+
+    
+
+    <h3>Metadata Read Only in Your Browser</h3>
+    <p>Metadata is read locally using the browser's file API. No image data is transmitted.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is EXIF data?</button>
+                    <div class="faq-answer"><p>EXIF (Exchangeable Image File Format) is metadata embedded in image files by cameras and smartphones. It includes camera model, lens, aperture, shutter speed, ISO, GPS coordinates, date/time, and more. This tool reads and displays all available EXIF fields.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does my photo contain GPS location data?</button>
+                    <div class="faq-answer"><p>If your phone's camera had location services enabled when you took the photo, the GPS coordinates are embedded in the EXIF data. This tool will show the latitude and longitude if present. Be aware that sharing photos online may expose your location unless you strip the EXIF data first.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I remove EXIF data from a photo?</button>
+                    <div class="faq-answer"><p>This tool reads EXIF data but does not remove it. To strip EXIF data, use an image editor like Photoshop (Save for Web option), or re-export the image through the Image Format Converter which may strip metadata depending on the output format.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why does my image show no EXIF data?</button>
+                    <div class="faq-answer"><p>EXIF data may be absent if: the image was edited and saved in a way that strips metadata, it was screenshotted rather than photographed, it was downloaded from a social media platform (most platforms strip EXIF on upload), or it was created digitally rather than photographed.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I edit EXIF data?</button>
+                    <div class="faq-answer"><p>This tool is read-only. To edit EXIF data, use dedicated tools like ExifTool (command line) or desktop applications like Adobe Bridge or DigiKam.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../image-compressor/" class="related-tool-link">Image Compressor</a>
+                    <a href="../image-format-converter/" class="related-tool-link">Image Format Converter</a>
+                    <a href="../image-color-picker/" class="related-tool-link">Image Color Picker</a>
+                    <a href="../image-resizer/" class="related-tool-link">Image Resizer</a>
+                    <a href="../favicon-generator/" class="related-tool-link">Favicon Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

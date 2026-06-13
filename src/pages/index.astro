@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ShareBar from '../components/ShareBar.astro';
+
+const canonical = 'https://webutilbox.com/';
+const shareText = "Check%20out%20Webutilbox%20%E2%80%94%2094%2B%20free%20online%20tools%20for%20developers%2C%20designers%2C%20and%20everyone.%20Privacy-focused%20and%20fast.";
+const shareUrl = canonical;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Webutilbox",
+  "url": "https://webutilbox.com/",
+  "description": "94+ free online tools for JSON, passwords, images, calculators. Privacy-focused, works offline.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://webutilbox.com/tools?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
+---
+
+<BaseLayout
+  title="Free Online Web Tools - Webutilbox"
+  description="94+ free online tools for JSON, passwords, images, calculators. Privacy-focused, works offline."
+  canonical={canonical}
+  ogTitle="Free Online Tools - JSON Formatter, Password Generator & More | Webutilbox"
+  ogImage="https://webutilbox.com/assets/og-image.png"
+  keywords="free online tools browser based, json formatter no upload, password generator browser only, unit converter instant, developer tools privacy focused, online utilities no signup, client side tools"
+  jsonLd={jsonLd}
+>
+  <slot name="head">
+    <link rel="stylesheet" href="/assets/css/home.css">
+  </slot>
+  <header>
+    <div class="header-content">
+      <a href="/" class="logo">
+        <span>💼</span>
+        <span>Webutilbox</span>
+      </a>
+      <a href="/tools" class="all-tools-btn">All Tools</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="hero">
+      <h1>Your Digital Toolbox</h1>
+      <p>94+ free, fast, and privacy-focused utilities. No ads, no tracking, no data leaves your browser.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">&#128293; Popular Tools</h2>
+      <div class="tools-grid">
+        <a href="/json-formatter/" class="tool-card">
+          <div class="tool-icon" set:html="{ }"></div>
+          <h3 class="tool-title">JSON Formatter</h3>
+          <p class="tool-desc">Format, validate, and minify JSON data instantly</p>
+        </a>
+
+        <a href="/password-generator/" class="tool-card">
+          <div class="tool-icon">&#128273;</div>
+          <h3 class="tool-title">Password Generator</h3>
+          <p class="tool-desc">Create strong, secure passwords with custom options</p>
+        </a>
+
+        <a href="/sha256-generator/" class="tool-card">
+          <div class="tool-icon">#&#65039;&#8419;</div>
+          <h3 class="tool-title">SHA-256 Generator</h3>
+          <p class="tool-desc">Generate SHA-256, SHA-1, and MD5 hashes</p>
+        </a>
+
+        <a href="/css-gradient-generator/" class="tool-card">
+          <div class="tool-icon">&#127912;</div>
+          <h3 class="tool-title">CSS Gradient Generator</h3>
+          <p class="tool-desc">Create beautiful CSS gradients with live preview</p>
+        </a>
+
+        <a href="/percentage-calculator/" class="tool-card">
+          <div class="tool-icon">%</div>
+          <h3 class="tool-title">Percentage Calculator</h3>
+          <p class="tool-desc">Calculate percentages, increases, and decreases</p>
+        </a>
+
+        <a href="/unit-converter/" class="tool-card">
+          <div class="tool-icon">&#128207;</div>
+          <h3 class="tool-title">Unit Converter</h3>
+          <p class="tool-desc">Convert length, weight, temperature, and more</p>
+        </a>
+      </div>
+    </div>
+
+    <style>
+      .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+      .info-item h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.4rem; }
+      .info-item p { color: var(--gray); line-height: 1.8; font-size: 0.95rem; }
+      .feature-list { list-style: none; margin-top: 20px; }
+      .feature-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; color: var(--gray); font-size: 0.95rem; }
+      .highlight-box { background: rgba(249, 115, 22, 0.05); border: 1px solid rgba(249, 115, 22, 0.2); padding: 30px; border-radius: 12px; margin-top: 60px; }
+      .highlight-box h2 { color: var(--primary); margin-bottom: 15px; }
+    </style>
+
+    <div class="section highlight-box">
+      <h2>Why Choose Webutilbox?</h2>
+      <p style="color: var(--gray); line-height: 1.8; margin-bottom: 20px;">
+        Webutilbox is designed for developers, designers, and digital professionals who need fast, reliable tools without the friction of modern web platforms. We believe that simple utilities shouldn't require account creation, tracking cookies, or heavy data uploads.
+      </p>
+      <div class="info-grid">
+        <div class="info-item">
+          <h3>&#128274; Privacy by Default</h3>
+          <p>Unlike other tool websites, Webutilbox processes all your data locally in your browser. Whether you are generating a password, formatting JSON, or compressing an image, your sensitive information never leaves your device. No servers, no logs, no leaks.</p>
+        </div>
+        <div class="info-item">
+          <h3>&#9889; Lightweight & Fast</h3>
+          <p>Our tools are built with vanilla JavaScript and optimized CSS. There are no heavy frameworks, no tracking scripts, and no bloated library dependencies. This means near-instant load times and high performance even on older hardware.</p>
+        </div>
+        <div class="info-item">
+          <h3>&#127760; Works Offline</h3>
+          <p>Once you've loaded a tool page, it will continue to work even if you lose your internet connection. Our architecture leverages local browser capabilities to ensure your toolkit is always available, even in low-connectivity environments.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="margin-top: 60px;">
+      <h2 class="section-title">Technical Excellence</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <h3>Full Client-Side Processing</h3>
+          <p>We utilize modern browser APIs like the File API, Canvas API, and Web Cryptography API to perform complex operations that traditionally required server-side processing. This approach is not only more secure but also significantly faster as it eliminates network latency.</p>
+        </div>
+        <div class="info-item">
+          <h3>Developer-First Philosophy</h3>
+          <p>The tools in Webutilbox are crafted specifically for developer workflows. From auto-copying results to supporting complex regex patterns, every feature is designed to save you time and reduce cognitive load during your daily tasks.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="margin-top: 60px;">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <h3>Are the tools really free?</h3>
+          <p>Yes, Webutilbox is 100% free to use. There are no premium tiers, no hidden costs, and no "pro" features locked behind paywalls. We believe the best developer tools should be accessible to everyone, everywhere.</p>
+        </div>
+        <div class="info-item">
+          <h3>Do you store any user data?</h3>
+          <p>Absolutely not. We do not have a backend database for user data. All processing happens in your browser's memory and is discarded once you close the tab. Your privacy is our highest priority.</p>
+        </div>
+        <div class="info-item">
+          <h3>How can I contribute?</h3>
+          <p>We are constantly adding new tools based on user feedback. If you have a suggestion for a new utility or have found a bug, please reach out via our contact page. We value community input!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Bar -->
+    <ShareBar shareText={shareText} shareUrl={shareUrl} />
+</BaseLayout>

@@ -1,0 +1,22 @@
+---
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export interface Props {
+  items: FAQItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<h3>Frequently Asked Questions</h3>
+<div class="faq-list">
+  {items.map((item) => (
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">{item.question}</button>
+      <div class="faq-answer"><p set:html={item.answer} /></div>
+    </div>
+  ))}
+</div>

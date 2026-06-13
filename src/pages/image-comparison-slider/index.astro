@@ -1,0 +1,118 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/image-comparison-slider/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Image Comparison Slider - Before After Tool | Webutilbox","url":"https://webutilbox.com/image-comparison-slider/","description":"Compare two images with an interactive slider. Perfect for before/after comparisons. Works offline.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the image comparison slider used for?","acceptedAnswer":{"@type":"Answer","text":"It lets you place two images side by side with a draggable divider, so you can reveal one image while hiding the other. Common uses include before/after photo editing comparisons, design mockup vs. final result, and showing the effect of image processing tools."}},{"@type":"Question","name":"Do both images need to be the same size?","acceptedAnswer":{"@type":"Answer","text":"For the best visual result, both images should have the same dimensions. If they differ, the tool will scale them to match. Mismatched aspect ratios may cause one image to appear cropped or stretched."}},{"@type":"Question","name":"Can I embed this comparison on my website?","acceptedAnswer":{"@type":"Answer","text":"This tool is for generating and viewing comparisons. To embed a before/after slider on your own website, use a JavaScript library like img-comparison-slider or TwentyTwenty. This tool helps you preview the comparison before implementing it."}},{"@type":"Question","name":"Can I use this to compare two versions of a design?","acceptedAnswer":{"@type":"Answer","text":"Yes. Export both versions as images, upload them here, and drag the slider to compare. This is useful for design reviews, A/B testing mockups, and showing clients the difference between design iterations."}},{"@type":"Question","name":"What image formats are supported?","acceptedAnswer":{"@type":"Answer","text":"PNG, JPG, WebP, and GIF (first frame only) are supported. For best quality comparisons, use PNG to avoid JPEG compression artifacts that could make the comparison misleading."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Image Comparison Slider","item":"https://webutilbox.com/image-comparison-slider/"}]}]};
+---
+
+<ToolLayout
+  title="Image Comparison Slider - Before After Tool | Webutilbox"
+  description="Compare two images side by side with an interactive slider. Perfect for before-and-after showcases. Free browser-based image comparison tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-image-tools.svg"
+  keywords="image comparison, before after slider, compare images, image diff, photo comparison"
+  h1="🖼️ Image Comparison Slider"
+  subtitle="Compare two images with an interactive before/after slider."
+  lastUpdated=""
+  shareText="Free%20online%20Image%20Comparison%20Slider%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Image Comparison Slider - Before After Tool -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+
+
+
+<script src="/js/image-comparison-slider.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Image Comparison Slider - Interactive Before &amp; After Tool</h2>
+    <p>The Image Comparison Slider lets you compare two images side by side with an interactive drag slider. Perfect for before/after comparisons, design revisions, photo editing results, and any scenario where you need to visually demonstrate the difference between two versions of an image — all directly in your browser.</p>
+
+    <h3>What Is the Image Comparison Slider?</h3>
+    <p>This tool creates an interactive split-view comparison between two images using a draggable divider. You upload a "before" image and an "after" image, and the tool overlays them with a vertical slider handle that you can drag left or right to reveal more of either image. The transition is smooth and instantaneous, making it immediately clear how the two images differ at any point along the divider.</p>
+    <p>The comparison slider is one of the most effective ways to communicate visual change. Rather than showing two images side by side — which requires the viewer to shift their gaze and mentally compare — the slider keeps both images perfectly aligned and lets the viewer control exactly how much of each they see. This makes differences in color, detail, composition, and quality immediately apparent in a way that static side-by-side layouts cannot match.</p>
+    <p>The tool also lets you customize the before and after labels, adjust the initial slider position, and download the comparison as a static PNG image at the current slider position. This downloaded image is useful for sharing in presentations, reports, or social media posts where an interactive slider is not possible but you still want to show the comparison clearly.</p>
+
+    <h3>Comparison Slider Options</h3>
+    <ul>
+        <li>Interactive drag slider that smoothly reveals either image as you move it left or right, with precise control over the split position at any percentage.</li>
+        <li>Customizable before and after labels — change the text to anything that suits your comparison, such as "Original / Edited," "Draft / Final," or "2020 / 2024."</li>
+        <li>Adjustable initial slider position via a range input, so you can set the default split point to highlight the most important area of difference.</li>
+        <li>Download the comparison as a static PNG image at the current slider position, complete with labels and the divider line, ready to share anywhere.</li>
+        <li>Click anywhere on the comparison area to jump the slider to that position instantly, in addition to dragging the handle.</li>
+        <li>Supports images of different sizes — the tool scales both images to the same display dimensions for a clean, aligned comparison.</li>
+    </ul>
+
+    <h3>How to Use the Image Comparison Slider</h3>
+    <p>Creating a comparison is simple and takes just a few seconds to set up.</p>
+    <ul>
+        <li>Step 1: Upload your "before" image using the first upload area. This is the image that will appear on the left side of the slider by default.</li>
+        <li>Step 2: Upload your "after" image using the second upload area. This is the image that will appear on the right side of the slider.</li>
+        <li>Step 3: Once both images are loaded, the comparison slider appears automatically. Drag the handle left and right to reveal each image.</li>
+        <li>Step 4: Optionally customize the labels by typing new text into the "Before Label" and "After Label" fields, and adjust the initial slider position using the range slider.</li>
+        <li>Step 5: Click "Download Comparison" to save a static PNG of the current view, with both images, the divider line, and your custom labels included in the output.</li>
+    </ul>
+
+    <h3>Before and After Use Cases</h3>
+    <ul>
+        <li>Photo editing portfolios — show the difference between an unedited RAW photo and the final retouched version to demonstrate your editing skills to clients or followers.</li>
+        <li>Web and UI design — compare a design mockup with the implemented result to identify discrepancies and communicate design fidelity to stakeholders.</li>
+        <li>Construction and renovation — document the transformation of a space with before and after photos that viewers can explore interactively.</li>
+        <li>Scientific and medical imaging — compare scans, microscopy images, or satellite imagery taken at different times to visualize changes over time.</li>
+        <li>Product photography — compare different product variants, conditions, or treatments side by side to help customers understand differences clearly.</li>
+    </ul>
+
+    <h3>Creating Effective Image Comparisons</h3>
+    <p>For the most impactful comparisons, use images of the same dimensions and taken from the same angle and distance. Consistent framing makes the differences immediately apparent and prevents the viewer from being distracted by compositional differences rather than the actual changes you want to highlight. If your images are slightly different sizes, the tool will scale them to match, but the best results come from images that are already aligned.</p>
+    <p>Choose your initial slider position strategically. If the most dramatic difference is in the center of the image, set the slider to 50%. If the key change is on one side, position the slider to reveal that area prominently. The goal is to make the difference immediately visible when the viewer first sees the comparison, before they even interact with the slider.</p>
+    <p>When downloading the comparison for use in presentations or reports, consider the context in which it will be viewed. A static image works well for documents and slides, but if you are publishing to a website, consider implementing an interactive slider using a JavaScript library so your audience can explore the comparison themselves.</p>
+
+    
+
+    <h3>Images Stay on Your Device</h3>
+    <p>Images are loaded locally in your browser. Nothing is uploaded to any server.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the image comparison slider used for?</button>
+                    <div class="faq-answer"><p>It lets you place two images side by side with a draggable divider, so you can reveal one image while hiding the other. Common uses include before/after photo editing comparisons, design mockup vs. final result, and showing the effect of image processing tools.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Do both images need to be the same size?</button>
+                    <div class="faq-answer"><p>For the best visual result, both images should have the same dimensions. If they differ, the tool will scale them to match. Mismatched aspect ratios may cause one image to appear cropped or stretched.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I embed this comparison on my website?</button>
+                    <div class="faq-answer"><p>This tool is for generating and viewing comparisons. To embed a before/after slider on your own website, use a JavaScript library like img-comparison-slider or TwentyTwenty. This tool helps you preview the comparison before implementing it.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I use this to compare two versions of a design?</button>
+                    <div class="faq-answer"><p>Yes. Export both versions as images, upload them here, and drag the slider to compare. This is useful for design reviews, A/B testing mockups, and showing clients the difference between design iterations.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What image formats are supported?</button>
+                    <div class="faq-answer"><p>PNG, JPG, WebP, and GIF (first frame only) are supported. For best quality comparisons, use PNG to avoid JPEG compression artifacts that could make the comparison misleading.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../image-filters/" class="related-tool-link">Image Filters</a>
+                    <a href="../image-compressor/" class="related-tool-link">Image Compressor</a>
+                    <a href="../image-resizer/" class="related-tool-link">Image Resizer</a>
+                    <a href="../image-watermark/" class="related-tool-link">Image Watermark</a>
+                    <a href="../meme-generator/" class="related-tool-link">Meme Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

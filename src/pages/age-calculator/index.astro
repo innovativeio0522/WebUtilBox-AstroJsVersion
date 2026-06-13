@@ -1,0 +1,154 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/age-calculator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Age Calculator - Calculate Your Exact Age Online | Webutilbox","url":"https://webutilbox.com/age-calculator/","description":"Calculate your exact age in years, months, days, and hours. Free age calculator from birthdate.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is age calculated exactly?","acceptedAnswer":{"@type":"Answer","text":"Age is calculated by finding the difference between your birth date and today's date in years, months, and days. The calculator accounts for leap years and varying month lengths, so the result is always precise to the day."}},{"@type":"Question","name":"Can I calculate age for a future date?","acceptedAnswer":{"@type":"Answer","text":"Yes. You can set the 'calculate age as of' date to any future date to find out how old someone will be on that date. This is useful for planning events or checking eligibility requirements."}},{"@type":"Question","name":"Why does my age in days seem so large?","acceptedAnswer":{"@type":"Answer","text":"It is not a bug — it is just math. A 30-year-old has lived approximately 10,950 days. The large number is accurate. Multiply your age in years by 365.25 (accounting for leap years) to get a rough estimate."}},{"@type":"Question","name":"Does the calculator account for leap years?","acceptedAnswer":{"@type":"Answer","text":"Yes. The calculator uses JavaScript's Date object which correctly handles leap years, so February 29 birthdays and all other dates are calculated accurately."}},{"@type":"Question","name":"Can I calculate the age difference between two people?","acceptedAnswer":{"@type":"Answer","text":"Enter one person's birth date, note the result, then enter the second person's birth date. The difference between the two results gives you the age gap. A dedicated age difference calculator would show this directly, but the math is straightforward."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Age Calculator","item":"https://webutilbox.com/age-calculator/"}]}]};
+---
+
+<ToolLayout
+  title="Age Calculator - Calculate Your Exact Age | Webutilbox"
+  description="Calculate your exact age in years, months, weeks, days, and hours from any birthdate. Free online age calculator with next birthday countdown."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-calculators.svg"
+  keywords="age calculator, calculate age from birthdate, how old am i, age calculator online"
+  h1="🎂 Age Calculator"
+  subtitle="Calculate your exact age from your birthdate. Get age in years, months, days, and more."
+  lastUpdated=""
+  shareText="Free%20online%20Age%20Calculator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Age Calculator - Calculate Your Exact Age -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Date Inputs -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Date of Birth</label>
+                    <input type="date" id="birthDate" oninput="calculateAge()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Calculate Age On</label>
+                    <input type="date" id="currentDate" oninput="calculateAge()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                </div>
+            </div>
+
+            <!-- Main Age Display -->
+            <div id="mainAge" style="display: none; margin-bottom: 15px; padding: 15px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: 10px; text-align: center;">
+                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.8); margin-bottom: 3px;">Your Age</div>
+                <div style="font-size: 2rem; font-weight: bold; color: white;" id="ageYears">0</div>
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.9);" id="ageDetails">0 months, 0 days</div>
+            </div>
+
+            <!-- Detailed Breakdown -->
+            <div id="breakdown" style="display: none;">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px;">
+                    <div style="background: var(--light); padding: 12px 8px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                        <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);" id="totalMonths">0</div>
+                        <div style="font-size: 0.75rem; color: var(--gray);">Months</div>
+                    </div>
+                    <div style="background: var(--light); padding: 12px 8px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                        <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);" id="totalWeeks">0</div>
+                        <div style="font-size: 0.75rem; color: var(--gray);">Weeks</div>
+                    </div>
+                    <div style="background: var(--light); padding: 12px 8px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                        <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);" id="totalDays">0</div>
+                        <div style="font-size: 0.75rem; color: var(--gray);">Days</div>
+                    </div>
+                    <div style="background: var(--light); padding: 12px 8px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                        <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);" id="totalHours">0</div>
+                        <div style="font-size: 0.75rem; color: var(--gray);">Hours</div>
+                    </div>
+                </div>
+
+                <!-- Next Birthday -->
+                <div class="output-container show">
+                    <div class="output-label">Next Birthday</div>
+                    <div style="display: grid; gap: 6px; font-size: 0.85rem;">
+                        <div>?? <span id="nextBirthday" style="color: var(--primary); font-weight: 600;">-</span></div>
+                        <div>? <span id="daysUntil" style="color: var(--primary); font-weight: 600;">-</span> days</div>
+                        <div>?? <span id="dayOfWeek" style="color: var(--primary); font-weight: 600;">-</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/age-calculator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Age Calculator</h2>
+
+    <p>Calculating age sounds simple — subtract the birth year from the current year. But accurate age calculation is surprisingly tricky. Has the birthday occurred yet this year? What about leap year birthdays on February 29? How do you express age in months and days, not just years? This calculator handles all of it correctly.</p>
+
+    <h3>How the calculation works</h3>
+    <p>The calculator finds the difference between two dates in years, months, and days — not just years. It works by:</p>
+    <ul>
+        <li>Calculating complete years elapsed since the birth date</li>
+        <li>Then calculating remaining complete months after the last birthday</li>
+        <li>Then calculating remaining days after the last complete month</li>
+        <li>Accounting for varying month lengths (28/29/30/31 days) and leap years throughout</li>
+    </ul>
+    <p>For example, someone born on March 15, 1990, calculated on November 28, 2024, is 34 years, 8 months, and 13 days old — not just "34 years old."</p>
+
+    <h3>Real-world uses where exact age matters</h3>
+    <p><strong>Legal and financial:</strong> Many legal thresholds are age-based — voting (18), drinking (21 in the US), retirement benefits (62/65/67 depending on country and program), senior discounts, and age-restricted contracts. Knowing the exact date someone crosses a threshold matters.</p>
+    <p><strong>Medical:</strong> Pediatric drug dosing is often weight- and age-based. Developmental milestone tracking uses age in months for children under 2. Insurance underwriting uses exact age at policy inception.</p>
+    <p><strong>Sports and competitions:</strong> Age-group categories in running races, swimming, and other sports use age on a specific date (often January 1 of the competition year or the race date itself).</p>
+    <p><strong>HR and employment:</strong> Calculating years of service for benefits vesting, pension eligibility, and anniversary dates.</p>
+
+    <h3>February 29 birthdays</h3>
+    <p>People born on February 29 (leap day) have a birthday that only exists every 4 years. For age calculation purposes, their birthday is treated as February 28 in non-leap years. So a person born February 29, 2000, turns 25 on February 28, 2025 (since 2025 is not a leap year).</p>
+
+    <h3>Calculating age as of a different date</h3>
+    <p>The "as of" date field lets you calculate age at any point in time — past or future. This is useful for: determining someone's age at a historical event, checking if someone will be old enough for something on a future date, or calculating age for legal documents that require age as of a specific date.</p>
+
+    <h3>Your Birthdate Stays Private</h3>
+    <p>All calculations run in your browser. No dates or personal information are sent to any server.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How is age calculated exactly?</button>
+                    <div class="faq-answer"><p>Age is calculated by finding the difference between your birth date and today's date in years, months, and days. The calculator accounts for leap years and varying month lengths, so the result is always precise to the day.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I calculate age for a future date?</button>
+                    <div class="faq-answer"><p>Yes. You can set the 'calculate age as of' date to any future date to find out how old someone will be on that date. This is useful for planning events or checking eligibility requirements.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why does my age in days seem so large?</button>
+                    <div class="faq-answer"><p>It is not a bug — it is just math. A 30-year-old has lived approximately 10,950 days. The large number is accurate. Multiply your age in years by 365.25 (accounting for leap years) to get a rough estimate.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does the calculator account for leap years?</button>
+                    <div class="faq-answer"><p>Yes. The calculator uses JavaScript's Date object which correctly handles leap years, so February 29 birthdays and all other dates are calculated accurately.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I calculate the age difference between two people?</button>
+                    <div class="faq-answer"><p>Enter one person's birth date, note the result, then enter the second person's birth date. The difference between the two results gives you the age gap. A dedicated age difference calculator would show this directly, but the math is straightforward.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../date-calculator/" class="related-tool-link">Date Calculator</a>
+                    <a href="../countdown-timer/" class="related-tool-link">Countdown Timer</a>
+                    <a href="../unix-timestamp-converter/" class="related-tool-link">Unix Timestamp Converter</a>
+                    <a href="../time-zone-converter/" class="related-tool-link">Time Zone Converter</a>
+                    <a href="../bmi-calculator/" class="related-tool-link">BMI Calculator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

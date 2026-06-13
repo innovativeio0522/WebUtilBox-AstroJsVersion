@@ -1,0 +1,119 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/discount-calculator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Discount Calculator - Calculate Sale Price & Savings | Webutilbox","url":"https://webutilbox.com/discount-calculator/","description":"Calculate discounts, sale prices, and savings. Find final price after percentage off. Free tool.","applicationCategory":"FinanceApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I calculate the final price after a discount?","acceptedAnswer":{"@type":"Answer","text":"Final price = original price x (1 - discount percentage / 100). For example, a 30% discount on a $50 item: 50 x (1 - 0.30) = $35. The calculator does this automatically and also shows the amount saved."}},{"@type":"Question","name":"How do I calculate what percentage discount I received?","acceptedAnswer":{"@type":"Answer","text":"Discount % = ((original price - sale price) / original price) x 100. If something was $80 and is now $60: ((80 - 60) / 80) x 100 = 25% discount. Enter the original and sale prices and the tool calculates the percentage for you."}},{"@type":"Question","name":"Can I calculate a discount on top of a discount?","acceptedAnswer":{"@type":"Answer","text":"Yes, but stacked discounts do not simply add up. A 20% discount followed by another 10% discount is not 30% off. It is: 100% x 0.80 x 0.90 = 72%, so 28% total discount. Enter the intermediate price after the first discount to calculate the second."}},{"@type":"Question","name":"How do I calculate the original price from a discounted price?","acceptedAnswer":{"@type":"Answer","text":"Original price = sale price / (1 - discount percentage / 100). If you paid $70 after a 30% discount: 70 / (1 - 0.30) = 70 / 0.70 = $100 original price. This is useful for reverse-calculating the pre-sale price."}},{"@type":"Question","name":"What is the difference between a percentage discount and a fixed amount discount?","acceptedAnswer":{"@type":"Answer","text":"A percentage discount (20% off) scales with the price — more expensive items save more money. A fixed amount discount ($10 off) saves the same dollar amount regardless of price. Percentage discounts are better for high-value items; fixed discounts are better for low-value items."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Discount Calculator","item":"https://webutilbox.com/discount-calculator/"}]}]};
+---
+
+<ToolLayout
+  title="Discount Calculator - Sale Price & Savings | Webutilbox"
+  description="Calculate discounts, sale prices, and savings instantly. Find the original price from a discounted price. Free online discount calculator."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-calculators.svg"
+  keywords="discount calculator, sale price calculator, percentage off, savings calculator, price after discount"
+  h1="🏷️ Discount Calculator"
+  subtitle="Calculate sale prices, discounts, and savings instantly."
+  lastUpdated=""
+  shareText="Free%20online%20Discount%20Calculator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Discount Calculator - Sale Price & Savings -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+
+
+
+<script src="/js/discount-calculator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Discount Calculator - Calculate Sale Prices &amp; Savings</h2>
+    <p>The Discount Calculator instantly computes the final price after a percentage discount, the amount saved, and the discount percentage from original and sale prices. Whether you're shopping for the best deal, setting promotional prices for your business, or teaching someone how discounts work, this tool gives you clear, accurate results in seconds.</p>
+
+    <h3>What Is Discount Calculator?</h3>
+    <p>The Discount Calculator is a versatile pricing tool with three calculation modes. The first mode takes an original price and a discount percentage and calculates the final sale price along with the exact dollar amount saved. The second mode works in reverse — you enter the original price and the final price to find out what percentage discount was applied. The third mode lets you find the original price when you know the final price and the discount percentage that was applied.</p>
+    <p>The tool also supports stacked discounts and optional tax calculations in the primary mode. Stacked discounts are common in retail — for example, a store might offer 20% off a product and then an additional 10% off at checkout. The calculator applies these sequentially rather than adding them together, which is the mathematically correct approach and reflects how discounts actually work in practice.</p>
+    <p>Quick example buttons at the bottom of the input panel let you load common discount scenarios instantly, which is useful for learning how the tool works or for quickly checking a specific type of calculation without entering values manually. The results panel shows a clear breakdown of each component of the calculation so you can see exactly how the final price was derived.</p>
+
+    <h3>Discount Calculation Modes</h3>
+    <ul>
+        <li>Three calculation modes: find the final price from a discount percentage, find the discount percentage from two prices, or find the original price from a final price and discount.</li>
+        <li>Stacked discount support allowing a primary discount percentage and an optional additional discount percentage applied sequentially.</li>
+        <li>Optional tax field that adds a sales tax percentage to the discounted price to show the true final checkout amount.</li>
+        <li>Detailed results breakdown showing original price, discount amount, additional discount, tax amount, total savings, and final price as separate line items.</li>
+        <li>Quick example buttons that load common discount scenarios (20% off $100, 30% off $250, stacked discounts) for instant demonstration.</li>
+        <li>Clear All button that resets all fields and results so you can start a new calculation without manually clearing each field.</li>
+    </ul>
+
+    <h3>How to Use Discount Calculator</h3>
+    <p>Select the calculation mode that matches what you know and what you want to find out, then enter your values and click Calculate.</p>
+    <ul>
+        <li>Step 1: Choose your calculation mode from the dropdown: "Calculate Final Price," "Calculate Discount %," or "Calculate Original Price."</li>
+        <li>Step 2: Enter the required values for your chosen mode — original price and discount percentage, or original and final price, etc.</li>
+        <li>Step 3: Optionally enter an additional discount percentage and/or a tax percentage if applicable to your calculation.</li>
+        <li>Step 4: Click the "Calculate" button to run the calculation and display the detailed results breakdown.</li>
+        <li>Step 5: Review the results showing each component of the calculation, then click "Clear All" to start a new calculation.</li>
+    </ul>
+
+    <h3>Shopping and Business Use Cases</h3>
+    <p>Discount calculations come up constantly in shopping, retail, and business contexts where pricing decisions need to be made quickly and accurately.</p>
+    <ul>
+        <li>Shopping and deal comparison: Quickly calculate the actual dollar savings and final price of sale items to compare deals across different stores or products.</li>
+        <li>Retail pricing: Set promotional prices by working backward from a desired discount percentage, or verify that a marked sale price reflects the advertised discount correctly.</li>
+        <li>Coupon stacking: Calculate the true final price when applying multiple discount codes or coupons sequentially, which is different from simply adding the percentages together.</li>
+        <li>Wholesale and bulk pricing: Determine the effective discount percentage when a supplier offers a lower per-unit price for larger order quantities.</li>
+        <li>Financial analysis: Calculate the discount rate implied by the difference between a bond's face value and its current market price, or analyze margin impact of promotional pricing strategies.</li>
+    </ul>
+
+    <h3>Calculating Savings Accurately</h3>
+    <p>One of the most common misconceptions about discounts is that stacked percentages add together. A 20% discount followed by an additional 10% discount does not equal a 30% discount — it equals a 28% discount. This is because the second discount is applied to the already-reduced price, not the original price. The formula is: final multiplier = (1 - 0.20) × (1 - 0.10) = 0.80 × 0.90 = 0.72, meaning you pay 72% of the original price, which is a 28% total discount. This calculator handles this correctly automatically.</p>
+    <p>When comparing sale prices across different stores, always calculate the dollar amount saved rather than just comparing percentages. A 30% discount on a $200 item saves you $60, while a 40% discount on a $120 item saves you $48. The higher percentage discount doesn't always mean the better deal in absolute terms. Use the calculator to convert percentages to dollar amounts for a fair comparison.</p>
+    <p>For business pricing decisions, remember that discounts have a compounding effect on profit margins. A product with a 40% gross margin that is discounted by 20% doesn't lose 20% of its profit — it loses a much larger proportion because the discount comes entirely out of the margin. Use the calculator alongside your cost data to understand the true margin impact before setting promotional prices.</p>
+
+    
+
+    <h3>No Purchase Data Stored or Tracked</h3>
+    <p>Calculations run in your browser. No price or financial data is sent anywhere.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I calculate the final price after a discount?</button>
+                    <div class="faq-answer"><p>Final price = original price x (1 - discount percentage / 100). For example, a 30% discount on a $50 item: 50 x (1 - 0.30) = $35. The calculator does this automatically and also shows the amount saved.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I calculate what percentage discount I received?</button>
+                    <div class="faq-answer"><p>Discount % = ((original price - sale price) / original price) x 100. If something was $80 and is now $60: ((80 - 60) / 80) x 100 = 25% discount. Enter the original and sale prices and the tool calculates the percentage for you.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I calculate a discount on top of a discount?</button>
+                    <div class="faq-answer"><p>Yes, but stacked discounts do not simply add up. A 20% discount followed by another 10% discount is not 30% off. It is: 100% x 0.80 x 0.90 = 72%, so 28% total discount. Enter the intermediate price after the first discount to calculate the second.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I calculate the original price from a discounted price?</button>
+                    <div class="faq-answer"><p>Original price = sale price / (1 - discount percentage / 100). If you paid $70 after a 30% discount: 70 / (1 - 0.30) = 70 / 0.70 = $100 original price. This is useful for reverse-calculating the pre-sale price.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between a percentage discount and a fixed amount discount?</button>
+                    <div class="faq-answer"><p>A percentage discount (20% off) scales with the price — more expensive items save more money. A fixed amount discount ($10 off) saves the same dollar amount regardless of price. Percentage discounts are better for high-value items; fixed discounts are better for low-value items.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../percentage-calculator/" class="related-tool-link">Percentage Calculator</a>
+                    <a href="../tax-calculator/" class="related-tool-link">Tax Calculator</a>
+                    <a href="../tip-calculator/" class="related-tool-link">Tip Calculator</a>
+                    <a href="../currency-converter/" class="related-tool-link">Currency Converter</a>
+                    <a href="../crypto-profit-calculator/" class="related-tool-link">Crypto Profit Calculator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

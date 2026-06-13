@@ -1,0 +1,173 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/image-resizer/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Image Resizer - Resize Images Online Free | Webutilbox","url":"https://webutilbox.com/image-resizer/","description":"Resize images online for free. Change image dimensions, maintain aspect ratio. Works offline in your browser.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Will resizing an image reduce its quality?","acceptedAnswer":{"@type":"Answer","text":"Scaling down (making smaller) generally preserves quality well. Scaling up (making larger) will cause blurriness because you are adding pixels that were not in the original. For best results when enlarging, use dedicated AI upscaling tools. For downscaling, this tool produces clean results."}},{"@type":"Question","name":"What does maintain aspect ratio mean?","acceptedAnswer":{"@type":"Answer","text":"Aspect ratio is the proportional relationship between width and height. If you maintain it, changing the width automatically adjusts the height (and vice versa) so the image does not look stretched or squished. Uncheck it only if you intentionally want to distort the proportions."}},{"@type":"Question","name":"What resolution should I use for web images?","acceptedAnswer":{"@type":"Answer","text":"For full-width hero images, 1920px wide is standard. For blog post images, 1200px wide is typical. For thumbnails, 400-600px. Larger than needed wastes bandwidth; smaller than needed looks blurry on high-DPI screens."}},{"@type":"Question","name":"What is the maximum image size this tool can handle?","acceptedAnswer":{"@type":"Answer","text":"There is no hard limit, but very large images (50MP+) may be slow to process in the browser. The tool runs entirely client-side, so performance depends on your device's RAM and CPU."}},{"@type":"Question","name":"Can I resize to exact pixel dimensions?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enter the exact width and height values you need. If you want to resize to a specific file size rather than pixel dimensions, use the Image Compressor tool instead."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Image Resizer","item":"https://webutilbox.com/image-resizer/"}]}]};
+---
+
+<ToolLayout
+  title="Image Resizer - Resize Images Online Free | Webutilbox"
+  description="Resize images to exact pixel dimensions or percentages online. Maintain aspect ratio or crop to fit. Free browser-based image resizer tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-image-tools.svg"
+  keywords="image resizer, resize image online, change image size, image dimensions"
+  h1="📐 Image Resizer"
+  subtitle="Resize images to custom dimensions. Maintain aspect ratio or set custom width and height."
+  lastUpdated=""
+  shareText="Free%20online%20Image%20Resizer%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Image Resizer - Resize Images Online Free -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Upload Area -->
+            <div style="margin-bottom: 15px;">
+                <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                    <div style="font-size: 2rem; margin-bottom: 5px;">??</div>
+                    <div style="font-size: 0.9rem; color: var(--white); margin-bottom: 3px;">Click to upload or drag and drop</div>
+                    <div style="font-size: 0.75rem; color: var(--gray);">JPG, PNG, WebP</div>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+            </div>
+
+            <!-- Controls -->
+            <div id="controls" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                    <div>
+                        <label style="font-size: 0.8rem; margin-bottom: 4px; display: block;">Width (px)</label>
+                        <input type="number" id="width" oninput="updateFromWidth()" style="width: 100%; padding: 8px; font-size: 0.9rem;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; margin-bottom: 4px; display: block;">Height (px)</label>
+                        <input type="number" id="height" oninput="updateFromHeight()" style="width: 100%; padding: 8px; font-size: 0.9rem;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 10px;">
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="checkbox" id="maintainRatio" checked onchange="toggleRatio()">
+                        <span style="font-size: 0.8rem;">Maintain aspect ratio</span>
+                    </label>
+                </div>
+
+                <!-- Quick Sizes -->
+                <div style="margin-bottom: 12px;">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 6px;">Quick Sizes:</div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+                        <button onclick="setSize(1920, 1080)" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">1920×1080</button>
+                        <button onclick="setSize(1280, 720)" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">1280×720</button>
+                        <button onclick="setSize(800, 600)" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">800×600</button>
+                        <button onclick="setSize(500, 500)" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">500×500</button>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; text-align: center; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <img id="preview" style="max-width: 100%; max-height: 150px; border-radius: 6px;">
+                    <div style="margin-top: 6px; font-size: 0.8rem; color: var(--gray);" id="previewSize">-</div>
+                </div>
+
+                <button class="btn btn-success" onclick="downloadImage()" style="width: 100%; padding: 10px; font-size: 0.95rem;">Download Resized Image</button>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/image-resizer.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Image Resizer - Resize Images Online for Free</h2>
+            <p>Our free online Image Resizer lets you change the dimensions of any image instantly, right in your browser. No software to install, no account to create, and no file size limits. Whether you need to shrink a photo for email, scale up an image for print, or hit exact pixel dimensions for a website, this tool gets it done in seconds.</p>
+
+            <h3>What Is an Image Resizer?</h3>
+            <p>An image resizer is a tool that changes the pixel dimensions of an image — its width and height. This is different from cropping, which removes parts of the image. Resizing scales the entire image up or down while keeping all the content visible. This tool uses the HTML5 Canvas API to perform all resizing locally in your browser, so your images are never uploaded to any server.</p>
+            <p>Resizing is essential for web performance, social media, and print workflows. Large images slow down websites and apps, while images that are too small look blurry or pixelated. Getting the right dimensions is key to a polished, professional result.</p>
+
+            <h3>Resize Modes and Options</h3>
+            <ul>
+                <li>Custom width and height input — enter exact pixel dimensions</li>
+                <li>Maintain aspect ratio toggle — prevents distortion when resizing</li>
+                <li>Quick size presets: 1920×1080, 1280×720, 800×600, 500×500</li>
+                <li>Live preview of the resized image before downloading</li>
+                <li>Drag-and-drop image upload support</li>
+                <li>Supports JPG, PNG, and WebP image formats</li>
+                <li>One-click download of the resized image as PNG</li>
+            </ul>
+
+            <h3>How to Use the Image Resizer</h3>
+            <ul>
+                <li>Step 1: Click the upload area or drag and drop your image onto the page.</li>
+                <li>Step 2: The original image dimensions are automatically loaded into the width and height fields.</li>
+                <li>Step 3: Enter your desired width or height. If "Maintain aspect ratio" is checked, the other dimension updates automatically.</li>
+                <li>Step 4: Optionally use a quick size preset button for common resolutions.</li>
+                <li>Step 5: Check the live preview to confirm the result looks correct.</li>
+                <li>Step 6: Click "Download Resized Image" to save the file to your device.</li>
+            </ul>
+
+            <h3>When to Resize an Image</h3>
+            <ul>
+                <li>Reducing large photos to smaller file sizes for email attachments</li>
+                <li>Resizing images to meet social media platform requirements (e.g., Twitter header 1500×500)</li>
+                <li>Scaling images down for faster website loading and better Core Web Vitals scores</li>
+                <li>Preparing product images for e-commerce platforms that require specific dimensions</li>
+                <li>Creating thumbnails for blog posts, YouTube videos, or app icons</li>
+                <li>Upscaling small images for print or presentation use</li>
+                <li>Batch-preparing images to a consistent size for a photo gallery or portfolio</li>
+            </ul>
+
+            <h3>Resizing Images Without Quality Loss</h3>
+            <p>Always keep "Maintain aspect ratio" enabled unless you specifically need a non-proportional resize. Stretching an image to non-proportional dimensions causes distortion that looks unprofessional. If you need a specific aspect ratio that differs from the original, consider using the Image Cropper tool first to get the right proportions, then resize to your target dimensions.</p>
+            <p>When resizing for the web, aim for the smallest file size that still looks sharp at the display size. A 1200px wide image is usually sufficient for most blog or article headers. For retina/HiDPI displays, you may want to provide a 2x version (e.g., 2400px) and use CSS or srcset to serve the right size.</p>
+            <p>Avoid upscaling images significantly — enlarging a small image beyond its original resolution will result in a blurry or pixelated output. The Canvas API uses bilinear interpolation, which helps smooth the result, but there's a limit to how much detail can be recovered from a low-resolution source.</p>
+
+            
+
+            <h3>Images Resized Locally, Never Sent</h3>
+            <p>Resizing runs in your browser via Canvas. Your images are never uploaded.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Will resizing an image reduce its quality?</button>
+                    <div class="faq-answer"><p>Scaling down (making smaller) generally preserves quality well. Scaling up (making larger) will cause blurriness because you are adding pixels that were not in the original. For best results when enlarging, use dedicated AI upscaling tools. For downscaling, this tool produces clean results.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What does maintain aspect ratio mean?</button>
+                    <div class="faq-answer"><p>Aspect ratio is the proportional relationship between width and height. If you maintain it, changing the width automatically adjusts the height (and vice versa) so the image does not look stretched or squished. Uncheck it only if you intentionally want to distort the proportions.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What resolution should I use for web images?</button>
+                    <div class="faq-answer"><p>For full-width hero images, 1920px wide is standard. For blog post images, 1200px wide is typical. For thumbnails, 400-600px. Larger than needed wastes bandwidth; smaller than needed looks blurry on high-DPI screens.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the maximum image size this tool can handle?</button>
+                    <div class="faq-answer"><p>There is no hard limit, but very large images (50MP+) may be slow to process in the browser. The tool runs entirely client-side, so performance depends on your device's RAM and CPU.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I resize to exact pixel dimensions?</button>
+                    <div class="faq-answer"><p>Yes. Enter the exact width and height values you need. If you want to resize to a specific file size rather than pixel dimensions, use the Image Compressor tool instead.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../image-compressor/" class="related-tool-link">Image Compressor</a>
+                    <a href="../image-cropper/" class="related-tool-link">Image Cropper</a>
+                    <a href="../image-format-converter/" class="related-tool-link">Image Format Converter</a>
+                    <a href="../image-rotate-flip/" class="related-tool-link">Image Rotate and Flip</a>
+                    <a href="../image-watermark/" class="related-tool-link">Image Watermark</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

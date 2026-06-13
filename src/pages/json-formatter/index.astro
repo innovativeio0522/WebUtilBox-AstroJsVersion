@@ -1,0 +1,196 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import FAQ from '../../components/FAQ.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+
+const canonical = 'https://webutilbox.com/json-formatter/';
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "JSON Formatter Online - Free, Fast & Private | Webutilbox",
+      "url": canonical,
+      "description": "Free online JSON formatter. Format, validate, and minify JSON instantly in your browser. Also supports YAML and XML. Nothing is sent to any server.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "browserRequirements": "Requires JavaScript",
+      "featureList": [
+        "Format and prettify JSON online",
+        "Minify JSON",
+        "Validate JSON syntax",
+        "Format YAML",
+        "Format XML",
+        "100% client-side processing"
+      ],
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "Webutilbox", "url": "https://webutilbox.com" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does my JSON show a parse error even though it looks correct?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The most common causes are trailing commas (JSON doesn't allow them after the last item), single quotes instead of double quotes around strings, or unescaped special characters inside string values. The formatter will show you the exact line and character where the error occurs." }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between Format and Minify?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Format (prettify) adds indentation and line breaks to make data human-readable. Minify removes all whitespace to produce the smallest possible output. Both operations preserve the exact same data, just with different whitespace." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I format very large JSON files?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, but browser performance depends on your device. Files up to a few MB format instantly. Very large files (10MB+) may take a few seconds. Since everything runs in your browser, there's no server-side file size limit." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this tool support JSON5 or JSONC (JSON with comments)?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The JSON tab uses the standard JSON spec, which doesn't allow comments or trailing commas. If your file has comments (like a tsconfig.json or VS Code settings file), you'll need to remove them first." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it safe to paste API keys or sensitive data into this formatter?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — all processing happens entirely in your browser. Nothing is sent to any server. You can verify this by opening your browser's network tab while using the tool." }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://webutilbox.com/" },
+        { "@type": "ListItem", "position": 2, "name": "All Tools", "item": "https://webutilbox.com/Tools.html" },
+        { "@type": "ListItem", "position": 3, "name": "JSON Formatter Online", "item": canonical }
+      ]
+    }
+  ]
+};
+
+const faqItems = [
+  {
+    question: "Why does my JSON show a parse error even though it looks correct?",
+    answer: "The most common causes are trailing commas (JSON doesn't allow them after the last item), single quotes instead of double quotes around strings, or unescaped special characters inside string values. The formatter will show you the exact line and character where the error occurs."
+  },
+  {
+    question: "What's the difference between Format and Minify?",
+    answer: "Format (prettify) adds indentation and line breaks to make data human-readable — useful for debugging and reading. Minify removes all whitespace to produce the smallest possible output — useful for production APIs and config files where file size matters."
+  },
+  {
+    question: "Can I format very large JSON files?",
+    answer: "Yes, but browser performance depends on your device. Files up to a few MB format instantly. Very large files (10MB+) may take a few seconds. Since everything runs in your browser, there's no server-side file size limit."
+  },
+  {
+    question: "Does this tool support JSON5 or JSONC (JSON with comments)?",
+    answer: "The JSON tab uses the standard JSON spec, which doesn't allow comments or trailing commas. If your file has comments (like a tsconfig.json or VS Code settings file), you'll need to remove them first."
+  },
+  {
+    question: "Is it safe to paste API keys or sensitive data into this formatter?",
+    answer: "Yes — all processing happens entirely in your browser. Nothing is sent to any server. You can verify this by opening your browser's network tab while using the tool; you'll see zero outbound requests triggered by your input."
+  }
+];
+
+const relatedTools = [
+  { href: '/json-to-csv/', label: 'JSON to CSV Converter' },
+  { href: '/sql-formatter/', label: 'SQL Formatter' },
+  { href: '/base64-encoder/', label: 'Base64 Encoder' },
+  { href: '/html-entity-encoder/', label: 'HTML Entity Encoder' },
+  { href: '/regex-tester/', label: 'Regex Tester' },
+];
+---
+
+<ToolLayout
+  title="JSON Formatter Online - Free, Fast & Private | Webutilbox"
+  description="Free online JSON formatter — paste your JSON and instantly format, validate, or minify it. Also supports YAML and XML. Runs 100% in your browser, nothing is sent to any server."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="json formatter online, json formatter, json beautifier, json validator, json minifier, yaml formatter, xml formatter, format json online, prettify json, json pretty print"
+  h1="🗂️ JSON Formatter — Format, Validate &amp; Minify JSON Online"
+  subtitle="Paste your JSON and format, validate, or minify it instantly online — free, fast, and 100% private. Also supports YAML and XML."
+  lastUpdated="2026-06-05"
+  shareText="Free%20online%20JSON%20formatter%20%E2%80%94%20format%2C%20validate%20%26%20minify%20JSON%20instantly%20in%20your%20browser.%20No%20server%2C%20no%20signup."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="JSON Formatter Online — Webutilbox"
+  embedHeight={600}
+  jsonLd={jsonLd}
+>
+  <!-- Format Tabs -->
+  <div style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
+    <button id="jsonTab" class="format-tab active" onclick="switchFormat('json')">JSON</button>
+    <button id="yamlTab" class="format-tab" onclick="switchFormat('yaml')">YAML</button>
+    <button id="xmlTab" class="format-tab" onclick="switchFormat('xml')">XML</button>
+  </div>
+
+  <!-- Workspace -->
+  <div class="workspace">
+    <div class="input-group">
+      <label id="inputLabel">JSON Input</label>
+      <textarea id="inputText" placeholder='{"example": "value", "nested": {"key": "data"}}'></textarea>
+    </div>
+    <div class="button-group">
+      <button class="btn btn-primary" onclick="formatData()">Format / Prettify</button>
+      <button class="btn btn-primary" onclick="minifyData()">Minify</button>
+      <button class="btn btn-secondary" onclick="validateData()">Validate Only</button>
+      <button class="btn btn-success" onclick="copyOutput()">Copy Result</button>
+    </div>
+    <div class="output-container" id="outputContainer">
+      <div class="output-label">Result</div>
+      <div class="output-content" id="outputText"></div>
+    </div>
+  </div>
+
+  <!-- Tool-specific styles -->
+  <style>
+    .format-tab {
+      padding: 10px 20px;
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--white);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .format-tab:hover { background: rgba(249, 115, 22, 0.1); border-color: var(--primary); }
+    .format-tab.active { background: var(--primary); border-color: var(--primary); }
+  </style>
+
+  <!-- CDN dependency -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+
+  <Fragment slot="scripts" set:html={`<script src="/js/json-formatter.js" defer></script>`} />
+
+  <!-- Info section -->
+  <div class="info-section" slot="info">
+    <h2>JSON Formatter Online</h2>
+
+    <p>You paste a wall of minified JSON from an API response. It's one line, 4,000 characters, no whitespace. You need to find why a key is missing. Without a formatter, you're scanning raw text character by character. With this free online JSON formatter, you click Format and the structure is immediately visible — nested objects indented, arrays on separate lines, the problem obvious in seconds.</p>
+
+    <h3>The three operations and when to use each</h3>
+    <p><strong>Format / Prettify</strong> — use this when reading or debugging. Adds indentation and line breaks. A 1-line minified payload becomes a readable tree structure.</p>
+    <p><strong>Minify</strong> — use this before sending data over a network. Strips all whitespace. A 4KB formatted JSON file might become 2.8KB minified.</p>
+    <p><strong>Validate Only</strong> — use this when you just need a yes/no on whether the syntax is correct. Shows the exact line and character position of any error.</p>
+
+    <h3>Example JSON snippet</h3>
+    <p>Copy this sample API response into the formatter to see it in action:</p>
+    <pre style="background:#111;border:1px solid #27272a;border-radius:8px;padding:16px;overflow-x:auto;font-size:.85rem;line-height:1.6;color:#a1a1aa;margin:12px 0"><code set:text={'{"user":{"id":4821,"name":"Alice","email":"alice@example.com","roles":["admin","editor"],"settings":{"theme":"dark","notifications":true,"timezone":"UTC-5"}},"token":"eyJhbGciOiJIUzI1NiJ9.payload.signature","expires_at":1735689600}'} /></pre>
+
+    <h3>Common errors this tool catches</h3>
+    <ul>
+      <li>Trailing commas after the last item in a JSON array or object</li>
+      <li>Single quotes instead of double quotes around JSON strings</li>
+      <li>Unescaped special characters inside string values</li>
+      <li>YAML indentation mismatches</li>
+      <li>Unclosed XML tags or mismatched tag names</li>
+    </ul>
+
+    <h3>JSON Data Processed Locally Only</h3>
+    <p>All formatting and validation runs in your browser. Nothing is sent to a server. You can safely paste API keys, credentials, and internal configuration data — it never leaves your device.</p>
+
+    <FAQ items={faqItems} />
+    <RelatedTools tools={relatedTools} />
+  </div>
+</ToolLayout>

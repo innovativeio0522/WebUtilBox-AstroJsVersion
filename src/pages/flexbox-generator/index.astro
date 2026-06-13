@@ -1,0 +1,216 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/flexbox-generator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Flexbox Generator - Visual CSS Flexbox Tool | Webutilbox","url":"https://webutilbox.com/flexbox-generator/","description":"Generate CSS flexbox layouts with visual editor. Adjust direction, alignment, spacing, and more. Free flexbox generator.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"When should I use Flexbox vs CSS Grid?","acceptedAnswer":{"@type":"Answer","text":"Use Flexbox for one-dimensional layouts — a row of items or a vertical stack. Use CSS Grid for two-dimensional layouts where you need to control both rows and columns simultaneously. In practice, many layouts use both: Grid for the overall page structure, Flexbox for components within it."}},{"@type":"Question","name":"What does flex-wrap do?","acceptedAnswer":{"@type":"Answer","text":"By default, flex items try to fit on one line. flex-wrap: wrap allows items to wrap onto multiple lines when they run out of space. flex-wrap: nowrap (default) forces all items onto one line, potentially causing overflow."}},{"@type":"Question","name":"What is the difference between justify-content and align-items?","acceptedAnswer":{"@type":"Answer","text":"justify-content aligns items along the main axis (horizontal in a row, vertical in a column). align-items aligns items along the cross axis (perpendicular to the main axis). Together they control both dimensions of alignment within the flex container."}},{"@type":"Question","name":"What does flex: 1 mean?","acceptedAnswer":{"@type":"Answer","text":"flex: 1 is shorthand for flex-grow: 1, flex-shrink: 1, flex-basis: 0. It means the item will grow to fill available space and shrink if needed. Multiple items with flex: 1 share available space equally. It is the most common way to make flex items fill their container."}},{"@type":"Question","name":"How do I center an element both horizontally and vertically with Flexbox?","acceptedAnswer":{"@type":"Answer","text":"On the parent container: display: flex; justify-content: center; align-items: center. This is the simplest and most reliable centering technique in CSS and works for any content size."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Flexbox Generator","item":"https://webutilbox.com/flexbox-generator/"}]}]};
+---
+
+<ToolLayout
+  title="Flexbox Generator - Visual CSS Flexbox Tool | Webutilbox"
+  description="Generate CSS flexbox layouts with visual editor. Adjust direction, alignment, spacing, and more. Free flexbox generator."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-css-tools.svg"
+  keywords="flexbox generator, css flexbox, flex layout, flexbox tool, css layout"
+  h1="⚡ Flexbox Generator"
+  subtitle="Visual CSS flexbox layout generator with live preview."
+  lastUpdated=""
+  shareText="Free%20online%20Flexbox%20Generator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Flexbox Generator - Visual CSS Flexbox Tool -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Preview -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 10px; display: block; font-weight: 600;">Preview</label>
+                <div id="flexContainer" class="flexbox-preview">
+                    <div class="flex-item">1</div>
+                    <div class="flex-item">2</div>
+                    <div class="flex-item">3</div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flexbox-controls-grid">
+                <!-- Flex Direction -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Flex Direction</label>
+                    <select id="flexDirection" onchange="updateFlex()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                        <option value="row">row</option>
+                        <option value="row-reverse">row-reverse</option>
+                        <option value="column">column</option>
+                        <option value="column-reverse">column-reverse</option>
+                    </select>
+                </div>
+
+                <!-- Justify Content -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Justify Content</label>
+                    <select id="justifyContent" onchange="updateFlex()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                        <option value="flex-start">flex-start</option>
+                        <option value="flex-end">flex-end</option>
+                        <option value="center">center</option>
+                        <option value="space-between">space-between</option>
+                        <option value="space-around">space-around</option>
+                        <option value="space-evenly">space-evenly</option>
+                    </select>
+                </div>
+
+                <!-- Align Items -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Align Items</label>
+                    <select id="alignItems" onchange="updateFlex()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                        <option value="stretch">stretch</option>
+                        <option value="flex-start">flex-start</option>
+                        <option value="flex-end">flex-end</option>
+                        <option value="center">center</option>
+                        <option value="baseline">baseline</option>
+                    </select>
+                </div>
+
+                <!-- Flex Wrap -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Flex Wrap</label>
+                    <select id="flexWrap" onchange="updateFlex()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                        <option value="nowrap">nowrap</option>
+                        <option value="wrap">wrap</option>
+                        <option value="wrap-reverse">wrap-reverse</option>
+                    </select>
+                </div>
+
+                <!-- Gap -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Gap (px)</label>
+                    <input type="range" id="gap" min="0" max="50" value="10" oninput="updateFlex()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="gapValue">10</span>px</div>
+                </div>
+
+                <!-- Number of Items -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Number of Items</label>
+                    <input type="range" id="itemCount" min="1" max="8" value="3" oninput="updateItems()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="itemCountValue">3</span></div>
+                </div>
+            </div>
+
+            <!-- CSS Output -->
+            <div>
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">CSS Code</label>
+                <textarea id="cssOutput" readonly style="width: 100%; height: 150px; padding: 12px; font-family: 'Courier New', monospace; font-size: 0.9rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; resize: vertical; margin-bottom: 10px;"></textarea>
+                <button class="btn btn-success" onclick="copyCss()" style="width: 100%;">Copy CSS</button>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+<style>
+.flex-item {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+            min-height: 60px;
+        }
+</style>
+
+
+<script src="/js/flexbox-generator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>CSS Flexbox Generator - Visual Flexbox Layout Tool</h2>
+    <p>The CSS Flexbox Generator provides a visual interface for creating CSS flexbox layouts with live preview. Adjust flex direction, justify content, align items, wrapping, and gap settings using simple controls, then copy the generated CSS code directly into your project. It's the fastest way to learn and prototype flexbox layouts without trial and error.</p>
+
+    <h3>What Is CSS Flexbox Generator?</h3>
+    <p>The Flexbox Generator is an interactive tool that translates visual layout choices into production-ready CSS flexbox code. You control all the key container-level flexbox properties through dropdowns and sliders, and the preview panel updates in real time to show exactly how your flex items will be arranged. The numbered flex items in the preview make it easy to see the effect of each property change immediately.</p>
+    <p>CSS Flexbox (Flexible Box Layout) is a one-dimensional layout model that distributes space and aligns items within a container along a single axis — either a row or a column. It was designed to solve common layout problems that were difficult or impossible to achieve cleanly with older techniques like floats, inline-block, or table-based layouts. Flexbox is now supported in every modern browser and is one of the most widely used CSS features in production websites.</p>
+    <p>The generator focuses on the flex container properties that define the overall layout behavior. Once you have your container CSS, you can further customize individual flex items using properties like flex-grow, flex-shrink, flex-basis, align-self, and order to create more nuanced layouts where different items behave differently within the same container.</p>
+
+    <h3>Flexbox Property Controls</h3>
+    <ul>
+        <li>Live visual preview that updates instantly as you change any setting, showing numbered flex items responding to your configuration in real time.</li>
+        <li>Flex Direction control with all four values: row, row-reverse, column, and column-reverse, letting you set the main axis orientation.</li>
+        <li>Justify Content control with six values: flex-start, flex-end, center, space-between, space-around, and space-evenly for main-axis alignment.</li>
+        <li>Align Items control with five values: stretch, flex-start, flex-end, center, and baseline for cross-axis alignment of items.</li>
+        <li>Flex Wrap control to enable or disable wrapping, with wrap-reverse for reversed wrapping behavior.</li>
+        <li>Gap slider and item count slider for fine-tuning spacing and testing how the layout behaves with different numbers of items.</li>
+    </ul>
+
+    <h3>How to Use CSS Flexbox Generator</h3>
+    <p>Experimenting with the generator is the fastest way to build an intuition for how flexbox properties interact with each other.</p>
+    <ul>
+        <li>Step 1: Choose a Flex Direction to set whether items flow horizontally (row) or vertically (column) and whether the order is normal or reversed.</li>
+        <li>Step 2: Adjust Justify Content to control how items are distributed along the main axis — try space-between and space-evenly to see the difference.</li>
+        <li>Step 3: Change Align Items to control how items are positioned on the cross axis — stretch fills the container height, while center vertically centers items.</li>
+        <li>Step 4: Set Flex Wrap to "wrap" and increase the item count slider to see how items wrap to new lines when they overflow the container.</li>
+        <li>Step 5: Click "Copy CSS" to copy the generated code and paste it into your stylesheet as the CSS for your flex container element.</li>
+    </ul>
+
+    <h3>Building Layouts with Flexbox</h3>
+    <p>Flexbox is the right tool for a wide range of component-level layout challenges in modern web development.</p>
+    <ul>
+        <li>Navigation bars: Distribute navigation links horizontally with space-between to push the logo left and links right, or use space-evenly for equal spacing.</li>
+        <li>Centering content: The simplest way to center an element both horizontally and vertically is display: flex; justify-content: center; align-items: center on the parent.</li>
+        <li>Card rows: Arrange cards in a horizontal row with flex-wrap: wrap so they automatically flow to new lines on smaller screens without media queries.</li>
+        <li>Form layouts: Align form labels and inputs in a row with consistent spacing, or stack them vertically using flex-direction: column.</li>
+        <li>Button groups: Distribute buttons evenly within a toolbar or action bar using justify-content: space-between or space-evenly.</li>
+    </ul>
+
+    <h3>Mastering Flexbox Alignment</h3>
+    <p>Understanding the main axis and cross axis is the key to mastering flexbox. The main axis is defined by flex-direction — it's horizontal for row and vertical for column. Justify-content always controls alignment along the main axis, and align-items always controls alignment along the cross axis (perpendicular to the main axis). Once this mental model clicks, the behavior of all flexbox properties becomes predictable and intuitive.</p>
+    <p>The gap property (formerly grid-gap) is the cleanest way to add spacing between flex items. Unlike using margins on individual items, gap only adds space between items — not on the outer edges of the container. This eliminates the need for negative margins or :first-child/:last-child selectors to remove unwanted outer spacing, making your CSS simpler and more maintainable.</p>
+    <p>For responsive layouts, combine flex-wrap: wrap with a min-width on flex items to create layouts that automatically adjust the number of columns based on available space. For example, setting flex: 1 1 250px on flex items means each item will be at least 250px wide and will grow to fill available space, with items wrapping to new rows when the container is too narrow to fit them all.</p>
+
+    
+
+    <h3>CSS Generated Client-Side Only</h3>
+    <p>CSS is generated in your browser. No data is sent to any server.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">When should I use Flexbox vs CSS Grid?</button>
+                    <div class="faq-answer"><p>Use Flexbox for one-dimensional layouts — a row of items or a vertical stack. Use CSS Grid for two-dimensional layouts where you need to control both rows and columns simultaneously. In practice, many layouts use both: Grid for the overall page structure, Flexbox for components within it.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What does flex-wrap do?</button>
+                    <div class="faq-answer"><p>By default, flex items try to fit on one line. flex-wrap: wrap allows items to wrap onto multiple lines when they run out of space. flex-wrap: nowrap (default) forces all items onto one line, potentially causing overflow.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between justify-content and align-items?</button>
+                    <div class="faq-answer"><p>justify-content aligns items along the main axis (horizontal in a row, vertical in a column). align-items aligns items along the cross axis (perpendicular to the main axis). Together they control both dimensions of alignment within the flex container.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What does flex: 1 mean?</button>
+                    <div class="faq-answer"><p>flex: 1 is shorthand for flex-grow: 1, flex-shrink: 1, flex-basis: 0. It means the item will grow to fill available space and shrink if needed. Multiple items with flex: 1 share available space equally. It is the most common way to make flex items fill their container.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I center an element both horizontally and vertically with Flexbox?</button>
+                    <div class="faq-answer"><p>On the parent container: display: flex; justify-content: center; align-items: center. This is the simplest and most reliable centering technique in CSS and works for any content size.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../css-grid-generator/" class="related-tool-link">CSS Grid Generator</a>
+                    <a href="../border-radius-generator/" class="related-tool-link">Border Radius Generator</a>
+                    <a href="../box-shadow-generator/" class="related-tool-link">Box Shadow Generator</a>
+                    <a href="../css-gradient-generator/" class="related-tool-link">CSS Gradient Generator</a>
+                    <a href="../css-js-minifier/" class="related-tool-link">CSS/JS Minifier</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

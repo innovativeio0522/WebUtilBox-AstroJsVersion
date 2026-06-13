@@ -1,0 +1,168 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/text-encryption/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Text Encryption - Encrypt Decrypt Text Online with AES | Webutilbox","url":"https://webutilbox.com/text-encryption/","description":"Encrypt and decrypt text with AES-256. Free online encryption tool. Works in browser, no upload.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What encryption algorithm does this tool use?","acceptedAnswer":{"@type":"Answer","text":"The tool uses AES (Advanced Encryption Standard), specifically AES-GCM (Galois/Counter Mode), which is the gold standard for symmetric encryption. AES-256 is used by governments and security professionals worldwide and is considered unbreakable with current technology."}},{"@type":"Question","name":"Is my encrypted text safe to share publicly?","acceptedAnswer":{"@type":"Answer","text":"Yes, if you use a strong password. AES-GCM encryption is secure — without the password, the encrypted text is meaningless. However, the security depends entirely on your password strength. Use a long, random password and share it through a separate secure channel."}},{"@type":"Question","name":"What is the difference between encryption and hashing?","acceptedAnswer":{"@type":"Answer","text":"Encryption is reversible — you can decrypt the data with the correct key. Hashing is one-way — you cannot recover the original data from a hash. Use encryption when you need to retrieve the original data. Use hashing for passwords and data integrity verification."}},{"@type":"Question","name":"Can I encrypt files with this tool?","acceptedAnswer":{"@type":"Answer","text":"This tool encrypts text. For file encryption, you would need a dedicated file encryption tool. However, you can convert small files to Base64 first, encrypt the Base64 string, then decrypt and decode later."}},{"@type":"Question","name":"What happens if I forget my encryption password?","acceptedAnswer":{"@type":"Answer","text":"There is no recovery option. AES encryption is designed so that without the correct password, the data cannot be decrypted. Store your password securely in a password manager. There is no backdoor or master key."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Text Encryption","item":"https://webutilbox.com/text-encryption/"}]}]};
+---
+
+<ToolLayout
+  title="Text Encryption - AES Encrypt & Decrypt | Webutilbox"
+  description="Encrypt and decrypt text using AES and other encryption algorithms directly in your browser. Free online text encryption and decryption tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="text encryption online, aes encryption tool, encrypt decrypt text, secure text encryption free"
+  h1="🔐 Text Encryption"
+  subtitle="Encrypt and decrypt text using AES-256 encryption. Secure your messages with a password. All processing happens in your browser."
+  lastUpdated=""
+  shareText="Free%20online%20Text%20Encryption%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Text Encryption - AES Encrypt & Decrypt -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Password Input -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px;">Encryption Password</label>
+                <div style="position: relative;">
+                    <input type="password" id="passwordInput" placeholder="Enter a strong password..." style="padding: 12px; font-size: 1rem; padding-right: 50px;">
+                    <button onclick="togglePassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.3rem; color: var(--gray);" id="toggleBtn">???</button>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">?? Remember this password - you'll need it to decrypt the text</div>
+            </div>
+
+            <div class="encryption-grid">
+                <!-- Left: Plain Text -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">Plain Text</label>
+                        <button class="btn btn-primary" onclick="encryptText()" style="padding: 6px 16px; font-size: 0.85rem;">?? Encrypt</button>
+                    </div>
+                    <textarea id="plainText" placeholder="Enter text to encrypt..." style="min-height: 250px; font-size: 0.9rem;"></textarea>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-success" onclick="copyPlain()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearPlain()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- Right: Encrypted Text -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">Encrypted Text</label>
+                        <button class="btn btn-primary" onclick="decryptText()" style="padding: 6px 16px; font-size: 0.85rem;">?? Decrypt</button>
+                    </div>
+                    <textarea id="encryptedText" placeholder="Encrypted text will appear here..." style="min-height: 250px; font-size: 0.9rem; font-family: 'Courier New', monospace;"></textarea>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-success" onclick="copyEncrypted()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearEncrypted()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-bar" id="statsBar" style="display: none; margin-top: 15px;">
+                <div class="stat">?? Original: <span class="stat-value" id="originalSize">0</span> chars</div>
+                <div class="stat">?? Encrypted: <span class="stat-value" id="encryptedSize">0</span> chars</div>
+                <div class="stat">?? Algorithm: <span class="stat-value">AES-256</span></div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/text-encryption.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Text Encryption Tool - Encrypt and Decrypt Text with AES-256</h2>
+            <p>This free text encryption tool uses AES-256-GCM encryption — the same standard used by governments, banks, and security professionals worldwide — to protect your sensitive text with a password. Encrypt any message, note, or document and share it safely knowing that only someone with the correct password can read it.</p>
+
+            <h3>What Is AES-256 Encryption?</h3>
+            <p>AES (Advanced Encryption Standard) with a 256-bit key is a symmetric encryption algorithm adopted by the U.S. National Institute of Standards and Technology (NIST) and used globally for securing sensitive data. "Symmetric" means the same key (your password) is used for both encryption and decryption. AES-256 is considered computationally infeasible to brute-force with current technology.</p>
+            <p>This tool uses AES-256-GCM (Galois/Counter Mode), which provides both encryption and authentication. GCM mode ensures that if the encrypted data is tampered with or the wrong password is used, decryption will fail with an error rather than silently producing garbled output. This makes it more secure than older modes like CBC.</p>
+            <p>The encryption process uses PBKDF2 (Password-Based Key Derivation Function 2) with 100,000 iterations and SHA-256 to derive a strong cryptographic key from your password. A random salt and initialization vector (IV) are generated for each encryption operation, ensuring that encrypting the same text twice produces different ciphertext each time.</p>
+
+            <h3>Encryption Algorithm Options</h3>
+            <ul>
+                <li>AES-256-GCM encryption using the Web Crypto API built into modern browsers</li>
+                <li>PBKDF2 key derivation with 100,000 iterations for brute-force resistance</li>
+                <li>Random salt and IV generated per encryption for maximum security</li>
+                <li>Base64-encoded output for easy copying and sharing as plain text</li>
+                <li>Password visibility toggle for easier entry of complex passwords</li>
+                <li>Encryption and decryption in the same interface</li>
+                <li>Character count display for original and encrypted text</li>
+                <li>Works entirely offline — no internet connection required after page load</li>
+            </ul>
+
+            <h3>How to Use the Text Encryption Tool</h3>
+            <p>Encrypting and decrypting text is simple with this tool:</p>
+            <ul>
+                <li>Step 1: Enter a strong password in the "Encryption Password" field. This is the key to your encrypted data — do not lose it.</li>
+                <li>Step 2: Type or paste the text you want to encrypt into the "Plain Text" box on the left.</li>
+                <li>Step 3: Click "Encrypt" to generate the encrypted output in the right box.</li>
+                <li>Step 4: Copy the encrypted text and share it or store it safely.</li>
+                <li>Step 5: To decrypt, paste the encrypted text into the right box, enter the same password, and click "Decrypt."</li>
+            </ul>
+
+            <h3>When to Encrypt Text</h3>
+            <ul>
+                <li>Encrypting sensitive notes, journal entries, or personal records before storing them in the cloud</li>
+                <li>Sending confidential messages through insecure channels like email or chat</li>
+                <li>Protecting API keys, passwords, or credentials stored in plain text files</li>
+                <li>Securing sensitive data in shared documents or collaboration tools</li>
+                <li>Creating encrypted backups of private information</li>
+                <li>Sharing confidential business information with a trusted recipient</li>
+            </ul>
+
+            <h3>Using Text Encryption Safely</h3>
+            <p>Use a strong, unique password for each piece of encrypted content. A good password is at least 16 characters long and includes a mix of uppercase letters, lowercase letters, numbers, and symbols. Avoid using dictionary words, names, or dates that could be guessed. A password manager can help you generate and store strong passwords.</p>
+            <p>Never share your password in the same message or channel as the encrypted text. The security of AES-256 encryption depends entirely on the secrecy of the password. If someone intercepts both the encrypted text and the password, they can decrypt it immediately. Send the password through a separate, secure channel.</p>
+            <p>There is no password recovery option. If you forget the password used to encrypt a piece of text, the data cannot be recovered. Store your passwords securely in a password manager or write them down and keep them in a physically secure location.</p>
+
+            
+
+            <h3>Encryption Runs Client-Side — No Server</h3>
+            <p>Encryption and decryption run entirely client-side. Your data is never transmitted.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What encryption algorithm does this tool use?</button>
+                    <div class="faq-answer"><p>The tool uses AES (Advanced Encryption Standard), specifically AES-GCM (Galois/Counter Mode), which is the gold standard for symmetric encryption. AES-256 is used by governments and security professionals worldwide and is considered unbreakable with current technology.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Is my encrypted text safe to share publicly?</button>
+                    <div class="faq-answer"><p>Yes, if you use a strong password. AES-GCM encryption is secure — without the password, the encrypted text is meaningless. However, the security depends entirely on your password strength. Use a long, random password and share it through a separate secure channel.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between encryption and hashing?</button>
+                    <div class="faq-answer"><p>Encryption is reversible — you can decrypt the data with the correct key. Hashing is one-way — you cannot recover the original data from a hash. Use encryption when you need to retrieve the original data. Use hashing for passwords and data integrity verification.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I encrypt files with this tool?</button>
+                    <div class="faq-answer"><p>This tool encrypts text. For file encryption, you would need a dedicated file encryption tool. However, you can convert small files to Base64 first, encrypt the Base64 string, then decrypt and decode later.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What happens if I forget my encryption password?</button>
+                    <div class="faq-answer"><p>There is no recovery option. AES encryption is designed so that without the correct password, the data cannot be decrypted. Store your password securely in a password manager. There is no backdoor or master key.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../sha256-generator/" class="related-tool-link">SHA-256 Generator</a>
+                    <a href="../password-generator/" class="related-tool-link">Password Generator</a>
+                    <a href="../base64-encoder/" class="related-tool-link">Base64 Encoder</a>
+                    <a href="../password-strength/" class="related-tool-link">Password Strength Checker</a>
+                    <a href="../jwt-decoder/" class="related-tool-link">JWT Decoder</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

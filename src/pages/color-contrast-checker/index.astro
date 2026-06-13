@@ -1,0 +1,160 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/color-contrast-checker/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Color Contrast Checker - WCAG Compliance | Webutilbox","url":"https://webutilbox.com/color-contrast-checker/","description":"Check WCAG color contrast compliance. Test AA/AAA accessibility for web designers and developers.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is WCAG color contrast?","acceptedAnswer":{"@type":"Answer","text":"WCAG (Web Content Accessibility Guidelines) defines minimum contrast ratios between text and background colors to ensure readability for people with low vision or color blindness. The contrast ratio is calculated from the relative luminance of the two colors."}},{"@type":"Question","name":"What contrast ratio do I need to pass WCAG?","acceptedAnswer":{"@type":"Answer","text":"WCAG AA requires a ratio of at least 4.5:1 for normal text and 3:1 for large text (18pt+ or 14pt+ bold). WCAG AAA requires 7:1 for normal text and 4.5:1 for large text. AA is the standard legal requirement in most jurisdictions."}},{"@type":"Question","name":"What counts as large text for WCAG purposes?","acceptedAnswer":{"@type":"Answer","text":"Large text is defined as 18pt (24px) or larger for regular weight, or 14pt (approximately 18.67px) or larger for bold text. Large text has a lower contrast requirement because it is easier to read at lower contrast."}},{"@type":"Question","name":"My colors fail contrast — what should I do?","acceptedAnswer":{"@type":"Answer","text":"Darken the text color or lighten the background (or vice versa) until the ratio meets the threshold. Small adjustments to lightness in HSL color space are the easiest way to fix contrast while keeping your brand colors recognizable."}},{"@type":"Question","name":"Does contrast ratio apply to icons and UI elements?","acceptedAnswer":{"@type":"Answer","text":"WCAG 1.4.11 (Non-text Contrast) requires a 3:1 ratio for UI components like buttons, form inputs, and icons that convey information. This is a AA-level requirement. The color contrast checker can be used to verify these elements too."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Color Contrast Checker","item":"https://webutilbox.com/color-contrast-checker/"}]}]};
+---
+
+<ToolLayout
+  title="Color Contrast Checker - WCAG Tool | Webutilbox"
+  description="Check color contrast ratios for WCAG AA and AAA accessibility compliance. Test text and background color combinations. Free accessibility tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-css-tools.svg"
+  keywords="color contrast checker, WCAG compliance, accessibility checker, contrast ratio, AA AAA compliance, web accessibility, color accessibility"
+  h1="🎨 Color Contrast Checker"
+  subtitle="Check WCAG color contrast compliance. Ensure your colors are accessible for all users."
+  lastUpdated=""
+  shareText="Free%20online%20Color%20Contrast%20Checker%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Color Contrast Checker - WCAG Tool -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+<div class="color-picker-group">
+<div class="color-box">
+<label style="display:block;margin-bottom:10px;font-weight:600">Foreground Color (Text)</label>
+<input type="color" id="fgColor" value="#000000" class="color-input" oninput="checkContrast()">
+<input type="text" id="fgHex" value="#000000" style="width:100%;margin-top:10px;padding:10px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--white)" oninput="updateFromHex('fg')">
+</div>
+<div class="color-box">
+<label style="display:block;margin-bottom:10px;font-weight:600">Background Color</label>
+<input type="color" id="bgColor" value="#ffffff" class="color-input" oninput="checkContrast()">
+<input type="text" id="bgHex" value="#ffffff" style="width:100%;margin-top:10px;padding:10px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--white)" oninput="updateFromHex('bg')">
+</div>
+</div>
+<div class="preview-box" id="preview" style="background:#ffffff;color:#000000">
+<h2 style="margin-bottom:15px">Preview Text</h2>
+<p style="font-size:1.2rem;margin-bottom:10px">The quick brown fox jumps over the lazy dog</p>
+<p style="font-size:0.9rem">Small text example for testing readability</p>
+</div>
+<div style="background:var(--light);padding:25px;border-radius:12px;border:1px solid var(--border);margin:20px 0">
+<h3 style="color:var(--primary);margin-bottom:15px;text-align:center">Contrast Ratio</h3>
+<div class="ratio-display" id="ratio">0:1</div>
+<div class="compliance-grid" id="compliance"></div>
+</div>
+<div class="button-group">
+<button class="btn btn-primary" onclick="swapColors()">Swap Colors</button>
+<button class="btn btn-secondary" onclick="randomColors()">Random Colors</button>
+<button class="btn btn-success" onclick="copyColors()">Copy Colors</button>
+</div>
+</div>
+
+        <!-- Share Bar -->
+
+<style>
+.color-picker-group{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}
+.color-box{padding:20px;border-radius:12px;border:1px solid var(--border)}
+.color-input{width:100%;height:60px;border:none;border-radius:8px;cursor:pointer}
+.preview-box{padding:40px;border-radius:12px;margin:20px 0;text-align:center}
+.ratio-display{font-size:3rem;font-weight:700;color:var(--primary);text-align:center;margin:20px 0}
+.compliance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin:20px 0}
+.compliance-card{background:var(--light);padding:20px;border-radius:10px;border:2px solid var(--border);text-align:center}
+.compliance-card.pass{border-color:#22c55e}
+.compliance-card.fail{border-color:#f87171}
+.status-icon{font-size:2rem;margin-bottom:10px}
+</style>
+
+
+<script src="/js/color-contrast-checker.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Color Contrast Checker - WCAG Accessibility Compliance Tool</h2>
+    <p>The Color Contrast Checker is a free accessibility tool that tests whether your foreground and background color combinations meet WCAG (Web Content Accessibility Guidelines) contrast requirements. Enter any two colors and instantly see the contrast ratio along with pass or fail results for all four WCAG compliance levels. It is an essential tool for web designers, developers, and anyone building accessible digital products that need to serve users of all abilities.</p>
+
+    <h3>What Is WCAG Color Contrast?</h3>
+    <p>WCAG (Web Content Accessibility Guidelines) is an internationally recognized set of standards published by the W3C that defines how web content should be made accessible to people with disabilities. One of the most important and measurable requirements in WCAG is color contrast — the difference in perceived brightness between a text color and its background. The contrast ratio is a number from 1:1 (identical colors, no contrast) to 21:1 (black text on white background, maximum contrast).</p>
+    <p>The contrast ratio is calculated using the relative luminance of each color, which is a measure of how much light a color appears to emit. The formula accounts for the non-linear way human eyes perceive brightness — we are more sensitive to changes in dark colors than in light ones. This means that two colors that look very different to the eye may have a lower contrast ratio than expected if they have similar luminance values, which is why relying on visual judgment alone is not sufficient for accessibility compliance.</p>
+    <p>WCAG 2.1 defines two conformance levels for contrast: AA (the minimum acceptable standard) and AAA (the enhanced standard for the highest level of accessibility). Both levels have different requirements for normal-sized text versus large text, recognizing that larger text is inherently easier to read at lower contrast ratios. Understanding these distinctions is critical for making informed design decisions that balance aesthetics with accessibility requirements.</p>
+    <p>Approximately 8% of men and 0.5% of women have some form of color vision deficiency, and many more people experience reduced contrast sensitivity due to aging, bright sunlight, or low-quality displays. Designing for sufficient contrast is not just a legal compliance requirement in many jurisdictions — it is a fundamental aspect of inclusive design that improves the experience for all users, not just those with disabilities.</p>
+
+    <h3>Contrast Checking Capabilities</h3>
+    <ul>
+        <li>Real-time contrast ratio calculation — see the exact ratio update instantly as you change either color, with no need to click a button.</li>
+        <li>All four WCAG levels checked simultaneously — AA Normal, AA Large, AAA Normal, and AAA Large displayed in one clear view.</li>
+        <li>Live text preview — see exactly how your color combination looks with sample heading and body text rendered in your chosen colors.</li>
+        <li>HEX input support — type any hex color code directly into the text field or use the visual color picker for intuitive selection.</li>
+        <li>Swap colors button — instantly reverse foreground and background to test the inverse combination with a single click.</li>
+        <li>Random color generator — explore color combinations quickly with the random colors feature for inspiration and testing.</li>
+    </ul>
+
+    <h3>How to Use the Color Contrast Checker</h3>
+    <p>Checking your color contrast takes just seconds with this tool and requires no account or installation.</p>
+    <ul>
+        <li>Step 1: Set your foreground (text) color using the color picker or by typing a hex code like #333333 into the text field.</li>
+        <li>Step 2: Set your background color using the second color picker or hex input field below it.</li>
+        <li>Step 3: The contrast ratio is calculated and displayed instantly — for example, "7.5:1" — along with a visual indicator.</li>
+        <li>Step 4: Review the four compliance cards to see which WCAG levels your combination passes or fails with clear pass/fail icons.</li>
+        <li>Step 5: Adjust your colors as needed until you achieve the desired compliance level, using the live preview to judge real-world readability.</li>
+    </ul>
+
+    <h3>Accessibility and Contrast Use Cases</h3>
+    <ul>
+        <li>Web designers verifying that body text, headings, and link colors meet WCAG AA requirements before handing off designs to developers for implementation.</li>
+        <li>Front-end developers checking that dynamically generated color combinations in themes or user-customizable interfaces remain accessible across all possible inputs.</li>
+        <li>UX researchers auditing existing websites for accessibility compliance as part of a formal accessibility review or remediation project for legal compliance.</li>
+        <li>Brand teams evaluating whether their brand color palette can be used for text on various background colors while maintaining accessibility standards across all marketing materials.</li>
+        <li>Mobile app developers ensuring that their UI color schemes meet accessibility requirements across both light and dark mode variants on different device types.</li>
+    </ul>
+
+    <h3>Passing WCAG Contrast Requirements</h3>
+    <p>When choosing text colors, aim for at least a 4.5:1 contrast ratio (WCAG AA) for all body text, and ideally 7:1 (WCAG AAA) for the best readability. Dark text on a light background is generally easier to achieve high contrast ratios with than light text on a dark background, because the luminance difference is more pronounced. If you are designing a dark mode interface, pay extra attention to contrast ratios since it is easy to underestimate how much contrast is lost when switching to dark backgrounds with lighter text.</p>
+    <p>Do not rely solely on color to convey information. Even if your contrast ratio passes WCAG requirements, users with color blindness may not be able to distinguish between certain color combinations. Always supplement color-coded information with text labels, icons, or patterns. For example, error states should use both a red color and an error icon or text label, not just a color change alone, to ensure the information is accessible to users with red-green color blindness.</p>
+    <p>Large text (18pt or 14pt bold and above) has a lower contrast requirement because it is inherently more readable at lower contrast ratios. If you are struggling to achieve 4.5:1 for a particular color combination, consider increasing the font size to qualify as "large text" and take advantage of the 3:1 AA requirement. This is a legitimate and commonly used design strategy for decorative headings, pull quotes, or secondary text elements where strict contrast compliance is difficult to achieve with your brand colors.</p>
+
+    
+
+    <h3>Colors Checked Client-Side Only</h3>
+    <p>All contrast calculations run in your browser. No colour data is transmitted.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is WCAG color contrast?</button>
+                    <div class="faq-answer"><p>WCAG (Web Content Accessibility Guidelines) defines minimum contrast ratios between text and background colors to ensure readability for people with low vision or color blindness. The contrast ratio is calculated from the relative luminance of the two colors.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What contrast ratio do I need to pass WCAG?</button>
+                    <div class="faq-answer"><p>WCAG AA requires a ratio of at least 4.5:1 for normal text and 3:1 for large text (18pt+ or 14pt+ bold). WCAG AAA requires 7:1 for normal text and 4.5:1 for large text. AA is the standard legal requirement in most jurisdictions.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What counts as large text for WCAG purposes?</button>
+                    <div class="faq-answer"><p>Large text is defined as 18pt (24px) or larger for regular weight, or 14pt (approximately 18.67px) or larger for bold text. Large text has a lower contrast requirement because it is easier to read at lower contrast.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">My colors fail contrast — what should I do?</button>
+                    <div class="faq-answer"><p>Darken the text color or lighten the background (or vice versa) until the ratio meets the threshold. Small adjustments to lightness in HSL color space are the easiest way to fix contrast while keeping your brand colors recognizable.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does contrast ratio apply to icons and UI elements?</button>
+                    <div class="faq-answer"><p>WCAG 1.4.11 (Non-text Contrast) requires a 3:1 ratio for UI components like buttons, form inputs, and icons that convey information. This is a AA-level requirement. The color contrast checker can be used to verify these elements too.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../color-converter/" class="related-tool-link">Color Converter</a>
+                    <a href="../color-shades-generator/" class="related-tool-link">Color Shades Generator</a>
+                    <a href="../css-gradient-generator/" class="related-tool-link">CSS Gradient Generator</a>
+                    <a href="../image-color-picker/" class="related-tool-link">Image Color Picker</a>
+                    <a href="../box-shadow-generator/" class="related-tool-link">Box Shadow Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

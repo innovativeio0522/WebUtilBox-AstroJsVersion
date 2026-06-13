@@ -1,0 +1,167 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/countdown-timer/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Countdown Timer - Custom Countdown Clock | Webutilbox","url":"https://webutilbox.com/countdown-timer/","description":"Free countdown timer with custom time settings. Perfect for events, cooking, and workouts.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I set a countdown to a specific date and time?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enter the target date and time and the timer will count down to that exact moment, showing days, hours, minutes, and seconds remaining. This is useful for event countdowns, deadlines, and launch timers."}},{"@type":"Question","name":"Does the countdown continue if I close the tab?","acceptedAnswer":{"@type":"Answer","text":"The timer runs in your browser tab. If you close the tab, the timer stops. When you reopen it, you can re-enter your target date. For persistent countdowns, bookmark the page and reopen it when needed."}},{"@type":"Question","name":"Can I use this as a kitchen timer?","acceptedAnswer":{"@type":"Answer","text":"Yes. Set a duration (e.g., 10 minutes) and start the timer. An alert will notify you when it reaches zero. Make sure your browser tab is not muted if you want an audio alert."}},{"@type":"Question","name":"What happens when the countdown reaches zero?","acceptedAnswer":{"@type":"Answer","text":"The timer displays a completion message and plays an alert sound (if your browser allows audio). Some browsers require a user interaction before playing audio, so make sure you have clicked somewhere on the page before starting the timer."}},{"@type":"Question","name":"Can I pause and resume the countdown?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the pause button to freeze the timer and resume to continue from where you left off. This is useful for timed tasks where you need to take breaks."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Countdown Timer","item":"https://webutilbox.com/countdown-timer/"}]}]};
+---
+
+<ToolLayout
+  title="Countdown Timer - Custom Countdown Clock | Webutilbox"
+  description="Set a countdown timer for any event or deadline. Supports hours, minutes, and seconds with audio alerts. Free browser-based countdown timer."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-timers.svg"
+  keywords="countdown timer, countdown clock, timer online, event countdown, cooking timer"
+  h1="⏱️ Countdown Timer"
+  subtitle="Set a custom countdown timer for any duration."
+  lastUpdated=""
+  shareText="Free%20online%20Countdown%20Timer%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Countdown Timer - Custom Countdown Clock -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Timer Display -->
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div id="display" style="font-size: 5rem; font-weight: bold; color: var(--primary); font-family: monospace;">00:00:00</div>
+            </div>
+
+            <!-- Time Input -->
+            <div id="inputSection" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block; text-align: center;">Hours</label>
+                    <input type="number" id="hours" value="0" min="0" max="23" style="width: 100%; padding: 12px; font-size: 1.5rem; text-align: center;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block; text-align: center;">Minutes</label>
+                    <input type="number" id="minutes" value="5" min="0" max="59" style="width: 100%; padding: 12px; font-size: 1.5rem; text-align: center;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block; text-align: center;">Seconds</label>
+                    <input type="number" id="seconds" value="0" min="0" max="59" style="width: 100%; padding: 12px; font-size: 1.5rem; text-align: center;">
+                </div>
+            </div>
+
+            <!-- Quick Presets -->
+            <div style="margin-bottom: 20px; text-align: center;">
+                <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Quick Presets</div>
+                <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" onclick="setTime(0, 1, 0)" style="padding: 8px 16px; font-size: 0.85rem;">1 min</button>
+                    <button class="btn btn-secondary" onclick="setTime(0, 5, 0)" style="padding: 8px 16px; font-size: 0.85rem;">5 min</button>
+                    <button class="btn btn-secondary" onclick="setTime(0, 10, 0)" style="padding: 8px 16px; font-size: 0.85rem;">10 min</button>
+                    <button class="btn btn-secondary" onclick="setTime(0, 15, 0)" style="padding: 8px 16px; font-size: 0.85rem;">15 min</button>
+                    <button class="btn btn-secondary" onclick="setTime(0, 30, 0)" style="padding: 8px 16px; font-size: 0.85rem;">30 min</button>
+                    <button class="btn btn-secondary" onclick="setTime(1, 0, 0)" style="padding: 8px 16px; font-size: 0.85rem;">1 hour</button>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="button-group" style="justify-content: center;">
+                <button id="startBtn" class="btn btn-primary" onclick="start()" style="padding: 15px 40px; font-size: 1.1rem;">Start</button>
+                <button id="pauseBtn" class="btn btn-secondary" onclick="pause()" style="padding: 15px 40px; font-size: 1.1rem; display: none;">Pause</button>
+                <button class="btn btn-secondary" onclick="reset()" style="padding: 15px 40px; font-size: 1.1rem;">Reset</button>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/countdown-timer.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Countdown Timer — Online Countdown Clock</h2>
+
+    <p>Set a duration, press start, and focus on the work. The timer runs in the background tab and plays an audio alert when it finishes. No installation, no account, no interruptions.</p>
+
+    <h3>Pick your scenario</h3>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:16px 0">
+
+        <div style="background:var(--dark);border:1px solid var(--border);border-radius:10px;padding:16px">
+            <div style="font-size:1.4rem;margin-bottom:8px">&#127859;</div>
+            <h4 style="color:var(--white);margin-bottom:6px;font-size:.95rem">Cooking</h4>
+            <p style="color:var(--gray);font-size:.85rem;line-height:1.6">Pasta: 8–11 min. Boiled eggs: 6 min soft, 10 min hard. Chicken breast at 180°C: 25–30 min. Set the timer when you put it in — not when you remember to.</p>
+        </div>
+
+        <div style="background:var(--dark);border:1px solid var(--border);border-radius:10px;padding:16px">
+            <div style="font-size:1.4rem;margin-bottom:8px">&#129504;</div>
+            <h4 style="color:var(--white);margin-bottom:6px;font-size:.95rem">Pomodoro focus sessions</h4>
+            <p style="color:var(--gray);font-size:.85rem;line-height:1.6">25 minutes of focused work, 5-minute break. After 4 rounds, a 15–30 minute break. The timer enforces the structure — without it, "just 5 more minutes" expands indefinitely.</p>
+        </div>
+
+        <div style="background:var(--dark);border:1px solid var(--border);border-radius:10px;padding:16px">
+            <div style="font-size:1.4rem;margin-bottom:8px">&#127942;</div>
+            <h4 style="color:var(--white);margin-bottom:6px;font-size:.95rem">Presentations &amp; talks</h4>
+            <p style="color:var(--gray);font-size:.85rem;line-height:1.6">Set the timer to your allotted slot minus 2 minutes buffer. Glance at it rather than your phone. The audio alert at the end prevents the most common presentation failure: running over.</p>
+        </div>
+
+        <div style="background:var(--dark);border:1px solid var(--border);border-radius:10px;padding:16px">
+            <div style="font-size:1.4rem;margin-bottom:8px">&#127947;</div>
+            <h4 style="color:var(--white);margin-bottom:6px;font-size:.95rem">Exercise intervals</h4>
+            <p style="color:var(--gray);font-size:.85rem;line-height:1.6">HIIT: 40 seconds on, 20 seconds rest. Planks: 30–60 seconds. Rest between sets: 90 seconds. Set the timer at the start of each interval rather than watching a stopwatch.</p>
+        </div>
+
+        <div style="background:var(--dark);border:1px solid var(--border);border-radius:10px;padding:16px">
+            <div style="font-size:1.4rem;margin-bottom:8px">&#127979;</div>
+            <h4 style="color:var(--white);margin-bottom:6px;font-size:.95rem">Exams &amp; timed tests</h4>
+            <p style="color:var(--gray);font-size:.85rem;line-height:1.6">Divide total time by number of questions to set a per-question budget. Set a halfway check-in timer. The alert forces you to move on rather than over-investing in one question.</p>
+        </div>
+
+        <div style="background:var(--dark);border:1px solid var(--border);border-radius:10px;padding:16px">
+            <div style="font-size:1.4rem;margin-bottom:8px">&#129498;</div>
+            <h4 style="color:var(--white);margin-bottom:6px;font-size:.95rem">Meetings &amp; standups</h4>
+            <p style="color:var(--gray);font-size:.85rem;line-height:1.6">A visible countdown on a shared screen keeps standups to 15 minutes and retrospectives on schedule. The alert is a neutral way to signal time is up without anyone having to interrupt.</p>
+        </div>
+
+    </div>
+
+    <h3>Why timed work produces better output</h3>
+    <p>Parkinson's Law: work expands to fill the time available. A task with no deadline takes longer than one with a tight constraint — and the constrained version is often better because you make decisions instead of refining indefinitely. The timer creates a container. What you produce inside it is up to you; the boundary is not negotiable.</p>
+    <p>The Pomodoro technique specifically uses 25-minute intervals because that duration is short enough to commit to fully ("I can do anything for 25 minutes") but long enough to reach a state of focus. The breaks are mandatory — they prevent the compounding fatigue that makes the 4th hour of work half as productive as the 1st.</p>
+
+    <h3>Timer runs entirely in your browser</h3>
+    <p>No data sent anywhere. Works offline once the page loads. The tab can be minimised — the audio alert will still fire.</p>
+
+    <h3>Frequently Asked Questions</h3>
+    <div class="faq-list">
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">Will the alert fire if I switch to another tab?</button>
+            <div class="faq-answer"><p>Yes. The timer uses JavaScript's setTimeout which continues running when the tab is in the background. The audio alert will play when the countdown reaches zero regardless of which tab is active. Keep your browser volume on.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">Can I pause and resume the timer?</button>
+            <div class="faq-answer"><p>Yes. Click the Pause button to freeze the countdown at the current time. Click Resume (or Start) to continue from where you paused. This makes it more flexible than physical kitchen timers for handling interruptions.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">What is the Pomodoro Technique?</button>
+            <div class="faq-answer"><p>A time management method developed by Francesco Cirillo in the late 1980s. Work for 25 minutes (one Pomodoro), then take a 5-minute break. After 4 Pomodoros, take a longer 15–30 minute break. The structure improves focus and prevents burnout during long work sessions.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">Why does my timer drift slightly over long durations?</button>
+            <div class="faq-answer"><p>JavaScript timers can drift by a few milliseconds per interval due to browser throttling, especially in background tabs. For precise timing over hours, the drift is negligible. For laboratory-grade precision, use a dedicated hardware timer.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">Can I use this as a stopwatch instead?</button>
+            <div class="faq-answer"><p>For counting up from zero, use the dedicated Stopwatch tool instead. The countdown timer counts down to zero and alerts you; the stopwatch counts up from zero and measures elapsed time.</p></div>
+        </div>
+    </div>
+
+    <div class="related-tools">
+        <h3>Related Tools</h3>
+        <div class="related-tools-grid">
+            <a href="../stopwatch/" class="related-tool-link">Stopwatch</a>
+            <a href="../pomodoro-timer/" class="related-tool-link">Pomodoro Timer</a>
+            <a href="../date-calculator/" class="related-tool-link">Date Calculator</a>
+            <a href="../unix-timestamp-converter/" class="related-tool-link">Unix Timestamp</a>
+            <a href="../time-zone-converter/" class="related-tool-link">Time Zone Converter</a>
+        </div>
+    </div>
+</div>
+
+</ToolLayout>

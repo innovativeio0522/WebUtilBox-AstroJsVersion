@@ -1,0 +1,196 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/html-entity-encoder/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"HTML Entity Encoder - Encode Special Characters Online | Webutilbox","url":"https://webutilbox.com/html-entity-encoder/","description":"Encode and decode HTML entities instantly. Convert special characters for safe display. Free tool.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What are HTML entities and why are they needed?","acceptedAnswer":{"@type":"Answer","text":"HTML entities are special codes that represent characters which have meaning in HTML syntax (like & \\\" ') or characters not easily typed on a keyboard. Without encoding, a < in your content would be interpreted as the start of an HTML tag, breaking your page."}},{"@type":"Question","name":"What is the difference between named and numeric entities?","acceptedAnswer":{"@type":"Answer","text":"Named entities use descriptive names: &amp; for &, &lt; for <, &copy; for copyright symbol. Numeric entities use the Unicode code point: &#38; (decimal) or &#x26; (hexadecimal) for &. Named entities are more readable; numeric entities work for any Unicode character."}},{"@type":"Question","name":"When should I encode HTML entities?","acceptedAnswer":{"@type":"Answer","text":"Always encode user-generated content before inserting it into HTML to prevent XSS (cross-site scripting) attacks. Also encode special characters in HTML attributes, meta tags, and anywhere text content is dynamically inserted into a page."}},{"@type":"Question","name":"What is the difference between HTML encoding and URL encoding?","acceptedAnswer":{"@type":"Answer","text":"HTML encoding replaces characters with HTML entities (&amp;, &lt;, etc.) for safe display in HTML. URL encoding (percent-encoding) replaces characters with %XX codes for safe use in URLs. They are different systems for different contexts."}},{"@type":"Question","name":"Does encoding affect how text looks on the page?","acceptedAnswer":{"@type":"Answer","text":"No. HTML entities are decoded by the browser before display. A visitor sees the original character, not the entity code. The encoding only affects the raw HTML source, not the rendered output."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"HTML Entity Encoder","item":"https://webutilbox.com/html-entity-encoder/"}]}]};
+---
+
+<ToolLayout
+  title="HTML Entity Encoder | Webutilbox"
+  description="Encode and decode HTML entities instantly. Convert special characters to HTML-safe format and back. Free online HTML entity encoder and decoder."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="html entity encoder, html entity decoder, encode html special characters, html escape online"
+  h1="🔤 HTML Entity Encoder"
+  subtitle="Encode special characters to HTML entities or decode HTML entities back to text. Prevent XSS and display special characters safely."
+  lastUpdated=""
+  shareText="Free%20online%20HTML%20Entity%20Encoder%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="HTML Entity Encoder -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <!-- Left: Plain Text -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">Plain Text</label>
+                        <button class="btn btn-primary" onclick="encodeText()" style="padding: 6px 16px; font-size: 0.85rem;">Encode ?</button>
+                    </div>
+                    <textarea id="plainText" placeholder="Enter text with special characters..." oninput="autoEncode()" style="min-height: 250px; font-size: 0.9rem;"></textarea>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-success" onclick="copyPlain()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearPlain()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- Right: HTML Entities -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">HTML Entities</label>
+                        <button class="btn btn-primary" onclick="decodeText()" style="padding: 6px 16px; font-size: 0.85rem;">? Decode</button>
+                    </div>
+                    <textarea id="encodedText" placeholder="Enter HTML entities..." oninput="autoDecode()" style="min-height: 250px; font-size: 0.9rem; font-family: 'Courier New', monospace;"></textarea>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-success" onclick="copyEncoded()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearEncoded()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 15px; margin-top: 15px; padding: 12px; background: var(--light); border-radius: 8px; border: 1px solid var(--border); flex-wrap: wrap;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin: 0;">
+                    <input type="checkbox" id="autoMode" checked>
+                    <span style="font-size: 0.9rem;">Auto-convert</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin: 0;">
+                    <input type="checkbox" id="encodeAll">
+                    <span style="font-size: 0.9rem;">Encode all characters</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin: 0;">
+                    <input type="checkbox" id="useNumeric">
+                    <span style="font-size: 0.9rem;">Use numeric entities (&#38;#38;)</span>
+                </label>
+            </div>
+
+            <div class="stats-bar" id="statsBar" style="display: none; margin-top: 15px;">
+                <div class="stat">?? Original: <span class="stat-value" id="originalChars">0</span> chars</div>
+                <div class="stat">?? Encoded: <span class="stat-value" id="encodedChars">0</span> chars</div>
+                <div class="stat">?? Entities: <span class="stat-value" id="entityCount">0</span></div>
+            </div>
+
+            <!-- Common Entities Reference -->
+            <div class="output-container show" style="margin-top: 15px;">
+                <div class="output-label">Common HTML Entities Reference</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.85rem;">
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">
+                        <code>&lt;</code> ? <code>&amp;lt;</code> or <code>&amp;#60;</code>
+                    </div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">
+                        <code>&gt;</code> ? <code>&amp;gt;</code> or <code>&amp;#62;</code>
+                    </div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">
+                        <code>&amp;</code> ? <code>&amp;amp;</code> or <code>&amp;#38;</code>
+                    </div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">
+                        <code>"</code> ? <code>&amp;quot;</code> or <code>&amp;#34;</code>
+                    </div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">
+                        <code>'</code> ? <code>&amp;apos;</code> or <code>&amp;#39;</code>
+                    </div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">
+                        <code>©</code> ? <code>&amp;copy;</code> or <code>&amp;#169;</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/html-entity-encoder.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>HTML Entity Encoder/Decoder - Encode Special Characters</h2>
+    <p>The HTML Entity Encoder converts special characters to their HTML entity equivalents and decodes HTML entities back to readable text. It's an essential tool for web developers working with user-generated content, template engines, HTML generation, and security-conscious coding practices that prevent cross-site scripting vulnerabilities.</p>
+
+    <h3>What Is HTML Entity Encoder/Decoder?</h3>
+    <p>The HTML Entity Encoder is a bidirectional conversion tool that works in both directions simultaneously. Type or paste plain text on the left and the encoded HTML entities appear on the right in real time. Alternatively, paste HTML entity code on the right and the decoded plain text appears on the left. The auto-convert mode makes this seamless — you just type and the conversion happens automatically without clicking any buttons.</p>
+    <p>HTML entities are special codes used to represent characters that have special meaning in HTML markup or that cannot be easily typed on a standard keyboard. They begin with an ampersand (&amp;) and end with a semicolon (;). For example, &amp;lt; represents the less-than sign (&lt;) which would otherwise be interpreted as the start of an HTML tag, and &amp;amp; represents the ampersand character itself.</p>
+    <p>The tool supports both named entities (like &amp;copy; for ©) and numeric entities (like &amp;#169; for the same copyright symbol). An "Encode all characters" option converts every character to its numeric entity representation, which is useful for obfuscating text or ensuring maximum compatibility with older systems. The "Use numeric entities" option converts only special characters to their numeric form rather than named form.</p>
+
+    <h3>Encoding and Decoding Options</h3>
+    <ul>
+        <li>Auto-convert mode that encodes or decodes in real time as you type, with no button press required for instant feedback.</li>
+        <li>Bidirectional conversion — encode plain text to HTML entities or decode HTML entities back to plain text with equal ease.</li>
+        <li>Named entity support for common characters (lt, gt, amp, quot, apos, copy, reg, trade, euro, pound, and more).</li>
+        <li>Numeric entity option that uses decimal character references (&#38;#38;) instead of named entities for maximum compatibility.</li>
+        <li>Encode all characters option that converts every character including ASCII letters and numbers to numeric entities for full obfuscation.</li>
+        <li>Statistics bar showing original character count, encoded character count, and the number of entities converted for transparency.</li>
+    </ul>
+
+    <h3>How to Use HTML Entity Encoder/Decoder</h3>
+    <p>The tool works automatically in real time, but you can also use the explicit encode and decode buttons for manual control.</p>
+    <ul>
+        <li>Step 1: To encode text, type or paste your plain text into the left "Plain Text" panel — the encoded HTML entities appear automatically on the right.</li>
+        <li>Step 2: To decode entities, paste your HTML entity code into the right "HTML Entities" panel — the decoded plain text appears automatically on the left.</li>
+        <li>Step 3: Check "Encode all characters" if you want every character converted to a numeric entity, or "Use numeric entities" for numeric-only output.</li>
+        <li>Step 4: Use the explicit "Encode ?" or "? Decode" buttons if you prefer manual control rather than auto-conversion.</li>
+        <li>Step 5: Click the "Copy" button under either panel to copy the content to your clipboard for use in your code or document.</li>
+    </ul>
+
+    <h3>When HTML Encoding Is Required</h3>
+    <p>HTML entity encoding is a fundamental web development practice with applications across security, content management, and internationalization.</p>
+    <ul>
+        <li>XSS prevention: Encode user-submitted content before inserting it into HTML to prevent cross-site scripting attacks where malicious script tags could execute in other users' browsers.</li>
+        <li>Displaying code examples: Encode HTML and XML code snippets for display in web pages so angle brackets and other markup characters render as visible text rather than being parsed as HTML.</li>
+        <li>Email template development: Encode special characters in HTML email templates to ensure they display correctly across all email clients, which have varying levels of HTML support.</li>
+        <li>CMS and template engines: Verify that your content management system or template engine is correctly encoding output, or manually encode content that will be inserted into HTML templates.</li>
+        <li>Internationalization: Encode non-ASCII characters like accented letters, currency symbols, and special punctuation to ensure they display correctly regardless of the page's character encoding declaration.</li>
+    </ul>
+
+    <h3>HTML Entity Encoding Best Practices</h3>
+    <p>The five characters that must always be encoded in HTML are the less-than sign (&lt;), greater-than sign (&gt;), ampersand (&amp;), double quote (&quot;), and single quote (&apos;). These characters have special meaning in HTML syntax and will cause rendering errors or security vulnerabilities if left unencoded in user-generated content. The encoder handles all five automatically.</p>
+    <p>For modern web applications, the best practice is to use UTF-8 character encoding for your pages (declared with &lt;meta charset="UTF-8"&gt;) and only encode the five special HTML characters listed above. With UTF-8, you don't need to encode accented characters, currency symbols, or other Unicode characters as numeric entities — they can be used directly in your HTML. The "Encode all characters" option is mainly useful for legacy systems or specific obfuscation requirements.</p>
+    <p>When working with JavaScript that generates HTML dynamically, always encode user input before inserting it into innerHTML or similar properties. Using textContent instead of innerHTML is even safer for plain text, as it automatically treats the content as text rather than HTML. For template literals and string concatenation that produces HTML, use a dedicated sanitization library in addition to entity encoding for robust XSS protection.</p>
+
+    
+
+    <h3>Text Encoded Locally, Never Sent</h3>
+    <p>Encoding and decoding runs locally. Your HTML content never leaves your device.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What are HTML entities and why are they needed?</button>
+                    <div class="faq-answer"><p>HTML entities are special codes that represent characters which have meaning in HTML syntax (like < > & " ') or characters not easily typed on a keyboard. Without encoding, a < in your content would be interpreted as the start of an HTML tag, breaking your page.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between named and numeric entities?</button>
+                    <div class="faq-answer"><p>Named entities use descriptive names: &amp; for &, &lt; for <, &copy; for copyright symbol. Numeric entities use the Unicode code point: &#38; (decimal) or &#x26; (hexadecimal) for &. Named entities are more readable; numeric entities work for any Unicode character.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">When should I encode HTML entities?</button>
+                    <div class="faq-answer"><p>Always encode user-generated content before inserting it into HTML to prevent XSS (cross-site scripting) attacks. Also encode special characters in HTML attributes, meta tags, and anywhere text content is dynamically inserted into a page.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between HTML encoding and URL encoding?</button>
+                    <div class="faq-answer"><p>HTML encoding replaces characters with HTML entities (&amp;, &lt;, etc.) for safe display in HTML. URL encoding (percent-encoding) replaces characters with %XX codes for safe use in URLs. They are different systems for different contexts.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does encoding affect how text looks on the page?</button>
+                    <div class="faq-answer"><p>No. HTML entities are decoded by the browser before display. A visitor sees the original character, not the entity code. The encoding only affects the raw HTML source, not the rendered output.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../base64-encoder/" class="related-tool-link">Base64 Encoder</a>
+                    <a href="../url-parser/" class="related-tool-link">URL Parser</a>
+                    <a href="../markdown-to-html/" class="related-tool-link">Markdown to HTML</a>
+                    <a href="../meta-tag-generator/" class="related-tool-link">Meta Tag Generator</a>
+                    <a href="../text-encryption/" class="related-tool-link">Text Encryption</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

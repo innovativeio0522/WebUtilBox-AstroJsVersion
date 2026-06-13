@@ -1,0 +1,191 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/lorem-ipsum/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Lorem Ipsum Generator - Placeholder Text Generator Online | Webutilbox","url":"https://webutilbox.com/lorem-ipsum/","description":"Generate Lorem Ipsum placeholder text instantly. Create paragraphs or words for mockups. Free tool.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Lorem Ipsum text?","acceptedAnswer":{"@type":"Answer","text":"Lorem Ipsum is placeholder text derived from a scrambled passage of Cicero's 'de Finibus Bonorum et Malorum' (45 BC). It has been used as dummy text in typesetting since the 1500s. It looks like natural language but is meaningless, making it ideal for focusing on design rather than content."}},{"@type":"Question","name":"Why use Lorem Ipsum instead of real text?","acceptedAnswer":{"@type":"Answer","text":"Placeholder text lets designers and developers focus on layout, typography, and visual design without being distracted by actual content. Real text can bias reviewers toward the content rather than the design. Lorem Ipsum is the industry standard for this purpose."}},{"@type":"Question","name":"Can I generate Lorem Ipsum in different languages?","acceptedAnswer":{"@type":"Answer","text":"Standard Lorem Ipsum is Latin-derived. This generator can produce standard Lorem Ipsum. For language-specific placeholder text (to test how a design handles different character sets), you would need a language-specific generator."}},{"@type":"Question","name":"How many words should I generate for a typical paragraph?","acceptedAnswer":{"@type":"Answer","text":"A typical paragraph is 50-100 words. For a full page of text, generate 300-500 words. For testing a single text block or card component, 20-30 words is usually sufficient."}},{"@type":"Question","name":"Can I use Lorem Ipsum in production?","acceptedAnswer":{"@type":"Answer","text":"No. Lorem Ipsum is strictly for development and design mockups. Always replace it with real content before launching. Leaving placeholder text in production looks unprofessional and can confuse users."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Lorem Ipsum Generator","item":"https://webutilbox.com/lorem-ipsum/"}]}]};
+---
+
+<ToolLayout
+  title="Lorem Ipsum Generator | Webutilbox"
+  description="Generate Lorem Ipsum placeholder text in words, sentences, or paragraphs. Multiple language variants available. Free online Lorem Ipsum text generator."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-text-tools.svg"
+  keywords="lorem ipsum generator, placeholder text generator, dummy text generator, lorem ipsum online, fake text generator, lipsum generator instant"
+  h1="📝 Lorem Ipsum Generator"
+  subtitle="Generate placeholder text for your designs and mockups. Choose paragraphs, words, or sentences."
+  lastUpdated=""
+  shareText="Free%20online%20Lorem%20Ipsum%20Generator%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Lorem Ipsum Generator -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="lorem-grid">
+                <!-- Left: Options -->
+                <div>
+                    <div style="display: grid; gap: 6px; margin-bottom: 8px;">
+                        <div style="background: var(--light); padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border);">
+                            <label style="font-size: 0.8rem; margin-bottom: 3px; display: block;">Generate:</label>
+                            <select id="generateType" onchange="updatePlaceholder()" style="width: 100%; padding: 4px; font-size: 0.85rem;">
+                                <option value="paragraphs">Paragraphs</option>
+                                <option value="words">Words</option>
+                                <option value="sentences">Sentences</option>
+                            </select>
+                        </div>
+                        <div style="background: var(--light); padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border);">
+                            <label style="font-size: 0.8rem; margin-bottom: 3px; display: block;">Amount:</label>
+                            <input type="number" id="amount" value="5" min="1" max="100" style="width: 100%; padding: 4px; font-size: 0.85rem;">
+                        </div>
+                        <div style="background: var(--light); padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); display: flex; align-items: center; gap: 6px;">
+                            <input type="checkbox" id="startWithLorem" checked>
+                            <label for="startWithLorem" style="font-size: 0.8rem; margin: 0; cursor: pointer;">Start with "Lorem ipsum"</label>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--light); padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 8px;">
+                        <h4 style="color: var(--primary); margin-bottom: 5px; font-size: 0.8rem;">Text Style:</h4>
+                        <div style="display: grid; gap: 2px;">
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 2px; border-radius: 3px; font-size: 0.8rem;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='transparent'">
+                                <input type="radio" name="textType" value="classic" checked style="margin: 0;">
+                                <span>Classic Lorem</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 2px; border-radius: 3px; font-size: 0.8rem;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='transparent'">
+                                <input type="radio" name="textType" value="cicero" style="margin: 0;">
+                                <span>Cicero (Latin)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 2px; border-radius: 3px; font-size: 0.8rem;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='transparent'">
+                                <input type="radio" name="textType" value="kafka" style="margin: 0;">
+                                <span>Kafka Ipsum</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 2px; border-radius: 3px; font-size: 0.8rem;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='transparent'">
+                                <input type="radio" name="textType" value="bacon" style="margin: 0;">
+                                <span>Bacon Ipsum</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 2px; border-radius: 3px; font-size: 0.8rem;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='transparent'">
+                                <input type="radio" name="textType" value="hipster" style="margin: 0;">
+                                <span>Hipster Ipsum</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 2px; border-radius: 3px; font-size: 0.8rem;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='transparent'">
+                                <input type="radio" name="textType" value="corporate" style="margin: 0;">
+                                <span>Corporate Ipsum</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; gap: 4px;">
+                        <button class="btn btn-primary" onclick="generateText()" style="width: 100%; padding: 8px; font-size: 0.85rem;">Generate</button>
+                        <button class="btn btn-success" onclick="copyOutput()" style="width: 100%; padding: 6px; font-size: 0.8rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearOutput()" style="width: 100%; padding: 6px; font-size: 0.8rem;">Clear</button>
+                    </div>
+                </div>
+
+                <!-- Right: Output -->
+                <div class="output-container show" style="min-height: 300px; max-height: 450px; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; position: sticky; top: 0; background: var(--light); padding-bottom: 8px;">
+                        <div class="output-label" style="margin: 0; font-size: 0.85rem;">Generated Text <span id="wordCount" style="color: var(--gray); font-weight: normal; font-size: 0.8rem;"></span></div>
+                    </div>
+                    <div class="output-content" id="outputText" style="white-space: pre-wrap; color: var(--gray); font-size: 0.9rem; line-height: 1.5;">Click "Generate" to create placeholder text...</div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/lorem-ipsum.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Lorem Ipsum Generator - Create Placeholder Text Instantly</h2>
+            <p>Our free Lorem Ipsum Generator creates realistic placeholder text for your designs, mockups, and prototypes in seconds. Choose from classic Lorem Ipsum, Cicero's original Latin, or fun alternatives like Bacon Ipsum and Hipster Ipsum. Generate paragraphs, sentences, or individual words — exactly as many as you need.</p>
+
+            <h3>What Is Lorem Ipsum?</h3>
+            <p>Lorem Ipsum is dummy text that has been used in the printing and typesetting industry since the 1500s. It's derived from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (On the Ends of Good and Evil) by the Roman philosopher Cicero, written in 45 BC. The scrambled version starting with "Lorem ipsum dolor sit amet..." has been the industry standard placeholder text for over 500 years.</p>
+            <p>The reason designers use Lorem Ipsum instead of real text is that it has a natural distribution of letters and word lengths that mimics real language, without the distraction of readable content. When reviewing a layout, you want to focus on typography, spacing, and visual hierarchy — not on reading the actual words. Lorem Ipsum keeps the focus where it belongs.</p>
+
+            <h3>Lorem Ipsum Generation Options</h3>
+            <ul>
+                <li>Generate paragraphs, sentences, or individual words</li>
+                <li>Adjustable quantity — from 1 to 100 paragraphs or up to 1,000 words</li>
+                <li>Option to start with the classic "Lorem ipsum dolor sit amet..." opening</li>
+                <li>Six text styles: Classic Lorem, Cicero Latin, Kafka Ipsum, Bacon Ipsum, Hipster Ipsum, Corporate Ipsum</li>
+                <li>Live word count display showing how many words were generated</li>
+                <li>One-click copy to clipboard</li>
+                <li>Clear button to reset the output</li>
+            </ul>
+
+            <h3>How to Use the Lorem Ipsum Generator</h3>
+            <ul>
+                <li>Step 1: Choose what to generate — Paragraphs, Words, or Sentences — from the dropdown.</li>
+                <li>Step 2: Enter the amount you need (e.g., 5 paragraphs, 200 words, or 10 sentences).</li>
+                <li>Step 3: Check or uncheck "Start with Lorem ipsum" depending on your preference.</li>
+                <li>Step 4: Select a text style from the radio buttons — Classic, Cicero, Kafka, Bacon, Hipster, or Corporate.</li>
+                <li>Step 5: Click "Generate" to create your placeholder text.</li>
+                <li>Step 6: Click "Copy" to copy the text to your clipboard and paste it into your design tool or document.</li>
+            </ul>
+
+            <h3>Using Placeholder Text in Design</h3>
+            <ul>
+                <li>Filling text areas in website wireframes and UI mockups</li>
+                <li>Testing typography choices — font size, line height, and letter spacing</li>
+                <li>Populating content placeholders in Figma, Sketch, or Adobe XD designs</li>
+                <li>Creating realistic-looking demo content for client presentations</li>
+                <li>Testing how a layout handles different amounts of text content</li>
+                <li>Generating filler content for HTML/CSS development and testing</li>
+                <li>Creating sample data for database seeding or API testing</li>
+            </ul>
+
+            <h3>Choosing the Right Placeholder Text</h3>
+            <p>When using Lorem Ipsum for design mockups, generate an amount of text that's close to what the final content will be. Using too little text can make a layout look cleaner than it will in production, while too much can make it look cluttered. If you know the approximate word count of your final content, use the "Words" mode to generate a matching amount.</p>
+            <p>For client presentations, consider using one of the fun alternatives like Hipster Ipsum or Corporate Ipsum. These are more entertaining to read during reviews and can lighten the mood in design critiques. Just make sure everyone understands it's placeholder text before the meeting starts.</p>
+            <p>If you're testing a multilingual layout, keep in mind that Lorem Ipsum is Latin-based and may not accurately represent the visual density of other languages. Chinese, Arabic, or German text, for example, can look very different in terms of character density and line breaks. For those cases, use actual sample text in the target language.</p>
+
+            
+
+            <h3>Text Generated Locally — No API Calls</h3>
+            <p>Text generation runs in your browser. No data is sent to any server.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is Lorem Ipsum text?</button>
+                    <div class="faq-answer"><p>Lorem Ipsum is placeholder text derived from a scrambled passage of Cicero's 'de Finibus Bonorum et Malorum' (45 BC). It has been used as dummy text in typesetting since the 1500s. It looks like natural language but is meaningless, making it ideal for focusing on design rather than content.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why use Lorem Ipsum instead of real text?</button>
+                    <div class="faq-answer"><p>Placeholder text lets designers and developers focus on layout, typography, and visual design without being distracted by actual content. Real text can bias reviewers toward the content rather than the design. Lorem Ipsum is the industry standard for this purpose.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I generate Lorem Ipsum in different languages?</button>
+                    <div class="faq-answer"><p>Standard Lorem Ipsum is Latin-derived. This generator can produce standard Lorem Ipsum. For language-specific placeholder text (to test how a design handles different character sets), you would need a language-specific generator.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How many words should I generate for a typical paragraph?</button>
+                    <div class="faq-answer"><p>A typical paragraph is 50-100 words. For a full page of text, generate 300-500 words. For testing a single text block or card component, 20-30 words is usually sufficient.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I use Lorem Ipsum in production?</button>
+                    <div class="faq-answer"><p>No. Lorem Ipsum is strictly for development and design mockups. Always replace it with real content before launching. Leaving placeholder text in production looks unprofessional and can confuse users.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../word-counter/" class="related-tool-link">Word Counter</a>
+                    <a href="../case-converter/" class="related-tool-link">Case Converter</a>
+                    <a href="../text-cleaner/" class="related-tool-link">Text Cleaner</a>
+                    <a href="../slug-generator/" class="related-tool-link">Slug Generator</a>
+                    <a href="../instagram-bio-generator/" class="related-tool-link">Instagram Bio Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

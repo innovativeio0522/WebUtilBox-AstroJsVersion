@@ -1,0 +1,221 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/video-thumbnail-generator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Video Thumbnail Generator - Extract Frames from Video | Webutilbox","url":"https://webutilbox.com/video-thumbnail-generator/","description":"Extract frames from video files. Generate thumbnails at specific timestamps. Free video thumbnail generator.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I extract a thumbnail from a video?","acceptedAnswer":{"@type":"Answer","text":"Upload your video file, scrub to the frame you want, and click capture. The tool extracts that exact frame as a PNG image. You can capture multiple frames and download the one that looks best."}},{"@type":"Question","name":"What video formats are supported?","acceptedAnswer":{"@type":"Answer","text":"The tool supports MP4, WebM, and OGG video formats — the formats natively supported by HTML5 video. MOV and AVI files may work depending on your browser's codec support. For unsupported formats, convert to MP4 first using the Video to Audio Extractor or a video converter."}},{"@type":"Question","name":"What resolution will the thumbnail be?","acceptedAnswer":{"@type":"Answer","text":"The thumbnail is captured at the video's native resolution. A 1080p video produces a 1920x1080 thumbnail. If you need a specific size, use the Image Resizer tool after capturing the thumbnail."}},{"@type":"Question","name":"What aspect ratio should YouTube thumbnails be?","acceptedAnswer":{"@type":"Answer","text":"YouTube recommends 1280x720 pixels (16:9 aspect ratio) for thumbnails. The minimum width is 640 pixels. Use JPG, GIF, BMP, or PNG format under 2MB. Custom thumbnails require a verified YouTube account."}},{"@type":"Question","name":"Can I add text or graphics to the thumbnail?","acceptedAnswer":{"@type":"Answer","text":"This tool captures the raw video frame. To add text, logos, or graphics to your thumbnail, download the captured frame and use the Image Watermark or Meme Generator tool to add overlays."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Video Thumbnail Generator","item":"https://webutilbox.com/video-thumbnail-generator/"}]}]};
+---
+
+<ToolLayout
+  title="Video Thumbnail Generator | Webutilbox"
+  description="Extract and download thumbnail images from video files at any timestamp. Free browser-based video thumbnail generator — no upload required."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-media-tools.svg"
+  keywords="video thumbnail, extract frame, video screenshot, frame capture, video preview"
+  h1="🎬 Video Thumbnail Generator"
+  subtitle="Extract frames from video files as images. Capture specific moments."
+  lastUpdated=""
+  shareText="Free%20online%20Video%20Thumbnail%20Generator%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Video Thumbnail Generator -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Upload Area -->
+            <div style="text-align: center; padding: 40px; border: 2px dashed var(--border); border-radius: 12px; background: var(--light); margin-bottom: 20px;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">??</div>
+                <input type="file" id="videoFile" accept="video/*" style="display: none;" onchange="loadVideo()">
+                <button class="btn btn-primary" onclick="document.getElementById('videoFile').click()" style="padding: 15px 30px;">
+                    Select Video File
+                </button>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--gray);">Supports MP4, WebM, MOV, AVI, etc.</p>
+            </div>
+
+            <!-- Video Player & Controls -->
+            <div id="videoControls" style="display: none;">
+                <div style="background: var(--light); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border);">
+                    <video id="videoPlayer" controls style="width: 100%; max-height: 400px; border-radius: 8px; background: #000; margin-bottom: 15px;"></video>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--gray);">Duration</div>
+                            <div id="videoDuration" style="font-weight: 600; font-size: 1.1rem;"></div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--gray);">Resolution</div>
+                            <div id="videoResolution" style="font-weight: 600; font-size: 1.1rem;"></div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--gray);">Current Time</div>
+                            <div id="currentTime" style="font-weight: 600; font-size: 1.1rem; color: var(--primary);">00:00</div>
+                        </div>
+                    </div>
+
+                    <!-- Capture Options -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-size: 0.9rem; margin-bottom: 10px; display: block; font-weight: 600;">Capture Mode</label>
+                        <select id="captureMode" onchange="updateCaptureMode()" style="width: 100%; padding: 12px; margin-bottom: 15px;">
+                            <option value="current">Current Frame</option>
+                            <option value="multiple">Multiple Frames (Auto)</option>
+                            <option value="interval">At Intervals</option>
+                        </select>
+
+                        <div id="multipleOptions" style="display: none;">
+                            <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Number of Frames</label>
+                            <input type="number" id="frameCount" value="5" min="2" max="20" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                        </div>
+
+                        <div id="intervalOptions" style="display: none;">
+                            <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Interval (seconds)</label>
+                            <input type="number" id="intervalSeconds" value="5" min="1" max="60" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-success" onclick="captureFrame()" style="flex: 1; padding: 12px;">
+                            ?? Capture Frame(s)
+                        </button>
+                        <button class="btn" onclick="clearThumbnails()" style="padding: 12px;">
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Thumbnails -->
+                <div id="thumbnailsSection" style="display: none; background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border);">
+                    <h3 style="font-size: 1rem; margin-bottom: 15px;">Captured Frames (<span id="thumbCount">0</span>)</h3>
+                    <div id="thumbnails" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px;">
+                    </div>
+                    <button class="btn btn-success" onclick="downloadAll()" style="width: 100%; padding: 12px;">
+                        Download All Frames
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+<style>
+.thumbnail-item {
+            background: var(--dark);
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid var(--border);
+        }
+        .thumbnail-item img {
+            width: 100%;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .thumbnail-item button {
+            width: 100%;
+            padding: 8px;
+            background: var(--primary);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .thumbnail-item button:hover {
+            background: #ea580c;
+        }
+</style>
+
+
+<script src="/js/video-thumbnail-generator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Video Thumbnail Generator - Extract Frames from Video Files</h2>
+            <p>The Video Thumbnail Generator is a free, browser-based tool that lets you capture still frames from any video file and save them as PNG images. Whether you need a single frame from a specific moment, a set of evenly spaced thumbnails across the full video, or frames captured at regular time intervals, this tool handles all three modes without uploading your video to any server.</p>
+
+            <h3>What Is a Video Thumbnail Generator?</h3>
+            <p>A video thumbnail generator extracts individual frames from a video file and saves them as static images. This is useful for creating preview images, generating poster frames, building video storyboards, capturing screenshots from recordings, or extracting specific moments from footage for use in documents, presentations, or social media posts.</p>
+            <p>Traditional video editing software can do this, but it requires installation, a learning curve, and often a paid license. This browser-based tool does the same job for the most common use cases — capturing frames at specific times or generating a set of evenly distributed thumbnails — with no software to install and no files leaving your device.</p>
+            <p>The tool uses the HTML5 video element and Canvas API to render each frame and export it as a PNG image. It supports all video formats that your browser can play natively, including MP4, WebM, and MOV. The captured frames retain the original video resolution, so the output images are full quality.</p>
+
+            <h3>Thumbnail Capture Options</h3>
+            <ul>
+                <li>Three capture modes: current frame, multiple evenly-spaced frames, and interval-based capture</li>
+                <li>Captures frames at full video resolution using the HTML5 Canvas API</li>
+                <li>Supports all browser-compatible video formats including MP4, WebM, MOV, and AVI</li>
+                <li>Video metadata display showing duration, resolution, and current playback position</li>
+                <li>Individual frame download with timestamp-based file names for easy organization</li>
+                <li>Download All button to save every captured frame in sequence with a single click</li>
+                <li>All processing happens locally — no video data is ever uploaded to a server</li>
+            </ul>
+
+            <h3>How to Use the Video Thumbnail Generator</h3>
+            <ul>
+                <li>Step 1: Click "Select Video File" and choose a video from your device</li>
+                <li>Step 2: The video loads in the player — use the controls to navigate to the moment you want to capture</li>
+                <li>Step 3: Choose a capture mode from the dropdown: Current Frame, Multiple Frames (Auto), or At Intervals</li>
+                <li>Step 4: For Multiple Frames mode, set how many frames to extract evenly across the video duration</li>
+                <li>Step 5: For Interval mode, set the number of seconds between each captured frame</li>
+                <li>Step 6: Click "Capture Frame(s)" to generate the thumbnails</li>
+                <li>Step 7: Download individual frames or click "Download All Frames" to save everything at once</li>
+            </ul>
+
+            <h3>Creating Video Thumbnails Efficiently</h3>
+            <ul>
+                <li>Creating a thumbnail or poster image for a YouTube video, course lesson, or social media post</li>
+                <li>Generating a storyboard or visual summary of a video for documentation or review purposes</li>
+                <li>Capturing a specific frame from a screen recording to use as a screenshot in a tutorial or guide</li>
+                <li>Extracting frames from a product demo video to use as static images in a presentation or proposal</li>
+                <li>Creating preview images for a video gallery or media library where each video needs a representative still</li>
+                <li>Capturing moments from personal videos or recordings for use in photo albums or memory books</li>
+                <li>Generating frame sequences for animation reference, motion analysis, or sports coaching review</li>
+            </ul>
+
+            <h3>Designing Click-Worthy Thumbnails</h3>
+            <p>For the best thumbnail quality, pause the video at the exact frame you want before using the Current Frame capture mode. The video player's frame-by-frame navigation (using the arrow keys while paused in some browsers) lets you find the perfect moment. The captured image will match exactly what is displayed in the video player at the time of capture.</p>
+            <p>When using Multiple Frames mode, the tool divides the video duration evenly and captures frames at calculated intervals. For a 10-minute video with 5 frames requested, you will get frames at approximately the 2, 4, 6, 8, and 10-minute marks. This is useful for creating a visual overview or storyboard of the video content without manually seeking to each position.</p>
+            <p>The downloaded PNG files are named with the timestamp of the captured frame (e.g., frame_01-30.png for a frame at 1 minute 30 seconds). This naming convention makes it easy to sort and identify frames when working with multiple captures from the same video.</p>
+
+            
+
+            <h3>Video Processed Locally in Browser</h3>
+            <p>Thumbnail extraction runs via the HTML5 video API. Your files are never uploaded.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I extract a thumbnail from a video?</button>
+                    <div class="faq-answer"><p>Upload your video file, scrub to the frame you want, and click capture. The tool extracts that exact frame as a PNG image. You can capture multiple frames and download the one that looks best.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What video formats are supported?</button>
+                    <div class="faq-answer"><p>The tool supports MP4, WebM, and OGG video formats — the formats natively supported by HTML5 video. MOV and AVI files may work depending on your browser's codec support. For unsupported formats, convert to MP4 first using the Video to Audio Extractor or a video converter.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What resolution will the thumbnail be?</button>
+                    <div class="faq-answer"><p>The thumbnail is captured at the video's native resolution. A 1080p video produces a 1920x1080 thumbnail. If you need a specific size, use the Image Resizer tool after capturing the thumbnail.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What aspect ratio should YouTube thumbnails be?</button>
+                    <div class="faq-answer"><p>YouTube recommends 1280x720 pixels (16:9 aspect ratio) for thumbnails. The minimum width is 640 pixels. Use JPG, GIF, BMP, or PNG format under 2MB. Custom thumbnails require a verified YouTube account.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I add text or graphics to the thumbnail?</button>
+                    <div class="faq-answer"><p>This tool captures the raw video frame. To add text, logos, or graphics to your thumbnail, download the captured frame and use the Image Watermark or Meme Generator tool to add overlays.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../video-to-audio-extractor/" class="related-tool-link">Video to Audio Extractor</a>
+                    <a href="../image-resizer/" class="related-tool-link">Image Resizer</a>
+                    <a href="../image-compressor/" class="related-tool-link">Image Compressor</a>
+                    <a href="../image-watermark/" class="related-tool-link">Image Watermark</a>
+                    <a href="../gif-maker/" class="related-tool-link">GIF Maker</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

@@ -1,0 +1,166 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/base64-encoder/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Base64 & URL Encoder/Decoder - Free Online Tool | Webutilbox","url":"https://webutilbox.com/base64-encoder/","description":"Encode and decode Base64 and URL strings instantly. Works in browser, no upload required.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Base64 encoding used for?","acceptedAnswer":{"@type":"Answer","text":"Base64 is used to encode binary data (like images or files) into ASCII text so it can be safely transmitted over text-based protocols like email (MIME), HTTP headers, or embedded in JSON and XML. It is not encryption — it is just a way to represent binary data as text."}},{"@type":"Question","name":"Does Base64 encoding make data secure?","acceptedAnswer":{"@type":"Answer","text":"No. Base64 is encoding, not encryption. Anyone can decode it instantly. Never use Base64 to hide sensitive data. If you need security, use proper encryption like AES. Base64 is purely for compatibility and transport, not confidentiality."}},{"@type":"Question","name":"Why is Base64 encoded data larger than the original?","acceptedAnswer":{"@type":"Answer","text":"Base64 represents every 3 bytes of binary data as 4 ASCII characters, which means the output is approximately 33% larger than the input. This size increase is the trade-off for making binary data text-safe."}},{"@type":"Question","name":"What is the difference between standard Base64 and URL-safe Base64?","acceptedAnswer":{"@type":"Answer","text":"Standard Base64 uses + and / characters which have special meaning in URLs. URL-safe Base64 replaces + with - and / with _ so the encoded string can be used in URLs and filenames without encoding issues. Use URL-safe when embedding Base64 in query parameters or JWT tokens."}},{"@type":"Question","name":"Can I encode images to Base64 for use in CSS or HTML?","acceptedAnswer":{"@type":"Answer","text":"Yes. Encoding an image to Base64 lets you embed it directly in CSS (as a background-image data URI) or in an HTML img src attribute. This eliminates an HTTP request but increases HTML/CSS file size. It is best for small icons and logos, not large photos."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Base64 & URL Encoder/Decoder","item":"https://webutilbox.com/base64-encoder/"}]}]};
+---
+
+<ToolLayout
+  title="Base64 & URL Encoder/Decoder - Free Online Tool | Webutilbox"
+  description="Encode and decode text or files to Base64 format instantly. Supports URL-safe encoding, file upload, and bulk conversion. Free and private."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="base64 encode, base64 decode, url encode, url decode, base64 converter, url encoder, percent encoding"
+  h1="🔐 Base64 & URL Encoder/Decoder"
+  subtitle="Encode and decode Base64 and URL strings. Fast, secure, and works entirely in your browser."
+  lastUpdated=""
+  shareText="Free%20online%20Base64%20%26%20URL%20Encoder%2FDecoder%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Base64 & URL Encoder/Decoder - Free Online Tool -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+<style>
+.mode-tab {
+            padding: 10px 20px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .mode-tab:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--primary);
+        }
+        .mode-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+</style>
+
+
+<script src="/js/base64-encoder.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Base64 &amp; URL Encoder/Decoder</h2>
+
+    <p>Base64 and percent-encoding are two different answers to the same problem: how do you transmit arbitrary data over a channel that only understands a limited set of characters? This reference covers both — what they do, when to use each, and the common mistakes that trip developers up.</p>
+
+    <h3>Quick reference: Base64 vs URL encoding</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:.875rem;margin:12px 0">
+        <thead>
+            <tr style="border-bottom:1px solid var(--border);text-align:left">
+                <th style="padding:10px 12px;color:var(--gray);font-weight:600">Property</th>
+                <th style="padding:10px 12px;color:var(--gray);font-weight:600">Base64</th>
+                <th style="padding:10px 12px;color:var(--gray);font-weight:600">URL encoding (%xx)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px">Character set</td>
+                <td style="padding:10px 12px"><code>A-Z a-z 0-9 + / =</code></td>
+                <td style="padding:10px 12px">Unreserved chars + <code>%XX</code> escapes</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px">Size overhead</td>
+                <td style="padding:10px 12px">~33% larger than input</td>
+                <td style="padding:10px 12px">Varies — only special chars expand</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px">Reversible?</td>
+                <td style="padding:10px 12px">Yes — trivially</td>
+                <td style="padding:10px 12px">Yes — trivially</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px">Secure?</td>
+                <td style="padding:10px 12px">No — not encryption</td>
+                <td style="padding:10px 12px">No — not encryption</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 12px">Main use</td>
+                <td style="padding:10px 12px">Binary data in text contexts</td>
+                <td style="padding:10px 12px">Special chars in URLs</td>
+            </tr>
+            <tr>
+                <td style="padding:10px 12px">Where you'll see it</td>
+                <td style="padding:10px 12px">JWT tokens, data URIs, MIME email, HTTP Basic Auth</td>
+                <td style="padding:10px 12px">Query strings, form POST, OAuth params</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>How Base64 works — the maths in plain English</h3>
+    <p>Base64 takes 3 bytes (24 bits) of input at a time and splits them into 4 groups of 6 bits. Each 6-bit group maps to one of 64 printable characters — that's where the name comes from. The result is always 4 output characters for every 3 input bytes, exactly 33% larger. If the input isn't divisible by 3, padding <code>=</code> characters fill the gap.</p>
+    <p>Example: the string <code>Man</code> (3 bytes) encodes to <code>TWFu</code>. The string <code>Ma</code> (2 bytes) encodes to <code>TWE=</code>. The string <code>M</code> (1 byte) encodes to <code>TQ==</code> — two padding characters.</p>
+
+    <h3>Common mistakes and how to avoid them</h3>
+    <p style="background:rgba(249,115,22,0.08);border-left:3px solid var(--primary);padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0">&#9888;&#65039; <strong>Base64 is not encryption.</strong> It is trivially reversible. Never use it to protect passwords, API keys, or sensitive data in client-side code.</p>
+    <ul>
+        <li><strong>JWT tokens use Base64url, not standard Base64</strong> — replaces <code>+</code> with <code>-</code> and <code>/</code> with <code>_</code>, and drops the <code>=</code> padding. Strip padding and swap characters before decoding a JWT with a standard decoder.</li>
+        <li><strong>encodeURIComponent vs encodeURI</strong> — use <code>encodeURIComponent</code> for individual parameter values (encodes <code>&amp; = ? /</code>). Use <code>encodeURI</code> for a full URL (preserves structural characters). Mixing them breaks query strings.</li>
+        <li><strong>Whitespace in Base64 strings</strong> — some systems (email, PEM certificates) insert line breaks every 76 chars. If decoding fails, strip whitespace first.</li>
+        <li><strong>Double-encoding</strong> — a common bug in API integrations. If your decoded output looks like <code>%7B%22key%22%3A</code>, the input was URL-encoded before being Base64-encoded.</li>
+    </ul>
+
+    <h3>Real-world examples</h3>
+    <pre style="background:#111;border:1px solid #27272a;border-radius:8px;padding:16px;overflow-x:auto;font-size:.82rem;line-height:1.8;color:#a1a1aa;margin:12px 0"><code># HTTP Basic Auth header
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+# Data URI embedded in CSS
+background-image: url('data:image/png;base64,iVBORw0KGgo...');
+
+# JWT token (three Base64url sections separated by dots)
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+# URL-encoded query string
+https://example.com/search?q=hello%20world&amp;filter=date%3A2026</code></pre>
+
+    <h3>All processing runs in your browser</h3>
+    <p>No data is sent to any server. Your tokens, credentials, and encoded strings stay on your device.</p>
+
+    <h3>Frequently Asked Questions</h3>
+    <div class="faq-list">
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">What is Base64 encoding used for?</button>
+            <div class="faq-answer"><p>Base64 encodes binary data into ASCII text for safe transmission over text-based protocols like email (MIME), HTTP headers, or embedded in JSON and XML. It is not encryption — it is a way to represent binary data as text.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">Does Base64 encoding make data secure?</button>
+            <div class="faq-answer"><p>No. Base64 is encoding, not encryption. Anyone can decode it instantly. Never use Base64 to hide sensitive data. Use proper encryption like AES if you need confidentiality.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">Why is Base64 encoded data larger than the original?</button>
+            <div class="faq-answer"><p>Base64 maps every 3 bytes to 4 ASCII characters — approximately 33% larger. This overhead is the trade-off for making binary data text-safe.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">What is the difference between standard Base64 and URL-safe Base64?</button>
+            <div class="faq-answer"><p>Standard Base64 uses + and / which have special meaning in URLs. URL-safe Base64 replaces + with - and / with _ so it can be used in URLs and JWT tokens without breaking.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">Can I encode images to Base64 for use in CSS or HTML?</button>
+            <div class="faq-answer"><p>Yes. Encoding an image to Base64 lets you embed it as a data URI directly in CSS or HTML, eliminating an HTTP request. Best for small icons — not large photos.</p></div>
+        </div>
+    </div>
+
+    <div class="related-tools">
+        <h3>Related Tools</h3>
+        <div class="related-tools-grid">
+            <a href="../image-to-base64/" class="related-tool-link">Image to Base64</a>
+            <a href="../html-entity-encoder/" class="related-tool-link">HTML Entity Encoder</a>
+            <a href="../url-parser/" class="related-tool-link">URL Parser</a>
+            <a href="../sha256-generator/" class="related-tool-link">SHA-256 Generator</a>
+            <a href="../jwt-decoder/" class="related-tool-link">JWT Decoder</a>
+        </div>
+    </div>
+</div>
+
+</ToolLayout>

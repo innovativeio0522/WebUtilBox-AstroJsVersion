@@ -1,0 +1,155 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/stopwatch/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Stopwatch - Online Stopwatch with Lap Times | Webutilbox","url":"https://webutilbox.com/stopwatch/","description":"Free online stopwatch with lap times. Accurate millisecond precision. Perfect for timing workouts, races, and tasks.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I record lap times with the stopwatch?","acceptedAnswer":{"@type":"Answer","text":"Yes. Press the Lap button while the stopwatch is running to record a split time. Each lap is listed below the main timer showing both the lap time and the cumulative elapsed time. You can record as many laps as needed."}},{"@type":"Question","name":"How accurate is the browser stopwatch?","acceptedAnswer":{"@type":"Answer","text":"The stopwatch uses JavaScript's performance.now() API which provides millisecond precision. However, browser timers can drift slightly over long periods due to tab throttling (browsers slow down timers in background tabs). For critical timing, keep the tab active and in focus."}},{"@type":"Question","name":"Does the stopwatch continue if I switch tabs?","acceptedAnswer":{"@type":"Answer","text":"Modern browsers throttle JavaScript timers in background tabs to save battery. The stopwatch may run slightly slower when the tab is not active. For accurate timing, keep the stopwatch tab in the foreground."}},{"@type":"Question","name":"Can I export my lap times?","acceptedAnswer":{"@type":"Answer","text":"You can copy the lap times from the display. For a formatted export, select all the lap data and paste it into a spreadsheet or text editor. The data is available as long as the page is open."}},{"@type":"Question","name":"What is the difference between a stopwatch and a countdown timer?","acceptedAnswer":{"@type":"Answer","text":"A stopwatch counts up from zero, measuring elapsed time. A countdown timer counts down from a set duration to zero. Use a stopwatch to measure how long something takes; use a countdown timer to limit how long you spend on something."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Stopwatch","item":"https://webutilbox.com/stopwatch/"}]}]};
+---
+
+<ToolLayout
+  title="Stopwatch - Online Stopwatch with Lap Times | Webutilbox"
+  description="A precise online stopwatch with lap timer and split-time recording. Start, stop, and reset with keyboard shortcuts. Free browser-based stopwatch."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-timers.svg"
+  keywords="stopwatch, online stopwatch, lap timer, split timer, millisecond timer"
+  h1="⏱️ Stopwatch"
+  subtitle="Accurate stopwatch with lap times and millisecond precision."
+  lastUpdated=""
+  shareText="Free%20online%20Stopwatch%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Stopwatch - Online Stopwatch with Lap Times -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Timer Display -->
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div id="display" style="font-size: 5rem; font-weight: bold; color: var(--primary); font-family: monospace;">00:00:00.000</div>
+            </div>
+
+            <!-- Controls -->
+            <div class="button-group" style="justify-content: center;">
+                <button id="startBtn" class="btn btn-primary" onclick="start()" style="padding: 15px 40px; font-size: 1.1rem;">Start</button>
+                <button id="stopBtn" class="btn btn-secondary" onclick="stop()" style="padding: 15px 40px; font-size: 1.1rem; display: none;">Stop</button>
+                <button id="lapBtn" class="btn btn-success" onclick="lap()" style="padding: 15px 40px; font-size: 1.1rem; display: none;">Lap</button>
+                <button id="resetBtn" class="btn btn-secondary" onclick="reset()" style="padding: 15px 40px; font-size: 1.1rem;">Reset</button>
+            </div>
+
+            <!-- Lap Times -->
+            <div id="lapsContainer" style="margin-top: 30px; display: none;">
+                <h3 style="margin-bottom: 15px; font-size: 1rem;">Lap Times</h3>
+                <div style="background: var(--light); border-radius: 12px; padding: 15px; border: 1px solid var(--border); max-height: 300px; overflow-y: auto;">
+                    <table id="lapsTable" style="width: 100%; font-size: 0.9rem; font-family: monospace;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <th style="padding: 8px; text-align: left;">Lap</th>
+                                <th style="padding: 8px; text-align: right;">Lap Time</th>
+                                <th style="padding: 8px; text-align: right;">Total Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lapsBody"></tbody>
+                    </table>
+                </div>
+                <button class="btn btn-secondary" onclick="clearLaps()" style="margin-top: 10px;">Clear Laps</button>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/stopwatch.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Online Stopwatch - Accurate Timer with Lap Times</h2>
+            <p>This free online stopwatch delivers millisecond-precision timing directly in your browser. Whether you're tracking workout intervals, timing a presentation, measuring task durations, or running a race, this tool gives you the accuracy and features you need without any app download or installation.</p>
+
+            <h3>What Is an Online Stopwatch?</h3>
+            <p>An online stopwatch is a browser-based timing tool that measures elapsed time from a starting point. Unlike physical stopwatches, an online version is always available on any device with a browser — your phone, tablet, laptop, or desktop. It starts, stops, and resets with a single click, and this version also supports lap recording for split-time tracking.</p>
+            <p>This stopwatch uses JavaScript's high-resolution timing API to deliver accuracy down to the millisecond. The display updates every 10 milliseconds, giving you a smooth, real-time readout in hours, minutes, seconds, and milliseconds format (HH:MM:SS.mmm).</p>
+            <p>Lap times are recorded with both the individual lap duration and the cumulative total time, making it easy to compare performance across intervals. All lap data is displayed in a scrollable table so you can review your splits at a glance.</p>
+
+            <h3>Stopwatch and Lap Timer Features</h3>
+            <ul>
+                <li>Millisecond-precision timing with 10ms display refresh rate</li>
+                <li>Start, stop, and resume without losing elapsed time</li>
+                <li>Lap recording with individual lap time and cumulative total</li>
+                <li>Unlimited lap entries stored in a scrollable table</li>
+                <li>Clean, large display optimized for readability at a distance</li>
+                <li>Works on all devices — desktop, tablet, and mobile</li>
+                <li>No installation, no account, no ads interrupting your timing</li>
+            </ul>
+
+            <h3>How to Use the Stopwatch</h3>
+            <p>The stopwatch is designed to be as simple as possible to operate, even under pressure:</p>
+            <ul>
+                <li>Step 1: Click "Start" to begin timing. The display will start counting immediately.</li>
+                <li>Step 2: Click "Lap" at any point to record a split time without stopping the clock.</li>
+                <li>Step 3: Click "Stop" to pause the timer. The elapsed time is preserved.</li>
+                <li>Step 4: Click "Start" again to resume from where you left off.</li>
+                <li>Step 5: Click "Reset" to clear the timer and all recorded laps back to zero.</li>
+            </ul>
+
+            <h3>Timing Activities with a Stopwatch</h3>
+            <ul>
+                <li>Timing running laps, swimming sets, or cycling intervals during workouts</li>
+                <li>Measuring cooking and baking times for recipes that require precision</li>
+                <li>Tracking study sessions using the Pomodoro technique or timed blocks</li>
+                <li>Timing presentations, speeches, or practice runs for public speaking</li>
+                <li>Recording split times for competitive sports and athletic training</li>
+                <li>Measuring task durations for productivity analysis and time logging</li>
+                <li>Timing games, quizzes, or classroom activities for teachers and students</li>
+            </ul>
+
+            <h3>Using Split and Lap Times</h3>
+            <p>Keep the stopwatch tab visible and avoid switching away from it during critical timing sessions. While the timer continues running in the background, having it visible ensures you don't miss a lap or forget to stop it at the right moment.</p>
+            <p>Use the lap feature strategically. For interval training, record a lap at the end of each work period and each rest period. This gives you a complete picture of your performance over time and makes it easy to spot trends or improvements across sessions.</p>
+            <p>For presentations and speeches, do a full practice run with the stopwatch before the real event. Record laps at the end of each major section to see how your time is distributed. This helps you identify sections that run too long and need trimming.</p>
+
+            
+
+            <h3>Timer Runs Entirely in Your Browser</h3>
+            <p>The stopwatch runs entirely in your browser. No timing data is transmitted.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I record lap times with the stopwatch?</button>
+                    <div class="faq-answer"><p>Yes. Press the Lap button while the stopwatch is running to record a split time. Each lap is listed below the main timer showing both the lap time and the cumulative elapsed time. You can record as many laps as needed.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How accurate is the browser stopwatch?</button>
+                    <div class="faq-answer"><p>The stopwatch uses JavaScript's performance.now() API which provides millisecond precision. However, browser timers can drift slightly over long periods due to tab throttling (browsers slow down timers in background tabs). For critical timing, keep the tab active and in focus.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does the stopwatch continue if I switch tabs?</button>
+                    <div class="faq-answer"><p>Modern browsers throttle JavaScript timers in background tabs to save battery. The stopwatch may run slightly slower when the tab is not active. For accurate timing, keep the stopwatch tab in the foreground.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I export my lap times?</button>
+                    <div class="faq-answer"><p>You can copy the lap times from the display. For a formatted export, select all the lap data and paste it into a spreadsheet or text editor. The data is available as long as the page is open.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between a stopwatch and a countdown timer?</button>
+                    <div class="faq-answer"><p>A stopwatch counts up from zero, measuring elapsed time. A countdown timer counts down from a set duration to zero. Use a stopwatch to measure how long something takes; use a countdown timer to limit how long you spend on something.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../countdown-timer/" class="related-tool-link">Countdown Timer</a>
+                    <a href="../pomodoro-timer/" class="related-tool-link">Pomodoro Timer</a>
+                    <a href="../metronome/" class="related-tool-link">Metronome</a>
+                    <a href="../date-calculator/" class="related-tool-link">Date Calculator</a>
+                    <a href="../time-zone-converter/" class="related-tool-link">Time Zone Converter</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

@@ -1,0 +1,198 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/css-gradient-generator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"CSS Gradient Generator - Free Online Tool with Live Preview | Webutilbox","url":"https://webutilbox.com/css-gradient-generator/","description":"Free online CSS gradient generator with live preview. Create linear and radial CSS gradient backgrounds and copy the code instantly. Includes 12 preset gradients and ready-to-use gradient recipes.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","browserRequirements":"Requires JavaScript","featureList":["Linear gradient generation","Radial gradient generation","Live preview","12 preset gradient gallery","Angle and direction control","One-click CSS copy","100% client-side"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"HowTo","name":"How to Create a CSS Gradient Background","step":[{"@type":"HowToStep","position":1,"name":"Choose gradient type","text":"Select Linear for directional gradients (top-to-bottom, diagonal, etc.) or Radial for gradients that radiate from a centre point."},{"@type":"HowToStep","position":2,"name":"Set your colors","text":"Pick your start color and end color using the color pickers. Or click a preset in the gallery to load a ready-made gradient."},{"@type":"HowToStep","position":3,"name":"Adjust angle or direction","text":"For linear gradients, change the angle (0–360°). 135deg is a popular diagonal. For radial gradients the gradient radiates from the centre."},{"@type":"HowToStep","position":4,"name":"Preview the result","text":"The live preview updates instantly so you can see exactly how your gradient background will look."},{"@type":"HowToStep","position":5,"name":"Copy the CSS code","text":"Click 'Copy CSS Code' to copy the generated background property to your clipboard, then paste it into your stylesheet."}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between linear and radial gradients?","acceptedAnswer":{"@type":"Answer","text":"A linear gradient transitions colors along a straight line (top to bottom, left to right, or any angle). A radial gradient radiates outward from a center point in a circular or elliptical pattern. Linear gradients are more common for backgrounds; radial gradients work well for spotlight or glow effects."}},{"@type":"Question","name":"How do I add more than two colors to a gradient?","acceptedAnswer":{"@type":"Answer","text":"Add additional color stops to your CSS manually. For example: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%) creates a three-color gradient. Each stop has a color and a position (0-100%)."}},{"@type":"Question","name":"What does the gradient angle do?","acceptedAnswer":{"@type":"Answer","text":"The angle controls the direction of a linear gradient. 0deg goes bottom to top, 90deg goes left to right, 180deg goes top to bottom, and 270deg goes right to left. Any angle between 0 and 360 is valid."}},{"@type":"Question","name":"Can I use gradients as text fills?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the CSS properties background: your-gradient; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; on your text element. This clips the gradient to the text shape."}},{"@type":"Question","name":"Are CSS gradients supported in all browsers?","acceptedAnswer":{"@type":"Answer","text":"Linear and radial gradients are supported in all modern browsers including Chrome, Firefox, Safari, and Edge. The -webkit- prefix is no longer needed for modern browsers but is still sometimes included for older Safari compatibility."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"CSS Gradient Generator","item":"https://webutilbox.com/css-gradient-generator/"}]}]};
+---
+
+<ToolLayout
+  title="CSS Gradient Generator - 12+ Presets &amp; Live Preview | Webutilbox"
+  description="Free online CSS gradient generator with live preview. Create linear and radial CSS gradient backgrounds, copy the code instantly. Includes 12 ready-made presets and gradient recipes."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-css-tools.svg"
+  keywords="css gradient generator, css gradient background, linear gradient generator, radial gradient generator, css gradient maker, gradient css code, online gradient tool, css background gradient"
+  h1="🌈 CSS Gradient Generator"
+  subtitle="Create beautiful CSS gradient backgrounds with live preview. Pick colors, adjust the angle, copy the code — done in seconds."
+  lastUpdated="2026-06-05"
+  shareText="Free%20CSS%20gradient%20generator%20with%20live%20preview%20%E2%80%94%2012%20presets%2C%20instant%20code%20copy%2C%20linear%20%26%20radial%20gradients."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="CSS Gradient Generator - 12+ Presets &amp; Live Preview -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="preview-box" id="preview"></div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Type:</label>
+                    <select id="gradientType" onchange="updateGradient()">
+                        <option value="linear">Linear</option>
+                        <option value="radial">Radial</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Direction:</label>
+                    <input type="number" id="angle" value="135" min="0" max="360" onchange="updateGradient()">
+                    <span>degrees</span>
+                </div>
+                <div class="control-group">
+                    <label>Color 1:</label>
+                    <input type="color" id="color1" value="#667eea" onchange="updateGradient()">
+                </div>
+                <div class="control-group">
+                    <label>Color 2:</label>
+                    <input type="color" id="color2" value="#764ba2" onchange="updateGradient()">
+                </div>
+            </div>
+            
+            <button class="btn btn-success" onclick="copyCSS()">Copy CSS Code</button>
+            
+            <div class="output-container" style="margin-top:20px;">
+                <div class="output-content" id="cssCode"></div>
+            </div>
+        </div>
+
+        <!-- Preset Gallery -->
+        <div style="margin-top:32px">
+            <h2 style="font-size:1.2rem;margin-bottom:14px;color:var(--white)">Gradient Presets — click to load</h2>
+            <div id="presetGallery" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px"></div>
+        </div>
+
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/css-gradient-generator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>CSS Gradient Generator — Create CSS Gradient Backgrounds Online</h2>
+
+    <p>CSS gradients replaced thousands of gradient image files when they became widely supported. A background that once required a 1px-wide PNG image (with all its HTTP request overhead) became a single line of CSS. Today, gradients are one of the most versatile tools in a front-end developer's kit — used for backgrounds, overlays, hero sections, text fills, borders, buttons, and progress bars.</p>
+
+    <p>This free online CSS gradient generator lets you build linear and radial gradient backgrounds visually, see a live preview as you adjust settings, and copy the finished CSS code in one click.</p>
+
+    <h3>How to create a CSS gradient background</h3>
+    <ol style="padding-left:1.4em;line-height:2.1">
+        <li><strong>Choose gradient type</strong> — select Linear for directional gradients (top-to-bottom, diagonal, horizontal) or Radial for gradients that radiate outward from a centre point.</li>
+        <li><strong>Set your colors</strong> — use the color pickers to choose your start and end colors. Or click any preset in the gallery above to load a ready-made combination instantly.</li>
+        <li><strong>Adjust angle or direction</strong> — for linear gradients, type an angle from 0 to 360 degrees. 135° is a popular diagonal. 90° is left-to-right. 180° is top-to-bottom.</li>
+        <li><strong>Watch the live preview</strong> — the preview box updates in real time as you change any setting, so you can see the exact result before copying.</li>
+        <li><strong>Copy the CSS code</strong> — click "Copy CSS Code" to grab the generated <code>background</code> property and paste it directly into your stylesheet.</li>
+    </ol>
+
+    <h3>Linear gradients — direction and angle</h3>
+    <p>A linear gradient transitions colors along a straight line. The direction is controlled by an angle or a keyword. 0° points upward (bottom to top). Angles increase clockwise. Here are the most-used values:</p>
+    <pre style="background:#111;border:1px solid #27272a;border-radius:8px;padding:16px;overflow-x:auto;font-size:.85rem;line-height:1.8;color:#a1a1aa;margin:12px 0"><code>/* Top to bottom */
+background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+
+/* Left to right */
+background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+
+/* Diagonal (most popular) */
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+/* Three-color gradient */
+background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%);
+
+/* Hard colour split (no blend) */
+background: linear-gradient(90deg, #e74c3c 50%, #3498db 50%);</code></pre>
+
+    <h3>Radial gradients — shape and position</h3>
+    <p>Radial gradients radiate outward from a center point. The shape can be <code>circle</code> (equal radius in all directions) or <code>ellipse</code> (default, stretches to fit the element):</p>
+    <pre style="background:#111;border:1px solid #27272a;border-radius:8px;padding:16px;overflow-x:auto;font-size:.85rem;line-height:1.8;color:#a1a1aa;margin:12px 0"><code>/* Basic radial gradient */
+background: radial-gradient(circle, #667eea 0%, #764ba2 100%);
+
+/* Spotlight effect from top-left */
+background: radial-gradient(circle at top left, #ffecd2 0%, #fcb69f 100%);
+
+/* Soft glow on dark background */
+background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f3460 100%);</code></pre>
+
+    <h3>Creating CSS gradient backgrounds for common UI patterns</h3>
+    <p>Gradient backgrounds are used across almost every modern UI. Here are the most practical patterns:</p>
+    <ul>
+        <li><strong>Hero section background</strong> — a full-viewport diagonal gradient gives depth without images: <code>background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)</code></li>
+        <li><strong>Dark overlay on image</strong> — fade image to black for text legibility: <code>background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.8) 100%)</code></li>
+        <li><strong>Gradient text</strong> — apply gradient as background then clip to text: <code>background-clip: text; -webkit-text-fill-color: transparent</code></li>
+        <li><strong>Gradient button</strong> — subtle shading adds depth: <code>background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)</code></li>
+        <li><strong>Card border gradient</strong> — use <code>border-image</code> with a gradient for colourful card borders</li>
+    </ul>
+
+    <h3>Color stops and hard transitions</h3>
+    <p>Color stops define where each color starts and ends. By default, colors transition smoothly between stops. To create a hard edge with no transition, place two stops at the same position:</p>
+    <pre style="background:#111;border:1px solid #27272a;border-radius:8px;padding:16px;overflow-x:auto;font-size:.85rem;line-height:1.8;color:#a1a1aa;margin:12px 0"><code>/* Hard split — no blending */
+background: linear-gradient(red 50%, blue 50%);
+
+/* CSS-only stripes */
+background: repeating-linear-gradient(
+  45deg,
+  #606dbc,
+  #606dbc 10px,
+  #465298 10px,
+  #465298 20px
+);</code></pre>
+
+    <h3>10 ready-to-use CSS gradient recipes</h3>
+    <p>Copy any of these directly into your CSS. All are production-ready and tested across browsers:</p>
+    <ul style="line-height:2">
+        <li><strong>Sunset:</strong> <code>linear-gradient(135deg, #f5af19 0%, #f12711 100%)</code></li>
+        <li><strong>Ocean:</strong> <code>linear-gradient(135deg, #2980b9 0%, #6dd5fa 50%, #ffffff 100%)</code></li>
+        <li><strong>Forest:</strong> <code>linear-gradient(135deg, #134e5e 0%, #71b280 100%)</code></li>
+        <li><strong>Purple haze:</strong> <code>linear-gradient(135deg, #667eea 0%, #764ba2 100%)</code></li>
+        <li><strong>Rose gold:</strong> <code>linear-gradient(135deg, #f4c2c2 0%, #c9a0a0 100%)</code></li>
+        <li><strong>Midnight:</strong> <code>linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)</code></li>
+        <li><strong>Peach:</strong> <code>linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)</code></li>
+        <li><strong>Northern lights:</strong> <code>linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)</code></li>
+        <li><strong>Subtle card:</strong> <code>linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)</code></li>
+        <li><strong>Deep space:</strong> <code>radial-gradient(ellipse at center, #1a1a2e 0%, #0f3460 100%)</code></li>
+    </ul>
+
+    <h3>Browser support</h3>
+    <p>Linear and radial gradients are supported in all browsers released after 2012. The <code>-webkit-</code> prefix is no longer required for modern browsers. This tool generates clean, prefix-free CSS that works in Chrome, Firefox, Safari, and Edge.</p>
+
+    <h3>CSS Code Generated Locally</h3>
+    <p>This tool runs entirely in your browser. No data is sent to any server.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between linear and radial gradients?</button>
+                    <div class="faq-answer"><p>A linear gradient transitions colors along a straight line (top to bottom, left to right, or any angle). A radial gradient radiates outward from a center point in a circular or elliptical pattern. Linear gradients are more common for CSS gradient backgrounds; radial gradients work well for spotlight or glow effects.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I add more than two colors to a CSS gradient?</button>
+                    <div class="faq-answer"><p>Add extra color stops to the CSS manually after copying. For example: <code>linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%)</code> creates a smooth three-color gradient. Each stop needs a color and a position (0–100%).</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What does the gradient angle do?</button>
+                    <div class="faq-answer"><p>The angle controls the direction of a linear gradient. 0deg goes bottom to top, 90deg goes left to right, 180deg goes top to bottom, and 270deg goes right to left. Any angle between 0 and 360 is valid. 135deg is a popular diagonal direction.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I use CSS gradients as text fills?</button>
+                    <div class="faq-answer"><p>Yes. Apply the gradient as a background on the text element, then add: <code>-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;</code> This clips the gradient to the text shape and works in all modern browsers.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Are CSS gradients supported in all browsers?</button>
+                    <div class="faq-answer"><p>Linear and radial gradients are supported in all modern browsers including Chrome, Firefox, Safari, and Edge. The -webkit- prefix is no longer needed for modern browsers but is still sometimes included for older Safari compatibility.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../color-converter/" class="related-tool-link">Color Converter</a>
+                    <a href="../color-shades-generator/" class="related-tool-link">Color Shades Generator</a>
+                    <a href="../color-contrast-checker/" class="related-tool-link">Color Contrast Checker</a>
+                    <a href="../box-shadow-generator/" class="related-tool-link">Box Shadow Generator</a>
+                    <a href="../border-radius-generator/" class="related-tool-link">Border Radius Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

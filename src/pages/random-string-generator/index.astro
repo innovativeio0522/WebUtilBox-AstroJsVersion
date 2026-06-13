@@ -1,0 +1,175 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/random-string-generator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Random String Generator - Generate Random Passwords & Tokens | Webutilbox","url":"https://webutilbox.com/random-string-generator/","description":"Generate random strings, passwords, tokens, and IDs. Customizable length and character sets.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a random string used for?","acceptedAnswer":{"@type":"Answer","text":"Random strings are used for API keys, session tokens, temporary passwords, unique identifiers, test data, and any situation where you need an unpredictable string. The randomness source matters — this tool uses the Web Crypto API for cryptographically secure randomness."}},{"@type":"Question","name":"What character sets can I include?","acceptedAnswer":{"@type":"Answer","text":"You can include any combination of: uppercase letters (A-Z), lowercase letters (a-z), numbers (0-9), and special symbols (!@#$%^&*). You can also define a custom character set for specific requirements."}},{"@type":"Question","name":"How long should a random string be for security?","acceptedAnswer":{"@type":"Answer","text":"For API keys and tokens, 32-64 characters is standard. For session IDs, 32+ characters. For temporary codes (email verification), 6-8 characters is typical. Longer strings are harder to guess but may be inconvenient to type manually."}},{"@type":"Question","name":"What is the difference between this and the UUID generator?","acceptedAnswer":{"@type":"Answer","text":"UUID generates a standardized 128-bit identifier in a specific format (8-4-4-4-12 hex). Random string generator gives you full control over length, character set, and format. Use UUID when you need a standard identifier format; use random string for custom token formats."}},{"@type":"Question","name":"Can I generate multiple strings at once?","acceptedAnswer":{"@type":"Answer","text":"Yes. Set the count to generate multiple strings in one click. Each string is independently random. You can copy all generated strings at once or individually."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Random String Generator","item":"https://webutilbox.com/random-string-generator/"}]}]};
+---
+
+<ToolLayout
+  title="Random String Generator | Webutilbox"
+  description="Generate random strings of any length for testing, passwords, or tokens. Customize character sets and output format. Free random string generator."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="random string generator, random password, token generator, api key generator, random id"
+  h1="🎲 Random String Generator"
+  subtitle="Generate random strings, passwords, tokens, and unique identifiers."
+  lastUpdated=""
+  shareText="Free%20online%20Random%20String%20Generator%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Random String Generator -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Settings -->
+            <div style="background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border); margin-bottom: 20px;">
+                <div style="margin-bottom: 15px;">
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Length: <span id="lengthValue">16</span></label>
+                    <input type="range" id="length" min="4" max="128" value="16" oninput="updateLength()" style="width: 100%;">
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="uppercase" checked onchange="generate()">
+                        <span style="font-size: 0.9rem;">Uppercase (A-Z)</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="lowercase" checked onchange="generate()">
+                        <span style="font-size: 0.9rem;">Lowercase (a-z)</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="numbers" checked onchange="generate()">
+                        <span style="font-size: 0.9rem;">Numbers (0-9)</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="symbols" onchange="generate()">
+                        <span style="font-size: 0.9rem;">Symbols (!@#$%)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Output -->
+            <div class="output-container show">
+                <div class="output-label">Generated String</div>
+                <div class="output-content" id="output" style="font-family: monospace; font-size: 1.1rem; word-break: break-all;"></div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn btn-success" onclick="copy()">Copy</button>
+                    <button class="btn btn-primary" onclick="generate()">Generate New</button>
+                </div>
+            </div>
+
+            <!-- Batch Generate -->
+            <div style="margin-top: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Generate Multiple</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="number" id="count" value="10" min="1" max="100" style="width: 100px; padding: 8px;">
+                    <button class="btn btn-primary" onclick="generateBatch()">Generate Batch</button>
+                </div>
+            </div>
+
+            <div id="batchOutput" style="display: none; margin-top: 15px;">
+                <textarea id="batchText" readonly style="width: 100%; min-height: 200px; padding: 12px; font-family: monospace; font-size: 0.85rem;"></textarea>
+                <button class="btn btn-success" onclick="copyBatch()" style="margin-top: 10px;">Copy All</button>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/random-string-generator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Random String Generator - Create Secure Passwords, Tokens, and IDs</h2>
+            <p>Our free Random String Generator creates cryptographically secure random strings for any purpose — passwords, API keys, authentication tokens, session IDs, unique identifiers, and test data. Fully customizable character sets and lengths give you complete control over the output format.</p>
+            <p>Unlike simple random generators, this tool uses the browser's built-in <code>crypto.getRandomValues()</code> API, which provides cryptographically strong randomness suitable for security-sensitive applications.</p>
+
+            <h3>What Is a Random String Generator?</h3>
+            <p>A random string generator is a tool that produces strings of characters selected randomly from a defined character set. The randomness and unpredictability of the output is what makes these strings valuable for security purposes — a truly random string is extremely difficult to guess or brute-force, even with significant computational resources.</p>
+            <p>Random strings serve many purposes in software development and security. Passwords need to be random and complex to resist dictionary attacks. API keys need to be unique and unpredictable to prevent unauthorized access. Session tokens need to be random to prevent session hijacking. UUIDs and unique identifiers need to be collision-resistant to work reliably in distributed systems.</p>
+            <p>This tool generates strings using the Web Cryptography API, which is the same cryptographic foundation used by browsers for HTTPS and other security-critical operations. This means the randomness quality is suitable for real security applications, not just casual use.</p>
+
+            <h3>String Generation Options</h3>
+            <ul>
+                <li>Cryptographically secure randomness using the Web Crypto API</li>
+                <li>Adjustable string length from 4 to 128 characters via a slider</li>
+                <li>Toggle uppercase letters (A-Z), lowercase letters (a-z), numbers (0-9), and symbols independently</li>
+                <li>Batch generation — create up to 100 unique strings at once</li>
+                <li>One-click copy for single strings or all batch results</li>
+                <li>Instant regeneration with a single click</li>
+                <li>Works offline after the page loads</li>
+            </ul>
+
+            <h3>How to Use the Random String Generator</h3>
+            <ul>
+                <li>Step 1: Use the length slider to set how many characters you want in your string. The current length is displayed next to the slider.</li>
+                <li>Step 2: Check or uncheck the character type options — uppercase, lowercase, numbers, and symbols — to define your character set.</li>
+                <li>Step 3: A new random string is generated automatically whenever you change any setting. Click "Generate New" to get a fresh string with the same settings.</li>
+                <li>Step 4: Click "Copy" to copy the generated string to your clipboard for immediate use.</li>
+                <li>Step 5: For batch generation, set the count (up to 100) and click "Generate Batch" to create multiple unique strings at once, then copy them all with "Copy All."</li>
+            </ul>
+
+            <h3>When to Generate Random Strings</h3>
+            <ul>
+                <li>Generating strong, random passwords for new accounts or password resets</li>
+                <li>Creating API keys and secret tokens for web services and integrations</li>
+                <li>Producing session IDs and authentication tokens for web applications</li>
+                <li>Generating unique identifiers for database records, files, or transactions</li>
+                <li>Creating test data with random strings for software development and QA testing</li>
+                <li>Generating random codes for promotions, vouchers, or one-time use links</li>
+                <li>Producing salt values for cryptographic hashing operations</li>
+            </ul>
+
+            <h3>Choosing the Right String Format</h3>
+            <p>For passwords, use a length of at least 16 characters and include all four character types (uppercase, lowercase, numbers, and symbols). This creates a password with an enormous number of possible combinations, making brute-force attacks computationally infeasible. For most online accounts, a 20-character random password with all character types provides excellent security.</p>
+            <p>For API keys and tokens, consider whether the receiving system has any character restrictions. Some systems don't accept certain symbols in API keys. If you're unsure, generate a string using only alphanumeric characters (uppercase + lowercase + numbers) to ensure compatibility. A 32-character alphanumeric string provides 62^32 possible values — more than enough entropy for most applications.</p>
+            <p>When generating batch strings for use as unique identifiers, verify that your application can handle the full character set you've selected. If you're storing these strings in a database or URL, avoid symbols that have special meaning in those contexts (like &, ?, #, or /) unless you're properly encoding them. Alphanumeric-only strings are the safest choice for identifiers used in URLs or query parameters.</p>
+
+            
+
+            <h3>Strings Generated Client-Side Only</h3>
+            <p>String generation uses crypto.getRandomValues(). Nothing is transmitted.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is a random string used for?</button>
+                    <div class="faq-answer"><p>Random strings are used for API keys, session tokens, temporary passwords, unique identifiers, test data, and any situation where you need an unpredictable string. The randomness source matters — this tool uses the Web Crypto API for cryptographically secure randomness.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What character sets can I include?</button>
+                    <div class="faq-answer"><p>You can include any combination of: uppercase letters (A-Z), lowercase letters (a-z), numbers (0-9), and special symbols (!@#$%^&*). You can also define a custom character set for specific requirements.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How long should a random string be for security?</button>
+                    <div class="faq-answer"><p>For API keys and tokens, 32-64 characters is standard. For session IDs, 32+ characters. For temporary codes (email verification), 6-8 characters is typical. Longer strings are harder to guess but may be inconvenient to type manually.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between this and the UUID generator?</button>
+                    <div class="faq-answer"><p>UUID generates a standardized 128-bit identifier in a specific format (8-4-4-4-12 hex). Random string generator gives you full control over length, character set, and format. Use UUID when you need a standard identifier format; use random string for custom token formats.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I generate multiple strings at once?</button>
+                    <div class="faq-answer"><p>Yes. Set the count to generate multiple strings in one click. Each string is independently random. You can copy all generated strings at once or individually.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../uuid-generator/" class="related-tool-link">UUID Generator</a>
+                    <a href="../password-generator/" class="related-tool-link">Password Generator</a>
+                    <a href="../sha256-generator/" class="related-tool-link">SHA-256 Generator</a>
+                    <a href="../base64-encoder/" class="related-tool-link">Base64 Encoder</a>
+                    <a href="../password-strength/" class="related-tool-link">Password Strength Checker</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

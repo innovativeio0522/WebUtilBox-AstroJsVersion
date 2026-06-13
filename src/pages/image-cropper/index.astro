@@ -1,0 +1,120 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/image-cropper/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Image Cropper - Crop Images Online Free | Webutilbox","url":"https://webutilbox.com/image-cropper/","description":"Crop images online for free. Select custom area or use aspect ratio presets. Works offline in your browser.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I crop to a specific aspect ratio?","acceptedAnswer":{"@type":"Answer","text":"Yes. Select a preset aspect ratio (1:1 for square, 16:9 for widescreen, 4:3 for standard, etc.) or enter a custom ratio. The crop selection will be constrained to that ratio as you drag."}},{"@type":"Question","name":"What is the difference between cropping and resizing?","acceptedAnswer":{"@type":"Answer","text":"Cropping removes parts of the image by selecting a region and discarding the rest. Resizing changes the dimensions of the entire image without removing content. Use cropping to change composition; use resizing to change file size or fit a specific dimension."}},{"@type":"Question","name":"Can I crop to exact pixel dimensions?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enter the exact width and height in pixels for your crop area. The tool will constrain the selection to those dimensions. This is useful for creating thumbnails or profile pictures with specific size requirements."}},{"@type":"Question","name":"Will cropping reduce image quality?","acceptedAnswer":{"@type":"Answer","text":"No. Cropping only removes pixels outside the selected area. The remaining pixels are unchanged. The output quality is identical to the original for the cropped region."}},{"@type":"Question","name":"How do I crop a circle from an image?","acceptedAnswer":{"@type":"Answer","text":"Use the circular crop option if available, or crop to a square first, then use CSS border-radius: 50% to display it as a circle on your website. The image file itself will remain square — the circular appearance is achieved with CSS."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Image Cropper","item":"https://webutilbox.com/image-cropper/"}]}]};
+---
+
+<ToolLayout
+  title="Image Cropper - Crop Images Online Free | Webutilbox"
+  description="Crop images to any size or aspect ratio online. Supports free crop, fixed ratio, and custom pixel dimensions. Free browser-based image cropper."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-image-tools.svg"
+  keywords="image cropper, crop image online, image crop tool, photo cropper"
+  h1="✂️ Image Cropper"
+  subtitle="Crop images with custom selection or aspect ratio presets. Works offline in your browser."
+  lastUpdated=""
+  shareText="Free%20online%20Image%20Cropper%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Image Cropper - Crop Images Online Free -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+
+
+
+<script src="/js/image-cropper.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Image Cropper - Crop Images Online for Free</h2>
+            <p>Our free online Image Cropper lets you trim, cut, and crop any image directly in your browser — no software to install, no account required. Whether you need a square profile photo, a widescreen banner, or a custom-sized thumbnail, this tool handles it all in seconds.</p>
+
+            <h3>What Is an Image Cropper?</h3>
+            <p>An image cropper is a tool that lets you select a specific region of a photo and discard the rest. Instead of downloading heavy desktop software like Photoshop or GIMP, you can crop images instantly online. This tool uses the HTML5 Canvas API to process your image entirely within your browser, meaning your files never leave your device.</p>
+            <p>Cropping is one of the most fundamental image editing operations. It helps you remove unwanted backgrounds, focus on a subject, change the composition of a photo, or prepare images for specific platforms that require fixed dimensions or aspect ratios.</p>
+
+            <h3>Cropping Tools and Options</h3>
+            <ul>
+                <li>Free-form crop selection — drag to select any custom area</li>
+                <li>Aspect ratio presets: Free, 1:1 (square), 4:3, 16:9, 3:2, 9:16 (portrait)</li>
+                <li>Real-time live preview of the cropped area</li>
+                <li>Displays exact pixel coordinates and crop dimensions</li>
+                <li>Drag-and-drop image upload support</li>
+                <li>Supports JPG, PNG, and WebP formats</li>
+                <li>One-click download of the cropped image</li>
+            </ul>
+
+            <h3>How to Use the Image Cropper</h3>
+            <p>Getting started is simple and takes just a few seconds:</p>
+            <ul>
+                <li>Step 1: Click the upload area or drag and drop your image file onto the page.</li>
+                <li>Step 2: Once the image loads on the canvas, click and drag to draw your crop selection.</li>
+                <li>Step 3: Optionally, choose an aspect ratio preset (e.g., 1:1 for Instagram, 16:9 for YouTube thumbnails).</li>
+                <li>Step 4: Check the live preview on the right to confirm your selection looks correct.</li>
+                <li>Step 5: Click "Download" to save the cropped image to your device as a PNG file.</li>
+            </ul>
+
+            <h3>When to Crop an Image</h3>
+            <ul>
+                <li>Cropping profile pictures to a perfect square for Instagram, Twitter, or LinkedIn</li>
+                <li>Preparing 16:9 thumbnails for YouTube videos or blog posts</li>
+                <li>Removing unwanted backgrounds or distracting elements from photos</li>
+                <li>Creating portrait-oriented (9:16) images for Instagram Stories or TikTok</li>
+                <li>Trimming scanned documents to remove borders and margins</li>
+                <li>Extracting a specific product or subject from a larger photo</li>
+                <li>Resizing images to fit specific banner or header dimensions</li>
+            </ul>
+
+            <h3>Cropping Images with Precision</h3>
+            <p>For the best results, start with the highest resolution version of your image. Cropping reduces the number of pixels in your image, so starting with a larger file gives you more flexibility. If you're cropping for social media, use the platform's recommended aspect ratio preset to avoid awkward auto-cropping when the image is displayed.</p>
+            <p>When using free-form selection, pay attention to the pixel dimensions shown in the "Selection" panel. This helps you hit exact size targets, for example if a website requires a header image of exactly 1200×400 pixels. Use the reset button to start over if your selection isn't quite right — it resets the crop to the full image.</p>
+            <p>If you need to crop multiple images to the same dimensions, note the pixel size from the first crop and use it as a reference for subsequent images. This ensures visual consistency across a set of photos.</p>
+
+            
+
+            <h3>Images Cropped Locally in Your Browser</h3>
+            <p>Cropping runs in your browser via Canvas. Your images are never sent to a server.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I crop to a specific aspect ratio?</button>
+                    <div class="faq-answer"><p>Yes. Select a preset aspect ratio (1:1 for square, 16:9 for widescreen, 4:3 for standard, etc.) or enter a custom ratio. The crop selection will be constrained to that ratio as you drag.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between cropping and resizing?</button>
+                    <div class="faq-answer"><p>Cropping removes parts of the image by selecting a region and discarding the rest. Resizing changes the dimensions of the entire image without removing content. Use cropping to change composition; use resizing to change file size or fit a specific dimension.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I crop to exact pixel dimensions?</button>
+                    <div class="faq-answer"><p>Yes. Enter the exact width and height in pixels for your crop area. The tool will constrain the selection to those dimensions. This is useful for creating thumbnails or profile pictures with specific size requirements.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Will cropping reduce image quality?</button>
+                    <div class="faq-answer"><p>No. Cropping only removes pixels outside the selected area. The remaining pixels are unchanged. The output quality is identical to the original for the cropped region.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I crop a circle from an image?</button>
+                    <div class="faq-answer"><p>Use the circular crop option if available, or crop to a square first, then use CSS border-radius: 50% to display it as a circle on your website. The image file itself will remain square — the circular appearance is achieved with CSS.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../image-resizer/" class="related-tool-link">Image Resizer</a>
+                    <a href="../image-compressor/" class="related-tool-link">Image Compressor</a>
+                    <a href="../image-rotate-flip/" class="related-tool-link">Image Rotate and Flip</a>
+                    <a href="../image-watermark/" class="related-tool-link">Image Watermark</a>
+                    <a href="../favicon-generator/" class="related-tool-link">Favicon Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

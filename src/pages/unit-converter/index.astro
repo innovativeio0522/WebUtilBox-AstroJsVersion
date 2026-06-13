@@ -1,0 +1,155 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/unit-converter/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Unit Converter - Convert Inches to CM, Meters to Feet Online | Webutilbox","url":"https://webutilbox.com/unit-converter/","description":"Convert length, weight, temperature, volume, and speed units instantly. Free unit converter online.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What unit categories does this converter support?","acceptedAnswer":{"@type":"Answer","text":"The converter covers length, weight/mass, temperature, area, volume, speed, time, digital storage, and energy. Each category has all commonly used units including both metric and imperial systems."}},{"@type":"Question","name":"Why is temperature conversion different from other units?","acceptedAnswer":{"@type":"Answer","text":"Most unit conversions are simple multiplication (e.g., 1 km = 1000 m). Temperature conversions require addition and multiplication because the scales have different zero points. For example, Celsius to Fahrenheit is (C x 9/5) + 32, not just a ratio."}},{"@type":"Question","name":"How accurate are the conversions?","acceptedAnswer":{"@type":"Answer","text":"Conversions use standard internationally recognized conversion factors. Results are shown to several decimal places. For scientific or engineering work requiring extreme precision, verify against official standards like NIST."}},{"@type":"Question","name":"Can I convert between metric and imperial units?","acceptedAnswer":{"@type":"Answer","text":"Yes. All categories include both metric (SI) and imperial/US customary units. For example, length includes millimeters, centimeters, meters, kilometers alongside inches, feet, yards, and miles."}},{"@type":"Question","name":"What is the difference between mass and weight?","acceptedAnswer":{"@type":"Answer","text":"Mass is the amount of matter in an object (measured in kg or lbs) and does not change with gravity. Weight is the force gravity exerts on that mass and varies by location. In everyday use, the terms are used interchangeably, and this converter treats them as equivalent for practical purposes."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Unit Converter","item":"https://webutilbox.com/unit-converter/"}]}]};
+---
+
+<ToolLayout
+  title="Unit Converter - Length, Weight, Temperature | Webutilbox"
+  description="Convert between 100+ units across length, weight, temperature, area, volume, and more. Free online unit converter with instant results."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-calculators.svg"
+  keywords="unit converter online, convert inches to cm, meters to feet converter, kg to lbs, celsius to fahrenheit"
+  h1="📏 Unit Converter"
+  subtitle="Convert between units instantly: length, weight, temperature, volume, area, and speed."
+  lastUpdated=""
+  shareText="Free%20online%20Unit%20Converter%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Unit Converter - Length, Weight, Temperature -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Category Selection -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px;">Category</label>
+                <select id="category" onchange="updateUnits()" style="width: 100%; padding: 10px; font-size: 0.95rem;">
+                    <option value="length">?? Length</option>
+                    <option value="weight">?? Weight</option>
+                    <option value="temperature">??? Temperature</option>
+                    <option value="volume">?? Volume</option>
+                    <option value="area">?? Area</option>
+                    <option value="speed">?? Speed</option>
+                </select>
+            </div>
+
+            <!-- Converter Grid -->
+            <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 15px; align-items: end; margin-bottom: 15px;">
+                <!-- From -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">From</label>
+                    <input type="number" id="fromValue" value="1" oninput="convert()" style="width: 100%; padding: 10px; font-size: 1rem; margin-bottom: 8px;">
+                    <select id="fromUnit" onchange="convert()" style="width: 100%; padding: 8px; font-size: 0.9rem;"></select>
+                </div>
+
+                <!-- Swap Button -->
+                <button onclick="swap()" style="background: var(--primary); color: var(--white); border: none; border-radius: 50%; width: 45px; height: 45px; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; margin-bottom: 8px;" onmouseover="this.style.transform='rotate(180deg)'" onmouseout="this.style.transform='rotate(0deg)'">?</button>
+
+                <!-- To -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">To</label>
+                    <input type="number" id="toValue" readonly style="width: 100%; padding: 10px; font-size: 1rem; margin-bottom: 8px; background: var(--light); cursor: not-allowed;">
+                    <select id="toUnit" onchange="convert()" style="width: 100%; padding: 8px; font-size: 0.9rem;"></select>
+                </div>
+            </div>
+
+            <!-- Result Display -->
+            <div class="output-container show">
+                <div class="output-label">Result</div>
+                <div id="result" style="font-size: 1.1rem; color: var(--primary); font-weight: 600;"></div>
+            </div>
+
+            <!-- Quick Conversions -->
+            <div class="output-container show" style="margin-top: 15px;">
+                <div class="output-label">Common Conversions</div>
+                <div id="quickConversions" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; font-size: 0.85rem;"></div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/unit-converter.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Unit Converter</h2>
+
+    <p>In 1999, NASA lost the Mars Climate Orbiter — a $327 million spacecraft — because one engineering team used metric units and another used imperial units, and nobody caught the mismatch. Unit conversion errors are not just inconvenient; in engineering, medicine, and science they can be catastrophic. This tool handles the math so you don't have to.</p>
+
+    <h3>Supported categories</h3>
+    <ul>
+        <li><strong>Length:</strong> millimeter, centimeter, meter, kilometer, inch, foot, yard, mile, nautical mile, light-year</li>
+        <li><strong>Weight / Mass:</strong> milligram, gram, kilogram, metric ton, ounce, pound, stone, US ton</li>
+        <li><strong>Temperature:</strong> Celsius, Fahrenheit, Kelvin</li>
+        <li><strong>Area:</strong> square meter, square kilometer, square foot, square mile, acre, hectare</li>
+        <li><strong>Volume:</strong> milliliter, liter, cubic meter, fluid ounce, cup, pint, quart, gallon</li>
+        <li><strong>Speed:</strong> m/s, km/h, mph, knots, Mach</li>
+        <li><strong>Digital storage:</strong> bit, byte, KB, MB, GB, TB, PB</li>
+        <li><strong>Time:</strong> millisecond, second, minute, hour, day, week, month, year</li>
+    </ul>
+
+    <h3>Temperature is different from every other conversion</h3>
+    <p>Every other unit conversion is a simple multiplication by a fixed ratio. 1 kilometer = 1000 meters, always. Temperature is different because the three scales (Celsius, Fahrenheit, Kelvin) have different zero points. Zero Celsius is not zero Fahrenheit. Zero Kelvin (absolute zero) is -273.15°C and -459.67°F.</p>
+    <p>The formulas: °F = (°C × 9/5) + 32. °C = (°F - 32) × 5/9. K = °C + 273.15. This is why temperature conversions feel unintuitive — you can't just multiply by a single number.</p>
+
+    <h3>Metric vs imperial — a practical guide</h3>
+    <p>The US is one of only three countries (with Myanmar and Liberia) that hasn't officially adopted the metric system. This creates constant conversion needs for Americans working with international data, and for non-Americans working with US-sourced content. The most common conversions people need:</p>
+    <ul>
+        <li>1 inch = 2.54 cm (exact, by definition)</li>
+        <li>1 mile = 1.609 km</li>
+        <li>1 pound = 0.4536 kg</li>
+        <li>1 US gallon = 3.785 liters (note: UK gallon = 4.546 liters)</li>
+        <li>1 fluid ounce (US) = 29.57 ml</li>
+    </ul>
+
+    <h3>Digital storage units</h3>
+    <p>Storage units have a confusing dual standard. In decimal (SI): 1 KB = 1,000 bytes, 1 MB = 1,000,000 bytes. In binary (IEC): 1 KiB = 1,024 bytes, 1 MiB = 1,048,576 bytes. Hard drive manufacturers use decimal (makes drives look bigger). Operating systems traditionally used binary (Windows still does; macOS switched to decimal in 2009). This is why a "500 GB" hard drive shows as ~465 GB in Windows.</p>
+
+    <h3>Conversions Run Client-Side Only</h3>
+    <p>All conversions are calculated in your browser using JavaScript. Nothing is sent to any server.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What unit categories does this converter support?</button>
+                    <div class="faq-answer"><p>The converter covers length, weight/mass, temperature, area, volume, speed, time, digital storage, and energy. Each category has all commonly used units including both metric and imperial systems.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why is temperature conversion different from other units?</button>
+                    <div class="faq-answer"><p>Most unit conversions are simple multiplication (e.g., 1 km = 1000 m). Temperature conversions require addition and multiplication because the scales have different zero points. For example, Celsius to Fahrenheit is (C x 9/5) + 32, not just a ratio.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How accurate are the conversions?</button>
+                    <div class="faq-answer"><p>Conversions use standard internationally recognized conversion factors. Results are shown to several decimal places. For scientific or engineering work requiring extreme precision, verify against official standards like NIST.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I convert between metric and imperial units?</button>
+                    <div class="faq-answer"><p>Yes. All categories include both metric (SI) and imperial/US customary units. For example, length includes millimeters, centimeters, meters, kilometers alongside inches, feet, yards, and miles.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between mass and weight?</button>
+                    <div class="faq-answer"><p>Mass is the amount of matter in an object (measured in kg or lbs) and does not change with gravity. Weight is the force gravity exerts on that mass and varies by location. In everyday use, the terms are used interchangeably, and this converter treats them as equivalent for practical purposes.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../scientific-calculator/" class="related-tool-link">Scientific Calculator</a>
+                    <a href="../percentage-calculator/" class="related-tool-link">Percentage Calculator</a>
+                    <a href="../bmi-calculator/" class="related-tool-link">BMI Calculator</a>
+                    <a href="../number-base-converter/" class="related-tool-link">Number Base Converter</a>
+                    <a href="../currency-converter/" class="related-tool-link">Currency Converter</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

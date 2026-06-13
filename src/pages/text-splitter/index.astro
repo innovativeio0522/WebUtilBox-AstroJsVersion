@@ -1,0 +1,194 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/text-splitter/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Text Splitter - Split Text by Delimiter | Webutilbox","url":"https://webutilbox.com/text-splitter/","description":"Split text by comma, space, newline, or custom delimiter. Convert text to list or array. Free tool.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What delimiters can I use to split text?","acceptedAnswer":{"@type":"Answer","text":"You can split by any character or string: comma, semicolon, pipe, tab, newline, space, or a custom delimiter you define. This covers most common data formats including CSV, TSV, and pipe-delimited files."}},{"@type":"Question","name":"Can I split text into chunks of a specific size?","acceptedAnswer":{"@type":"Answer","text":"Yes. Split by character count or word count to create chunks of a specific size. This is useful for processing large texts in batches, fitting content into character-limited fields, or creating paginated content."}},{"@type":"Question","name":"Can I split a long string into an array for use in code?","acceptedAnswer":{"@type":"Answer","text":"Yes. Split your string by the appropriate delimiter and the tool shows each element. You can copy the output as a JSON array, a comma-separated list, or one item per line, ready to paste into your code."}},{"@type":"Question","name":"How do I split a CSV row into individual values?","acceptedAnswer":{"@type":"Answer","text":"Paste the CSV row and split by comma. For CSV data where values may contain commas (wrapped in quotes), the tool handles quoted fields correctly. Each value is shown as a separate item."}},{"@type":"Question","name":"Can I split text and then rejoin it with a different delimiter?","acceptedAnswer":{"@type":"Answer","text":"Yes. Split by one delimiter, then use the join option to combine the parts with a different delimiter. This is a quick way to convert between formats, like changing comma-separated to pipe-separated."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Text Splitter","item":"https://webutilbox.com/text-splitter/"}]}]};
+---
+
+<ToolLayout
+  title="Text Splitter - Split by Delimiter | Webutilbox"
+  description="Split text by delimiter, character count, or line count. Useful for breaking up CSV, JSON, and large text files. Free online text splitter tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-text-tools.svg"
+  keywords="text splitter, split text by comma, split by delimiter, text to list, comma separator, string splitter, text parser"
+  h1="✂️ Text Splitter"
+  subtitle="Split text by comma, space, newline, or any custom delimiter. Convert text to list instantly."
+  lastUpdated=""
+  shareText="Free%20online%20Text%20Splitter%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Text Splitter - Split by Delimiter -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="input-group">
+                <label>Input Text</label>
+                <textarea id="inputText" placeholder="Enter text to split...&#10;&#10;Example:&#10;apple, banana, orange, grape&#10;or&#10;apple banana orange grape&#10;or&#10;apple|banana|orange|grape" style="min-height:150px"></textarea>
+            </div>
+
+            <div style="margin-bottom:15px">
+                <label style="display:block;margin-bottom:8px;font-weight:600">Split By:</label>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+                    <button class="preset-btn active" onclick="setDelimiter(',','comma')">Comma (,)</button>
+                    <button class="preset-btn" onclick="setDelimiter(' ','space')">Space</button>
+                    <button class="preset-btn" onclick="setDelimiter('\\n','newline')">New Line</button>
+                    <button class="preset-btn" onclick="setDelimiter(';','semicolon')">Semicolon (;)</button>
+                    <button class="preset-btn" onclick="setDelimiter('|','pipe')">Pipe (|)</button>
+                    <button class="preset-btn" onclick="setDelimiter('\\t','tab')">Tab</button>
+                    <button class="preset-btn" onclick="setDelimiter('custom','custom')">Custom</button>
+                </div>
+                <input type="text" id="customDelimiter" placeholder="Enter custom delimiter..." style="width:100%;padding:10px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--white);display:none">
+            </div>
+
+            <div style="display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="trimItems" checked>
+                    <span style="font-size:0.9rem">Trim whitespace</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="removeEmpty" checked>
+                    <span style="font-size:0.9rem">Remove empty items</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="removeDuplicates">
+                    <span style="font-size:0.9rem">Remove duplicates</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="splitText()">Split Text</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+            </div>
+
+            <div id="results" style="display:none;margin-top:20px">
+                <div style="background:var(--light);padding:15px;border-radius:12px;border:1px solid var(--border);margin-bottom:15px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                        <h3 style="color:var(--primary);margin:0">Results</h3>
+                        <span style="color:var(--gray);font-size:0.9rem" id="itemCount"></span>
+                    </div>
+                    
+                    <div class="output-format">
+                        <button class="format-btn" onclick="formatOutput('list')">?? List</button>
+                        <button class="format-btn" onclick="formatOutput('numbered')">?? Numbered</button>
+                        <button class="format-btn" onclick="formatOutput('comma')">?? Comma</button>
+                        <button class="format-btn" onclick="formatOutput('array')">[ ] Array</button>
+                        <button class="format-btn" onclick="formatOutput('json')">{ } JSON</button>
+                        <button class="format-btn" onclick="formatOutput('quoted')">? Quoted</button>
+                    </div>
+                </div>
+
+                <div class="output-container">
+                    <div class="output-label">Output</div>
+                    <div class="output-content" id="output"></div>
+                    <button class="btn btn-success" style="margin-top:10px" onclick="copyOutput()">Copy Output</button>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+<style>
+.preset-btn{padding:8px 16px;background:var(--light);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;font-size:0.9rem}
+        .preset-btn:hover{border-color:var(--primary);background:var(--input-bg)}
+        .preset-btn.active{background:var(--primary);color:var(--dark);border-color:var(--primary)}
+        .output-format{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
+        .format-btn{padding:6px 12px;background:var(--input-bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.85rem}
+        .format-btn:hover{border-color:var(--primary)}
+</style>
+
+
+<script src="/js/text-splitter.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Text Splitter - Split Text by Any Delimiter Online</h2>
+            <p>The Text Splitter is a free, instant browser tool that breaks any block of text into individual items using a delimiter you choose. Whether you are working with CSV data, pipe-separated values, space-delimited strings, or a custom separator, this tool handles it without any installation or signup required.</p>
+
+            <h3>What Is a Text Splitter?</h3>
+            <p>A text splitter takes a single string or block of text and divides it into separate pieces based on a character or sequence you define as the delimiter. For example, splitting "apple, banana, orange" by a comma gives you three separate items: apple, banana, and orange. This is one of the most common data transformation tasks in programming, data analysis, and content work.</p>
+            <p>This tool goes beyond basic splitting. It also lets you clean up the results by trimming extra whitespace from each item, removing blank entries that result from consecutive delimiters, and deduplicating the list so only unique values remain. Once split, you can export the results in six different formats to match whatever workflow you are feeding the data into.</p>
+            <p>Everything runs in your browser with no server calls. Paste your text, pick your delimiter, click Split, and your formatted output is ready to copy in seconds. It works equally well for a handful of items or thousands of lines.</p>
+
+            <h3>Splitting Modes and Delimiters</h3>
+            <ul>
+                <li>Seven built-in delimiter presets: comma, space, newline, semicolon, pipe, tab, and custom character</li>
+                <li>Custom delimiter input for any character or multi-character sequence not covered by presets</li>
+                <li>Trim whitespace option to automatically strip leading and trailing spaces from each item</li>
+                <li>Remove empty items filter to eliminate blank entries caused by consecutive delimiters</li>
+                <li>Remove duplicates option to keep only unique values in the output</li>
+                <li>Six output formats: plain list, numbered list, comma-separated, JavaScript array, JSON object, and quoted strings</li>
+                <li>Live item counter showing exactly how many items resulted from the split</li>
+            </ul>
+
+            <h3>How to Use the Text Splitter</h3>
+            <ul>
+                <li>Step 1: Paste your text into the input box at the top of the tool</li>
+                <li>Step 2: Click one of the preset delimiter buttons (Comma, Space, New Line, Semicolon, Pipe, Tab) or choose Custom and type your own</li>
+                <li>Step 3: Toggle the cleanup options — Trim Whitespace, Remove Empty Items, Remove Duplicates — as needed</li>
+                <li>Step 4: Click "Split Text" to process your input</li>
+                <li>Step 5: Choose an output format from the format buttons (List, Numbered, Comma, Array, JSON, Quoted)</li>
+                <li>Step 6: Click "Copy Output" to copy the result to your clipboard</li>
+            </ul>
+
+            <h3>When to Split Text into Parts</h3>
+            <ul>
+                <li>Parsing CSV exports from spreadsheets or databases into individual values for further processing</li>
+                <li>Converting a comma-separated list of email addresses into one-per-line format for import into an email tool</li>
+                <li>Splitting pipe-delimited data from legacy systems or log files into readable lists</li>
+                <li>Converting a space-separated list of tags or keywords into a JavaScript array for use in code</li>
+                <li>Breaking a newline-separated list into a JSON array for use in an API payload or config file</li>
+                <li>Deduplicating a list of URLs, IDs, or product codes that arrived in a single delimited string</li>
+                <li>Preparing data for import into spreadsheets, databases, or content management systems</li>
+            </ul>
+
+            <h3>Splitting Text Accurately</h3>
+            <p>If your data has inconsistent spacing around the delimiter — for example "apple , banana , orange" — always enable the Trim Whitespace option. This ensures each item is clean and does not carry extra spaces that could cause issues when the data is used downstream in code or databases.</p>
+            <p>When working with CSV data that contains quoted fields, be aware that this tool performs a simple split and does not handle RFC 4180 CSV quoting rules. For straightforward comma-separated data without quoted commas inside fields, it works perfectly. For complex CSV with embedded commas inside quoted fields, a dedicated CSV parser is more appropriate.</p>
+            <p>The Array and JSON output formats are especially useful for developers. The Array format produces a valid JavaScript array literal you can paste directly into code. The JSON format wraps the items in a JSON object with an "items" key, ready for use in API payloads, configuration files, or data interchange scenarios.</p>
+
+            
+
+            <h3>Text Processed Client-Side Only</h3>
+            <p>Splitting runs in your browser. Your text never leaves your device.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What delimiters can I use to split text?</button>
+                    <div class="faq-answer"><p>You can split by any character or string: comma, semicolon, pipe, tab, newline, space, or a custom delimiter you define. This covers most common data formats including CSV, TSV, and pipe-delimited files.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I split text into chunks of a specific size?</button>
+                    <div class="faq-answer"><p>Yes. Split by character count or word count to create chunks of a specific size. This is useful for processing large texts in batches, fitting content into character-limited fields, or creating paginated content.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I split a long string into an array for use in code?</button>
+                    <div class="faq-answer"><p>Yes. Split your string by the appropriate delimiter and the tool shows each element. You can copy the output as a JSON array, a comma-separated list, or one item per line, ready to paste into your code.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I split a CSV row into individual values?</button>
+                    <div class="faq-answer"><p>Paste the CSV row and split by comma. For CSV data where values may contain commas (wrapped in quotes), the tool handles quoted fields correctly. Each value is shown as a separate item.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I split text and then rejoin it with a different delimiter?</button>
+                    <div class="faq-answer"><p>Yes. Split by one delimiter, then use the join option to combine the parts with a different delimiter. This is a quick way to convert between formats, like changing comma-separated to pipe-separated.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../text-cleaner/" class="related-tool-link">Text Cleaner</a>
+                    <a href="../text-sorter/" class="related-tool-link">Text Sorter</a>
+                    <a href="../find-replace/" class="related-tool-link">Find and Replace</a>
+                    <a href="../json-to-csv/" class="related-tool-link">JSON to CSV</a>
+                    <a href="../word-counter/" class="related-tool-link">Word Counter</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

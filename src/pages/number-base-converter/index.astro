@@ -1,0 +1,170 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/number-base-converter/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Number Base Converter - Binary Decimal Hex Converter | Webutilbox","url":"https://webutilbox.com/number-base-converter/","description":"Convert numbers between binary, decimal, hexadecimal, and octal. Free number base converter for programmers and students.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What number bases does this converter support?","acceptedAnswer":{"@type":"Answer","text":"The converter supports binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16) — the four most commonly used number systems in computing. Enter a number in any base and instantly see it in all others."}},{"@type":"Question","name":"Why do programmers use hexadecimal?","acceptedAnswer":{"@type":"Answer","text":"Hexadecimal (hex) is compact and maps cleanly to binary — each hex digit represents exactly 4 bits. This makes it easy to read memory addresses, color codes, and binary data. For example, the byte 11111111 in binary is FF in hex, which is much easier to read and write."}},{"@type":"Question","name":"What is the difference between binary and hexadecimal?","acceptedAnswer":{"@type":"Answer","text":"Binary uses only 0 and 1 (base 2). Hexadecimal uses 0-9 and A-F (base 16). Both are used in computing, but hex is more compact — a byte (8 bits) takes 8 binary digits but only 2 hex digits. Programmers often use hex as a shorthand for binary."}},{"@type":"Question","name":"How do I convert a hex color code to RGB?","acceptedAnswer":{"@type":"Answer","text":"Split the 6-digit hex code into three pairs: #RRGGBB. Convert each pair from hex to decimal. For example, #FF8000: FF = 255, 80 = 128, 00 = 0, so RGB(255, 128, 0). Use the Color Converter tool for a more convenient color-specific conversion."}},{"@type":"Question","name":"What is two's complement?","acceptedAnswer":{"@type":"Answer","text":"Two's complement is the standard way computers represent negative integers in binary. To negate a number: flip all bits (one's complement) then add 1. This system allows addition and subtraction to use the same hardware circuit, which is why it is universally used in CPUs."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Number Base Converter","item":"https://webutilbox.com/number-base-converter/"}]}]};
+---
+
+<ToolLayout
+  title="Number Base Converter - Binary, Decimal, Hex | Webutilbox"
+  description="Convert numbers between binary, decimal, hexadecimal, and octal. Free number base converter for programmers and students."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="binary to decimal, hex to decimal, number base converter, binary converter online"
+  h1="🔢 Number Base Converter"
+  subtitle="Convert numbers between binary, decimal, hexadecimal, and octal bases."
+  lastUpdated=""
+  shareText="Free%20online%20Number%20Base%20Converter%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Number Base Converter - Binary, Decimal, Hex -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Input -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Enter Number</label>
+                <input type="text" id="inputNumber" placeholder="Enter a number..." oninput="convertAll()" style="width: 100%; padding: 12px; font-size: 1.1rem; font-family: 'Courier New', monospace;">
+                <select id="inputBase" onchange="convertAll()" style="width: 100%; padding: 10px; font-size: 0.9rem; margin-top: 8px;">
+                    <option value="10">Decimal (Base 10)</option>
+                    <option value="2">Binary (Base 2)</option>
+                    <option value="16">Hexadecimal (Base 16)</option>
+                    <option value="8">Octal (Base 8)</option>
+                </select>
+            </div>
+
+            <!-- Binary -->
+            <div class="output-container show" style="margin-bottom: 12px;">
+                <div class="base-output-header">
+                    <div class="output-label">Binary (Base 2)</div>
+                    <button class="btn btn-success" onclick="copy('binary')" style="padding: 4px 12px; font-size: 0.8rem;">Copy</button>
+                </div>
+                <div id="binary" style="font-family: 'Courier New', monospace; font-size: 1rem; color: var(--white); word-break: break-all;">-</div>
+            </div>
+
+            <!-- Octal -->
+            <div class="output-container show" style="margin-bottom: 12px;">
+                <div class="base-output-header">
+                    <div class="output-label">Octal (Base 8)</div>
+                    <button class="btn btn-success" onclick="copy('octal')" style="padding: 4px 12px; font-size: 0.8rem;">Copy</button>
+                </div>
+                <div id="octal" style="font-family: 'Courier New', monospace; font-size: 1rem; color: var(--white);">-</div>
+            </div>
+
+            <!-- Decimal -->
+            <div class="output-container show" style="margin-bottom: 12px;">
+                <div class="base-output-header">
+                    <div class="output-label">Decimal (Base 10)</div>
+                    <button class="btn btn-success" onclick="copy('decimal')" style="padding: 4px 12px; font-size: 0.8rem;">Copy</button>
+                </div>
+                <div id="decimal" style="font-family: 'Courier New', monospace; font-size: 1rem; color: var(--white);">-</div>
+            </div>
+
+            <!-- Hexadecimal -->
+            <div class="output-container show">
+                <div class="base-output-header">
+                    <div class="output-label">Hexadecimal (Base 16)</div>
+                    <button class="btn btn-success" onclick="copy('hex')" style="padding: 4px 12px; font-size: 0.8rem;">Copy</button>
+                </div>
+                <div id="hex" style="font-family: 'Courier New', monospace; font-size: 1rem; color: var(--white);">-</div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/number-base-converter.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Number Base Converter - Binary, Decimal, Hex, and Octal</h2>
+            <p>Our free Number Base Converter instantly converts any number between binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16). Type a number in any base and see all four representations update simultaneously — an essential tool for programmers, computer science students, and anyone working with digital systems.</p>
+
+            <h3>What Are Number Bases?</h3>
+            <p>A number base (or radix) defines how many unique digits a number system uses. The decimal system we use in everyday life is base 10, meaning it uses ten digits: 0 through 9. Computers, however, operate in binary (base 2), using only 0 and 1, because electronic circuits have two states: on and off.</p>
+            <p>Hexadecimal (base 16) is widely used in programming because it provides a compact way to represent binary data. One hex digit represents exactly four binary bits, so a byte (8 bits) can be written as just two hex digits. This is why you see hex values everywhere in programming: color codes (#FF5733), memory addresses (0x7FFF), and byte-level data inspection.</p>
+            <p>Octal (base 8) uses digits 0–7 and was historically used in computing because it maps cleanly to groups of three binary digits. While less common today, it still appears in Unix/Linux file permissions (e.g., chmod 755) and some legacy systems.</p>
+
+            <h3>Supported Number Bases</h3>
+            <ul>
+                <li>Convert from any base: enter decimal, binary, hex, or octal as your input</li>
+                <li>Simultaneous output in all four bases — updates as you type</li>
+                <li>Individual copy buttons for each base output</li>
+                <li>Hexadecimal output displayed in uppercase (A–F) for readability</li>
+                <li>Handles large numbers accurately using JavaScript's built-in parseInt and toString</li>
+                <li>Clean monospace font for easy reading of binary and hex values</li>
+                <li>Instant error handling — invalid input is silently ignored</li>
+            </ul>
+
+            <h3>How to Use the Number Base Converter</h3>
+            <p>The converter is designed to be as simple as possible. Here's how to use it:</p>
+            <ul>
+                <li>Step 1: Select your input base from the dropdown (Decimal, Binary, Hexadecimal, or Octal).</li>
+                <li>Step 2: Type your number into the input field. The converter validates your input against the selected base.</li>
+                <li>Step 3: All four base representations update instantly as you type.</li>
+                <li>Step 4: Click the "Copy" button next to any output to copy that value to your clipboard.</li>
+            </ul>
+
+            <h3>When Number Base Conversion Is Useful</h3>
+            <ul>
+                <li>Converting decimal color values to hexadecimal for CSS and web design</li>
+                <li>Translating binary values from hardware datasheets to decimal for calculations</li>
+                <li>Understanding Unix file permission codes written in octal (e.g., 755, 644)</li>
+                <li>Debugging embedded systems and microcontroller code that uses hex addresses</li>
+                <li>Learning binary arithmetic and number systems in computer science courses</li>
+                <li>Converting between bases for competitive programming and algorithm challenges</li>
+            </ul>
+
+            <h3>Converting Between Number Bases</h3>
+            <p>When working with hexadecimal, remember that each hex digit represents exactly 4 bits. So a 32-bit integer is always 8 hex digits, and a 64-bit value is 16 hex digits. This makes hex a natural shorthand for binary — much easier to read and write than a long string of 0s and 1s.</p>
+            <p>For binary, it helps to group digits in sets of 4 or 8 when reading large values. For example, the binary number 11111111 is easier to read as 1111 1111, which you can immediately recognize as two hex Fs (0xFF) or decimal 255 — the maximum value of a single byte.</p>
+            <p>When entering hexadecimal values, you can use either uppercase (A–F) or lowercase (a–f) letters. The converter accepts both and always outputs uppercase for consistency.</p>
+
+            
+
+            <h3>Conversions Run Entirely Client-Side</h3>
+            <p>Conversion runs in your browser. No data is sent to any server.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What number bases does this converter support?</button>
+                    <div class="faq-answer"><p>The converter supports binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16) — the four most commonly used number systems in computing. Enter a number in any base and instantly see it in all others.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why do programmers use hexadecimal?</button>
+                    <div class="faq-answer"><p>Hexadecimal (hex) is compact and maps cleanly to binary — each hex digit represents exactly 4 bits. This makes it easy to read memory addresses, color codes, and binary data. For example, the byte 11111111 in binary is FF in hex, which is much easier to read and write.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between binary and hexadecimal?</button>
+                    <div class="faq-answer"><p>Binary uses only 0 and 1 (base 2). Hexadecimal uses 0-9 and A-F (base 16). Both are used in computing, but hex is more compact — a byte (8 bits) takes 8 binary digits but only 2 hex digits. Programmers often use hex as a shorthand for binary.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I convert a hex color code to RGB?</button>
+                    <div class="faq-answer"><p>Split the 6-digit hex code into three pairs: #RRGGBB. Convert each pair from hex to decimal. For example, #FF8000: FF = 255, 80 = 128, 00 = 0, so RGB(255, 128, 0). Use the Color Converter tool for a more convenient color-specific conversion.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is two's complement?</button>
+                    <div class="faq-answer"><p>Two's complement is the standard way computers represent negative integers in binary. To negate a number: flip all bits (one's complement) then add 1. This system allows addition and subtraction to use the same hardware circuit, which is why it is universally used in CPUs.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../binary-text-converter/" class="related-tool-link">Binary Text Converter</a>
+                    <a href="../color-converter/" class="related-tool-link">Color Converter</a>
+                    <a href="../scientific-calculator/" class="related-tool-link">Scientific Calculator</a>
+                    <a href="../unix-timestamp-converter/" class="related-tool-link">Unix Timestamp Converter</a>
+                    <a href="../base64-encoder/" class="related-tool-link">Base64 Encoder</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

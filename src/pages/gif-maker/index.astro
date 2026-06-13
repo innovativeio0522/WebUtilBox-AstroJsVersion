@@ -1,0 +1,242 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/gif-maker/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"GIF Maker - Create Animated GIFs from Images | Webutilbox","url":"https://webutilbox.com/gif-maker/","description":"Create animated GIFs from multiple images. Upload images, set frame delay, and generate GIF. Free online GIF maker.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What image formats can I use to create a GIF?","acceptedAnswer":{"@type":"Answer","text":"You can upload PNG, JPG, and WebP images as frames. For best results, use images of the same dimensions. The tool will resize mismatched frames to match the first frame's dimensions."}},{"@type":"Question","name":"How do I control the animation speed?","acceptedAnswer":{"@type":"Answer","text":"Set the delay between frames in milliseconds. 100ms per frame = 10 frames per second. 50ms = 20fps (smoother). 200ms = 5fps (slower, more like a slideshow). Lower delay = faster animation."}},{"@type":"Question","name":"Why is my GIF file so large?","acceptedAnswer":{"@type":"Answer","text":"GIFs use a limited 256-color palette and lossless compression, which makes them large for photographic content. For smaller files, reduce the number of frames, lower the resolution, or reduce the number of colors. GIFs work best for simple graphics and short animations with limited colors."}},{"@type":"Question","name":"Can I create a GIF from a video?","acceptedAnswer":{"@type":"Answer","text":"This tool creates GIFs from image frames. To convert a video to GIF, use the Video Thumbnail Generator to extract frames first, then assemble them here. For direct video-to-GIF conversion, a dedicated tool or FFmpeg is more efficient."}},{"@type":"Question","name":"What is the maximum number of frames I can use?","acceptedAnswer":{"@type":"Answer","text":"There is no hard limit, but more frames mean larger file sizes and slower processing in the browser. For smooth animations, 15-30 frames is typical. Very long GIFs (100+ frames) may be slow to generate and result in very large files."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"GIF Maker","item":"https://webutilbox.com/gif-maker/"}]}]};
+---
+
+<ToolLayout
+  title="GIF Maker - Create Animated GIFs from Images | Webutilbox"
+  description="Create animated GIFs from images or video frames directly in your browser. Control speed, size, and quality. Free online GIF maker — no upload."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-image-tools.svg"
+  keywords="gif maker, create gif, animated gif, image to gif, gif generator"
+  h1="🎞️ GIF Maker"
+  subtitle="Create animated GIFs from multiple images. Upload, reorder, and customize."
+  lastUpdated=""
+  shareText="Free%20online%20GIF%20Maker%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="GIF Maker - Create Animated GIFs from Images -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <!-- Upload Area -->
+            <div style="text-align: center; padding: 40px; border: 2px dashed var(--border); border-radius: 12px; background: var(--light); margin-bottom: 20px;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">???</div>
+                <input type="file" id="imageFiles" accept="image/*" multiple style="display: none;" onchange="loadImages()">
+                <button class="btn btn-primary" onclick="document.getElementById('imageFiles').click()" style="padding: 15px 30px;">
+                    Select Images
+                </button>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--gray);">Select multiple images to create GIF</p>
+            </div>
+
+            <!-- Image List -->
+            <div id="imageList" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="font-size: 1rem; margin: 0;">Frames (<span id="frameCount">0</span>)</h3>
+                    <button class="btn" onclick="clearFrames()" style="padding: 8px 16px;">Clear All</button>
+                </div>
+
+                <div id="frameItems" style="background: var(--light); border-radius: 12px; padding: 15px; border: 1px solid var(--border); margin-bottom: 20px; max-height: 400px; overflow-y: auto;">
+                </div>
+
+                <!-- GIF Settings -->
+                <div style="background: var(--light); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border);">
+                    <h3 style="font-size: 1rem; margin-bottom: 15px;">GIF Settings</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                        <div>
+                            <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Frame Delay (ms)</label>
+                            <input type="number" id="frameDelay" value="500" min="50" max="5000" step="50" style="width: 100%; padding: 10px;">
+                            <p style="font-size: 0.75rem; color: var(--gray); margin-top: 4px;">Time each frame is shown (500ms = 0.5s)</p>
+                        </div>
+
+                        <div>
+                            <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Transition Effect</label>
+                            <select id="transitionEffect" style="width: 100%; padding: 10px;">
+                                <option value="none">None (Instant)</option>
+                                <option value="fade">Fade (Cross-fade)</option>
+                                <option value="slide-left">Slide Left</option>
+                                <option value="slide-right">Slide Right</option>
+                                <option value="slide-up">Slide Up</option>
+                                <option value="slide-down">Slide Down</option>
+                                <option value="zoom-in">Zoom In</option>
+                                <option value="zoom-out">Zoom Out</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Transition Duration (ms)</label>
+                            <input type="number" id="transitionDuration" value="300" min="100" max="2000" step="50" style="width: 100%; padding: 10px;">
+                            <p style="font-size: 0.75rem; color: var(--gray); margin-top: 4px;">Smooth transition time</p>
+                        </div>
+
+                        <div>
+                            <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Max Width (px)</label>
+                            <input type="number" id="maxWidth" value="500" min="100" max="1920" step="50" style="width: 100%; padding: 10px;">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-size: 0.9rem; margin-bottom: 10px; display: block; font-weight: 600;">Additional Effects</label>
+                        <div style="display: grid; gap: 10px;">
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" id="loopGif" checked style="width: 20px; height: 20px; cursor: pointer;">
+                                <span style="font-size: 0.9rem;">Loop animation (repeat forever)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" id="reverseLoop" style="width: 20px; height: 20px; cursor: pointer;">
+                                <span style="font-size: 0.9rem;">Reverse loop (play forward then backward)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" id="addBounce" style="width: 20px; height: 20px; cursor: pointer;">
+                                <span style="font-size: 0.9rem;">Bounce effect (ease in/out)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success" onclick="createGIF()" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+                        ?? Create GIF
+                    </button>
+                </div>
+
+                <!-- Preview -->
+                <div id="preview" style="display: none; background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border); text-align: center;">
+                    <h3 style="font-size: 1rem; margin-bottom: 15px;">Preview</h3>
+                    <img id="gifPreview" style="max-width: 100%; border-radius: 8px; border: 2px solid var(--border);">
+                    <div style="margin-top: 15px;">
+                        <button class="btn btn-success" onclick="downloadGIF()">Download GIF</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div id="progress" style="display: none; background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border); text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 10px;">?</div>
+                <div id="progressText" style="font-size: 1rem; color: var(--gray); margin-bottom: 10px;">Creating GIF...</div>
+                <div style="background: var(--dark); border-radius: 8px; height: 8px; overflow: hidden;">
+                    <div id="progressBar" style="background: var(--primary); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+<style>
+.frame-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background: var(--dark);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: move;
+        }
+        .frame-item:hover {
+            background: rgba(249, 115, 22, 0.1);
+        }
+        .frame-preview {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+</style>
+
+
+<script src="/js/gif-maker.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>GIF Maker - Create Animated GIFs from Images</h2>
+    <p>The GIF Maker lets you create animated GIFs from a series of images directly in your browser. Upload your frames, arrange them in the desired order, set the delay and transition effects, and export a looping animated GIF — no software installation required and no images uploaded to any server.</p>
+
+    <h3>What Is GIF Maker?</h3>
+    <p>The GIF Maker is a browser-based animation tool that takes a sequence of still images and combines them into an animated GIF. You upload multiple image files, which become the individual frames of your animation. The tool displays them in a reorderable list so you can drag frames into the exact sequence you want before generating the final animation.</p>
+    <p>GIF (Graphics Interchange Format) is an image format that supports animation by storing multiple frames in a single file. Each frame is displayed for a set duration before advancing to the next, creating the illusion of motion. GIFs loop continuously by default and are universally supported across all platforms, messaging apps, social media, email clients, and web browsers — no video player or codec is required to view them.</p>
+    <p>This tool goes beyond basic frame sequencing by offering transition effects between frames. You can choose from instant cuts, cross-fades, slide transitions in four directions, and zoom effects. A reverse loop option plays the animation forward then backward for a seamless ping-pong effect, and a bounce easing option adds smooth acceleration and deceleration to transitions for a more polished result.</p>
+
+    <h3>GIF Creation Options</h3>
+    <ul>
+        <li>Multi-image upload with drag-and-drop reordering of frames, so you can arrange your sequence in any order before generating the animation.</li>
+        <li>Configurable frame delay in milliseconds, letting you control the speed of the animation from fast (50ms) to slow (5000ms) per frame.</li>
+        <li>Eight transition effects: None (instant cut), Fade, Slide Left, Slide Right, Slide Up, Slide Down, Zoom In, and Zoom Out.</li>
+        <li>Configurable transition duration separate from frame delay, giving you independent control over how long each transition takes.</li>
+        <li>Reverse loop option that plays the animation forward then backward for a seamless ping-pong effect without needing duplicate frames.</li>
+        <li>Bounce easing option that applies ease-in/ease-out timing to transitions for smoother, more natural-looking motion.</li>
+    </ul>
+
+    <h3>How to Use GIF Maker</h3>
+    <p>Creating an animated GIF from your images takes just a few steps and produces a preview you can review before downloading.</p>
+    <ul>
+        <li>Step 1: Click "Select Images" and choose two or more image files from your device — PNG, JPG, and other common formats are supported.</li>
+        <li>Step 2: Review the frame list and drag frames to reorder them if needed to get the sequence right.</li>
+        <li>Step 3: Configure the GIF settings: set the frame delay, choose a transition effect and duration, and set the maximum width.</li>
+        <li>Step 4: Enable optional effects like Loop, Reverse Loop, or Bounce as desired for your animation style.</li>
+        <li>Step 5: Click "Create GIF" to generate the animation, preview it in the preview panel, and click "Download GIF" to save it.</li>
+    </ul>
+
+    <h3>When to Create Animated GIFs</h3>
+    <p>Animated GIFs are used across a wide range of contexts where short, looping animations are needed without the complexity of video.</p>
+    <ul>
+        <li>Social media content: Create eye-catching animated posts for Twitter, Reddit, and other platforms that support GIF playback natively in the feed.</li>
+        <li>Product demonstrations: Show a product from multiple angles or demonstrate a feature step-by-step in a compact, auto-playing format.</li>
+        <li>Tutorial animations: Illustrate a process or workflow with a sequence of screenshots that animate through the steps automatically.</li>
+        <li>Reaction images: Create custom reaction GIFs from a series of photos for use in messaging apps and online communities.</li>
+        <li>Loading spinners and UI animations: Create simple looping animations for use as loading indicators or decorative elements in web interfaces.</li>
+    </ul>
+
+    <h3>Making High-Quality GIFs</h3>
+    <p>The most important factor for GIF quality is keeping the image dimensions small. GIF files grow quickly with size — a 500px wide GIF can be several times larger than a 250px wide version of the same animation. Resize your source images to the smallest dimensions that still look good before uploading them. The Max Width setting in the tool lets you cap the output size without needing to pre-resize your images.</p>
+    <p>GIF supports a maximum of 256 colors per frame, which means photographic images with smooth gradients and many colors will look noticeably degraded in GIF format. GIF works best for images with flat colors, simple graphics, illustrations, and screenshots with limited color palettes. For photographic content, consider using WebP animations or short MP4 videos instead, which offer dramatically better quality at smaller file sizes.</p>
+    <p>Frame count and frame delay have a direct tradeoff with file size and smoothness. More frames at shorter delays produce smoother animation but larger files. For most purposes, 10-15 frames per second (100-67ms delay) strikes a good balance. For simple animations with clear distinct states, fewer frames with longer delays can be just as effective and produce much smaller files.</p>
+
+    
+
+    <h3>Images Processed Locally in Browser</h3>
+    <p>GIF encoding runs entirely in your browser. Your images are never uploaded.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What image formats can I use to create a GIF?</button>
+                    <div class="faq-answer"><p>You can upload PNG, JPG, and WebP images as frames. For best results, use images of the same dimensions. The tool will resize mismatched frames to match the first frame's dimensions.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I control the animation speed?</button>
+                    <div class="faq-answer"><p>Set the delay between frames in milliseconds. 100ms per frame = 10 frames per second. 50ms = 20fps (smoother). 200ms = 5fps (slower, more like a slideshow). Lower delay = faster animation.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why is my GIF file so large?</button>
+                    <div class="faq-answer"><p>GIFs use a limited 256-color palette and lossless compression, which makes them large for photographic content. For smaller files, reduce the number of frames, lower the resolution, or reduce the number of colors. GIFs work best for simple graphics and short animations with limited colors.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I create a GIF from a video?</button>
+                    <div class="faq-answer"><p>This tool creates GIFs from image frames. To convert a video to GIF, use the Video Thumbnail Generator to extract frames first, then assemble them here. For direct video-to-GIF conversion, a dedicated tool or FFmpeg is more efficient.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the maximum number of frames I can use?</button>
+                    <div class="faq-answer"><p>There is no hard limit, but more frames mean larger file sizes and slower processing in the browser. For smooth animations, 15-30 frames is typical. Very long GIFs (100+ frames) may be slow to generate and result in very large files.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../meme-generator/" class="related-tool-link">Meme Generator</a>
+                    <a href="../image-compressor/" class="related-tool-link">Image Compressor</a>
+                    <a href="../image-resizer/" class="related-tool-link">Image Resizer</a>
+                    <a href="../video-thumbnail-generator/" class="related-tool-link">Video Thumbnail Generator</a>
+                    <a href="../image-format-converter/" class="related-tool-link">Image Format Converter</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

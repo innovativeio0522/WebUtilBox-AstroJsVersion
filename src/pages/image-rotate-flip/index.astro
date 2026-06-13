@@ -1,0 +1,118 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/image-rotate-flip/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Image Rotate & Flip - Rotate and Flip Images Online | Webutilbox","url":"https://webutilbox.com/image-rotate-flip/","description":"Rotate and flip images online for free. Rotate 90°, 180°, 270° or flip horizontally and vertically. Works offline.","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I rotate by any angle or only 90-degree increments?","acceptedAnswer":{"@type":"Answer","text":"The tool supports both 90-degree increments (90, 180, 270) for lossless rotation and arbitrary angle rotation (any degree). Arbitrary rotation may add a background color to fill the corners that appear after rotation."}},{"@type":"Question","name":"What is the difference between rotate and flip?","acceptedAnswer":{"@type":"Answer","text":"Rotate turns the image clockwise or counterclockwise. Flip mirrors the image horizontally (left-right) or vertically (top-bottom). Flipping is useful for correcting mirrored selfies or creating symmetrical compositions."}},{"@type":"Question","name":"Does rotating a JPEG reduce quality?","acceptedAnswer":{"@type":"Answer","text":"Rotating by 90, 180, or 270 degrees can be done losslessly for JPEG if the dimensions are multiples of 8 or 16 (the JPEG block size). Arbitrary angle rotation requires re-encoding and will reduce quality slightly. PNG rotation is always lossless."}},{"@type":"Question","name":"Why is my photo showing sideways?","acceptedAnswer":{"@type":"Answer","text":"Cameras embed orientation information in EXIF data. Some apps respect this and display the photo correctly; others show the raw pixel data which may be rotated. Use this tool to physically rotate the pixels to match the intended orientation, then the photo will display correctly everywhere."}},{"@type":"Question","name":"Can I flip a video?","acceptedAnswer":{"@type":"Answer","text":"This tool works with images only. For video flipping and rotation, use a video editor or FFmpeg."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Image Rotate & Flip","item":"https://webutilbox.com/image-rotate-flip/"}]}]};
+---
+
+<ToolLayout
+  title="Image Rotate & Flip Online | Webutilbox"
+  description="Rotate and flip images online. Rotate by any angle, flip horizontally or vertically, and download instantly. Free browser-based image rotation tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-image-tools.svg"
+  keywords="rotate image, flip image, image rotation, mirror image"
+  h1="🔄 Image Rotate & Flip"
+  subtitle="Rotate images by 90°, 180°, 270° or flip horizontally and vertically."
+  lastUpdated=""
+  shareText="Free%20online%20Image%20Rotate%20%26%20Flip%20Online%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Image Rotate & Flip Online -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+
+
+
+<script src="/js/image-rotate-flip.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Image Rotate &amp; Flip - Rotate and Mirror Images Online</h2>
+    <p>The Image Rotate &amp; Flip tool lets you rotate images by 90°, 180°, or 270° and flip them horizontally or vertically — all directly in your browser. Fix incorrectly oriented photos, create mirror effects, and adjust image orientation in seconds with no software required.</p>
+
+    <h3>What Is the Image Rotate &amp; Flip Tool?</h3>
+    <p>This tool is a browser-based image transformation utility that applies geometric transformations to images using the HTML5 Canvas API. It supports four rotation angles (90° clockwise, 180°, 90° counter-clockwise, and any combination thereof) as well as horizontal and vertical flipping. All transformations are applied to the full-resolution image, and the output is downloaded as a PNG file that preserves the exact pixel dimensions of the transformed result.</p>
+    <p>The tool maintains a running state of all applied transformations, so you can chain multiple operations together. For example, you can rotate 90° clockwise and then flip horizontally to achieve a specific orientation that is not directly available as a single operation. The current transformation state is displayed in the panel so you always know exactly what has been applied to the image. A reset button lets you return to the original orientation at any time.</p>
+    <p>One of the most common uses for this tool is fixing the orientation of photos taken with a smartphone or camera that was held at an angle. Many devices embed orientation information in the EXIF metadata rather than physically rotating the image data, which means the image may appear correctly in some applications but sideways or upside down in others. Using this tool to physically rotate the image data resolves this inconsistency permanently, ensuring the image displays correctly in every application and platform.</p>
+
+    <h3>Rotation and Flip Options</h3>
+    <ul>
+        <li>Rotate 90° clockwise, 90° counter-clockwise, or 180° with dedicated buttons — each click applies the rotation incrementally, so you can chain rotations to reach any angle.</li>
+        <li>Flip horizontally to create a mirror image along the vertical axis, making the left side become the right side and vice versa.</li>
+        <li>Flip vertically to invert the image along the horizontal axis, making the top become the bottom — useful for creating upside-down effects or correcting inverted images.</li>
+        <li>Transformation state display — the current rotation angle and flip status are shown in real time so you always know exactly what transformations have been applied.</li>
+        <li>Reset button — return the image to its original orientation instantly with a single click, without needing to re-upload the file.</li>
+        <li>Full-resolution output — the downloaded image is processed at the original dimensions, not the scaled preview size, ensuring maximum quality in the final file.</li>
+    </ul>
+
+    <h3>How to Use the Image Rotate &amp; Flip Tool</h3>
+    <p>Rotating and flipping images is quick and intuitive — follow these steps to transform your image.</p>
+    <ul>
+        <li>Step 1: Upload your image by clicking the upload area or dragging and dropping a file. Supported formats include JPG, PNG, and WebP.</li>
+        <li>Step 2: The image appears in the preview canvas on the left. Use the rotation buttons on the right to rotate the image 90° clockwise, 90° counter-clockwise, or 180°.</li>
+        <li>Step 3: Use the flip buttons to mirror the image horizontally or vertically. You can combine rotations and flips to achieve any desired orientation.</li>
+        <li>Step 4: Check the "Current Transformations" panel to see the exact rotation angle and flip status that have been applied to the image.</li>
+        <li>Step 5: Click "Download" to save the transformed image as a PNG file at the original resolution, or click "Reset" to return to the original orientation and start over.</li>
+    </ul>
+
+    <h3>When to Rotate or Flip Images</h3>
+    <ul>
+        <li>Photo orientation correction — fix photos taken with the camera held sideways or upside down, which often appear rotated when viewed on a computer or uploaded to a website.</li>
+        <li>EXIF orientation normalization — physically rotate images that have incorrect EXIF orientation data, ensuring they display correctly in all applications regardless of whether the software reads EXIF orientation tags.</li>
+        <li>Mirror effects for design — create symmetrical compositions by flipping an image horizontally, useful for creating mirror-image pairs, symmetrical patterns, or reflected effects in graphic design.</li>
+        <li>Scanning correction — fix the orientation of scanned documents, photos, or artwork that were placed on the scanner at an angle or upside down.</li>
+        <li>Social media and content creation — adjust image orientation to match the required format for different platforms, such as rotating a landscape photo to portrait orientation for Instagram Stories.</li>
+    </ul>
+
+    <h3>Orienting Images Correctly</h3>
+    <p>For JPEG images, each rotation involves re-encoding the image data, which can introduce minor quality loss due to the lossy nature of JPEG compression. To minimize quality loss, apply all your rotations in a single session rather than rotating, downloading, and rotating again. If quality preservation is critical, consider converting your JPEG to PNG first using the Image Format Converter, then rotating the PNG (which is lossless), and converting back to JPEG if needed.</p>
+    <p>When fixing the orientation of photos from a smartphone, be aware that the EXIF orientation tag may cause the image to appear correctly in some viewers even before you rotate it. After rotating and downloading, verify that the image displays correctly in multiple applications — a web browser, an image viewer, and your target platform — to confirm the orientation is correct everywhere.</p>
+    <p>The horizontal flip operation is particularly useful for creating mirror-image versions of logos, text, or directional graphics. However, be careful when flipping images that contain text or numbers, as these will appear reversed and unreadable after a horizontal flip. Always preview the result carefully before downloading to ensure the flipped image looks as intended.</p>
+
+    
+
+    <h3>Transformations Happen in Browser</h3>
+    <p>Rotation and flipping run locally via Canvas. Your images stay on your device.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I rotate by any angle or only 90-degree increments?</button>
+                    <div class="faq-answer"><p>The tool supports both 90-degree increments (90, 180, 270) for lossless rotation and arbitrary angle rotation (any degree). Arbitrary rotation may add a background color to fill the corners that appear after rotation.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between rotate and flip?</button>
+                    <div class="faq-answer"><p>Rotate turns the image clockwise or counterclockwise. Flip mirrors the image horizontally (left-right) or vertically (top-bottom). Flipping is useful for correcting mirrored selfies or creating symmetrical compositions.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does rotating a JPEG reduce quality?</button>
+                    <div class="faq-answer"><p>Rotating by 90, 180, or 270 degrees can be done losslessly for JPEG if the dimensions are multiples of 8 or 16 (the JPEG block size). Arbitrary angle rotation requires re-encoding and will reduce quality slightly. PNG rotation is always lossless.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why is my photo showing sideways?</button>
+                    <div class="faq-answer"><p>Cameras embed orientation information in EXIF data. Some apps respect this and display the photo correctly; others show the raw pixel data which may be rotated. Use this tool to physically rotate the pixels to match the intended orientation, then the photo will display correctly everywhere.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I flip a video?</button>
+                    <div class="faq-answer"><p>This tool works with images only. For video flipping and rotation, use a video editor or FFmpeg.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../image-cropper/" class="related-tool-link">Image Cropper</a>
+                    <a href="../image-resizer/" class="related-tool-link">Image Resizer</a>
+                    <a href="../image-filters/" class="related-tool-link">Image Filters</a>
+                    <a href="../image-compressor/" class="related-tool-link">Image Compressor</a>
+                    <a href="../image-watermark/" class="related-tool-link">Image Watermark</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

@@ -1,0 +1,202 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import FAQ from '../../components/FAQ.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+
+const canonical = 'https://webutilbox.com/uuid-generator/';
+
+const jsonLd = {
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebApplication",
+      "name":"UUID Generator - Generate Random UUIDs Online Free | Webutilbox",
+      "url":"https://webutilbox.com/uuid-generator/",
+      "description":"Generate random UUID v4 identifiers instantly. Bulk generate multiple UUIDs. Free tool for devs.",
+      "applicationCategory":"UtilitiesApplication",
+      "operatingSystem":"Web Browser",
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+      "creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {
+          "@type":"Question",
+          "name":"What is a UUID and what is it used for?",
+          "acceptedAnswer":{"@type":"Answer","text":"A UUID (Universally Unique Identifier) is a 128-bit identifier formatted as 8-4-4-4-12 hexadecimal characters (e.g., 550e8400-e29b-41d4-a716-446655440000). UUIDs are used as unique keys in databases, session tokens, file names, and anywhere a globally unique identifier is needed without a central authority."}
+        },
+        {
+          "@type":"Question",
+          "name":"What is the difference between UUID v1 and UUID v4?",
+          "acceptedAnswer":{"@type":"Answer","text":"UUID v1 is generated from the current timestamp and the machine's MAC address, making it time-sortable but potentially revealing device information. UUID v4 is randomly generated, making it more private and suitable for most use cases. UUID v4 is the most widely used version."}
+        },
+        {
+          "@type":"Question",
+          "name":"Can two UUIDs ever be the same?",
+          "acceptedAnswer":{"@type":"Answer","text":"Theoretically yes, but practically no. UUID v4 has 122 random bits, giving 5.3 x 10^36 possible values. The probability of generating a duplicate is astronomically small — you would need to generate billions of UUIDs per second for billions of years to have a reasonable chance of collision."}
+        },
+        {
+          "@type":"Question",
+          "name":"Should I use UUID or auto-increment IDs in my database?",
+          "acceptedAnswer":{"@type":"Answer","text":"Auto-increment IDs are simpler and more compact but expose record counts and are hard to use across distributed systems. UUIDs work across multiple databases and services without coordination, but are larger (16 bytes vs 4-8 bytes) and can hurt index performance. UUID v7 (time-ordered) is a good middle ground."}
+        },
+        {
+          "@type":"Question",
+          "name":"What is a ULID and how does it differ from UUID?",
+          "acceptedAnswer":{"@type":"Answer","text":"A ULID (Universally Unique Lexicographically Sortable Identifier) is similar to UUID but designed to be sortable by creation time. It is 26 characters in base32 encoding. ULIDs are useful when you need unique IDs that also sort chronologically, like database primary keys."}
+        }
+      ]
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},
+        {"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/tools/"},
+        {"@type":"ListItem","position":3,"name":"UUID Generator","item":"https://webutilbox.com/uuid-generator/"}
+      ]
+    }
+  ]
+};
+
+const faqItems = [
+  { question: "What is a UUID and what is it used for?", answer: "A UUID (Universally Unique Identifier) is a 128-bit identifier formatted as 8-4-4-4-12 hexadecimal characters (e.g., 550e8400-e29b-41d4-a716-446655440000). UUIDs are used as unique keys in databases, session tokens, file names, and anywhere a globally unique identifier is needed without a central authority." },
+  { question: "What is the difference between UUID v1 and UUID v4?", answer: "UUID v1 is generated from the current timestamp and the machine's MAC address, making it time-sortable but potentially revealing device information. UUID v4 is randomly generated, making it more private and suitable for most use cases. UUID v4 is the most widely used version." },
+  { question: "Can two UUIDs ever be the same?", answer: "Theoretically yes, but practically no. UUID v4 has 122 random bits, giving 5.3 x 10^36 possible values. The probability of generating a duplicate is astronomically small — you would need to generate billions of UUIDs per second for billions of years to have a reasonable chance of collision." },
+  { question: "Should I use UUID or auto-increment IDs in my database?", answer: "Auto-increment IDs are simpler and more compact but expose record counts and are hard to use across distributed systems. UUIDs work across multiple databases and services without coordination, but are larger (16 bytes vs 4-8 bytes) and can hurt index performance. UUID v7 (time-ordered) is a good middle ground." },
+  { question: "What is a ULID and how does it differ from UUID?", answer: "A ULID (Universally Unique Lexicographically Sortable Identifier) is similar to UUID but designed to be sortable by creation time. It is 26 characters in base32 encoding. ULIDs are useful when you need unique IDs that also sort chronologically, like database primary keys." }
+];
+
+const relatedTools = [
+  { href: "/random-string-generator/", label: "Random String Generator" },
+  { href: "/password-generator/", label: "Password Generator" },
+  { href: "/sha256-generator/", label: "SHA-256 Generator" },
+  { href: "/base64-encoder/", label: "Base64 Encoder" },
+  { href: "/jwt-decoder/", label: "JWT Decoder" }
+];
+---
+
+<ToolLayout
+  title="UUID Generator - Random UUIDs Online | Webutilbox"
+  description="Generate UUID v1, v4, and v5 unique identifiers instantly. Generate bulk UUIDs and copy to clipboard. Free online UUID generator tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="uuid generator, guid generator, random uuid, uuid v4 generator, generate uuid online free"
+  h1="🔑 UUID Generator"
+  subtitle="Generate random UUIDs (Universally Unique Identifiers) for databases, APIs, and applications."
+  lastUpdated=""
+  shareText="Free%20online%20UUID%20Generator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="UUID Generator - Random UUIDs Online -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+  <div class="workspace">
+    <div class="uuid-grid">
+      <!-- Left: Generated UUIDs -->
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <label style="font-size: 0.9rem; margin: 0;">Generated UUIDs</label>
+          <div class="uuid-header-actions">
+            <button class="btn btn-success" onclick="copyAll()" style="padding: 6px 16px; font-size: 0.85rem;">Copy All</button>
+            <button class="btn btn-secondary" onclick="clearAll()" style="padding: 6px 16px; font-size: 0.85rem;">Clear</button>
+          </div>
+        </div>
+        <div id="uuidList" style="background: var(--input-bg); border: 2px solid var(--border); border-radius: 10px; padding: 15px; min-height: 300px; max-height: 400px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+          <div style="color: var(--gray); text-align: center; padding: 50px 20px;">Click "Generate" to create UUIDs...</div>
+        </div>
+      </div>
+      
+      <!-- Right: Options -->
+      <div>
+        <div style="display: grid; gap: 10px;">
+          <div style="background: var(--light); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+            <label style="font-size: 0.85rem; margin-bottom: 8px; display: block;">Number of UUIDs:</label>
+            <input type="number" id="uuidCount" value="1" min="1" max="100" style="width: 100%; padding: 8px; font-size: 0.9rem;">
+          </div>
+          
+          <div style="background: var(--light); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+            <label style="font-size: 0.85rem; margin-bottom: 8px; display: block;">Format:</label>
+            <select id="uuidFormat" style="width: 100%; padding: 8px; font-size: 0.85rem;">
+              <option value="standard">Standard (with hyphens)</option>
+              <option value="compact">Compact (no hyphens)</option>
+              <option value="uppercase">Uppercase</option>
+              <option value="braces">With Braces</option>
+            </select>
+          </div>
+          
+          <button class="btn btn-primary" onclick="generateUUIDs()" style="width: 100%; padding: 12px; font-size: 0.95rem;">Generate</button>
+          
+          <div style="background: var(--light); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+            <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 5px;">Total Generated:</div>
+            <div style="font-size: 1.8rem; font-weight: bold; color: var(--primary);" id="totalCount">0</div>
+          </div>
+          
+          <div style="background: var(--light); padding: 10px; border-radius: 8px; border: 1px solid var(--border);">
+            <div style="font-size: 0.8rem; color: var(--gray); line-height: 1.4;">
+              Tip: Click any UUID to copy it individually.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <Fragment slot="scripts" set:html={`<script src="/js/uuid-generator.js" defer></script>`} />
+
+  <div class="info-section" slot="info">
+    <h2>UUID Generator - Generate Random UUIDs and GUIDs Online</h2>
+    <p>The UUID Generator is a free, browser-based tool that creates random Version 4 UUIDs (Universally Unique Identifiers) instantly. Generate one UUID or hundreds at a time, choose from multiple output formats, and copy individual UUIDs or the entire batch with a single click. No installation, no account, and no server calls — everything runs locally in your browser.</p>
+
+    <h3>What Is a UUID?</h3>
+    <p>A UUID (Universally Unique Identifier), also known as a GUID (Globally Unique Identifier) in Microsoft contexts, is a 128-bit number used to uniquely identify information in computer systems. The standard format is a 32-character hexadecimal string divided into five groups by hyphens: 8-4-4-4-12 characters (e.g., 550e8400-e29b-41d4-a716-446655440000). UUIDs are standardized by RFC 4122 and are widely used across virtually every programming language, database system, and platform.</p>
+    <p>Version 4 UUIDs, which this tool generates, are created using random or pseudo-random numbers. The probability of generating two identical Version 4 UUIDs is astronomically low — approximately 1 in 2^122, or about 1 in 5.3 undecillion. For all practical purposes, every UUID you generate is guaranteed to be unique, even without any central coordination or registry.</p>
+    <p>UUIDs are preferred over sequential integer IDs in many scenarios because they can be generated independently on any device or system without risk of collision. This makes them ideal for distributed systems, microservices, offline-first applications, and any situation where multiple sources need to create unique identifiers without coordinating with each other.</p>
+
+    <h3>UUID Format Options</h3>
+    <ul>
+      <li>Generates cryptographically random Version 4 UUIDs using the browser's Math.random() function</li>
+      <li>Bulk generation of 1 to 100 UUIDs at once with a single click</li>
+      <li>Four output formats: Standard (with hyphens), Compact (no hyphens), Uppercase, and With Braces</li>
+      <li>Click any individual UUID in the list to copy it to your clipboard instantly</li>
+      <li>Copy All button to copy the entire generated list as newline-separated text</li>
+      <li>Running total counter showing how many UUIDs have been generated in the current session</li>
+      <li>Scrollable output panel that accumulates UUIDs across multiple generation runs</li>
+    </ul>
+
+    <h3>How to Use the UUID Generator</h3>
+    <ul>
+      <li>Step 1: Set the number of UUIDs to generate using the "Number of UUIDs" input (1 to 100)</li>
+      <li>Step 2: Choose an output format from the dropdown — Standard, Compact, Uppercase, or With Braces</li>
+      <li>Step 3: Click "Generate" to produce the UUIDs</li>
+      <li>Step 4: Click any UUID in the list to copy it individually to your clipboard</li>
+      <li>Step 5: Click "Copy All" to copy the entire list as newline-separated text</li>
+      <li>Step 6: Click "Clear" to reset the list and start fresh</li>
+    </ul>
+
+    <h3>When to Use UUID Identifiers</h3>
+    <ul>
+      <li>Generating primary keys for database records in PostgreSQL, MySQL, MongoDB, or other systems that support UUID columns</li>
+      <li>Creating unique identifiers for API resources, entities, or objects in a REST or GraphQL API</li>
+      <li>Generating session tokens, request correlation IDs, or trace IDs for distributed system logging</li>
+      <li>Creating unique file names for uploaded assets to prevent naming conflicts in storage systems</li>
+      <li>Populating test data or seed scripts with realistic-looking unique identifiers</li>
+      <li>Generating idempotency keys for payment processing or message queue systems</li>
+      <li>Creating unique identifiers for events, transactions, or audit log entries</li>
+    </ul>
+
+    <h3>Working with UUIDs in Applications</h3>
+    <p>Choose your UUID format based on where you will use it. The standard hyphenated format (xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx) is the most widely recognized and is accepted by virtually all systems that support UUIDs. The compact format (no hyphens) is useful when you need to store the UUID in a fixed-length string field or when the hyphens would cause parsing issues. The uppercase format is sometimes required by older systems or specific APIs.</p>
+    <p>When using UUIDs as database primary keys, consider the performance implications. Random UUIDs do not sort in insertion order, which can cause index fragmentation in B-tree indexes on some databases. If insert performance is critical, consider using UUID v7 (time-ordered) or a ULID instead. For most applications, however, UUID v4 performance is perfectly acceptable.</p>
+    <p>The braces format is the standard representation in Microsoft environments, including .NET, COM, and Windows Registry entries. Use this format when working with Windows APIs, COM components, or .NET applications that expect GUIDs in this notation.</p>
+
+
+    <h3>UUIDs Generated Locally — Never Tracked</h3>
+    <p>UUIDs are generated using crypto.randomUUID(). Nothing is sent anywhere.</p>
+
+    <FAQ items={faqItems} />
+    <RelatedTools tools={relatedTools} />
+  </div>
+</ToolLayout>

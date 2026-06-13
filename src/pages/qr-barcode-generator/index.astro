@@ -1,0 +1,98 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/qr-barcode-generator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"QR Code & Barcode Generator - Free Online Tool | Webutilbox","url":"https://webutilbox.com/qr-barcode-generator/","description":"Generate QR codes and barcodes online. Create QR codes for URLs, text, WiFi. Works offline.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What types of data can I encode in a QR code?","acceptedAnswer":{"@type":"Answer","text":"QR codes can encode URLs, plain text, email addresses (mailto:), phone numbers (tel:), SMS messages, Wi-Fi credentials, vCard contacts, and more. For URLs, keep them short or use a URL shortener to keep the QR code less dense and easier to scan."}},{"@type":"Question","name":"What is the difference between QR codes and barcodes?","acceptedAnswer":{"@type":"Answer","text":"Barcodes (1D) store data in horizontal lines and can only hold a small amount of numeric or alphanumeric data — typically used for product SKUs. QR codes (2D) store data in a grid pattern and can hold much more data including URLs and full text. QR codes are also scannable from any angle."}},{"@type":"Question","name":"What error correction level should I choose?","acceptedAnswer":{"@type":"Answer","text":"Higher error correction (H = 30%) makes the QR code scannable even if up to 30% of it is damaged or obscured — useful if you are printing on textured surfaces or adding a logo in the center. Lower levels (L = 7%) produce a less dense, easier-to-scan code for clean digital displays."}},{"@type":"Question","name":"Why won't my QR code scan?","acceptedAnswer":{"@type":"Answer","text":"Common causes: the QR code is too small (minimum ~2cm for print), low contrast between the code and background, too much data making the code too dense, or a damaged/pixelated image. Try increasing the size, ensuring high contrast, or shortening the URL."}},{"@type":"Question","name":"Can I add a logo to the center of a QR code?","acceptedAnswer":{"@type":"Answer","text":"This tool generates clean QR codes. To add a logo, download the QR code image and use an image editor to overlay your logo in the center. Use error correction level H (30%) so the code remains scannable even with the logo covering part of it."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"QR Code & Barcode Generator","item":"https://webutilbox.com/qr-barcode-generator/"}]}]};
+---
+
+<ToolLayout
+  title="QR Code & Barcode Generator - Free Online Tool | Webutilbox"
+  description="Generate QR codes and barcodes for URLs, text, emails, and more. Customize size and colors, then download as PNG. Free online QR code generator."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-generators.svg"
+  keywords="qr code generator, barcode generator, qr maker, barcode maker, free qr code"
+  h1="📱 QR Code & Barcode Generator"
+  subtitle="Generate QR codes and barcodes for URLs, text, products, and more."
+  lastUpdated=""
+  shareText="Free%20online%20QR%20Code%20%26%20Barcode%20Generator%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="QR Code & Barcode Generator - Free Online Tool -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+
+
+
+<script src="/js/qr-barcode-generator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>QR Code &amp; Barcode Generator</h2>
+
+    <p>QR codes went from niche technology to ubiquitous infrastructure during 2020-2021, when contactless menus, check-ins, and payments became standard. Today they're on business cards, product packaging, event tickets, restaurant tables, and billboard ads. This tool generates both QR codes and 1D barcodes, ready to download and use immediately.</p>
+
+    <h3>What to encode in a QR code</h3>
+    <p>QR codes can encode any text, but certain formats trigger automatic actions in phone cameras:</p>
+    <ul>
+        <li><strong>URL:</strong> <code>https://example.com</code> — opens in browser automatically</li>
+        <li><strong>Email:</strong> <code>mailto:name@example.com?subject=Hello</code> — opens email app</li>
+        <li><strong>Phone:</strong> <code>tel:+15551234567</code> — prompts to call</li>
+        <li><strong>SMS:</strong> <code>smsto:+15551234567:Your message here</code> — opens SMS app</li>
+        <li><strong>Wi-Fi:</strong> <code>WIFI:T:WPA;S:NetworkName;P:Password;;</code> — connects to Wi-Fi</li>
+        <li><strong>vCard contact:</strong> structured format that adds a contact to the phone's address book</li>
+        <li><strong>Plain text:</strong> displayed as-is, no automatic action</li>
+    </ul>
+
+    <h3>QR code vs barcode — which to use</h3>
+    <p>1D barcodes (Code 128, EAN-13, UPC-A) store data in a series of parallel lines. They can hold a limited amount of numeric or alphanumeric data — typically 20-80 characters. They're the standard for retail product identification (UPC codes on packaging) and are read by laser scanners at checkout.</p>
+    <p>QR codes (2D) store data in a grid of black and white squares. They can hold up to 4,296 alphanumeric characters or 7,089 numeric characters. They're readable by any smartphone camera. Use QR codes for URLs, contact info, and anything requiring more than a short numeric string. Use 1D barcodes for retail products, inventory systems, and anywhere a laser scanner is used.</p>
+
+    <h3>Error correction and print size</h3>
+    <p>QR codes have built-in error correction that allows them to be scanned even when partially damaged or obscured. Four levels: L (7% recovery), M (15%), Q (25%), H (30%). Higher error correction makes the code denser (more squares) but more resilient. Use H if you're printing on textured surfaces, adding a logo overlay, or expect physical wear.</p>
+    <p>For print, the minimum recommended size is 2cm × 2cm (about 0.8 inches). Smaller than this and many phone cameras struggle to focus. For billboard or large-format printing, size up proportionally — a QR code on a billboard needs to be readable from the distance people will be standing.</p>
+
+    <h3>Codes Generated Locally in Browser</h3>
+    <p>QR codes and barcodes are generated entirely in your browser. No data is sent to any server. The generated images can be downloaded directly.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What types of data can I encode in a QR code?</button>
+                    <div class="faq-answer"><p>QR codes can encode URLs, plain text, email addresses (mailto:), phone numbers (tel:), SMS messages, Wi-Fi credentials, vCard contacts, and more. For URLs, keep them short or use a URL shortener to keep the QR code less dense and easier to scan.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between QR codes and barcodes?</button>
+                    <div class="faq-answer"><p>Barcodes (1D) store data in horizontal lines and can only hold a small amount of numeric or alphanumeric data — typically used for product SKUs. QR codes (2D) store data in a grid pattern and can hold much more data including URLs and full text. QR codes are also scannable from any angle.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What error correction level should I choose?</button>
+                    <div class="faq-answer"><p>Higher error correction (H = 30%) makes the QR code scannable even if up to 30% of it is damaged or obscured — useful if you are printing on textured surfaces or adding a logo in the center. Lower levels (L = 7%) produce a less dense, easier-to-scan code for clean digital displays.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Why won't my QR code scan?</button>
+                    <div class="faq-answer"><p>Common causes: the QR code is too small (minimum ~2cm for print), low contrast between the code and background, too much data making the code too dense, or a damaged/pixelated image. Try increasing the size, ensuring high contrast, or shortening the URL.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I add a logo to the center of a QR code?</button>
+                    <div class="faq-answer"><p>This tool generates clean QR codes. To add a logo, download the QR code image and use an image editor to overlay your logo in the center. Use error correction level H (30%) so the code remains scannable even with the logo covering part of it.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../base64-encoder/" class="related-tool-link">Base64 Encoder</a>
+                    <a href="../url-parser/" class="related-tool-link">URL Parser</a>
+                    <a href="../image-compressor/" class="related-tool-link">Image Compressor</a>
+                    <a href="../favicon-generator/" class="related-tool-link">Favicon Generator</a>
+                    <a href="../meta-tag-generator/" class="related-tool-link">Meta Tag Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

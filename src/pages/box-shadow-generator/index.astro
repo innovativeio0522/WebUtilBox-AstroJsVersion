@@ -1,0 +1,209 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/box-shadow-generator/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"CSS Box Shadow Generator - Create Box Shadows Online | Webutilbox","url":"https://webutilbox.com/box-shadow-generator/","description":"Generate CSS box shadows with live preview. Customize offset, blur, spread, and color. Free tool.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What do the box-shadow values mean?","acceptedAnswer":{"@type":"Answer","text":"Box-shadow takes: horizontal offset (positive = right), vertical offset (positive = down), blur radius (higher = softer), spread radius (positive = larger shadow), and color. The optional 'inset' keyword makes the shadow appear inside the element instead of outside."}},{"@type":"Question","name":"Can I add multiple shadows to one element?","acceptedAnswer":{"@type":"Answer","text":"Yes. CSS allows multiple box-shadows separated by commas. This tool lets you add multiple shadow layers and combines them into a single CSS rule. Layering shadows creates depth effects and more realistic lighting."}},{"@type":"Question","name":"What is the difference between blur and spread?","acceptedAnswer":{"@type":"Answer","text":"Blur controls how soft/diffuse the shadow edges are. Spread expands or contracts the shadow size before blurring. A spread of 0 means the shadow is the same size as the element. Positive spread makes it larger; negative spread makes it smaller."}},{"@type":"Question","name":"How do I create a neumorphic (soft UI) shadow?","acceptedAnswer":{"@type":"Answer","text":"Neumorphism uses two shadows — one light (white or light color, negative offsets) and one dark (dark color, positive offsets). This creates the illusion that the element is raised from or pressed into the background. The background color of the element should match the page background."}},{"@type":"Question","name":"Does box-shadow affect layout?","acceptedAnswer":{"@type":"Answer","text":"No. Box-shadow is purely visual and does not affect the document flow or the element's size. It does not push other elements away. If you need spacing around an element, use margin or padding instead."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"CSS Box Shadow Generator","item":"https://webutilbox.com/box-shadow-generator/"}]}]};
+---
+
+<ToolLayout
+  title="CSS Box Shadow Generator | Webutilbox"
+  description="Create CSS box shadow effects with a visual editor. Adjust blur, spread, offset, and color. Preview live and copy the CSS code instantly."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-css-tools.svg"
+  keywords="box shadow generator, css box shadow, box shadow css generator, create box shadow"
+  h1="🌑 Box Shadow Generator"
+  subtitle="Create beautiful CSS box shadows with live preview. Customize and copy the CSS code."
+  lastUpdated=""
+  shareText="Free%20online%20CSS%20Box%20Shadow%20Generator%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="CSS Box Shadow Generator -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <!-- Left: Preview -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 10px; display: block;">Preview</label>
+                    <div style="background: var(--light); padding: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; min-height: 300px;">
+                        <div id="previewBox" style="width: 150px; height: 150px; background: var(--primary); border-radius: 8px;"></div>
+                    </div>
+                </div>
+
+                <!-- Right: Controls -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 10px; display: block;">Shadow Properties</label>
+                    
+                    <!-- Horizontal Offset -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.85rem;">Horizontal Offset</span>
+                            <span style="font-size: 0.85rem; color: var(--primary);" id="hOffsetVal">0px</span>
+                        </div>
+                        <input type="range" id="hOffset" min="-50" max="50" value="0" oninput="updateShadow()" style="width: 100%;">
+                    </div>
+
+                    <!-- Vertical Offset -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.85rem;">Vertical Offset</span>
+                            <span style="font-size: 0.85rem; color: var(--primary);" id="vOffsetVal">10px</span>
+                        </div>
+                        <input type="range" id="vOffset" min="-50" max="50" value="10" oninput="updateShadow()" style="width: 100%;">
+                    </div>
+
+                    <!-- Blur Radius -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.85rem;">Blur Radius</span>
+                            <span style="font-size: 0.85rem; color: var(--primary);" id="blurVal">20px</span>
+                        </div>
+                        <input type="range" id="blur" min="0" max="100" value="20" oninput="updateShadow()" style="width: 100%;">
+                    </div>
+
+                    <!-- Spread Radius -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.85rem;">Spread Radius</span>
+                            <span style="font-size: 0.85rem; color: var(--primary);" id="spreadVal">0px</span>
+                        </div>
+                        <input type="range" id="spread" min="-50" max="50" value="0" oninput="updateShadow()" style="width: 100%;">
+                    </div>
+
+                    <!-- Shadow Color -->
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-size: 0.85rem; margin-bottom: 5px; display: block;">Shadow Color</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="color" id="shadowColor" value="#000000" oninput="updateShadow()" style="width: 60px; height: 40px; cursor: pointer; border-radius: 6px;">
+                            <input type="text" id="shadowColorText" value="#000000" oninput="updateColorFromText()" style="flex: 1; padding: 8px; font-size: 0.9rem; font-family: 'Courier New', monospace;">
+                        </div>
+                    </div>
+
+                    <!-- Opacity -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.85rem;">Opacity</span>
+                            <span style="font-size: 0.85rem; color: var(--primary);" id="opacityVal">0.5</span>
+                        </div>
+                        <input type="range" id="opacity" min="0" max="1" step="0.01" value="0.5" oninput="updateShadow()" style="width: 100%;">
+                    </div>
+
+                    <!-- Inset -->
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="inset" onchange="updateShadow()">
+                            <span style="font-size: 0.85rem;">Inset Shadow</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS Output -->
+            <div class="output-container show" style="margin-top: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div class="output-label">CSS Code</div>
+                    <button class="btn btn-success" onclick="copyCss()" style="padding: 6px 16px; font-size: 0.85rem;">Copy CSS</button>
+                </div>
+                <pre id="cssCode" style="margin: 0; white-space: pre-wrap; font-size: 0.9rem; color: var(--white); font-family: 'Courier New', monospace; background: var(--input-bg); padding: 15px; border-radius: 8px;"></pre>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/box-shadow-generator.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>CSS Box Shadow Generator - Create Beautiful Box Shadows Online</h2>
+    <p>The CSS Box Shadow Generator lets you design and customize box shadows for HTML elements with a live visual preview that updates in real time. Adjust horizontal offset, vertical offset, blur radius, spread radius, color, and opacity, then copy the generated CSS code directly into your project. Create everything from subtle elevation shadows to dramatic glows and inset effects.</p>
+
+    <h3>What Is CSS Box Shadow?</h3>
+    <p>The CSS box-shadow property adds one or more shadow effects around an element's frame. Shadows are rendered outside the element's border by default, creating the illusion of depth and elevation. The property is one of the most powerful tools in a web designer's toolkit, enabling a wide range of visual effects from subtle material-design-style elevation to dramatic neon glows and pressed-button inset effects.</p>
+    <p>The box-shadow property accepts multiple shadow layers separated by commas, allowing you to stack shadows for more complex and realistic effects. For example, a realistic card shadow might combine a large, soft ambient shadow with a smaller, sharper directional shadow to simulate natural lighting. This layering technique is used extensively in design systems like Google's Material Design and Apple's Human Interface Guidelines.</p>
+    <p>The inset keyword changes the shadow from an outer shadow to an inner shadow, which appears inside the element's border. Inset shadows are commonly used to create the appearance of a pressed or recessed element, such as a clicked button or a sunken input field. They can also be used to create inner glow effects and decorative borders.</p>
+
+    <h3>Shadow Properties and Controls</h3>
+    <ul>
+        <li>Horizontal and vertical offset sliders ranging from -50px to +50px for precise shadow positioning.</li>
+        <li>Blur radius slider from 0 to 100px — zero creates a hard-edged shadow, higher values create soft, diffused shadows.</li>
+        <li>Spread radius slider from -50px to +50px — positive values expand the shadow, negative values shrink it.</li>
+        <li>Color picker with hex input for choosing any shadow color, including vibrant colors for glow effects.</li>
+        <li>Opacity slider from 0 to 1 for fine-grained control over shadow transparency using rgba values.</li>
+        <li>Inset toggle to switch between outer and inner shadow modes for different visual effects.</li>
+    </ul>
+
+    <h3>How to Use the Box Shadow Generator</h3>
+    <p>Creating a custom box shadow with this tool is straightforward and gives you immediate visual feedback.</p>
+    <ul>
+        <li>Step 1: Use the Horizontal Offset slider to position the shadow left or right. Positive values move the shadow to the right, negative values move it to the left. A value of 0 centers the shadow horizontally.</li>
+        <li>Step 2: Use the Vertical Offset slider to position the shadow up or down. Positive values move the shadow down (simulating light from above), negative values move it up.</li>
+        <li>Step 3: Adjust the Blur Radius to control the softness of the shadow. A blur of 0 creates a sharp, hard-edged shadow. Higher values create a softer, more diffused shadow that fades gradually.</li>
+        <li>Step 4: Use the Spread Radius to expand or contract the shadow. A positive spread makes the shadow larger than the element; a negative spread makes it smaller, which can create a tight, focused shadow effect.</li>
+        <li>Step 5: Choose a shadow color using the color picker and adjust the Opacity slider to set the transparency. Click "Copy CSS" to copy the generated code to your clipboard.</li>
+    </ul>
+
+    <h3>Using Box Shadows in Design</h3>
+    <p>Box shadows are used throughout modern web design to create depth, hierarchy, and visual interest.</p>
+    <ul>
+        <li>Card elevation — apply a soft, low-opacity shadow to card components to lift them off the background and create a sense of depth and layering in the UI.</li>
+        <li>Button depth — add a subtle shadow to buttons to make them appear three-dimensional and clickable, and use an inset shadow on the active state to simulate a pressed effect.</li>
+        <li>Modal and dropdown overlays — use a larger, more prominent shadow on modals, dropdowns, and tooltips to visually separate them from the content behind them.</li>
+        <li>Focus indicators — apply a colored box shadow to form inputs on focus to create a visible, accessible focus ring that highlights the active input field.</li>
+        <li>Glow effects — use a zero-offset, high-blur shadow with a vibrant color to create a neon glow effect around elements, popular in dark-themed and gaming interfaces.</li>
+        <li>Inset effects — use inset shadows on input fields, progress bars, and pressed buttons to create a recessed, sunken appearance that adds tactile depth to the UI.</li>
+    </ul>
+
+    <h3>Designing Effective Box Shadows</h3>
+    <p>For a natural-looking shadow that simulates real-world lighting, use a low opacity (0.1 to 0.3), a moderate blur radius (10 to 30px), and a slight downward vertical offset (5 to 15px). Dark gray or black shadows with low opacity look more realistic than pure black shadows at full opacity. This style is used in Material Design and most modern design systems for card and panel elevation.</p>
+    <p>When creating a layered shadow effect, combine two or more shadows in your CSS. A common technique is to use a small, sharp shadow for the close shadow (low blur, low offset) and a large, soft shadow for the ambient shadow (high blur, high offset, very low opacity). This combination creates a more realistic and visually rich depth effect than a single shadow alone.</p>
+    <p>For dark-themed interfaces, consider using colored shadows instead of black shadows. A shadow that matches the element's color at low opacity creates a subtle glow that looks more natural on dark backgrounds than a black shadow. For example, an orange button on a dark background looks better with an orange-tinted shadow than a black shadow.</p>
+
+    
+
+    <h3>CSS Generated in Your Browser</h3>
+    <p>All CSS generation happens in your browser. Nothing is sent to any server.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What do the box-shadow values mean?</button>
+                    <div class="faq-answer"><p>Box-shadow takes: horizontal offset (positive = right), vertical offset (positive = down), blur radius (higher = softer), spread radius (positive = larger shadow), and color. The optional 'inset' keyword makes the shadow appear inside the element instead of outside.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I add multiple shadows to one element?</button>
+                    <div class="faq-answer"><p>Yes. CSS allows multiple box-shadows separated by commas. This tool lets you add multiple shadow layers and combines them into a single CSS rule. Layering shadows creates depth effects and more realistic lighting.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between blur and spread?</button>
+                    <div class="faq-answer"><p>Blur controls how soft/diffuse the shadow edges are. Spread expands or contracts the shadow size before blurring. A spread of 0 means the shadow is the same size as the element. Positive spread makes it larger; negative spread makes it smaller.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I create a neumorphic (soft UI) shadow?</button>
+                    <div class="faq-answer"><p>Neumorphism uses two shadows — one light (white or light color, negative offsets) and one dark (dark color, positive offsets). This creates the illusion that the element is raised from or pressed into the background. The background color of the element should match the page background.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does box-shadow affect layout?</button>
+                    <div class="faq-answer"><p>No. Box-shadow is purely visual and does not affect the document flow or the element's size. It does not push other elements away. If you need spacing around an element, use margin or padding instead.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../border-radius-generator/" class="related-tool-link">Border Radius Generator</a>
+                    <a href="../css-gradient-generator/" class="related-tool-link">CSS Gradient Generator</a>
+                    <a href="../text-shadow-generator/" class="related-tool-link">Text Shadow Generator</a>
+                    <a href="../color-converter/" class="related-tool-link">Color Converter</a>
+                    <a href="../flexbox-generator/" class="related-tool-link">Flexbox Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

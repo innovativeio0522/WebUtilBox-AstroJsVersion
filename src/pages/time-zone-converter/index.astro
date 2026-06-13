@@ -1,0 +1,167 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/time-zone-converter/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Time Zone Converter - Convert Time Between Zones | Webutilbox","url":"https://webutilbox.com/time-zone-converter/","description":"Convert time between time zones worldwide. Perfect for remote work and international meetings.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I convert a time between two time zones?","acceptedAnswer":{"@type":"Answer","text":"Select the source time zone, enter the time, then select the target time zone. The converter instantly shows the equivalent time. You can add multiple time zones to compare them all at once."}},{"@type":"Question","name":"What is UTC and why is it used as a reference?","acceptedAnswer":{"@type":"Answer","text":"UTC (Coordinated Universal Time) is the primary time standard by which the world regulates clocks. It has no daylight saving time adjustments. All time zones are defined as offsets from UTC (e.g., EST is UTC-5, IST is UTC+5:30). Using UTC as a reference avoids ambiguity."}},{"@type":"Question","name":"How does daylight saving time affect conversions?","acceptedAnswer":{"@type":"Answer","text":"The converter accounts for daylight saving time (DST) automatically based on the selected date. A time zone like EST (UTC-5) becomes EDT (UTC-4) during summer. Always specify the date when converting times near DST transitions to get accurate results."}},{"@type":"Question","name":"What is the difference between GMT and UTC?","acceptedAnswer":{"@type":"Answer","text":"GMT (Greenwich Mean Time) and UTC are nearly identical for practical purposes. GMT is a time zone; UTC is a time standard. The difference is at most 0.9 seconds. In everyday use, they are interchangeable. UTC is preferred in technical contexts."}},{"@type":"Question","name":"How do I schedule a meeting across multiple time zones?","acceptedAnswer":{"@type":"Answer","text":"Enter the proposed meeting time in your local time zone and add all participants' time zones. The converter shows what time it will be for each person. Aim for times that fall within business hours (9 AM - 6 PM) for all participants when possible."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Time Zone Converter","item":"https://webutilbox.com/time-zone-converter/"}]}]};
+---
+
+<ToolLayout
+  title="Time Zone Converter | Webutilbox"
+  description="Convert times between any two time zones worldwide. Supports daylight saving time (DST) rules. Free online time zone converter and world clock."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-timers.svg"
+  keywords="time zone converter, timezone calculator, world clock, time difference, meeting time finder, UTC converter, GMT converter"
+  h1="🌍 Time Zone Converter"
+  subtitle="Convert time between different time zones. Perfect for remote work and international meetings."
+  lastUpdated=""
+  shareText="Free%20online%20Time%20Zone%20Converter%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Time Zone Converter -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="time-card">
+                <h3 style="color:var(--primary);margin-bottom:15px">Current Time</h3>
+                <div class="time-display" id="currentTime"></div>
+                <div style="text-align:center;color:var(--gray)" id="currentDate"></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px">
+                <div class="input-group">
+                    <label>From Time Zone</label>
+                    <select id="fromZone" onchange="convertTime()" style="width:100%;padding:10px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--white)"></select>
+                </div>
+                <div class="input-group">
+                    <label>To Time Zone</label>
+                    <select id="toZone" onchange="convertTime()" style="width:100%;padding:10px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--white)"></select>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Time to Convert</label>
+                <input type="datetime-local" id="timeInput" onchange="convertTime()" style="width:100%;padding:10px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--white)">
+            </div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="useCurrentTime()">Use Current Time</button>
+                <button class="btn btn-secondary" onclick="addToCompare()">Add to Compare</button>
+            </div>
+            <div id="result" style="display:none;margin-top:20px">
+                <div class="time-card">
+                    <h3 style="color:var(--primary);margin-bottom:15px">Converted Time</h3>
+                    <div class="time-display" id="convertedTime"></div>
+                    <div style="text-align:center;color:var(--gray)" id="convertedDate"></div>
+                    <div style="text-align:center;margin-top:15px;color:var(--gray)" id="timeDiff"></div>
+                </div>
+            </div>
+            <div id="compareZones" style="display:none;margin-top:20px">
+                <h3 style="color:var(--primary);margin-bottom:15px">Compare Time Zones</h3>
+                <div class="zone-grid" id="zoneGrid"></div>
+            </div>
+        </div>
+        
+        <!-- Share Bar -->
+
+<style>
+.time-card{background:var(--light);padding:25px;border-radius:12px;border:1px solid var(--border);margin:15px 0}
+        .time-display{font-size:3rem;font-weight:700;color:var(--primary);text-align:center;margin:20px 0}
+        .zone-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin:20px 0}
+        .zone-card{background:var(--input-bg);padding:20px;border-radius:10px;border:1px solid var(--border)}
+        .zone-name{font-weight:600;color:var(--primary);margin-bottom:10px}
+        .zone-time{font-size:1.8rem;font-weight:700;margin:10px 0}
+        .zone-date{color:var(--gray);font-size:0.9rem}
+</style>
+
+
+<script src="/js/time-zone-converter.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Time Zone Converter - Convert Time Between Any Time Zones Worldwide</h2>
+            <p>The Time Zone Converter is a free, browser-based tool that lets you instantly convert any date and time between more than 50 major time zones around the world. Whether you are scheduling a meeting with a remote team, planning international travel, or coordinating a live event for a global audience, this tool gives you accurate conversions in seconds.</p>
+
+            <h3>What Is a Time Zone Converter?</h3>
+            <p>A time zone converter takes a specific date and time in one time zone and calculates the equivalent moment in one or more other time zones. Because the world is divided into dozens of time zones — each offset from Coordinated Universal Time (UTC) by a different number of hours and minutes — converting between them manually is error-prone and tedious. A dedicated tool eliminates that friction entirely.</p>
+            <p>This tool also handles Daylight Saving Time (DST) automatically. Many countries shift their clocks forward or backward by one hour at certain points in the year, which means the offset between two time zones can change depending on the date. The converter uses your browser's built-in Intl API to apply the correct DST rules for each zone on the date you specify.</p>
+            <p>Beyond simple one-to-one conversion, the tool includes a multi-zone comparison panel where you can add several time zones and see the current time in all of them simultaneously. This is invaluable for distributed teams that need a quick reference for where their colleagues are in the day.</p>
+
+            <h3>Time Zone Conversion Options</h3>
+            <ul>
+                <li>Convert any date and time between 50+ major time zones across all continents</li>
+                <li>Live real-time clock display showing the current time in your local zone</li>
+                <li>One-click "Use Current Time" button to instantly load the current moment for conversion</li>
+                <li>Time difference display showing how many hours ahead or behind the target zone is</li>
+                <li>Multi-zone comparison panel to view multiple time zones side by side simultaneously</li>
+                <li>Automatic Daylight Saving Time handling for accurate results year-round</li>
+                <li>Auto-detection of your local time zone as the default "From" zone on page load</li>
+            </ul>
+
+            <h3>How to Use the Time Zone Converter</h3>
+            <ul>
+                <li>Step 1: The tool auto-detects your local time zone and sets it as the "From" zone</li>
+                <li>Step 2: Select your target "To" time zone from the dropdown list</li>
+                <li>Step 3: Enter the date and time you want to convert using the datetime picker, or click "Use Current Time"</li>
+                <li>Step 4: The converted time and date appear instantly in the result panel below</li>
+                <li>Step 5: Optionally click "Add to Compare" to add the target zone to the multi-zone comparison grid</li>
+                <li>Step 6: Add as many zones as you need to the comparison panel and remove any with the X button</li>
+            </ul>
+
+            <h3>Scheduling Across Time Zones</h3>
+            <ul>
+                <li>Scheduling video calls and meetings with remote team members in different countries</li>
+                <li>Finding the best overlap window for a distributed team spread across multiple continents</li>
+                <li>Planning international travel itineraries and understanding local arrival times</li>
+                <li>Converting webinar or live event times for announcements to a global audience</li>
+                <li>Checking what time it is for a friend, family member, or client in another country</li>
+                <li>Verifying server log timestamps that are recorded in UTC against your local time</li>
+                <li>Coordinating release schedules, deadlines, or countdowns across time zones</li>
+            </ul>
+
+            <h3>Reading Time Zone Conversions</h3>
+            <p>When scheduling meetings, always double-check dates near Daylight Saving Time transitions. In the days around when clocks change, the offset between two zones can shift by an hour, which can cause confusion if you calculated the meeting time a week in advance. This tool applies DST rules automatically based on the exact date you enter, so it will always give you the correct result.</p>
+            <p>Use the comparison panel to build a persistent reference for your most-used time zones. Add your team's locations once and you can see everyone's current local time at a glance without needing to convert each one individually. The panel updates in real time as the clock ticks.</p>
+            <p>For UTC-based work such as server administration or API logging, set the "To" zone to UTC and use the tool to quickly translate any local time into its UTC equivalent. This is a common need for developers and DevOps engineers who work with timestamps in logs, databases, and monitoring systems.</p>
+
+            
+
+            <h3>Times Converted Locally in Browser</h3>
+            <p>Time calculations run in your browser using the Intl API. No data is transmitted.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I convert a time between two time zones?</button>
+                    <div class="faq-answer"><p>Select the source time zone, enter the time, then select the target time zone. The converter instantly shows the equivalent time. You can add multiple time zones to compare them all at once.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is UTC and why is it used as a reference?</button>
+                    <div class="faq-answer"><p>UTC (Coordinated Universal Time) is the primary time standard by which the world regulates clocks. It has no daylight saving time adjustments. All time zones are defined as offsets from UTC (e.g., EST is UTC-5, IST is UTC+5:30). Using UTC as a reference avoids ambiguity.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How does daylight saving time affect conversions?</button>
+                    <div class="faq-answer"><p>The converter accounts for daylight saving time (DST) automatically based on the selected date. A time zone like EST (UTC-5) becomes EDT (UTC-4) during summer. Always specify the date when converting times near DST transitions to get accurate results.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between GMT and UTC?</button>
+                    <div class="faq-answer"><p>GMT (Greenwich Mean Time) and UTC are nearly identical for practical purposes. GMT is a time zone; UTC is a time standard. The difference is at most 0.9 seconds. In everyday use, they are interchangeable. UTC is preferred in technical contexts.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I schedule a meeting across multiple time zones?</button>
+                    <div class="faq-answer"><p>Enter the proposed meeting time in your local time zone and add all participants' time zones. The converter shows what time it will be for each person. Aim for times that fall within business hours (9 AM - 6 PM) for all participants when possible.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../unix-timestamp-converter/" class="related-tool-link">Unix Timestamp Converter</a>
+                    <a href="../date-calculator/" class="related-tool-link">Date Calculator</a>
+                    <a href="../countdown-timer/" class="related-tool-link">Countdown Timer</a>
+                    <a href="../age-calculator/" class="related-tool-link">Age Calculator</a>
+                    <a href="../cron-expression-generator/" class="related-tool-link">Cron Expression Generator</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

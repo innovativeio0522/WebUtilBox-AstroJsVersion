@@ -1,0 +1,121 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/text-sorter/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Text Sorter - Sort Lines Alphabetically Online | Webutilbox","url":"https://webutilbox.com/text-sorter/","description":"Sort text lines alphabetically or numerically. Ascending, descending, remove duplicates. Free tool.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I sort lines alphabetically and numerically?","acceptedAnswer":{"@type":"Answer","text":"Yes. Alphabetical sort orders lines A-Z or Z-A. Numerical sort treats lines as numbers and orders them by value (so 10 comes after 9, not after 1 as in alphabetical sort). Choose the sort type based on your data."}},{"@type":"Question","name":"Can I remove duplicate lines while sorting?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enable the remove duplicates option to deduplicate lines during sorting. This is useful for cleaning up lists, merging multiple lists, or finding unique values in a dataset."}},{"@type":"Question","name":"Can I sort in reverse order?","acceptedAnswer":{"@type":"Answer","text":"Yes. Toggle the descending option to sort Z-A or largest to smallest. This works for both alphabetical and numerical sort modes."}},{"@type":"Question","name":"Can I sort by a specific column in CSV data?","acceptedAnswer":{"@type":"Answer","text":"Basic text sorting sorts entire lines. For column-based sorting of CSV data, use the JSON to CSV tool to convert your data to a table format where column sorting is more straightforward."}},{"@type":"Question","name":"Does the sorter handle case-sensitive sorting?","acceptedAnswer":{"@type":"Answer","text":"You can toggle case-sensitive sorting. Case-insensitive sorting treats 'Apple' and 'apple' as equal. Case-sensitive sorting places uppercase letters before lowercase in ASCII order. For most list sorting tasks, case-insensitive is more natural."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Text Sorter","item":"https://webutilbox.com/text-sorter/"}]}]};
+---
+
+<ToolLayout
+  title="Text Sorter - Sort Lines Alphabetically Online | Webutilbox"
+  description="Sort lines of text alphabetically, numerically, or by length. Supports ascending, descending, and random order. Free online text line sorter tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-text-tools.svg"
+  keywords="text sorter, sort lines, alphabetical sort, sort text online, line sorter"
+  h1="📋 Text Sorter"
+  subtitle="Sort text lines alphabetically, numerically, or in reverse order."
+  lastUpdated=""
+  shareText="Free%20online%20Text%20Sorter%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Text Sorter - Sort Lines Alphabetically Online -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+
+
+
+
+
+
+<script src="/js/text-sorter.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Text Sorter - Sort Lines Alphabetically, Numerically, or by Length</h2>
+            <p>The Text Sorter is a free, browser-based tool that lets you sort any list of text lines in seconds. Whether you need alphabetical ordering, numerical sorting, or length-based arrangement, this tool handles it all without requiring any software installation or account signup.</p>
+
+            <h3>What Is a Text Sorter?</h3>
+            <p>A text sorter takes a block of text — one item per line — and reorders those lines according to rules you define. You can sort A to Z, Z to A, smallest number to largest, shortest line to longest, and more. It is an essential utility for anyone who works with lists, data, or structured content on a regular basis.</p>
+            <p>Beyond simple sorting, this tool also lets you clean up your data at the same time. You can remove duplicate entries, strip out blank lines, and choose whether the sort should be case-sensitive or case-insensitive. The result is a clean, organized list ready to use wherever you need it.</p>
+            <p>All processing happens instantly in your browser using JavaScript. There is no server involved, no file upload, and no waiting. Paste your text, configure your options, click Sort, and your result is ready to copy or download as a plain text file.</p>
+
+            <h3>Sorting Options and Modes</h3>
+            <ul>
+                <li>Alphabetical sorting (A–Z or Z–A) with locale-aware comparison for accurate results across languages</li>
+                <li>Numerical sorting for lists of numbers in ascending or descending order, treating values correctly rather than as strings</li>
+                <li>Length-based sorting from shortest to longest line or vice versa, useful for formatting and readability</li>
+                <li>Case-sensitive and case-insensitive sorting modes to match your exact requirements</li>
+                <li>Remove duplicate lines automatically, with case sensitivity respected when enabled</li>
+                <li>Remove empty lines to keep your output clean and free of blank entries</li>
+                <li>Live statistics panel showing original count, sorted count, removed lines, and duplicates found after each sort</li>
+            </ul>
+
+            <h3>How to Use the Text Sorter</h3>
+            <ul>
+                <li>Step 1: Paste your text into the input box on the left, one item per line</li>
+                <li>Step 2: Choose a sort type — Alphabetical, Numerical, or By Length</li>
+                <li>Step 3: Select Ascending or Descending order from the dropdown</li>
+                <li>Step 4: Toggle options like Case Sensitive, Remove Duplicates, or Remove Empty Lines as needed</li>
+                <li>Step 5: Click "Sort Text" and review the sorted output on the right side</li>
+                <li>Step 6: Copy the result to your clipboard or download it as a .txt file for later use</li>
+            </ul>
+
+            <h3>When to Sort Text Lines</h3>
+            <ul>
+                <li>Alphabetizing a list of names, countries, or product names for a report or spreadsheet</li>
+                <li>Sorting a list of numbers extracted from a log file, dataset, or exported report</li>
+                <li>Removing duplicate entries from a mailing list, tag list, or keyword set</li>
+                <li>Organizing import statements in code files by alphabetical order for cleaner diffs</li>
+                <li>Sorting file names or URLs before processing them in a script or batch job</li>
+                <li>Cleaning up keyword lists for SEO research, content planning, or ad campaigns</li>
+                <li>Preparing sorted data for import into a database, spreadsheet tool, or CMS</li>
+            </ul>
+
+            <h3>Sorting Text Efficiently</h3>
+            <p>For best results, make sure each item you want sorted is on its own line. If your data is comma-separated or tab-separated, consider using the Text Splitter tool first to convert it to one-item-per-line format, then sort it here. This two-step workflow handles almost any raw data format you might encounter.</p>
+            <p>When sorting numbers, always choose the Numerical sort type rather than Alphabetical. Alphabetical sorting treats numbers as strings, so "10" would come before "9" because "1" comes before "9" lexicographically. Numerical sorting correctly orders them by value. If your list mixes text and numbers, try both modes to see which gives the result you need.</p>
+            <p>The Remove Duplicates option respects the Case Sensitive toggle. With case sensitivity off, "Apple" and "apple" are treated as the same item and only the first occurrence is kept. Enable Case Sensitive mode if you need to preserve both variants as distinct entries in your output.</p>
+
+            
+
+            <h3>Text Sorted Locally in Browser</h3>
+            <p>Sorting runs in your browser. Your text never leaves your device.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I sort lines alphabetically and numerically?</button>
+                    <div class="faq-answer"><p>Yes. Alphabetical sort orders lines A-Z or Z-A. Numerical sort treats lines as numbers and orders them by value (so 10 comes after 9, not after 1 as in alphabetical sort). Choose the sort type based on your data.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I remove duplicate lines while sorting?</button>
+                    <div class="faq-answer"><p>Yes. Enable the remove duplicates option to deduplicate lines during sorting. This is useful for cleaning up lists, merging multiple lists, or finding unique values in a dataset.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I sort in reverse order?</button>
+                    <div class="faq-answer"><p>Yes. Toggle the descending option to sort Z-A or largest to smallest. This works for both alphabetical and numerical sort modes.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I sort by a specific column in CSV data?</button>
+                    <div class="faq-answer"><p>Basic text sorting sorts entire lines. For column-based sorting of CSV data, use the JSON to CSV tool to convert your data to a table format where column sorting is more straightforward.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does the sorter handle case-sensitive sorting?</button>
+                    <div class="faq-answer"><p>You can toggle case-sensitive sorting. Case-insensitive sorting treats 'Apple' and 'apple' as equal. Case-sensitive sorting places uppercase letters before lowercase in ASCII order. For most list sorting tasks, case-insensitive is more natural.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../text-cleaner/" class="related-tool-link">Text Cleaner</a>
+                    <a href="../find-replace/" class="related-tool-link">Find and Replace</a>
+                    <a href="../text-splitter/" class="related-tool-link">Text Splitter</a>
+                    <a href="../word-frequency-counter/" class="related-tool-link">Word Frequency Counter</a>
+                    <a href="../json-to-csv/" class="related-tool-link">JSON to CSV</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>

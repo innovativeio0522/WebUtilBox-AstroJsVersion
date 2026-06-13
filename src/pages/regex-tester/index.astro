@@ -1,0 +1,182 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import FAQ from '../../components/FAQ.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+
+const canonical = 'https://webutilbox.com/regex-tester/';
+
+const jsonLd = {
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebApplication",
+      "name":"Regex Tester - Test Regular Expressions Online Free | Webutilbox",
+      "url":"https://webutilbox.com/regex-tester/",
+      "description":"Test regular expressions with live matching and highlighting. Free regex tester for developers.",
+      "applicationCategory":"UtilitiesApplication",
+      "operatingSystem":"Web Browser",
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+      "creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {
+          "@type":"Question",
+          "name":"What regex flavor does this tester use?",
+          "acceptedAnswer":{"@type":"Answer","text":"This tester uses JavaScript's built-in RegExp engine, which follows the ECMAScript regex standard. It supports most common regex features including character classes, quantifiers, groups, lookaheads, and lookbehinds. Some features from PCRE (PHP/Python) like possessive quantifiers are not supported."}
+        },
+        {
+          "@type":"Question",
+          "name":"What do the regex flags do?",
+          "acceptedAnswer":{"@type":"Answer","text":"The 'g' (global) flag finds all matches instead of just the first. The 'i' (case-insensitive) flag makes the pattern match regardless of letter case. The 'm' (multiline) flag makes ^ and $ match the start/end of each line instead of the whole string. The 's' (dotAll) flag makes . match newlines too."}
+        },
+        {
+          "@type":"Question",
+          "name":"Why does my regex match too much or too little?",
+          "acceptedAnswer":{"@type":"Answer","text":"Quantifiers like * and + are greedy by default — they match as much as possible. Add ? after them (e.g., .*?) to make them lazy (match as little as possible). Also check if you need to escape special characters like . ( ) [ ] { } + * ? ^ $ | with a backslash."}
+        },
+        {
+          "@type":"Question",
+          "name":"How do I match a literal dot or parenthesis?",
+          "acceptedAnswer":{"@type":"Answer","text":"Special regex characters must be escaped with a backslash. To match a literal dot, use \\. To match a literal parenthesis, use \\( and \\). To match a literal backslash, use \\\\."}
+        },
+        {
+          "@type":"Question",
+          "name":"What is the difference between a capturing group and a non-capturing group?",
+          "acceptedAnswer":{"@type":"Answer","text":"A capturing group (parentheses: (abc)) captures the matched text so you can reference it in replacements or extract it. A non-capturing group (?:abc) groups the pattern for quantifiers or alternation without capturing. Use non-capturing groups when you do not need the captured value."}
+        }
+      ]
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},
+        {"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/tools/"},
+        {"@type":"ListItem","position":3,"name":"Regex Tester","item":"https://webutilbox.com/regex-tester/"}
+      ]
+    }
+  ]
+};
+
+const faqItems = [
+  { question: "What regex flavor does this tester use?", answer: "This tester uses JavaScript's built-in RegExp engine, which follows the ECMAScript regex standard. It supports most common regex features including character classes, quantifiers, groups, lookaheads, and lookbehinds. Some features from PCRE (PHP/Python) like possessive quantifiers are not supported." },
+  { question: "What do the regex flags do?", answer: "The 'g' (global) flag finds all matches instead of just the first. The 'i' (case-insensitive) flag makes the pattern match regardless of letter case. The 'm' (multiline) flag makes ^ and $ match the start/end of each line instead of the whole string. The 's' (dotAll) flag makes . match newlines too." },
+  { question: "Why does my regex match too much or too little?", answer: "Quantifiers like * and + are greedy by default — they match as much as possible. Add ? after them (e.g., .*?) to make them lazy (match as little as possible). Also check if you need to escape special characters like . ( ) [ ] { } + * ? ^ $ | with a backslash." },
+  { question: "How do I match a literal dot or parenthesis?", answer: "Special regex characters must be escaped with a backslash. To match a literal dot, use \\. To match a literal parenthesis, use \\( and \\). To match a literal backslash, use \\\\." },
+  { question: "What is the difference between a capturing group and a non-capturing group?", answer: "A capturing group (parentheses: (abc)) captures the matched text so you can reference it in replacements or extract it. A non-capturing group (?:abc) groups the pattern for quantifiers or alternation without capturing. Use non-capturing groups when you do not need the captured value." }
+];
+
+const relatedTools = [
+  { href: '/find-replace/', label: 'Find & Replace' },
+  { href: '/text-diff/', label: 'Text Diff' },
+  { href: '/json-formatter/', label: 'JSON Formatter' },
+  { href: '/url-parser/', label: 'URL Parser' },
+  { href: '/slug-generator/', label: 'Slug Generator' }
+];
+---
+
+<ToolLayout
+  title="Regex Tester - Test Regular Expressions | Webutilbox"
+  description="Test and debug regular expressions with live match highlighting. Supports flags and capture groups. Free online regex tester and validator tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="regex tester, regular expression tester, regex validator online, test regex pattern, regex match online"
+  h1="Regex Tester"
+  subtitle="Test regular expressions with live matching, highlighting, and capture groups. Real-time validation as you type."
+  lastUpdated=""
+  shareText="Free%20online%20Regex%20Tester%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Regex Tester - Test Regular Expressions -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
+  jsonLd={jsonLd}
+>
+  <div class="workspace">
+    <div style="margin-bottom: 15px;">
+      <label style="font-size: 0.9rem; margin-bottom: 8px;">Regular Expression Pattern</label>
+      <div class="regex-input-row">
+        <span style="font-size: 1.5rem; color: var(--primary);">/</span>
+        <input type="text" id="regexPattern" placeholder="Enter regex pattern..." oninput="testRegex()">
+        <span style="font-size: 1.5rem; color: var(--primary);">/</span>
+        <input type="text" id="regexFlags" placeholder="flags" oninput="testRegex()" maxlength="5">
+      </div>
+      <div class="regex-flags-row">
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.85rem;">
+          <input type="checkbox" id="flagG" onchange="updateFlags()">
+          <span>g (global)</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.85rem;">
+          <input type="checkbox" id="flagI" onchange="updateFlags()">
+          <span>i (case-insensitive)</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.85rem;">
+          <input type="checkbox" id="flagM" onchange="updateFlags()">
+          <span>m (multiline)</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.85rem;">
+          <input type="checkbox" id="flagS" onchange="updateFlags()">
+          <span>s (dotAll)</span>
+        </label>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="font-size: 0.9rem; margin-bottom: 8px;">Test String</label>
+      <textarea id="testString" placeholder="Enter text to test against..." oninput="testRegex()"></textarea>
+    </div>
+
+    <div class="stats-bar" id="statsBar" style="display: none;">
+      <div class="stat">Matches: <span class="stat-value" id="matchCount">0</span></div>
+      <div class="stat">Groups: <span class="stat-value" id="groupCount">0</span></div>
+      <div class="stat" id="validStatus">
+        <span style="color: var(--secondary);">Valid Pattern</span>
+      </div>
+    </div>
+
+    <div class="output-container show" id="highlightOutput" style="margin-top: 15px; display: none;">
+      <div class="output-label">Highlighted Matches</div>
+      <div id="highlightedText"></div>
+    </div>
+
+    <div class="output-container show" id="matchDetails" style="margin-top: 15px; display: none;">
+      <div class="output-label">Match Details</div>
+      <div id="matchList"></div>
+    </div>
+  </div>
+
+  <style>
+    .regex-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .regex-input-row input[type="text"] {
+      flex: 1;
+      padding: 12px;
+      font-size: 1rem;
+      font-family: 'Courier New', monospace;
+    }
+    .regex-flags-row {
+      display: flex;
+      gap: 15px;
+      margin-top: 8px;
+      padding: 10px;
+      background: var(--light);
+      border-radius: 6px;
+      flex-wrap: wrap;
+    }
+  </style>
+
+  <Fragment slot="scripts" set:html={`<script src="/js/regex-tester.js" defer></script>`} />
+
+  <div class="info-section" slot="info">
+    <h2>Regex Tester — Test Regular Expressions Online</h2>
+    <p>Regular expressions are powerful but the syntax is dense enough that even experienced developers test patterns interactively rather than trusting their memory. Paste your pattern, paste your test string, and see exactly what matches — highlighted in real time.</p>
+    <h3>All processing runs in your browser</h3>
+    <p>Your test strings and patterns never leave your device. Safe to use with real log files, customer data, or proprietary formats.</p>
+    <FAQ items={faqItems} />
+    <RelatedTools tools={relatedTools} />
+  </div>
+</ToolLayout>

@@ -1,0 +1,230 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const canonical = 'https://webutilbox.com/case-converter/';
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Case Converter Online - UPPER, lower, Title, camelCase | Webutilbox","url":"https://webutilbox.com/case-converter/","description":"Convert text to UPPERCASE, lowercase, Title Case, camelCase, snake_case. Free online converter.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between Title Case and Sentence case?","acceptedAnswer":{"@type":"Answer","text":"Title Case capitalizes the first letter of every word (used for headings and titles). Sentence case only capitalizes the first letter of the first word and proper nouns (used for normal sentences). Title Case: 'The Quick Brown Fox'. Sentence case: 'The quick brown fox'."}},{"@type":"Question","name":"What is camelCase used for?","acceptedAnswer":{"@type":"Answer","text":"camelCase (e.g., myVariableName) is widely used for variable and function names in JavaScript, Java, and many other languages. The first word is lowercase and each subsequent word starts with a capital letter. It is called camelCase because the capital letters look like humps."}},{"@type":"Question","name":"What is the difference between snake_case and kebab-case?","acceptedAnswer":{"@type":"Answer","text":"snake_case uses underscores between words (common in Python, Ruby, and database column names). kebab-case uses hyphens (common in CSS class names, HTML attributes, and URL slugs). Both are all-lowercase by convention."}},{"@type":"Question","name":"What is SCREAMING_SNAKE_CASE used for?","acceptedAnswer":{"@type":"Answer","text":"SCREAMING_SNAKE_CASE (all caps with underscores) is the conventional style for constants in many languages including JavaScript (const MAX_RETRIES = 3), Python, and C. It signals that the value should not be changed."}},{"@type":"Question","name":"Can I convert text with special characters or accents?","acceptedAnswer":{"@type":"Answer","text":"The converter works with standard ASCII text. Accented characters are preserved as-is during case conversion. The tool will not strip or transliterate them."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/Tools.html"},{"@type":"ListItem","position":3,"name":"Case Converter Online","item":"https://webutilbox.com/case-converter/"}]}]};
+---
+
+<ToolLayout
+  title="Case Converter - UPPER, lower, Title, camelCase | Webutilbox"
+  description="Convert text between uppercase, lowercase, title case, camelCase, snake_case and more. Free online text case converter with instant live preview."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-text-tools.svg"
+  keywords="case converter online, text case converter, uppercase lowercase converter, camelcase converter, snake case converter, title case converter instant"
+  h1="🔤 Case Converter"
+  subtitle="Convert text between different cases instantly. UPPERCASE, lowercase, Title Case, camelCase, and more."
+  lastUpdated=""
+  shareText="Free%20online%20Case%20Converter%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Case Converter - UPPER, lower, Title, camelCase -- Webutilbox"
+  embedHeight={600}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+
+<div class="workspace">
+            <div class="case-main-grid">
+                <!-- Left: Input -->
+                <div>
+                    <div class="input-group" style="margin-bottom: 15px;">
+                        <label>Input Text</label>
+                        <textarea id="inputText" placeholder="Enter your text here..." oninput="convertAllCases()" style="min-height: 200px;"></textarea>
+                    </div>
+                    <div class="stats-bar" id="statsBar" style="display:none; flex-direction: column; gap: 8px; padding: 12px;">
+                        <div class="stat" style="justify-content: space-between; width: 100%;">
+                            <span>Characters:</span>
+                            <span class="stat-value" id="charCount">0</span>
+                        </div>
+                        <div class="stat" style="justify-content: space-between; width: 100%;">
+                            <span>Words:</span>
+                            <span class="stat-value" id="wordCount">0</span>
+                        </div>
+                        <div class="stat" style="justify-content: space-between; width: 100%;">
+                            <span>Lines:</span>
+                            <span class="stat-value" id="lineCount">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: All conversions in compact grid -->
+                <div class="case-output-grid">
+                    <!-- UPPERCASE -->
+                    <div class="output-container show case-output-box">
+                        <div class="case-output-header">
+                            <div class="output-label case-output-label">UPPERCASE</div>
+                            <button class="btn btn-success case-copy-btn" onclick="copyCase('upper')">Copy</button>
+                        </div>
+                        <div class="output-content case-output-text" id="upperCase">Type...</div>
+                    </div>
+
+                    <!-- lowercase -->
+                    <div class="output-container show case-output-box">
+                        <div class="case-output-header">
+                            <div class="output-label case-output-label">lowercase</div>
+                            <button class="btn btn-success case-copy-btn" onclick="copyCase('lower')">Copy</button>
+                        </div>
+                        <div class="output-content case-output-text" id="lowerCase">Type...</div>
+                    </div>
+
+                    <!-- Title Case -->
+                    <div class="output-container show case-output-box">
+                        <div class="case-output-header">
+                            <div class="output-label case-output-label">Title Case</div>
+                            <button class="btn btn-success case-copy-btn" onclick="copyCase('title')">Copy</button>
+                        </div>
+                        <div class="output-content case-output-text" id="titleCase">Type...</div>
+                    </div>
+
+                    <!-- Sentence case -->
+                    <div class="output-container show case-output-box">
+                        <div class="case-output-header">
+                            <div class="output-label case-output-label">Sentence case</div>
+                            <button class="btn btn-success case-copy-btn" onclick="copyCase('sentence')">Copy</button>
+                        </div>
+                        <div class="output-content case-output-text" id="sentenceCase">Type...</div>
+                    </div>
+
+                    <!-- camelCase -->
+                    <div class="output-container show case-output-box">
+                        <div class="case-output-header">
+                            <div class="output-label case-output-label">camelCase</div>
+                            <button class="btn btn-success case-copy-btn" onclick="copyCase('camel')">Copy</button>
+                        </div>
+                        <div class="output-content case-output-text" id="camelCase">Type...</div>
+                    </div>
+
+                    <!-- PascalCase -->
+                    <div class="output-container show case-output-box">
+                        <div class="case-output-header">
+                            <div class="output-label case-output-label">PascalCase</div>
+                            <button class="btn btn-success case-copy-btn" onclick="copyCase('pascal')">Copy</button>
+                        </div>
+                        <div class="output-content case-output-text" id="pascalCase">Type...</div>
+                    </div>
+
+                    <!-- snake_case -->
+                    <div class="output-container show case-output-box">
+                        <div class="case-output-header">
+                            <div class="output-label case-output-label">snake_case</div>
+                            <button class="btn btn-success case-copy-btn" onclick="copyCase('snake')">Copy</button>
+                        </div>
+                        <div class="output-content case-output-text" id="snakeCase">Type...</div>
+                    </div>
+
+                    <!-- kebab-case -->
+                    <div class="output-container show case-output-box">
+                        <div class="case-output-header">
+                            <div class="output-label case-output-label">kebab-case</div>
+                            <button class="btn btn-success case-copy-btn" onclick="copyCase('kebab')">Copy</button>
+                        </div>
+                        <div class="output-content case-output-text" id="kebabCase">Type...</div>
+                    </div>
+
+                    <!-- CONSTANT_CASE -->
+                    <div class="output-container show case-output-box">
+                        <div class="case-output-header">
+                            <div class="output-label case-output-label">CONSTANT_CASE</div>
+                            <button class="btn btn-success case-copy-btn" onclick="copyCase('constant')">Copy</button>
+                        </div>
+                        <div class="output-content case-output-text" id="constantCase">Type...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+
+
+
+<script src="/js/case-converter.js" defer></script>
+
+<div class="info-section" slot="info">
+<h2>Case Converter - Instantly Transform Text Case Online</h2>
+    <p>The Case Converter is a free online tool that instantly transforms your text into any case format you need. Whether you need UPPERCASE, lowercase, Title Case, camelCase, snake_case, or any other naming convention, this tool handles it all in a single click. It is an essential utility for developers, writers, content creators, and anyone who works with text regularly.</p>
+
+    <h3>What Is a Case Converter?</h3>
+    <p>A case converter is a text transformation tool that changes the capitalization pattern of your input text according to a specific naming convention or style rule. Different industries, programming languages, and style guides have their own conventions for how text should be capitalized, and switching between them manually is tedious and error-prone. A case converter automates this process instantly, no matter how long your text is.</p>
+    <p>Case conventions are not just a matter of style — in programming, using the wrong case can cause bugs, failed lookups, or broken imports. A variable named <code>myVariable</code> is entirely different from <code>MyVariable</code> or <code>my_variable</code> in most languages. Getting the case right is a functional requirement, not just an aesthetic one. Many compilers and interpreters are case-sensitive by design, so a single capitalization error can break an entire build or cause a runtime exception that is difficult to trace.</p>
+    <p>Beyond programming, case conventions matter in content writing, SEO, social media, and brand communication. Title Case is standard for article headlines, Sentence case is used in body text, and ALL CAPS is used sparingly for emphasis. Having a reliable tool to enforce these conventions saves time and ensures consistency across your work. Inconsistent capitalization in published content can undermine professionalism and confuse readers.</p>
+    <p>The nine formats supported by this tool cover virtually every use case you will encounter in modern software development and content creation. From the ubiquitous camelCase of JavaScript to the CONSTANT_CASE of Java static fields, from the kebab-case of CSS class names to the PascalCase of C# classes, every major convention is just one click away. This breadth of support makes the tool useful whether you are a front-end developer, a back-end engineer, a technical writer, or a content marketer.</p>
+
+    <h3>Case Conversion Modes</h3>
+    <ul>
+        <li>Instant conversion — results appear as you type, with no button press required for live preview of all nine formats simultaneously.</li>
+        <li>Nine case formats supported at once — UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, and CONSTANT_CASE all visible in a single grid.</li>
+        <li>One-click copy for each format — copy any result to your clipboard instantly without selecting text manually.</li>
+        <li>Live character, word, and line count — track your text statistics in real time as you type or paste content.</li>
+        <li>Handles special characters gracefully — punctuation, numbers, and symbols are preserved correctly in formats that support them.</li>
+        <li>Works entirely in your browser — no server required, no data sent anywhere, fully private and available offline.</li>
+    </ul>
+
+    <h3>How to Use the Case Converter</h3>
+    <p>Using the Case Converter is straightforward and requires no setup or account creation.</p>
+    <ul>
+        <li>Step 1: Type or paste your text into the input area on the left side of the tool — any length of text is supported.</li>
+        <li>Step 2: All nine case format conversions appear instantly in the output grid on the right as you type.</li>
+        <li>Step 3: Find the format you need — UPPERCASE, camelCase, snake_case, or any of the other seven options.</li>
+        <li>Step 4: Click the "Copy" button next to the desired format to copy it to your clipboard with a single click.</li>
+        <li>Step 5: Paste the converted text directly into your code editor, document, CMS, or any other application.</li>
+    </ul>
+
+    <h3>When to Convert Text Case</h3>
+    <ul>
+        <li>Developers converting variable names between JavaScript (camelCase), Python (snake_case), and CSS (kebab-case) when porting code between languages or frameworks.</li>
+        <li>Writers and editors fixing text that was accidentally typed in ALL CAPS or needs to be reformatted to match a style guide's heading conventions.</li>
+        <li>Content creators formatting blog post titles, social media hashtags, and YouTube video titles consistently using Title Case for a polished, professional appearance.</li>
+        <li>Database administrators converting column names between different naming conventions when migrating schemas or writing ORM models that bridge different systems.</li>
+        <li>Developers defining constants in languages like Java or C++ that require CONSTANT_CASE (also called SCREAMING_SNAKE_CASE) for static final values and enum members.</li>
+    </ul>
+
+    <h3>Text Case Conversion Tips</h3>
+    <p>When working across multiple programming languages in the same project, establish a clear convention for each context early on. Use camelCase for JavaScript variables and functions, PascalCase for classes and React components, snake_case for Python functions and variables, and kebab-case for CSS class names and HTML attributes. Consistency within each context is more important than uniformity across all contexts, and documenting your conventions in a style guide helps onboard new team members faster.</p>
+    <p>For content writing, be aware that Title Case rules vary between style guides. The AP Stylebook, Chicago Manual of Style, and APA Style all have slightly different rules about which words to capitalize — for example, whether prepositions and conjunctions should be capitalized. This tool applies a general Title Case rule that capitalizes the first letter of every word, which works well for most purposes. For strict style guide compliance, review the output against your specific guide's rules for short words and articles.</p>
+    <p>When converting long blocks of text to programming-friendly formats like snake_case or camelCase, be aware that punctuation and special characters are stripped out. This is intentional behavior for identifiers, but if you need to preserve punctuation, use the UPPERCASE or lowercase formats instead, which only change letter case without removing any characters. Always review the output when converting complex text with abbreviations, acronyms, or hyphenated words, as these may need manual adjustment.</p>
+
+    
+
+    <h3>Text Processed Locally, Never Sent</h3>
+    <p>Text processing runs in your browser. Nothing you type is sent to any server.</p>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between Title Case and Sentence case?</button>
+                    <div class="faq-answer"><p>Title Case capitalizes the first letter of every word (used for headings and titles). Sentence case only capitalizes the first letter of the first word and proper nouns (used for normal sentences). Title Case: 'The Quick Brown Fox'. Sentence case: 'The quick brown fox'.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is camelCase used for?</button>
+                    <div class="faq-answer"><p>camelCase (e.g., myVariableName) is widely used for variable and function names in JavaScript, Java, and many other languages. The first word is lowercase and each subsequent word starts with a capital letter. It is called camelCase because the capital letters look like humps.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between snake_case and kebab-case?</button>
+                    <div class="faq-answer"><p>snake_case uses underscores between words (common in Python, Ruby, and database column names). kebab-case uses hyphens (common in CSS class names, HTML attributes, and URL slugs). Both are all-lowercase by convention.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is SCREAMING_SNAKE_CASE used for?</button>
+                    <div class="faq-answer"><p>SCREAMING_SNAKE_CASE (all caps with underscores) is the conventional style for constants in many languages including JavaScript (const MAX_RETRIES = 3), Python, and C. It signals that the value should not be changed.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Can I convert text with special characters or accents?</button>
+                    <div class="faq-answer"><p>The converter works with standard ASCII text. Accented characters are preserved as-is during case conversion. The tool will not strip or transliterate them.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../slug-generator/" class="related-tool-link">Slug Generator</a>
+                    <a href="../text-cleaner/" class="related-tool-link">Text Cleaner</a>
+                    <a href="../find-replace/" class="related-tool-link">Find and Replace</a>
+                    <a href="../text-reverser/" class="related-tool-link">Text Reverser</a>
+                    <a href="../word-counter/" class="related-tool-link">Word Counter</a>
+                </div>
+            </div>
+        </div>
+</div>
+
+</ToolLayout>
