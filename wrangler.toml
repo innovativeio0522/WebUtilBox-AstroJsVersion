@@ -1,0 +1,12 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "webutilbox"
+compatibility_date = "2024-04-01"
+
+[build]
+command = "npm run build"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 404
+
