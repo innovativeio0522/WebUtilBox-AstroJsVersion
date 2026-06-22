@@ -88,7 +88,7 @@ function decodeJWT() {
                         const isExpired = key === 'exp' && date < now;
                         const isNotYetValid = key === 'nbf' && date > now;
                         
-                        value = `${date.toLocaleString()} ${isExpired ? '?? EXPIRED' : isNotYetValid ? '? Not yet valid' : '?'}`;
+                        value = `${date.toLocaleString()} ${isExpired ? '🔴 EXPIRED' : isNotYetValid ? '⏳ Not yet valid' : '🟢 Valid'}`;
                     }
                     
                     html += `<div style="padding: 8px; background: var(--light); border-radius: 6px; border-left: 3px solid var(--primary);">
@@ -108,7 +108,7 @@ function decodeJWT() {
         
         function showSuccess(message) {
             const status = document.getElementById('validationStatus');
-            status.innerHTML = `<div style="color: var(--secondary);">? ${message}</div>`;
+            status.innerHTML = `<div style="color: var(--secondary);">✔️ ${message}</div>`;
             status.style.background = 'rgba(52, 211, 153, 0.1)';
             status.style.borderColor = 'var(--secondary)';
             status.style.display = 'block';
@@ -116,7 +116,7 @@ function decodeJWT() {
         
         function showError(message) {
             const status = document.getElementById('validationStatus');
-            status.innerHTML = `<div style="color: var(--danger);">? ${message}</div>`;
+            status.innerHTML = `<div style="color: var(--danger);">❌ ${message}</div>`;
             status.style.background = 'rgba(248, 113, 113, 0.1)';
             status.style.borderColor = 'var(--danger)';
             status.style.display = 'block';
