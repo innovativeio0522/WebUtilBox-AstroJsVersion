@@ -28,6 +28,146 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 
 
 
+
+<div class="workspace">
+    <div class="sql-grid">
+
+        <!-- Left: Input -->
+        <div class="sql-col">
+            <div class="sql-panel-header">
+                <span class="sql-panel-title">🗄️ SQL Input</span>
+                <div class="sql-stats">
+                    <span>Lines: <strong id="inputLines">0</strong></span>
+                    <span>Chars: <strong id="inputChars">0</strong></span>
+                </div>
+            </div>
+            <textarea id="inputSQL"
+                placeholder="SELECT * FROM users WHERE status = 'active' ORDER BY created_at DESC;"
+                style="height:340px; font-family:'Courier New',monospace; font-size:0.85rem; resize:vertical;">
+            </textarea>
+
+            <!-- Options panel -->
+            <div class="sql-options-panel">
+                <div class="sql-options-row">
+                    <div class="input-group" style="flex:1;">
+                        <label>Indentation</label>
+                        <select id="indentSize">
+                            <option value="2">2 Spaces</option>
+                            <option value="4" selected>4 Spaces</option>
+                            <option value="tab">Tab</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="sql-checks">
+                    <label class="sql-check"><input type="checkbox" id="uppercase" checked /> Uppercase Keywords</label>
+                    <label class="sql-check"><input type="checkbox" id="newlineBeforeKeyword" checked /> Newline Before Keywords</label>
+                    <label class="sql-check"><input type="checkbox" id="commaNewline" /> Comma on New Line</label>
+                    <label class="sql-check"><input type="checkbox" id="removeComments" /> Remove Comments</label>
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="button-group" style="margin-top:12px; flex-wrap:wrap;">
+                <button id="formatBtn" class="btn btn-primary">Format SQL</button>
+                <button id="minifyBtn" class="btn btn-secondary">Minify</button>
+                <button id="validateBtn" class="btn btn-secondary">Validate</button>
+                <button id="countBtn" class="btn btn-secondary">Keywords</button>
+                <button id="loadSampleBtn" class="btn btn-secondary">Sample</button>
+                <button id="clearBtn" class="btn btn-secondary">Clear</button>
+            </div>
+        </div>
+
+        <!-- Right: Output -->
+        <div class="sql-col">
+            <div class="sql-panel-header">
+                <span class="sql-panel-title">✨ Formatted Output</span>
+                <div class="sql-stats">
+                    <span>Lines: <strong id="outputLines">0</strong></span>
+                    <span>Chars: <strong id="outputChars">0</strong></span>
+                </div>
+            </div>
+            <textarea id="outputSQL" readonly
+                placeholder="Formatted SQL will appear here..."
+                style="height:340px; font-family:'Courier New',monospace; font-size:0.85rem; resize:vertical;">
+            </textarea>
+            <div class="button-group" style="margin-top:12px;">
+                <button id="copyBtn" class="btn btn-success">Copy</button>
+                <button id="downloadBtn" class="btn btn-secondary">Download .sql</button>
+            </div>
+
+            <!-- Info/Validation box -->
+            <div id="infoBox" style="display:none; margin-top:14px; background:var(--light); border:1px solid var(--border); border-radius:10px; padding:14px;">
+                <div style="font-size:0.82rem; color:var(--gray); margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Result</div>
+                <div id="infoContent" style="font-size:0.88rem; color:var(--white); line-height:1.7;"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+.sql-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    align-items: start;
+}
+.sql-col { display: flex; flex-direction: column; }
+.sql-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.sql-panel-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--white);
+}
+.sql-stats {
+    display: flex;
+    gap: 14px;
+    font-size: 0.78rem;
+    color: var(--gray);
+}
+.sql-stats strong { color: var(--primary); }
+.sql-options-panel {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 12px;
+}
+.sql-options-row {
+    margin-bottom: 12px;
+}
+.sql-checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+}
+.sql-check {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.86rem;
+    color: var(--gray);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+.sql-check input[type="checkbox"] {
+    accent-color: var(--primary);
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+@media (max-width: 768px) {
+    .sql-grid { grid-template-columns: 1fr; gap: 20px; }
+}
+</style>
+
+
 <script src="/js/sql-formatter.js" defer></script>
 
 <div class="info-section" slot="info">
