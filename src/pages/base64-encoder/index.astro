@@ -23,7 +23,76 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace">
+    <div class="workspace-tabs" style="margin-bottom: 20px; display: flex; gap: 10px;">
+        <button id="base64Tab" class="mode-tab active" onclick="switchMode('base64')">Base64 Encode/Decode</button>
+        <button id="urlTab" class="mode-tab" onclick="switchMode('url')">URL Encode/Decode</button>
+    </div>
 
+    <!-- Base64 Mode -->
+    <div id="base64Mode">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 15px;">
+            <div class="input-group">
+                <label style="display: block; margin-bottom: 6px;">Plain Text</label>
+                <textarea id="plainText" placeholder="Enter plain text to encode..." oninput="autoEncode()" style="width: 100%; height: 240px;"></textarea>
+                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                    <button class="btn btn-primary" onclick="encodeText()">Encode</button>
+                    <button class="btn btn-secondary" onclick="copyPlain()">Copy</button>
+                    <button class="btn btn-secondary" onclick="clearPlain()">Clear</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label style="display: block; margin-bottom: 6px;">Base64 String</label>
+                <textarea id="base64Text" placeholder="Enter Base64 text to decode..." oninput="autoDecode()" style="width: 100%; height: 240px;"></textarea>
+                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                    <button class="btn btn-primary" onclick="decodeText()">Decode</button>
+                    <button class="btn btn-secondary" onclick="copyBase64()">Copy</button>
+                    <button class="btn btn-secondary" onclick="clearBase64()">Clear</button>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" id="autoMode" checked />
+            <label for="autoMode" style="user-select: none;">Live Convert (as you type)</label>
+        </div>
+
+        <div id="statsBar" style="display: none; align-items: center; gap: 20px; background: rgba(249, 115, 22, 0.05); border: 1px solid rgba(249, 115, 22, 0.2); padding: 12px 16px; border-radius: 8px; font-size: 0.9rem;">
+            <div>Original Size: <strong id="originalSize">0</strong> bytes</div>
+            <div>Base64 Size: <strong id="encodedSize">0</strong> bytes</div>
+            <div>Size Ratio: <strong id="sizeRatio">0%</strong></div>
+        </div>
+    </div>
+
+    <!-- URL Encoding Mode -->
+    <div id="urlMode" style="display: none;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 15px;">
+            <div class="input-group">
+                <label style="display: block; margin-bottom: 6px;">Plain Text</label>
+                <textarea id="urlPlainText" placeholder="Enter plain text to encode..." oninput="autoEncodeURL()" style="width: 100%; height: 240px;"></textarea>
+                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                    <button class="btn btn-primary" onclick="encodeURL()">Encode</button>
+                    <button class="btn btn-secondary" onclick="copyURLPlain()">Copy</button>
+                    <button class="btn btn-secondary" onclick="clearURLPlain()">Clear</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label style="display: block; margin-bottom: 6px;">URL Encoded Text</label>
+                <textarea id="urlEncodedText" placeholder="Enter URL encoded text to decode..." oninput="autoDecodeURL()" style="width: 100%; height: 240px;"></textarea>
+                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                    <button class="btn btn-primary" onclick="decodeURL()">Decode</button>
+                    <button class="btn btn-secondary" onclick="copyURLEncoded()">Copy</button>
+                    <button class="btn btn-secondary" onclick="clearURLEncoded()">Clear</button>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" id="urlAutoMode" checked />
+            <label for="urlAutoMode" style="user-select: none;">Live Convert (as you type)</label>
+        </div>
+    </div>
+</div>
 
 <style>
 .mode-tab {
@@ -47,8 +116,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
         }
 </style>
 
-
-<script src="/js/base64-encoder.js" defer></script>
+<Fragment slot="scripts" set:html={`<script src="/js/base64-encoder.js" defer></script>`} />
 
 <div class="info-section" slot="info">
 <h2>Base64 &amp; URL Encoder/Decoder</h2>
