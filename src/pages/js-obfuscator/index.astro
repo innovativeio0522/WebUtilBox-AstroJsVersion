@@ -28,6 +28,198 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 
 
 
+
+<div class="workspace">
+
+    <!-- Main obfuscator grid -->
+    <div class="obfus-grid">
+
+        <!-- Left: Input -->
+        <div class="obfus-col">
+            <div class="code-panel-header">
+                <span class="code-panel-title">📝 Input JavaScript</span>
+                <div class="code-stats">
+                    <span>Lines: <strong id="inputLines">0</strong></span>
+                    <span>Size: <strong id="inputSize">0 B</strong></span>
+                </div>
+            </div>
+            <textarea id="inputCode" placeholder="// Paste your JavaScript code here..." style="height:360px; font-family:'Courier New',monospace; font-size:0.85rem; tab-size:2;"></textarea>
+            <div class="button-group" style="margin-top:12px;">
+                <button id="loadSampleBtn" class="btn btn-secondary">Load Sample</button>
+                <button id="clearBtn" class="btn btn-secondary">Clear</button>
+            </div>
+        </div>
+
+        <!-- Right: Output -->
+        <div class="obfus-col">
+            <div class="code-panel-header">
+                <span class="code-panel-title">🔒 Obfuscated Output</span>
+                <div class="code-stats">
+                    <span>Lines: <strong id="outputLines">0</strong></span>
+                    <span>Size: <strong id="outputSize">0 B</strong></span>
+                </div>
+            </div>
+            <textarea id="outputCode" readonly placeholder="Obfuscated code will appear here..." style="height:360px; font-family:'Courier New',monospace; font-size:0.85rem;"></textarea>
+            <div class="button-group" style="margin-top:12px;">
+                <button id="copyBtn" class="btn btn-success">Copy</button>
+                <button id="downloadBtn" class="btn btn-secondary">Download .js</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Options + Obfuscate row -->
+    <div class="obfus-options-bar">
+        <div class="obfus-options-grid">
+            <label class="obfus-check">
+                <input type="checkbox" id="renameVars" checked />
+                <span>Rename Variables</span>
+            </label>
+            <label class="obfus-check">
+                <input type="checkbox" id="encodeStrings" checked />
+                <span>Encode Strings</span>
+            </label>
+            <label class="obfus-check">
+                <input type="checkbox" id="removeComments" checked />
+                <span>Remove Comments</span>
+            </label>
+            <label class="obfus-check">
+                <input type="checkbox" id="removeWhitespace" checked />
+                <span>Remove Whitespace</span>
+            </label>
+            <label class="obfus-check">
+                <input type="checkbox" id="shuffleArrays" checked />
+                <span>Shuffle Arrays</span>
+            </label>
+            <label class="obfus-check">
+                <input type="checkbox" id="wrapCode" checked />
+                <span>Wrap in IIFE</span>
+            </label>
+        </div>
+        <button id="obfuscateBtn" class="btn btn-primary obfus-btn">Obfuscate Code</button>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="obfus-stats-bar">
+        <div class="obfus-stat">
+            <span class="obfus-stat-label">Size Change</span>
+            <span class="obfus-stat-value" id="sizeChange">0 B</span>
+        </div>
+        <div class="obfus-stat">
+            <span class="obfus-stat-label">Vars Renamed</span>
+            <span class="obfus-stat-value" id="varsRenamed">0</span>
+        </div>
+        <div class="obfus-stat">
+            <span class="obfus-stat-label">Strings Encoded</span>
+            <span class="obfus-stat-value" id="stringsEncoded">0</span>
+        </div>
+    </div>
+
+</div>
+
+<style>
+.obfus-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+    margin-bottom: 16px;
+}
+.obfus-col {
+    display: flex;
+    flex-direction: column;
+}
+.code-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.code-panel-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--white);
+}
+.code-stats {
+    display: flex;
+    gap: 14px;
+    font-size: 0.78rem;
+    color: var(--gray);
+}
+.code-stats strong { color: var(--primary); }
+.obfus-options-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+.obfus-options-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 24px;
+    flex: 1;
+}
+.obfus-check {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.86rem;
+    color: var(--gray);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+.obfus-check input[type="checkbox"] {
+    accent-color: var(--primary);
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+.obfus-btn {
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.obfus-stats-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+.obfus-stat {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.obfus-stat-label {
+    font-size: 0.75rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+.obfus-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+@media (max-width: 768px) {
+    .obfus-grid { grid-template-columns: 1fr; }
+    .obfus-options-bar { flex-direction: column; align-items: stretch; }
+    .obfus-btn { width: 100%; }
+    .obfus-stats-bar { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+
+
 <script src="/js/js-obfuscator.js" defer></script>
 
 <div class="info-section" slot="info">
