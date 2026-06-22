@@ -93,6 +93,49 @@ const relatedTools = [
   toolCss={true}
   jsonLd={jsonLd}
 >
+
+  <div class="workspace">
+
+    <!-- Direction tabs -->
+    <div style="display:flex; gap:10px; margin-bottom:24px; flex-wrap:wrap;">
+      <button id="jsonToCsvTab" class="direction-tab active" onclick="switchDirection('jsonToCsv')">📄 JSON → CSV</button>
+      <button id="csvToJsonTab" class="direction-tab" onclick="switchDirection('csvToJson')">📋 CSV → JSON</button>
+    </div>
+
+    <!-- Main converter grid -->
+    <div class="converter-grid">
+
+      <!-- Left: Input -->
+      <div class="converter-col">
+        <label style="display:block; margin-bottom:6px; font-size:0.8rem; font-weight:600; color:var(--gray);">JSON Input</label>
+        <textarea id="jsonInput" placeholder='[&#10;  {"name": "John", "age": 30, "city": "New York"},&#10;  {"name": "Jane", "age": 25, "city": "London"}&#10;]' style="height:360px; font-family: monospace; font-size: 0.85rem;"></textarea>
+        <div class="button-group" style="margin-top:12px; flex-wrap:wrap;">
+          <button id="convertBtn" class="btn btn-primary">Convert to CSV</button>
+          <button id="loadSampleBtn" class="btn btn-secondary">Sample</button>
+          <button id="clearBtn" class="btn btn-secondary">Clear</button>
+        </div>
+      </div>
+
+      <!-- Right: Output -->
+      <div class="converter-col">
+        <div class="output-tabs-bar">
+          <button id="previewTab" class="output-tab active-tab">Table Preview</button>
+          <button id="csvTab" class="output-tab">Raw Output</button>
+          <div style="margin-left:auto; display:flex; gap:8px;">
+            <button id="copyBtn" class="btn btn-success btn-sm">Copy</button>
+            <button id="downloadBtn" class="btn btn-secondary btn-sm">📥 Download CSV</button>
+          </div>
+        </div>
+        <div id="previewDiv" class="preview-pane">
+          <div style="text-align:center; padding:60px 20px; color:var(--gray); font-size:0.85rem;">Enter data and click Convert to see preview</div>
+        </div>
+        <textarea id="csvOutput" style="display:none; height:360px; font-family:monospace; font-size:0.82rem;" readonly placeholder="CSV output will appear here..."></textarea>
+      </div>
+
+    </div>
+  </div>
+
+
   <style>
     .direction-tab {
       padding: 10px 20px;
@@ -113,7 +156,64 @@ const relatedTools = [
       background: var(--primary);
       border-color: var(--primary);
     }
-  </style>
+
+    /* Converter layout */
+    .converter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .converter-col {
+      display: flex;
+      flex-direction: column;
+    }
+    .output-tabs-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .output-tab {
+      padding: 6px 14px;
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--gray);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .output-tab:hover { color: var(--white); border-color: var(--primary); }
+    .output-tab.active-tab {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--white);
+    }
+    .preview-pane {
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      min-height: 360px;
+      max-height: 480px;
+      overflow: auto;
+      font-size: 0.82rem;
+    }
+    .btn-sm {
+      padding: 5px 12px;
+      font-size: 0.82rem;
+    }
+    @media (max-width: 768px) {
+      .converter-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    </style>
 
   <Fragment slot="scripts" set:html={`<script src="/js/json-to-csv.js" defer></script>`} />
 
