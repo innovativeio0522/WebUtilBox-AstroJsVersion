@@ -25,6 +25,111 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 
 
 
+<div class="workspace">
+
+    <!-- Tab switcher -->
+    <div style="display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;">
+        <button id="duplicatesTab" class="mode-tab active" onclick="switchMode('duplicates')">🔁 Remove Duplicates</button>
+        <button id="lineNumbersTab" class="mode-tab" onclick="switchMode('lineNumbers')">🔢 Line Numbers</button>
+        <button id="whitespaceTab" class="mode-tab" onclick="switchMode('whitespace')">🧼 Whitespace</button>
+    </div>
+
+    <!-- REMOVE DUPLICATES -->
+    <div id="duplicatesMode">
+        <div class="cleaner-grid">
+            <div>
+                <div class="input-group">
+                    <label>Input Text <span style="color:var(--gray);font-weight:400;font-size:0.82rem;">— one item per line</span></label>
+                    <textarea id="duplicatesInput" placeholder="Paste your text here, one entry per line..." style="height:280px;"></textarea>
+                </div>
+                <div style="margin-top:14px; display:flex; flex-direction:column; gap:10px;">
+                    <label class="cleaner-check"><input type="checkbox" id="caseSensitive" /> Case Sensitive</label>
+                    <label class="cleaner-check"><input type="checkbox" id="trimLines" checked /> Trim whitespace per line</label>
+                    <label class="cleaner-check"><input type="checkbox" id="sortLines" /> Sort alphabetically after dedup</label>
+                </div>
+                <div class="button-group" style="margin-top:16px;">
+                    <button class="btn btn-primary" onclick="removeDuplicates()">Remove Duplicates</button>
+                    <button class="btn btn-secondary" onclick="clearDuplicates()">Clear</button>
+                </div>
+            </div>
+            <div>
+                <div id="duplicatesOutput" class="output-panel">
+                    <div class="output-header">
+                        <span class="output-label">Result <span id="duplicatesStats" style="color:var(--gray);font-size:0.8rem;font-weight:400;"></span></span>
+                        <button class="btn btn-success btn-sm" onclick="copyDuplicates()">Copy</button>
+                    </div>
+                    <pre id="duplicatesText" class="output-pre"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LINE NUMBERS -->
+    <div id="lineNumbersMode" style="display:none;">
+        <div class="cleaner-grid">
+            <div>
+                <div class="input-group">
+                    <label>Input Text</label>
+                    <textarea id="lineNumbersInput" placeholder="Paste your text here..." style="height:280px;"></textarea>
+                </div>
+                <div style="margin-top:14px; display:flex; gap:14px; flex-wrap:wrap;">
+                    <div class="input-group" style="flex:1; min-width:120px;">
+                        <label>Start Number</label>
+                        <input type="number" id="startNumber" value="1" min="0" style="width:100%;" />
+                    </div>
+                    <div class="input-group" style="flex:1; min-width:120px;">
+                        <label>Separator</label>
+                        <input type="text" id="separator" value=". " style="width:100%;" placeholder=". " />
+                    </div>
+                </div>
+                <div class="button-group" style="margin-top:16px;">
+                    <button class="btn btn-primary" onclick="addLineNumbers()">Add Line Numbers</button>
+                    <button class="btn btn-secondary" onclick="removeLineNumbers()">Remove Line Numbers</button>
+                    <button class="btn btn-secondary" onclick="clearLineNumbers()">Clear</button>
+                </div>
+            </div>
+            <div>
+                <div id="lineNumbersOutput" class="output-panel">
+                    <div class="output-header">
+                        <span class="output-label">Result</span>
+                        <button class="btn btn-success btn-sm" onclick="copyLineNumbers()">Copy</button>
+                    </div>
+                    <pre id="lineNumbersText" class="output-pre"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHITESPACE -->
+    <div id="whitespaceMode" style="display:none;">
+        <div class="cleaner-grid">
+            <div>
+                <div class="input-group">
+                    <label>Input Text</label>
+                    <textarea id="whitespaceInput" placeholder="Paste your text here..." style="height:280px;"></textarea>
+                </div>
+                <div class="button-group" style="margin-top:16px; flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="removeExtraSpaces()">Remove Extra Spaces</button>
+                    <button class="btn btn-secondary" onclick="removeAllSpaces()">Remove All Spaces</button>
+                    <button class="btn btn-secondary" onclick="removeEmptyLines()">Remove Empty Lines</button>
+                    <button class="btn btn-secondary" onclick="trimAllLines()">Trim Each Line</button>
+                    <button class="btn btn-secondary" onclick="clearWhitespace()">Clear</button>
+                </div>
+            </div>
+            <div>
+                <div id="whitespaceOutput" class="output-panel">
+                    <div class="output-header">
+                        <span class="output-label">Result</span>
+                        <button class="btn btn-success btn-sm" onclick="copyWhitespace()">Copy</button>
+                    </div>
+                    <pre id="whitespaceText" class="output-pre"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <style>
 .mode-tab {
             padding: 10px 20px;
@@ -45,6 +150,72 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
             background: var(--primary);
             border-color: var(--primary);
         }
+
+        /* Cleaner layout */
+        .cleaner-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+        .cleaner-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            color: var(--gray);
+            cursor: pointer;
+            user-select: none;
+        }
+        .cleaner-check input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+        .output-panel {
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+        }
+        .output-label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+        .output-pre {
+            margin: 0;
+            padding: 14px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--white);
+            white-space: pre-wrap;
+            word-break: break-all;
+            min-height: 280px;
+            max-height: 480px;
+            overflow-y: auto;
+            background: transparent;
+        }
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 0.82rem;
+        }
+        @media (max-width: 768px) {
+            .cleaner-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
 </style>
 
 
