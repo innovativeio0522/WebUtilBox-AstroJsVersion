@@ -25,6 +25,93 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 
 
 
+<div class="workspace">
+
+    <!-- Tab switcher -->
+    <div style="display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;">
+        <button id="reverseTab" class="mode-tab active" onclick="switchMode('reverse')">🔄 Reverse Text</button>
+        <button id="frequencyTab" class="mode-tab" onclick="switchMode('frequency')">📊 Character Frequency</button>
+    </div>
+
+    <!-- ===== REVERSE TEXT ===== -->
+    <div id="reverseMode">
+        <div class="reverser-grid">
+            <div>
+                <div class="input-group">
+                    <label>Input Text</label>
+                    <textarea id="reverseInput" placeholder="Type or paste text to reverse..." style="height:260px;"></textarea>
+                </div>
+                <div class="button-group" style="margin-top:14px; flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="reverseText()">Reverse Text</button>
+                    <button class="btn btn-secondary" onclick="reverseWords()">Reverse Words</button>
+                    <button class="btn btn-secondary" onclick="reverseLetters()">Reverse Letters in Words</button>
+                    <button class="btn btn-secondary" onclick="clearReverse()">Clear</button>
+                </div>
+            </div>
+            <div>
+                <div id="reverseOutput" class="rev-output-panel">
+                    <div class="rev-output-header">
+                        <span class="rev-output-label">Result</span>
+                        <button class="btn btn-success btn-sm" onclick="copyReverse()">Copy</button>
+                    </div>
+                    <pre id="reverseText" class="rev-output-pre"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CHARACTER FREQUENCY ===== -->
+    <div id="frequencyMode" style="display:none;">
+        <div class="reverser-grid">
+            <div>
+                <div class="input-group">
+                    <label>Input Text</label>
+                    <textarea id="frequencyInput" placeholder="Paste text to analyze character frequency..." style="height:260px;"></textarea>
+                </div>
+                <div class="button-group" style="margin-top:14px;">
+                    <button class="btn btn-primary" onclick="analyzeFrequency()">Analyze</button>
+                    <button class="btn btn-secondary" onclick="clearFrequency()">Clear</button>
+                </div>
+
+                <!-- Stats summary -->
+                <div id="statsContainer" style="display:none; margin-top:18px;">
+                    <div class="freq-stats-grid">
+                        <div class="freq-stat">
+                            <span class="freq-stat-label">Total Chars</span>
+                            <span class="freq-stat-value" id="totalChars">0</span>
+                        </div>
+                        <div class="freq-stat">
+                            <span class="freq-stat-label">Letters</span>
+                            <span class="freq-stat-value" id="totalLetters">0</span>
+                        </div>
+                        <div class="freq-stat">
+                            <span class="freq-stat-label">Digits</span>
+                            <span class="freq-stat-value" id="totalDigits">0</span>
+                        </div>
+                        <div class="freq-stat">
+                            <span class="freq-stat-label">Spaces</span>
+                            <span class="freq-stat-value" id="totalSpaces">0</span>
+                        </div>
+                        <div class="freq-stat">
+                            <span class="freq-stat-label">Unique</span>
+                            <span class="freq-stat-value" id="uniqueChars">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div id="frequencyOutput" class="rev-output-panel">
+                    <div class="rev-output-header">
+                        <span class="rev-output-label">Character Frequency Table</span>
+                    </div>
+                    <div id="frequencyTable" style="max-height:480px; overflow-y:auto; padding:8px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <style>
 .mode-tab {
             padding: 10px 20px;
@@ -45,6 +132,87 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
             background: var(--primary);
             border-color: var(--primary);
         }
+
+        /* Reverser layout */
+        .reverser-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+        .rev-output-panel {
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .rev-output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+        }
+        .rev-output-label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+        .rev-output-pre {
+            margin: 0;
+            padding: 14px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.88rem;
+            color: var(--white);
+            white-space: pre-wrap;
+            word-break: break-all;
+            min-height: 240px;
+            max-height: 480px;
+            overflow-y: auto;
+            background: transparent;
+        }
+        .freq-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+        }
+        .freq-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .freq-stat-label {
+            font-size: 0.7rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            text-align: center;
+        }
+        .freq-stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 0.82rem;
+        }
+        @media (max-width: 768px) {
+            .reverser-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .freq-stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
 </style>
 
 
