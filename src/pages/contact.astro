@@ -89,26 +89,24 @@ const canonical = 'https://webutilbox.com/contact';
         </div>
     </div>
 
-    <Fragment slot="scripts" set:html={`
-        <script>
-            function copyEmail() {
-                const email = 'innovativeme.dev@gmail.com';
+    <script is:inline>
+        function copyEmail() {
+            const email = 'innovativeme.dev@gmail.com';
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(email).then(() => {
+                // Show success message
+                const message = document.getElementById('copyMessage');
+                message.style.display = 'block';
                 
-                // Copy to clipboard
-                navigator.clipboard.writeText(email).then(() => {
-                    // Show success message
-                    const message = document.getElementById('copyMessage');
-                    message.style.display = 'block';
-                    
-                    // Hide after 3 seconds
-                    setTimeout(() => {
-                        message.style.display = 'none';
-                    }, 3000);
-                }).catch(err => {
-                    // Fallback for older browsers
-                    alert('Email: ' + email + '\\n\\nPlease copy this email address manually.');
-                });
-            }
-        </script>
-    `} />
+                // Hide after 3 seconds
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 3000);
+            }).catch(err => {
+                // Fallback for older browsers
+                alert('Email: ' + email + '\n\nPlease copy this email address manually.');
+            });
+        }
+    </script>
 </BaseLayout>

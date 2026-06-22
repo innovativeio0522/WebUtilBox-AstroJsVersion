@@ -59,8 +59,7 @@ const title = document.getElementById('title');
 
             let html = '<!-- Basic Meta Tags -->\n';
             html += '<meta charset="UTF-8">\n';
-            html += '<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="../favicon.svg">\n';
+            html += '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<link rel="icon" type="image/svg+xml" href="../favicon.svg">\n';
             html += '<title>' + escapeHtml(title.value) + '</title>\n';
 
             if (description.value) {

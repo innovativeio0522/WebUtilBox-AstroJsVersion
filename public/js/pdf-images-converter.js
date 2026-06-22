@@ -168,7 +168,9 @@ function loadScript(src) {
 
         function handleImageDrop(e) {
             e.preventDefault();
-            const dropIndex = parseInt(e.target.closest('.image-item').dataset.index);
+            const closestItem = e.target.closest('.image-item');
+            if (!closestItem) return;
+            const dropIndex = parseInt(closestItem.dataset.index);
             
             if (draggedImageIndex !== null && draggedImageIndex !== dropIndex) {
                 const draggedItem = imageFiles[draggedImageIndex];
@@ -273,6 +275,7 @@ function loadScript(src) {
                 a.href = url;
                 a.download = `images_to_pdf_${Date.now()}.pdf`;
                 a.click();
+                URL.revokeObjectURL(url);
 
                 document.getElementById('progress').style.display = 'none';
                 showToast('PDF created successfully!');

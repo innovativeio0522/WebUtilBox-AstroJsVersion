@@ -250,19 +250,6 @@ console.log('Total: $' + total);`;
             });
         }, { timeout: 2000 });
 
-        // Clear
-        requestIdleCallback(() => {
-            clearBtn.addEventListener('click', () => {
-                inputCode.value = '';
-                outputCode.value = '';
-                updateStats();
-                showToast('Cleared');
-            });
-
-            // Initialize
-            updateStats();
-        }, { timeout: 2000 });
-
         function showToast(message, isError = false) {
             const toast = document.getElementById('toast');
             const msg = document.getElementById('toastMessage');

@@ -51,21 +51,9 @@ let originalImage = null;
 
             // Generate HTML code
             const htmlCode = `<!-- Favicon Links -->
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">    
-    <!-- Preconnect to external domains for faster loading -->
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
-    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
-    
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">    
-    <!-- Preconnect to external domains for faster loading -->
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
-    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
-    
-<link rel="icon" type="image/png" sizes="64x64" href="/favicon-64x64.png">    
-    <!-- Preconnect to external domains for faster loading -->
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
-    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
-    
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon-64x64.png">
 <link rel="apple-touch-icon" sizes="128x128" href="/favicon-128x128.png">
 <link rel="apple-touch-icon" sizes="256x256" href="/favicon-256x256.png">`;
             

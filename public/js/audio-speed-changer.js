@@ -2,6 +2,7 @@ let audioContext;
         let audioBuffer;
         let fileName = '';
         let originalDuration = 0;
+        let activeAudioUrl = null;
 
         async function loadAudio() {
             const file = document.getElementById('audioFile').files[0];
@@ -10,11 +11,25 @@ let audioContext;
             fileName = file.name.split('.')[0];
             const arrayBuffer = await file.arrayBuffer();
             
+            // Close old AudioContext to prevent context limits throttling
+            if (audioContext) {
+                try {
+                    await audioContext.close();
+                } catch (e) {
+                    console.error('Error closing AudioContext', e);
+                }
+            }
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
             audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
             const player = document.getElementById('audioPlayer');
-            player.src = URL.createObjectURL(file);
+            
+            // Revoke old player Object URL to prevent memory leaks
+            if (activeAudioUrl) {
+                URL.revokeObjectURL(activeAudioUrl);
+            }
+            activeAudioUrl = URL.createObjectURL(file);
+            player.src = activeAudioUrl;
             player.preservesPitch = true;
 
             originalDuration = audioBuffer.duration;
@@ -95,6 +110,7 @@ let audioContext;
             a.href = url;
             a.download = `${fileName}_${speed}x.wav`;
             a.click();
+            URL.revokeObjectURL(url);
 
             showToast('Audio downloaded successfully!');
         }

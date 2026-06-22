@@ -3,9 +3,11 @@ let audioContext;
         let dataArray;
         let bufferLength;
         let animationId;
-        let source;
+        let playerSource;
+        let micSource;
         let canvas;
         let ctx;
+        let activeAudioUrl = null;
 
         function initCanvas() {
             canvas = document.getElementById('visualizer');
@@ -20,18 +22,31 @@ let audioContext;
 
             stopVisualization();
 
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            analyser = audioContext.createAnalyser();
-            analyser.fftSize = 2048;
-            analyser.smoothingTimeConstant = 0.8;
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioContext.state === 'suspended') {
+                await audioContext.resume();
+            }
+            if (!analyser) {
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 2048;
+                analyser.smoothingTimeConstant = 0.8;
+            }
 
             const player = document.getElementById('audioPlayer');
-            player.src = URL.createObjectURL(file);
+            if (activeAudioUrl) {
+                URL.revokeObjectURL(activeAudioUrl);
+            }
+            activeAudioUrl = URL.createObjectURL(file);
+            player.src = activeAudioUrl;
             document.getElementById('audioPlayerSection').style.display = 'block';
 
-            source = audioContext.createMediaElementSource(player);
-            source.connect(analyser);
-            analyser.connect(audioContext.destination);
+            if (!playerSource) {
+                playerSource = audioContext.createMediaElementSource(player);
+                playerSource.connect(analyser);
+                analyser.connect(audioContext.destination);
+            }
 
             bufferLength = analyser.frequencyBinCount;
             dataArray = new Uint8Array(bufferLength);
@@ -49,13 +64,20 @@ let audioContext;
 
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioContext.createAnalyser();
-                analyser.fftSize = 2048;
-                analyser.smoothingTimeConstant = 0.8;
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
+                if (!analyser) {
+                    analyser = audioContext.createAnalyser();
+                    analyser.fftSize = 2048;
+                    analyser.smoothingTimeConstant = 0.8;
+                }
 
-                source = audioContext.createMediaStreamSource(stream);
-                source.connect(analyser);
+                micSource = audioContext.createMediaStreamSource(stream);
+                micSource.connect(analyser);
 
                 bufferLength = analyser.frequencyBinCount;
                 dataArray = new Uint8Array(bufferLength);
@@ -228,21 +250,20 @@ let audioContext;
                 animationId = null;
             }
 
-            if (source) {
-                if (source.mediaStream) {
-                    source.mediaStream.getTracks().forEach(track => track.stop());
+            if (micSource) {
+                if (micSource.mediaStream) {
+                    micSource.mediaStream.getTracks().forEach(track => track.stop());
                 }
-                source.disconnect();
-                source = null;
-            }
-
-            if (audioContext) {
-                audioContext.close();
-                audioContext = null;
+                micSource.disconnect();
+                micSource = null;
             }
 
             const player = document.getElementById('audioPlayer');
             player.pause();
+            if (activeAudioUrl) {
+                URL.revokeObjectURL(activeAudioUrl);
+                activeAudioUrl = null;
+            }
             player.src = '';
 
             document.getElementById('stopBtn').style.display = 'none';

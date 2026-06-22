@@ -1,30 +1,45 @@
 let video = null;
         let audioContext = null;
+        let sourceNode = null;
+        let destinationNode = null;
         let audioBlob = null;
         let originalFileName = '';
+        let activeVideoUrl = null;
+        let activeAudioUrl = null;
+        let loadedFile = null;
+        let eventListenersBound = false;
 
         function loadVideo() {
             const file = document.getElementById('videoFile').files[0];
             if (!file) return;
+            loadedFile = file;
+
+            if (activeVideoUrl) {
+                URL.revokeObjectURL(activeVideoUrl);
+            }
 
             originalFileName = file.name.replace(/\.[^/.]+$/, '');
             video = document.getElementById('videoPlayer');
-            video.src = URL.createObjectURL(file);
+            activeVideoUrl = URL.createObjectURL(file);
+            video.src = activeVideoUrl;
 
-            video.addEventListener('loadedmetadata', () => {
-                const duration = formatTime(video.duration);
-                const resolution = `${video.videoWidth} × ${video.videoHeight}`;
-                
-                document.getElementById('fileName').textContent = file.name;
-                document.getElementById('videoDuration').textContent = duration;
-                document.getElementById('videoResolution').textContent = resolution;
-                document.getElementById('endTime').max = video.duration;
-                document.getElementById('startTime').max = video.duration;
-                document.getElementById('endTime').placeholder = `End (max: ${video.duration.toFixed(1)}s)`;
-                
-                document.getElementById('videoControls').style.display = 'block';
-                showToast('Video loaded successfully!');
-            });
+            if (!eventListenersBound) {
+                video.addEventListener('loadedmetadata', () => {
+                    const duration = formatTime(video.duration);
+                    const resolution = `${video.videoWidth} × ${video.videoHeight}`;
+                    
+                    document.getElementById('fileName').textContent = loadedFile.name;
+                    document.getElementById('videoDuration').textContent = duration;
+                    document.getElementById('videoResolution').textContent = resolution;
+                    document.getElementById('endTime').max = video.duration;
+                    document.getElementById('startTime').max = video.duration;
+                    document.getElementById('endTime').placeholder = `End (max: ${video.duration.toFixed(1)}s)`;
+                    
+                    document.getElementById('videoControls').style.display = 'block';
+                    showToast('Video loaded successfully!');
+                });
+                eventListenersBound = true;
+            }
         }
 
         async function extractAudio() {
@@ -37,16 +52,18 @@ let video = null;
             document.getElementById('progressText').textContent = 'Extracting audio...';
 
             try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // Create media element source
-                const source = audioContext.createMediaElementSource(video);
-                const destination = audioContext.createMediaStreamDestination();
-                source.connect(destination);
-                source.connect(audioContext.destination);
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    sourceNode = audioContext.createMediaElementSource(video);
+                    destinationNode = audioContext.createMediaStreamDestination();
+                    sourceNode.connect(destinationNode);
+                    sourceNode.connect(audioContext.destination);
+                } else if (audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
 
                 // Record audio
-                const mediaRecorder = new MediaRecorder(destination.stream);
+                const mediaRecorder = new MediaRecorder(destinationNode.stream);
                 const chunks = [];
 
                 mediaRecorder.ondataavailable = (e) => {
@@ -90,9 +107,12 @@ let video = null;
         async function convertAudioFormat(blob, format) {
             // For now, we'll use the WebM audio as-is
             // In a production app, you'd use a library like ffmpeg.wasm for format conversion
-            const url = URL.createObjectURL(blob);
+            if (activeAudioUrl) {
+                URL.revokeObjectURL(activeAudioUrl);
+            }
+            activeAudioUrl = URL.createObjectURL(blob);
             const audioPlayer = document.getElementById('audioPlayer');
-            audioPlayer.src = url;
+            audioPlayer.src = activeAudioUrl;
             document.getElementById('audioPreview').style.display = 'block';
         }
 

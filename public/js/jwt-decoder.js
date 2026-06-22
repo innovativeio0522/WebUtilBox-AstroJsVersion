@@ -1,3 +1,16 @@
+function decodeBase64Url(str) {
+    str = str.replace(/-/g, '+').replace(/_/g, '/');
+    while (str.length % 4) {
+        str += '=';
+    }
+    const binary = atob(str);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+    }
+    return new TextDecoder().decode(bytes);
+}
+
 function decodeJWT() {
             const jwt = document.getElementById('jwtInput').value.trim();
             
@@ -14,9 +27,9 @@ function decodeJWT() {
                     return;
                 }
                 
-                // Decode header and payload
-                const header = JSON.parse(atob(parts[0]));
-                const payload = JSON.parse(atob(parts[1]));
+                // Decode header and payload safely supporting Base64URL and UTF-8
+                const header = JSON.parse(decodeBase64Url(parts[0]));
+                const payload = JSON.parse(decodeBase64Url(parts[1]));
                 const signature = parts[2];
                 
                 // Display token parts

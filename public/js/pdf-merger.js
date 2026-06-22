@@ -73,7 +73,9 @@ function loadScript(src) {
 
         function handleDrop(e) {
             e.preventDefault();
-            const dropIndex = parseInt(e.target.closest('.pdf-item').dataset.index);
+            const closestItem = e.target.closest('.pdf-item');
+            if (!closestItem) return;
+            const dropIndex = parseInt(closestItem.dataset.index);
             
             if (draggedIndex !== null && draggedIndex !== dropIndex) {
                 const draggedItem = pdfFiles[draggedIndex];
@@ -140,6 +142,7 @@ function loadScript(src) {
                 a.href = url;
                 a.download = `merged_${Date.now()}.pdf`;
                 a.click();
+                URL.revokeObjectURL(url);
 
                 document.getElementById('progress').style.display = 'none';
                 showToast('PDFs merged successfully!');

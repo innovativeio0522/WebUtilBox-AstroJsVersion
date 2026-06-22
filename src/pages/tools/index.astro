@@ -255,40 +255,38 @@ const toolCategories = [
         <ShareBar shareText={shareText} shareUrl={shareUrl} />
     </div>
 
-    <slot name="head">
-        <link rel="stylesheet" href="/assets/css/home.css" />
-        <script is:inline>
-            document.addEventListener('DOMContentLoaded', () => {
-                const searchInput = document.getElementById('tool-search');
-                if (!searchInput) {
-                    console.error('Search input not found');
-                    return;
-                }
+    <link slot="head" rel="stylesheet" href="/assets/css/home.css" />
+    <script slot="head" is:inline>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('tool-search');
+            if (!searchInput) {
+                console.error('Search input not found');
+                return;
+            }
+            
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const sections = document.querySelectorAll('.category-section');
                 
-                searchInput.addEventListener('input', (e) => {
-                    const searchTerm = e.target.value.toLowerCase();
-                    const sections = document.querySelectorAll('.category-section');
+                sections.forEach(section => {
+                    const tools = section.querySelectorAll('.tool-card');
+                    let visibleCount = 0;
                     
-                    sections.forEach(section => {
-                        const tools = section.querySelectorAll('.tool-card');
-                        let visibleCount = 0;
+                    tools.forEach(card => {
+                        const name = card.getAttribute('data-tool-name');
+                        const desc = card.getAttribute('data-tool-desc');
                         
-                        tools.forEach(card => {
-                            const name = card.getAttribute('data-tool-name');
-                            const desc = card.getAttribute('data-tool-desc');
-                            
-                            if (searchTerm === '' || (name && name.includes(searchTerm)) || (desc && desc.includes(searchTerm))) {
-                                card.style.display = 'flex';
-                                visibleCount++;
-                            } else {
-                                card.style.display = 'none';
-                            }
-                        });
-                        
-                        section.style.display = searchTerm === '' || visibleCount > 0 ? 'block' : 'none';
+                        if (searchTerm === '' || (name && name.includes(searchTerm)) || (desc && desc.includes(searchTerm))) {
+                            card.style.display = 'flex';
+                            visibleCount++;
+                        } else {
+                            card.style.display = 'none';
+                        }
                     });
+                    
+                    section.style.display = searchTerm === '' || visibleCount > 0 ? 'block' : 'none';
                 });
             });
-        </script>
-    </slot>
+        });
+    </script>
 </BaseLayout>

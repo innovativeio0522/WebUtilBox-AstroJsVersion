@@ -8,6 +8,7 @@ let mediaRecorder;
         let animationId;
         let isPaused = false;
         let pausedTime = 0;
+        let activeAudioUrl = null;
 
         async function startRecording() {
             try {
@@ -24,8 +25,11 @@ let mediaRecorder;
 
                 mediaRecorder.onstop = () => {
                     const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                    const audioUrl = URL.createObjectURL(audioBlob);
-                    document.getElementById('audioPlayback').src = audioUrl;
+                    if (activeAudioUrl) {
+                        URL.revokeObjectURL(activeAudioUrl);
+                    }
+                    activeAudioUrl = URL.createObjectURL(audioBlob);
+                    document.getElementById('audioPlayback').src = activeAudioUrl;
                     document.getElementById('playbackSection').style.display = 'block';
                     stopVisualizer();
                 };
@@ -102,6 +106,7 @@ let mediaRecorder;
         }
 
         function startVisualizer(stream) {
+            stopVisualizer();
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
             analyser = audioContext.createAnalyser();
             const source = audioContext.createMediaStreamSource(stream);
@@ -156,6 +161,7 @@ let mediaRecorder;
             a.href = url;
             a.download = `recording_${Date.now()}.wav`;
             a.click();
+            URL.revokeObjectURL(url);
             showToast('Recording downloaded!');
         }
 
@@ -165,6 +171,11 @@ let mediaRecorder;
             document.getElementById('timer').textContent = '00:00';
             document.getElementById('visualizer').style.display = 'none';
             audioChunks = [];
+            if (activeAudioUrl) {
+                URL.revokeObjectURL(activeAudioUrl);
+                activeAudioUrl = null;
+            }
+            document.getElementById('audioPlayback').src = '';
         }
 
         function showToast(message, isError = false) {

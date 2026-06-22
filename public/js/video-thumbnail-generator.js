@@ -1,27 +1,40 @@
 let video = null;
         let thumbnails = [];
+        let activeVideoUrl = null;
+        let eventListenersBound = false;
 
         function loadVideo() {
             const file = document.getElementById('videoFile').files[0];
             if (!file) return;
 
+            clearThumbnails();
+
             video = document.getElementById('videoPlayer');
-            video.src = URL.createObjectURL(file);
+            
+            // Revoke previous video Object URL to prevent memory leaks
+            if (activeVideoUrl) {
+                URL.revokeObjectURL(activeVideoUrl);
+            }
+            activeVideoUrl = URL.createObjectURL(file);
+            video.src = activeVideoUrl;
 
-            video.addEventListener('loadedmetadata', () => {
-                const duration = formatTime(video.duration);
-                const resolution = `${video.videoWidth} × ${video.videoHeight}`;
-                
-                document.getElementById('videoDuration').textContent = duration;
-                document.getElementById('videoResolution').textContent = resolution;
-                document.getElementById('videoControls').style.display = 'block';
-                
-                showToast('Video loaded successfully!');
-            });
+            if (!eventListenersBound) {
+                video.addEventListener('loadedmetadata', () => {
+                    const duration = formatTime(video.duration);
+                    const resolution = `${video.videoWidth} × ${video.videoHeight}`;
+                    
+                    document.getElementById('videoDuration').textContent = duration;
+                    document.getElementById('videoResolution').textContent = resolution;
+                    document.getElementById('videoControls').style.display = 'block';
+                    
+                    showToast('Video loaded successfully!');
+                });
 
-            video.addEventListener('timeupdate', () => {
-                document.getElementById('currentTime').textContent = formatTime(video.currentTime);
-            });
+                video.addEventListener('timeupdate', () => {
+                    document.getElementById('currentTime').textContent = formatTime(video.currentTime);
+                });
+                eventListenersBound = true;
+            }
         }
 
         function updateCaptureMode() {
