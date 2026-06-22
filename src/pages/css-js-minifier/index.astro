@@ -28,6 +28,133 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 
 
 
+
+<div class="workspace">
+
+    <!-- Mode tabs -->
+    <div style="display:flex; gap:10px; margin-bottom:22px; flex-wrap:wrap;">
+        <button id="cssTab" class="tab-btn" style="padding:10px 22px; background:var(--primary); border:1px solid var(--primary); border-radius:6px; color:var(--white); cursor:pointer; font-size:0.9rem; font-weight:600; transition:all 0.2s;">🎨 CSS Minifier</button>
+        <button id="jsTab" class="tab-btn" style="padding:10px 22px; background:transparent; border:1px solid var(--border); border-radius:6px; color:var(--gray); cursor:pointer; font-size:0.9rem; font-weight:600; transition:all 0.2s;">⚡ JS Minifier</button>
+    </div>
+
+    <!-- Code editor grid -->
+    <div class="mini-grid">
+
+        <!-- Left: Input -->
+        <div class="mini-col">
+            <div class="mini-panel-header">
+                <span class="mini-panel-title">📝 Original Code</span>
+                <div class="mini-stats-row">
+                    <span id="inputLines">0</span> lines &middot;
+                    <span id="inputChars">0</span> chars &middot;
+                    <strong id="inputSize">0 B</strong>
+                </div>
+            </div>
+            <textarea id="inputCode"
+                placeholder="Paste your CSS code here..."
+                style="height:360px; font-family:'Courier New',monospace; font-size:0.84rem; resize:vertical;">
+            </textarea>
+            <div class="button-group" style="margin-top:12px; flex-wrap:wrap;">
+                <button id="minifyBtn" class="btn btn-primary">Minify Code</button>
+                <button id="loadSampleBtn" class="btn btn-secondary">Sample</button>
+                <button id="clearBtn" class="btn btn-secondary">Clear</button>
+            </div>
+        </div>
+
+        <!-- Right: Output -->
+        <div class="mini-col">
+            <div class="mini-panel-header">
+                <span class="mini-panel-title">✨ Minified Output</span>
+                <div class="mini-stats-row">
+                    <span id="outputLines">0</span> lines &middot;
+                    <span id="outputChars">0</span> chars &middot;
+                    <strong id="outputSize">0 B</strong>
+                </div>
+            </div>
+            <textarea id="outputCode" readonly
+                placeholder="Minified code will appear here..."
+                style="height:360px; font-family:'Courier New',monospace; font-size:0.84rem; resize:vertical;">
+            </textarea>
+            <div class="button-group" style="margin-top:12px;">
+                <button id="copyBtn" class="btn btn-success">Copy</button>
+                <button id="downloadBtn" class="btn btn-secondary">Download</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Compression stats bar -->
+    <div class="mini-stats-bar">
+        <div class="mini-stat">
+            <span class="mini-stat-label">Saved</span>
+            <span class="mini-stat-value" id="sizeReduced">0 B</span>
+        </div>
+        <div class="mini-stat">
+            <span class="mini-stat-label">Compression</span>
+            <span class="mini-stat-value" id="compressionPercent">0%</span>
+        </div>
+    </div>
+
+</div>
+
+<style>
+.mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    align-items: start;
+    margin-bottom: 16px;
+}
+.mini-col { display: flex; flex-direction: column; }
+.mini-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.mini-panel-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--white);
+}
+.mini-stats-row {
+    font-size: 0.78rem;
+    color: var(--gray);
+}
+.mini-stats-row strong { color: var(--primary); }
+.mini-stats-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+.mini-stat {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.mini-stat-label {
+    font-size: 0.75rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.mini-stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+@media (max-width: 768px) {
+    .mini-grid { grid-template-columns: 1fr; gap: 20px; }
+    .mini-stats-bar { grid-template-columns: 1fr 1fr; }
+}
+</style>
+
+
 <script src="/js/css-js-minifier.js" defer></script>
 
 <div class="info-section" slot="info">
