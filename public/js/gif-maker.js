@@ -1,5 +1,6 @@
 let frames = [];
         let gifBlob = null;
+        let animationId = null;
 
         async function loadImages() {
             const files = Array.from(document.getElementById('imageFiles').files);
@@ -64,7 +65,9 @@ let frames = [];
 
         function handleDrop(e) {
             e.preventDefault();
-            const dropIndex = parseInt(e.target.closest('.frame-item').dataset.index);
+            const closestItem = e.target.closest('.frame-item');
+            if (!closestItem) return;
+            const dropIndex = parseInt(closestItem.dataset.index);
             
             if (draggedIndex !== null && draggedIndex !== dropIndex) {
                 const draggedItem = frames[draggedIndex];
@@ -84,6 +87,10 @@ let frames = [];
         }
 
         function clearFrames() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
             frames.forEach(frame => URL.revokeObjectURL(frame.url));
             frames = [];
             document.getElementById('imageList').style.display = 'none';
@@ -133,7 +140,6 @@ let frames = [];
                 });
 
                 gifBlob = blob;
-                const url = URL.createObjectURL(blob);
                 
                 // Create a simple animation preview using canvas
                 createAnimatedPreview(canvases, delay);
@@ -149,6 +155,9 @@ let frames = [];
         }
 
         function createAnimatedPreview(canvases, delay) {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
             const previewImg = document.getElementById('gifPreview');
             const previewCanvas = document.createElement('canvas');
             previewCanvas.width = canvases[0].width;
@@ -170,16 +179,24 @@ let frames = [];
                 return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
             }
 
+            let lastDrawnFrame = -1;
+            let lastDrawnProgress = -1;
+
             function animate() {
                 const now = Date.now();
                 const deltaTime = now - lastTime;
                 lastTime = now;
 
-                ctx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+                let needsUpdate = false;
 
                 if (transition === 'none') {
                     // No transition - instant switch
-                    ctx.drawImage(canvases[currentFrame], 0, 0);
+                    if (currentFrame !== lastDrawnFrame) {
+                        ctx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+                        ctx.drawImage(canvases[currentFrame], 0, 0);
+                        lastDrawnFrame = currentFrame;
+                        needsUpdate = true;
+                    }
                     
                     if (!isTransitioning) {
                         isTransitioning = true;
@@ -220,11 +237,19 @@ let frames = [];
                     const progress = addBounce ? easeInOutQuad(transitionProgress) : transitionProgress;
                     const nextFrame = (currentFrame + direction + canvases.length) % canvases.length;
 
-                    applyTransition(ctx, canvases[currentFrame], canvases[nextFrame], progress, transition);
+                    if (currentFrame !== lastDrawnFrame || transitionProgress !== lastDrawnProgress) {
+                        ctx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+                        applyTransition(ctx, canvases[currentFrame], canvases[nextFrame], progress, transition);
+                        lastDrawnFrame = currentFrame;
+                        lastDrawnProgress = transitionProgress;
+                        needsUpdate = true;
+                    }
                 }
 
-                previewImg.src = previewCanvas.toDataURL();
-                requestAnimationFrame(animate);
+                if (needsUpdate) {
+                    previewImg.src = previewCanvas.toDataURL();
+                }
+                animationId = requestAnimationFrame(animate);
             }
 
             function applyTransition(ctx, currentCanvas, nextCanvas, progress, effect) {

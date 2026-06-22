@@ -116,6 +116,8 @@ let timeLeft = 25 * 60; // seconds
             
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + 0.5);
+            
+            setTimeout(() => audioContext.close(), 1000);
         }
 
         function showToast(message) {

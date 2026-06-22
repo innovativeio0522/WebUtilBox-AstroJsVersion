@@ -1,5 +1,5 @@
-# Cache headers for Netlify
-# https://docs.netlify.com/routing/headers/
+# Cache headers for Cloudflare Pages
+# https://developers.cloudflare.com/pages/configuration/headers/
 
 # Cache CSS and JS files for 1 year (immutable)
 /assets/css/*

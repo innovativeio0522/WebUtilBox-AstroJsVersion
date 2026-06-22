@@ -4,6 +4,7 @@ let originalImage = null;
         let cropEnd = null;
         let isDragging = false;
         let aspectRatio = null;
+        let eventListenersBound = false;
 
         // Drag and drop
         const dropZone = document.getElementById('dropZone');
@@ -58,11 +59,14 @@ let originalImage = null;
 
             drawImage();
 
-            // Mouse events
-            canvas.addEventListener('mousedown', startCrop);
-            canvas.addEventListener('mousemove', updateCrop);
-            canvas.addEventListener('mouseup', endCrop);
-            canvas.addEventListener('mouseleave', endCrop);
+            // Mouse events (only once)
+            if (!eventListenersBound) {
+                canvas.addEventListener('mousedown', startCrop);
+                canvas.addEventListener('mousemove', updateCrop);
+                canvas.addEventListener('mouseup', endCrop);
+                canvas.addEventListener('mouseleave', endCrop);
+                eventListenersBound = true;
+            }
 
             // Initialize with full image selection
             cropStart = { x: 0, y: 0 };
