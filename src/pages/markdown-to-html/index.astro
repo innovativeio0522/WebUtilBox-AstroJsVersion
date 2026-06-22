@@ -27,6 +27,116 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 
 
 
+
+<div class="workspace">
+    <div class="md-grid">
+
+        <!-- Left: Markdown Input -->
+        <div class="md-col">
+            <div class="md-panel-header">
+                <span class="md-panel-title">📝 Markdown Input</span>
+                <div style="display:flex; gap:8px;">
+                    <button id="loadBtn" class="btn btn-secondary btn-sm">Load Sample</button>
+                </div>
+            </div>
+            <textarea id="markdownInput"
+                placeholder="# Hello World&#10;&#10;Type your **Markdown** here and see the live preview..."
+                style="height:460px; font-family:'Courier New',monospace; font-size:0.85rem; resize:vertical; line-height:1.6;">
+            </textarea>
+        </div>
+
+        <!-- Right: Preview + HTML Output -->
+        <div class="md-col">
+            <div class="md-panel-header">
+                <div class="md-output-tabs">
+                    <button id="previewTab" class="md-tab md-tab-active">👁️ Preview</button>
+                    <button id="htmlTab" class="md-tab">&lt;/&gt; HTML</button>
+                </div>
+                <button id="copyBtn" class="btn btn-success btn-sm">Copy HTML</button>
+            </div>
+
+            <!-- Rendered preview -->
+            <div id="previewDiv" class="md-preview-pane">
+                <div style="color:var(--gray); text-align:center; padding:60px 20px; font-size:0.85rem;">
+                    Enter Markdown to see preview...
+                </div>
+            </div>
+
+            <!-- Raw HTML output -->
+            <textarea id="htmlOutput" style="display:none; height:460px; font-family:'Courier New',monospace; font-size:0.82rem;" readonly placeholder="Generated HTML will appear here..."></textarea>
+        </div>
+
+    </div>
+</div>
+
+<style>
+.md-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    align-items: start;
+}
+.md-col {
+    display: flex;
+    flex-direction: column;
+}
+.md-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.md-panel-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--white);
+}
+.md-output-tabs {
+    display: flex;
+    gap: 6px;
+}
+.md-tab {
+    padding: 5px 14px;
+    background: var(--dark);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--gray);
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+.md-tab:hover { color: var(--white); border-color: var(--primary); }
+.md-tab-active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+}
+.md-preview-pane {
+    height: 460px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    color: #1a1a1a;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    resize: vertical;
+}
+.btn-sm {
+    padding: 5px 12px;
+    font-size: 0.82rem;
+}
+@media (max-width: 768px) {
+    .md-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+</style>
+
+
 <script defer src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
 <script src="/js/markdown-to-html.js" defer></script>
 
