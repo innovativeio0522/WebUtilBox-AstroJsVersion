@@ -23,10 +23,227 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace">
+    <div class="sorter-grid">
 
+        <!-- Left: Input Panel -->
+        <div class="sorter-panel">
+            <div class="panel-header">
+                <h3 class="panel-title">📥 Input Text</h3>
+                <div class="input-stats">
+                    <span>Lines: <strong id="lineCount">0</strong></span>
+                    <span>Chars: <strong id="charCount">0</strong></span>
+                </div>
+            </div>
+            <div class="input-group">
+                <textarea id="inputText" placeholder="Paste your text here — one item per line..."></textarea>
+            </div>
+            <div class="button-group" style="margin-top: 12px;">
+                <button id="loadSampleBtn" class="btn btn-secondary">Load Sample</button>
+                <button id="clearBtn" class="btn btn-secondary">Clear</button>
+            </div>
+        </div>
 
+        <!-- Right: Options + Output Panel -->
+        <div class="sorter-panel">
 
+            <!-- Sort Options -->
+            <div class="options-box">
+                <div class="options-row">
+                    <div class="input-group" style="flex: 1;">
+                        <label>Sort Type</label>
+                        <select id="sortType">
+                            <option value="alpha">Alphabetical</option>
+                            <option value="numeric">Numerical</option>
+                            <option value="length">By Length</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>Order</label>
+                        <select id="sortOrder">
+                            <option value="asc">Ascending ↑</option>
+                            <option value="desc">Descending ↓</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="checkbox-row">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="caseSensitive" />
+                        Case Sensitive
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="removeDuplicates" checked />
+                        Remove Duplicates
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="removeEmpty" checked />
+                        Remove Empty Lines
+                    </label>
+                </div>
+                <button id="sortBtn" class="btn btn-primary sort-btn">Sort Text</button>
+            </div>
 
+            <!-- Output -->
+            <div class="panel-header" style="margin-top: 16px;">
+                <h3 class="panel-title">📤 Sorted Output</h3>
+                <div class="input-stats">
+                    <span>Lines: <strong id="outputLineCount">0</strong></span>
+                    <span>Chars: <strong id="outputCharCount">0</strong></span>
+                </div>
+            </div>
+            <div class="input-group">
+                <textarea id="outputText" readonly placeholder="Sorted result will appear here..."></textarea>
+            </div>
+            <div class="button-group" style="margin-top: 12px;">
+                <button id="copyBtn" class="btn btn-success">Copy</button>
+                <button id="downloadBtn" class="btn btn-secondary">Download .txt</button>
+            </div>
+
+            <!-- Sort Stats -->
+            <div id="sortStats" class="sort-stats-bar">
+                <div class="sort-stat">
+                    <span class="sort-stat-label">Original</span>
+                    <span class="sort-stat-value" id="statsOriginal">—</span>
+                </div>
+                <div class="sort-stat">
+                    <span class="sort-stat-label">Sorted</span>
+                    <span class="sort-stat-value" id="statsSorted">—</span>
+                </div>
+                <div class="sort-stat">
+                    <span class="sort-stat-label">Removed</span>
+                    <span class="sort-stat-value" id="statsRemoved">—</span>
+                </div>
+                <div class="sort-stat">
+                    <span class="sort-stat-label">Duplicates</span>
+                    <span class="sort-stat-value" id="statsDuplicates">—</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.sorter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+.sorter-panel {
+    display: flex;
+    flex-direction: column;
+}
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.panel-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--white);
+    margin: 0;
+}
+.input-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 0.82rem;
+    color: var(--gray);
+}
+.input-stats strong {
+    color: var(--primary);
+}
+.options-box {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 4px;
+}
+.options-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.checkbox-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.88rem;
+    color: var(--gray);
+    cursor: pointer;
+    user-select: none;
+}
+.checkbox-label input[type="checkbox"] {
+    accent-color: var(--primary);
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+.sort-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+.sort-stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+}
+.sort-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.sort-stat-label {
+    font-size: 0.75rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.sort-stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+#inputText,
+#outputText {
+    height: 320px;
+    resize: vertical;
+}
+#outputText {
+    background: var(--dark);
+    color: var(--white);
+    border-color: var(--border);
+}
+@media (max-width: 768px) {
+    .sorter-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .sort-stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .options-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+</style>
 
 <script src="/js/text-sorter.js" defer></script>
 
