@@ -5,10 +5,10 @@ const commonPasswords = ['password', '123456', '12345678', 'qwerty', 'abc123', '
             const btn = document.getElementById('toggleBtn');
             if (input.type === 'password') {
                 input.type = 'text';
-                btn.textContent = '??';
+                btn.textContent = '🙈';
             } else {
                 input.type = 'password';
-                btn.textContent = '???';
+                btn.textContent = '👁️';
             }
         }
 
@@ -111,7 +111,7 @@ const commonPasswords = ['password', '123456', '12345678', 'qwerty', 'abc123', '
             
             let html = '';
             requirements.forEach(req => {
-                const icon = req.check ? '?' : '?';
+                const icon = req.check ? '✅' : '❌';
                 const color = req.check ? 'var(--secondary)' : 'var(--danger)';
                 html += `<div style="display: flex; align-items: center; gap: 10px;">
                     <span style="color: ${color}; font-size: 1.2rem; font-weight: bold;">${icon}</span>
@@ -137,7 +137,7 @@ const commonPasswords = ['password', '123456', '12345678', 'qwerty', 'abc123', '
             const list = document.getElementById('suggestionsList');
             
             if (suggestions.length === 0) {
-                list.innerHTML = '<div style="color: var(--secondary);">? Excellent! Your password meets all security requirements.</div>';
+                list.innerHTML = '<div style="color: var(--secondary);">🎉 Excellent! Your password meets all security requirements.</div>';
             } else {
                 let html = '';
                 suggestions.forEach(suggestion => {

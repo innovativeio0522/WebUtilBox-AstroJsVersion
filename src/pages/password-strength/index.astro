@@ -29,7 +29,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
                 <label style="font-size: 0.9rem; margin-bottom: 8px;">Enter Password to Test</label>
                 <div style="position: relative;">
                     <input type="password" id="passwordInput" placeholder="Type your password..." oninput="checkStrength()" style="padding: 15px; font-size: 1.1rem; padding-right: 50px;">
-                    <button onclick="togglePassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.3rem; color: var(--gray);" id="toggleBtn">???</button>
+                    <button onclick="togglePassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.3rem; color: var(--gray);" id="toggleBtn">👁️</button>
                 </div>
             </div>
 
@@ -46,9 +46,9 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 
             <!-- Stats Grid -->
             <div class="stats-bar" id="statsBar" style="display: none; margin-bottom: 20px;">
-                <div class="stat">?? Length: <span class="stat-value" id="lengthStat">0</span></div>
-                <div class="stat">?? Score: <span class="stat-value" id="scoreStat">0</span>/100</div>
-                <div class="stat">?? Crack Time: <span class="stat-value" id="crackTime">-</span></div>
+                <div class="stat">📏 Length: <span class="stat-value" id="lengthStat">0</span></div>
+                <div class="stat">📊 Score: <span class="stat-value" id="scoreStat">0</span>/100</div>
+                <div class="stat">⏱️ Crack Time: <span class="stat-value" id="crackTime">-</span></div>
             </div>
 
             <!-- Requirements Checklist -->
@@ -59,7 +59,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 
             <!-- Suggestions -->
             <div class="output-container show" id="suggestionsBox" style="display: none;">
-                <div class="output-label">?? Suggestions to Improve</div>
+                <div class="output-label">💡 Suggestions to Improve</div>
                 <div id="suggestionsList" style="display: grid; gap: 6px; font-size: 0.85rem;"></div>
             </div>
         </div>
