@@ -59,8 +59,12 @@
 
 .tool-icon {
     font-size: 4rem;
+    height: 4.5rem;
+    line-height: 1;
     margin-bottom: 20px;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .tool-title {

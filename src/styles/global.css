@@ -1,4 +1,8 @@
 /* Common styles shared across all pages */
+html {
+    scrollbar-gutter: stable;
+}
+
 * {
     margin: 0;
     padding: 0;
