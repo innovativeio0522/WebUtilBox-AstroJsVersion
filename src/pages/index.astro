@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ShareBar from '../components/ShareBar.astro';
+import '../styles/home.css';
 
 const canonical = 'https://webutilbox.com/';
 const shareText = "Check%20out%20Webutilbox%20%E2%80%94%2094%2B%20free%20online%20tools%20for%20developers%2C%20designers%2C%20and%20everyone.%20Privacy-focused%20and%20fast.";
@@ -29,7 +30,7 @@ const jsonLd = {
   keywords="free online tools browser based, json formatter no upload, password generator browser only, unit converter instant, developer tools privacy focused, online utilities no signup, client side tools"
   jsonLd={jsonLd}
 >
-  <link slot="head" rel="stylesheet" href="/assets/css/home.css">
+
   <header>
     <div class="header-content">
       <a href="/" class="logo">
@@ -50,7 +51,7 @@ const jsonLd = {
       <h2 class="section-title">&#128293; Popular Tools</h2>
       <div class="tools-grid">
         <a href="/json-formatter/" class="tool-card">
-          <div class="tool-icon" set:html="{ }"></div>
+          <div class="tool-icon">&#123; &#125;</div>
           <h3 class="tool-title">JSON Formatter</h3>
           <p class="tool-desc">Format, validate, and minify JSON data instantly</p>
         </a>
