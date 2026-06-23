@@ -71,9 +71,9 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
                     </div>
                     
                     <div class="output-format">
-                        <button class="format-btn" onclick="formatOutput('list')">?? List</button>
-                        <button class="format-btn" onclick="formatOutput('numbered')">?? Numbered</button>
-                        <button class="format-btn" onclick="formatOutput('comma')">?? Comma</button>
+                        <button class="format-btn" onclick="formatOutput('list')">📝 List</button>
+                        <button class="format-btn" onclick="formatOutput('numbered')">🔢 Numbered</button>
+                        <button class="format-btn" onclick="formatOutput('comma')">🔤 Comma</button>
                         <button class="format-btn" onclick="formatOutput('array')">[ ] Array</button>
                         <button class="format-btn" onclick="formatOutput('json')">{ } JSON</button>
                         <button class="format-btn" onclick="formatOutput('quoted')">? Quoted</button>
@@ -91,7 +91,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
         
         <!-- Share Bar -->
 
-<style>
+<style is:global>
 .preset-btn{padding:8px 16px;background:var(--light);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;font-size:0.9rem}
         .preset-btn:hover{border-color:var(--primary);background:var(--input-bg)}
         .preset-btn.active{background:var(--primary);color:var(--dark);border-color:var(--primary)}

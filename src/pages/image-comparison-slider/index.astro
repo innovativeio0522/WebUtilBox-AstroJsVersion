@@ -23,7 +23,115 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload Controls -->
+            <div>
+                <!-- Before Image -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Before Image</label>
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZoneBefore" onclick="document.getElementById('fileInputBefore').click()">
+                        <div style="font-size: 1.5rem; margin-bottom: 5px;">📷</div>
+                        <div style="font-size: 0.8rem; color: var(--white); margin-bottom: 3px;">Upload Before Image</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInputBefore" accept="image/*" style="display: none;" onchange="handleFile('before', this.files[0])">
+                    <div id="beforePreview" style="display: none; margin-top: 8px; text-align: center;">
+                        <img id="beforeThumb" style="max-width: 100%; max-height: 100px; border-radius: 6px; border: 1px solid var(--border);">
+                        <div style="font-size: 0.7rem; color: var(--primary); margin-top: 4px;">? Before image loaded</div>
+                    </div>
+                </div>
 
+                <!-- After Image -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">After Image</label>
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZoneAfter" onclick="document.getElementById('fileInputAfter').click()">
+                        <div style="font-size: 1.5rem; margin-bottom: 5px;">📷</div>
+                        <div style="font-size: 0.8rem; color: var(--white); margin-bottom: 3px;">Upload After Image</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInputAfter" accept="image/*" style="display: none;" onchange="handleFile('after', this.files[0])">
+                    <div id="afterPreview" style="display: none; margin-top: 8px; text-align: center;">
+                        <img id="afterThumb" style="max-width: 100%; max-height: 100px; border-radius: 6px; border: 1px solid var(--border);">
+                        <div style="font-size: 0.7rem; color: var(--primary); margin-top: 4px;">? After image loaded</div>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div id="settings" style="display: none; background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border); margin-bottom: 12px;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Slider Settings</div>
+                    
+                    <!-- Slider Position -->
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <label style="font-size: 0.75rem;">Slider Position</label>
+                            <span style="font-size: 0.75rem; color: var(--primary);" id="sliderPos-val">50%</span>
+                        </div>
+                        <input type="range" id="sliderPosition" min="0" max="100" value="50" oninput="updateSliderPosition(this.value)" style="width: 100%;">
+                    </div>
+
+                    <!-- Labels -->
+                    <div style="margin-bottom: 10px;">
+                        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                            <input type="checkbox" id="showLabels" checked onchange="toggleLabels()">
+                            <span style="font-size: 0.75rem;">Show Before/After Labels</span>
+                        </label>
+                    </div>
+
+                    <!-- Label Text -->
+                    <div id="labelInputs">
+                        <div style="margin-bottom: 8px;">
+                            <label style="font-size: 0.75rem; margin-bottom: 4px; display: block;">Before Label</label>
+                            <input type="text" id="beforeLabel" value="BEFORE" oninput="updateComparison()" style="width: 100%; padding: 6px; font-size: 0.75rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; margin-bottom: 4px; display: block;">After Label</label>
+                            <input type="text" id="afterLabel" value="AFTER" oninput="updateComparison()" style="width: 100%; padding: 6px; font-size: 0.75rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <button onclick="downloadComparison()" id="downloadBtn" class="btn btn-success" style="width: 100%; padding: 10px; font-size: 0.95rem; display: none;">💾 Download Comparison</button>
+            </div>
+
+            <!-- Right: Comparison Preview -->
+            <div>
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Comparison Preview</div>
+                    
+                    <!-- Comparison Container -->
+                    <div id="comparisonContainer" style="display: none; position: relative; overflow: hidden; border-radius: 6px; background: #000; user-select: none;">
+                        <!-- Before Image (full) -->
+                        <img id="beforeImage" style="display: block; width: 100%; height: auto; position: relative;">
+                        
+                        <!-- After Image (clipped) -->
+                        <div id="afterContainer" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; clip-path: inset(0 0 0 50%);">
+                            <img id="afterImage" style="display: block; width: 100%; height: auto;">
+                        </div>
+                        
+                        <!-- Slider Line -->
+                        <div id="sliderLine" style="position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; background: var(--primary); cursor: ew-resize; z-index: 10;">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+                                <span style="color: white; font-size: 1.2rem;">?</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Labels -->
+                        <div id="beforeLabelDiv" style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 6px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">BEFORE</div>
+                        <div id="afterLabelDiv" style="position: absolute; top: 10px; right: 10px; background: rgba(249, 115, 22, 0.9); color: white; padding: 6px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">AFTER</div>
+                    </div>
+
+                    <!-- Placeholder -->
+                    <div id="placeholder" style="text-align: center; padding: 60px 20px; color: var(--gray); font-size: 0.85rem;">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">🖼️</div>
+                        <div>Upload both images to see comparison</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 

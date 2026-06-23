@@ -25,10 +25,10 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 
 <div class="workspace">
             <div class="tab-container">
-                <button class="tab-btn active" onclick="switchTab('editor')">?? Editor</button>
-                <button class="tab-btn" onclick="switchTab('templates')">?? Templates</button>
-                <button class="tab-btn" onclick="switchTab('fonts')">?? Fonts</button>
-                <button class="tab-btn" onclick="switchTab('emojis')">?? Emojis</button>
+                <button class="tab-btn active" onclick="switchTab('editor')">✏️ Editor</button>
+                <button class="tab-btn" onclick="switchTab('templates')">📋 Templates</button>
+                <button class="tab-btn" onclick="switchTab('fonts')">🔤 Fonts</button>
+                <button class="tab-btn" onclick="switchTab('emojis')">😊 Emojis</button>
             </div>
             <div id="editorTab">
                 <div class="input-group">
@@ -62,7 +62,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
         
         <!-- Share Bar -->
 
-<style>
+<style is:global>
 .bio-preview{background:#fff;color:#000;padding:20px;border-radius:12px;margin:20px 0;border:2px solid #dbdbdb;font-family:system-ui,-apple-system,sans-serif;min-height:150px}
         .char-count{text-align:right;color:var(--gray);font-size:0.9rem;margin-top:5px}
         .char-count.warning{color:#fbbf24}

@@ -23,9 +23,100 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div id="hashMode" class="workspace">
+            <div class="input-group">
+                <label>Input Text</label>
+                <textarea id="hashInput" placeholder="Enter text to hash..."></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateHash('SHA-256')">SHA-256</button>
+                <button class="btn btn-primary" onclick="generateHash('SHA-1')">SHA-1</button>
+                <button class="btn btn-primary" onclick="generateHash('SHA-512')">SHA-512</button>
+                <button class="btn btn-secondary" onclick="generateMD5()">MD5</button>
+            </div>
+            
+            <div class="output-container" id="hashOutput">
+                <div class="output-label" id="hashLabel">Hash Output</div>
+                <div class="output-content" id="hashText"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copyHash()">Copy Hash</button>
+            </div>
+        </div>
 
+        <!-- HMAC Mode -->
+        <div id="hmacMode" class="workspace" style="display: none;">
+            <div class="input-group">
+                <label>Message</label>
+                <textarea id="hmacMessage" placeholder="Enter message to sign..."></textarea>
+            </div>
 
-<style>
+            <div class="input-group">
+                <label>Secret Key</label>
+                <input type="text" id="hmacKey" placeholder="Enter secret key..." style="padding: 12px; font-size: 1rem;">
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateHMAC('SHA-256')">HMAC-SHA256</button>
+                <button class="btn btn-primary" onclick="generateHMAC('SHA-1')">HMAC-SHA1</button>
+                <button class="btn btn-primary" onclick="generateHMAC('SHA-512')">HMAC-SHA512</button>
+            </div>
+            
+            <div class="output-container" id="hmacOutput">
+                <div class="output-label" id="hmacLabel">HMAC Output</div>
+                <div class="output-content" id="hmacText"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copyHMAC()">Copy HMAC</button>
+            </div>
+        </div>
+
+        <!-- Bcrypt Mode -->
+        <div id="bcryptMode" class="workspace" style="display: none;">
+            <div class="input-group">
+                <label>Password</label>
+                <input type="text" id="bcryptPassword" placeholder="Enter password to hash..." style="padding: 12px; font-size: 1rem;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Rounds (Cost Factor): <span id="roundsValue">10</span></label>
+                <input type="range" id="bcryptRounds" min="4" max="12" value="10" oninput="updateRounds()" style="width: 100%;">
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 5px;">Higher rounds = more secure but slower (4=fast, 12=very slow)</div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateBcrypt()">Generate Bcrypt Hash</button>
+                <button class="btn btn-secondary" onclick="verifyBcrypt()">Verify Password</button>
+            </div>
+
+            <div class="output-container" id="bcryptOutput">
+                <div class="output-label">Bcrypt Hash</div>
+                <div class="output-content" id="bcryptText" style="word-break: break-all;"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copyBcrypt()">Copy Hash</button>
+            </div>
+
+            <div class="output-container" id="bcryptVerifyOutput" style="display: none;">
+                <div class="output-label">Verification Result</div>
+                <div class="output-content" id="bcryptVerifyText"></div>
+            </div>
+
+            <div style="margin-top: 15px; padding: 12px; background: rgba(249, 115, 22, 0.1); border-radius: 8px; font-size: 0.85rem; color: var(--gray);">
+                <strong>Note:</strong> Bcrypt is intentionally slow for security. Higher rounds exponentially increase computation time. Use for password storage, not general hashing.
+            </div>
+        </div>
+
+        <div class="ad-container" style="margin-top: 30px;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3916624682784320"
+                 data-ad-slot="8467406201"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <!-- Share Bar -->
+
+<style is:global>
 .mode-tab {
             padding: 10px 20px;
             background: var(--dark);
@@ -194,91 +285,4 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
         </div>
 </div>
 
-
-        <!-- Mode Tabs -->
-        <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
-            <button id="hashTab" class="mode-tab active" onclick="switchMode('hash')">Hash (SHA/MD5)</button>
-            <button id="hmacTab" class="mode-tab" onclick="switchMode('hmac')">HMAC</button>
-            <button id="bcryptTab" class="mode-tab" onclick="switchMode('bcrypt')">Bcrypt</button>
-        </div>
-
-        <!-- Hash Mode -->
-        <div id="hashMode" class="workspace">
-            <div class="input-group">
-                <label>Input Text</label>
-                <textarea id="hashInput" placeholder="Enter text to hash..."></textarea>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="generateHash('SHA-256')">SHA-256</button>
-                <button class="btn btn-primary" onclick="generateHash('SHA-1')">SHA-1</button>
-                <button class="btn btn-primary" onclick="generateHash('SHA-512')">SHA-512</button>
-                <button class="btn btn-secondary" onclick="generateMD5()">MD5</button>
-            </div>
-            
-            <div class="output-container" id="hashOutput">
-                <div class="output-label" id="hashLabel">Hash Output</div>
-                <div class="output-content" id="hashText"></div>
-                <button class="btn btn-success" style="margin-top:10px;" onclick="copyHash()">Copy Hash</button>
-            </div>
-        </div>
-
-        <!-- HMAC Mode -->
-        <div id="hmacMode" class="workspace" style="display: none;">
-            <div class="input-group">
-                <label>Message</label>
-                <textarea id="hmacMessage" placeholder="Enter message to sign..."></textarea>
-            </div>
-
-            <div class="input-group">
-                <label>Secret Key</label>
-                <input type="text" id="hmacKey" placeholder="Enter secret key..." style="padding: 12px; font-size: 1rem;">
-            </div>
-            
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="generateHMAC('SHA-256')">HMAC-SHA256</button>
-                <button class="btn btn-primary" onclick="generateHMAC('SHA-1')">HMAC-SHA1</button>
-                <button class="btn btn-primary" onclick="generateHMAC('SHA-512')">HMAC-SHA512</button>
-            </div>
-            
-            <div class="output-container" id="hmacOutput">
-                <div class="output-label" id="hmacLabel">HMAC Output</div>
-                <div class="output-content" id="hmacText"></div>
-                <button class="btn btn-success" style="margin-top:10px;" onclick="copyHMAC()">Copy HMAC</button>
-            </div>
-        </div>
-
-        <!-- Bcrypt Mode -->
-        <div id="bcryptMode" class="workspace" style="display: none;">
-            <div class="input-group">
-                <label>Password</label>
-                <input type="text" id="bcryptPassword" placeholder="Enter password to hash..." style="padding: 12px; font-size: 1rem;">
-            </div>
-
-            <div style="margin-bottom: 15px;">
-                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Rounds (Cost Factor): <span id="roundsValue">10</span></label>
-                <input type="range" id="bcryptRounds" min="4" max="12" value="10" oninput="updateRounds()" style="width: 100%;">
-                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 5px;">Higher rounds = more secure but slower (4=fast, 12=very slow)</div>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="generateBcrypt()">Generate Bcrypt Hash</button>
-                <button class="btn btn-secondary" onclick="verifyBcrypt()">Verify Password</button>
-            </div>
-
-            <div class="output-container" id="bcryptOutput">
-                <div class="output-label">Bcrypt Hash</div>
-                <div class="output-content" id="bcryptText" style="word-break: break-all;"></div>
-                <button class="btn btn-success" style="margin-top:10px;" onclick="copyBcrypt()">Copy Hash</button>
-            </div>
-
-            <div class="output-container" id="bcryptVerifyOutput" style="display: none;">
-                <div class="output-label">Verification Result</div>
-                <div class="output-content" id="bcryptVerifyText"></div>
-            </div>
-
-            <div style="margin-top: 15px; padding: 12px; background: rgba(249, 115, 22, 0.1); border-radius: 8px; font-size: 0.85rem; color: var(--gray);">
-                <strong>Note:</strong> Bcrypt is intentionally slow for security. Higher rounds exponentially increase computation time. Use for password storage, not general hashing.
-            </div>
-        </div>
 </ToolLayout>

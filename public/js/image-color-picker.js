@@ -1,6 +1,5 @@
 let canvas, ctx, originalImage;
         let colorHistory = [];
-        let eventListenersBound = false;
 
         // Drag and drop
         const dropZone = document.getElementById('dropZone');
@@ -54,11 +53,7 @@ let canvas, ctx, originalImage;
 
             ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
 
-            // Add event listener only once to prevent duplicates
-            if (!eventListenersBound) {
-                canvas.addEventListener('click', pickColor);
-                eventListenersBound = true;
-            }
+            canvas.addEventListener('click', pickColor);
         }
 
         function pickColor(e) {

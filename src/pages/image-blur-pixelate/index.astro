@@ -23,7 +23,88 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload & Canvas -->
+            <div>
+                <div id="uploadArea">
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">🖼️</div>
+                        <div style="font-size: 0.85rem; color: var(--white); margin-bottom: 3px;">Click to upload or drag & drop image</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+                </div>
 
+                <!-- Canvas Area -->
+                <div id="canvasArea" style="display: none; background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border); margin-top: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 0.75rem; color: var(--gray);">Draw rectangles to blur/pixelate</div>
+                        <button onclick="uploadNew()" style="padding: 4px 10px; font-size: 0.7rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📤 Upload New</button>
+                    </div>
+                    <div style="position: relative; display: inline-block; max-width: 100%;">
+                        <canvas id="canvas" style="max-width: 100%; border-radius: 6px; display: block; cursor: crosshair; border: 2px solid var(--border);"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Controls -->
+            <div id="controls" style="display: none;">
+                <!-- Effect Type -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Effect Type</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <button onclick="setEffect('blur')" id="effect-blur" class="active-effect" style="padding: 10px; background: var(--primary); border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: white; font-weight: 500;">Blur</button>
+                        <button onclick="setEffect('pixelate')" id="effect-pixelate" style="padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white); font-weight: 500;">Pixelate</button>
+                    </div>
+                </div>
+
+                <!-- Blur Settings -->
+                <div id="blur-settings" style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Blur Settings</div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <label style="font-size: 0.75rem;">Blur Intensity</label>
+                        <span style="font-size: 0.75rem; color: var(--primary);" id="blurAmount-val">20px</span>
+                    </div>
+                    <input type="range" id="blurAmount" min="5" max="50" value="20" oninput="document.getElementById('blurAmount-val').textContent = this.value + 'px'" style="width: 100%;">
+                </div>
+
+                <!-- Pixelate Settings -->
+                <div id="pixelate-settings" style="display: none; background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Pixelate Settings</div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <label style="font-size: 0.75rem;">Pixel Size</label>
+                        <span style="font-size: 0.75rem; color: var(--primary);" id="pixelSize-val">15px</span>
+                    </div>
+                    <input type="range" id="pixelSize" min="5" max="40" value="15" oninput="document.getElementById('pixelSize-val').textContent = this.value + 'px'" style="width: 100%;">
+                </div>
+
+                <!-- Instructions -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Instructions</div>
+                    <div style="font-size: 0.75rem; color: var(--white); line-height: 1.6;">
+                        1. Click and drag on the image to draw rectangles<br>
+                        2. Each rectangle will be blurred/pixelated<br>
+                        3. Draw multiple areas as needed<br>
+                        4. Use "Clear Last" to undo or "Clear All" to reset
+                    </div>
+                </div>
+
+                <!-- Areas List -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Censored Areas: <span id="areaCount">0</span></div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <button onclick="clearLast()" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Clear Last</button>
+                        <button onclick="clearAll()" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Clear All</button>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <button onclick="downloadImage()" class="btn btn-success" style="width: 100%; padding: 10px; font-size: 0.95rem;">💾 Download Censored Image</button>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 

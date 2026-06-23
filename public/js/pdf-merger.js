@@ -41,12 +41,12 @@ function loadScript(src) {
                 item.dataset.index = index;
 
                 item.innerHTML = `
-                    <div class="drag-handle">?</div>
+                    <div class="drag-handle">☰</div>
                     <div style="flex: 1;">
                         <div style="font-weight: 600; margin-bottom: 4px;">${pdf.name}</div>
                         <div style="font-size: 0.85rem; color: var(--gray);">${formatFileSize(pdf.size)}</div>
                     </div>
-                    <button onclick="removePDF(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem;">?</button>
+                    <button onclick="removePDF(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem;">❌</button>
                 `;
 
                 item.addEventListener('dragstart', handleDragStart);

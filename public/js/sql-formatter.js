@@ -175,23 +175,23 @@ const inputSQL = document.getElementById('inputSQL');
                 const closeParens = (input.match(/\)/g) || []).length;
                 
                 if (openParens !== closeParens) {
-                    issues.push('?? Unmatched parentheses: ' + openParens + ' open, ' + closeParens + ' close');
+                    issues.push('⚠️ Unmatched parentheses: ' + openParens + ' open, ' + closeParens + ' close');
                 }
 
                 const hasSelect = /\bSELECT\b/i.test(input);
                 const hasFrom = /\bFROM\b/i.test(input);
                 
                 if (hasSelect && !hasFrom) {
-                    issues.push('?? SELECT statement without FROM clause');
+                    issues.push('⚠️ SELECT statement without FROM clause');
                 }
 
                 const singleQuotes = (input.match(/'/g) || []).length;
                 if (singleQuotes % 2 !== 0) {
-                    issues.push('?? Unmatched single quotes');
+                    issues.push('⚠️ Unmatched single quotes');
                 }
 
                 if (issues.length === 0) {
-                    infoContent.innerHTML = '? No obvious syntax issues found<br><small>Note: This is a basic validation. Test in your database for complete validation.</small>';
+                    infoContent.innerHTML = '✅ No obvious syntax issues found<br><small>Note: This is a basic validation. Test in your database for complete validation.</small>';
                 } else {
                     infoContent.innerHTML = issues.join('<br>');
                 }

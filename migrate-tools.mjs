@@ -7,7 +7,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dir   = dirname(fileURLToPath(import.meta.url));
-const SITE    = join(__dir, '..');
+const SITE    = join(__dir, '..', 'webutilbox');
 const PAGES   = join(__dir, 'src', 'pages');
 const PUBJS   = join(__dir, 'public', 'js');
 
@@ -68,8 +68,10 @@ function getMeta(html) {
   };
 }
 function getWorkspace(html) {
-  let s = html.indexOf('<div class="workspace">');
-  if (s < 0) s = html.indexOf('<div class="workspace ');
+  let s = html.search(/<div\s+[^>]*class=["'][^"']*workspace[^"']*["']/);
+  if (s < 0) {
+    s = html.search(/<div\s+[^>]*class=["'][^"']*tool-content[^"']*["']/);
+  }
   let e = html.indexOf('<div class="share-bar">');
   if (e < 0) e = html.indexOf('<!-- Share Bar -->');
   if (s < 0 || e < 0 || e <= s) return '';
@@ -78,9 +80,11 @@ function getWorkspace(html) {
 function getInfoInner(html) {
   const s = html.indexOf('<div class="info-section">');
   if (s < 0) return '';
-  const toastIdx = html.indexOf('<div id="toast"');
-  if (toastIdx < 0) return '';
-  const e = html.slice(0, toastIdx).lastIndexOf('</div>') + 6;
+  let endMarker = html.indexOf('<div id="toast"');
+  if (endMarker < 0) endMarker = html.indexOf('<footer');
+  if (endMarker < 0) endMarker = html.indexOf('</body>');
+  if (endMarker < 0) return '';
+  const e = html.slice(0, endMarker).lastIndexOf('</div>') + 6;
   if (e <= s) return '';
   return html.slice(s, e)
     .replace(/^<div class="info-section">\s*/, '')
@@ -125,7 +129,14 @@ function safeAttr(s) { return s.replace(/"/g, '&quot;'); }
 function migrate(page) {
   const destDir  = join(PAGES, page);
   const destFile = join(destDir, 'index.astro');
-  if (existsSync(destFile)) { console.log(`SKIP: ${page}`); return; }
+  if (existsSync(destFile)) {
+    const content = readFileSync(destFile, 'utf8');
+    if (content.includes('<div class="workspace"') || content.includes('<div class="workspace ') || content.includes('<div class="tool-content"') || page === 'tools') {
+      console.log(`SKIP: ${page}`);
+      return;
+    }
+    console.log(`RE-MIGRATING (missing workspace): ${page}`);
+  }
 
   const html = readHtml(page);
   if (!html) { console.log(`SKIP (no html): ${page}`); return; }
@@ -204,8 +215,8 @@ if (arg) {
     .filter(d => d.isDirectory() && existsSync(join(SITE, d.name, 'index.html'))
               && d.name !== 'tools' && d.name !== 'astro')
     .map(d => d.name).sort();
-  const toRun = allTools.filter(p => !existsSync(join(PAGES, p, 'index.astro')));
-  console.log(`Migrating ${toRun.length} tools...`);
+  const toRun = allTools;
+  console.log(`Checking ${toRun.length} tools for migration or missing workspace...`);
   for (const p of toRun) migrate(p);
   console.log('\nDone.');
 }

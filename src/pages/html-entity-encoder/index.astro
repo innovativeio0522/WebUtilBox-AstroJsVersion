@@ -29,7 +29,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
                 <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                         <label style="font-size: 0.9rem; margin: 0;">Plain Text</label>
-                        <button class="btn btn-primary" onclick="encodeText()" style="padding: 6px 16px; font-size: 0.85rem;">Encode ?</button>
+                        <button class="btn btn-primary" onclick="encodeText()" style="padding: 6px 16px; font-size: 0.85rem;">Encode →</button>
                     </div>
                     <textarea id="plainText" placeholder="Enter text with special characters..." oninput="autoEncode()" style="min-height: 250px; font-size: 0.9rem;"></textarea>
                     <div style="display: flex; gap: 8px; margin-top: 10px;">
@@ -42,7 +42,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
                 <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                         <label style="font-size: 0.9rem; margin: 0;">HTML Entities</label>
-                        <button class="btn btn-primary" onclick="decodeText()" style="padding: 6px 16px; font-size: 0.85rem;">? Decode</button>
+                        <button class="btn btn-primary" onclick="decodeText()" style="padding: 6px 16px; font-size: 0.85rem;">← Decode</button>
                     </div>
                     <textarea id="encodedText" placeholder="Enter HTML entities..." oninput="autoDecode()" style="min-height: 250px; font-size: 0.9rem; font-family: 'Courier New', monospace;"></textarea>
                     <div style="display: flex; gap: 8px; margin-top: 10px;">
@@ -68,9 +68,9 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
             </div>
 
             <div class="stats-bar" id="statsBar" style="display: none; margin-top: 15px;">
-                <div class="stat">?? Original: <span class="stat-value" id="originalChars">0</span> chars</div>
-                <div class="stat">?? Encoded: <span class="stat-value" id="encodedChars">0</span> chars</div>
-                <div class="stat">?? Entities: <span class="stat-value" id="entityCount">0</span></div>
+                <div class="stat">📄 Original: <span class="stat-value" id="originalChars">0</span> chars</div>
+                <div class="stat">🔢 Encoded: <span class="stat-value" id="encodedChars">0</span> chars</div>
+                <div class="stat">🔄 Entities: <span class="stat-value" id="entityCount">0</span></div>
             </div>
 
             <!-- Common Entities Reference -->
@@ -78,22 +78,22 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
                 <div class="output-label">Common HTML Entities Reference</div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.85rem;">
                     <div style="padding: 8px; background: var(--light); border-radius: 6px;">
-                        <code>&lt;</code> ? <code>&amp;lt;</code> or <code>&amp;#60;</code>
+                        <code>&lt;</code> → <code>&amp;lt;</code> or <code>&amp;#60;</code>
                     </div>
                     <div style="padding: 8px; background: var(--light); border-radius: 6px;">
-                        <code>&gt;</code> ? <code>&amp;gt;</code> or <code>&amp;#62;</code>
+                        <code>&gt;</code> → <code>&amp;gt;</code> or <code>&amp;#62;</code>
                     </div>
                     <div style="padding: 8px; background: var(--light); border-radius: 6px;">
-                        <code>&amp;</code> ? <code>&amp;amp;</code> or <code>&amp;#38;</code>
+                        <code>&amp;</code> → <code>&amp;amp;</code> or <code>&amp;#38;</code>
                     </div>
                     <div style="padding: 8px; background: var(--light); border-radius: 6px;">
-                        <code>"</code> ? <code>&amp;quot;</code> or <code>&amp;#34;</code>
+                        <code>"</code> → <code>&amp;quot;</code> or <code>&amp;#34;</code>
                     </div>
                     <div style="padding: 8px; background: var(--light); border-radius: 6px;">
-                        <code>'</code> ? <code>&amp;apos;</code> or <code>&amp;#39;</code>
+                        <code>'</code> → <code>&amp;apos;</code> or <code>&amp;#39;</code>
                     </div>
                     <div style="padding: 8px; background: var(--light); border-radius: 6px;">
-                        <code>©</code> ? <code>&amp;copy;</code> or <code>&amp;#169;</code>
+                        <code>©</code> → <code>&amp;copy;</code> or <code>&amp;#169;</code>
                     </div>
                 </div>
             </div>

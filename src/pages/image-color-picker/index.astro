@@ -23,7 +23,84 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload & Image -->
+            <div>
+                <div id="uploadArea" style="margin-bottom: 12px;">
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">🖼️</div>
+                        <div style="font-size: 0.85rem; color: var(--white); margin-bottom: 3px;">Click to upload</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+                </div>
 
+                <!-- Image Canvas -->
+                <div id="imageArea" style="display: none; background: var(--light); border-radius: 8px; padding: 10px; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 0.75rem; color: var(--gray);">Click on image to pick color</div>
+                        <button onclick="uploadNew()" style="padding: 4px 10px; font-size: 0.7rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📤 Upload New</button>
+                    </div>
+                    <canvas id="canvas" style="max-width: 100%; cursor: crosshair; border-radius: 6px; display: block;"></canvas>
+                </div>
+            </div>
+
+            <!-- Right: Color Info & Palette -->
+            <div id="controls" style="display: none;">
+                <!-- Picked Color -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Picked Color</div>
+                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                        <div id="colorPreview" style="width: 60px; height: 60px; border-radius: 8px; border: 2px solid var(--border); background: #000000;"></div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <span style="font-size: 0.75rem; color: var(--gray);">HEX</span>
+                                <button onclick="copyColor('hex')" style="padding: 2px 8px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">Copy</button>
+                            </div>
+                            <input type="text" id="hexValue" readonly value="#000000" style="width: 100%; padding: 6px; font-size: 0.8rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white);">
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <span style="font-size: 0.7rem; color: var(--gray);">RGB</span>
+                                <button onclick="copyColor('rgb')" style="padding: 2px 6px; font-size: 0.65rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">Copy</button>
+                            </div>
+                            <input type="text" id="rgbValue" readonly value="rgb(0, 0, 0)" style="width: 100%; padding: 5px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white);">
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <span style="font-size: 0.7rem; color: var(--gray);">HSL</span>
+                                <button onclick="copyColor('hsl')" style="padding: 2px 6px; font-size: 0.65rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">Copy</button>
+                            </div>
+                            <input type="text" id="hslValue" readonly value="hsl(0, 0%, 0%)" style="width: 100%; padding: 5px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white);">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color History -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 0.75rem; color: var(--gray);">Color History</div>
+                        <button onclick="clearHistory()" style="padding: 2px 8px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">Clear</button>
+                    </div>
+                    <div id="colorHistory" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; min-height: 40px;">
+                        <div style="font-size: 0.7rem; color: var(--gray); grid-column: 1 / -1; text-align: center; padding: 10px;">Pick colors to see history</div>
+                    </div>
+                </div>
+
+                <!-- Dominant Colors Palette -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Dominant Colors</div>
+                    <div id="dominantColors" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;">
+                        <div style="font-size: 0.7rem; color: var(--gray); grid-column: 1 / -1; text-align: center; padding: 10px;">Extracting palette...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 

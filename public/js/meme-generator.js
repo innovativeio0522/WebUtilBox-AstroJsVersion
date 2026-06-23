@@ -5,7 +5,6 @@ let originalImage = null;
         let emojis = []; // Array to store emoji objects {emoji, x, y, size}
         let draggedEmoji = null;
         let canvasRect = null;
-        let eventListenersBound = false;
 
         // Drag and drop + text shadow init
         requestIdleCallback(() => {
@@ -63,14 +62,11 @@ let originalImage = null;
             canvas.width = originalImage.width * scale;
             canvas.height = originalImage.height * scale;
 
-            // Add mouse events for emoji dragging directly on canvas (only once)
-            if (!eventListenersBound) {
-                canvas.addEventListener('mousedown', startDragEmoji);
-                canvas.addEventListener('mousemove', dragEmoji);
-                canvas.addEventListener('mouseup', endDragEmoji);
-                canvas.addEventListener('mouseleave', endDragEmoji);
-                eventListenersBound = true;
-            }
+            // Add mouse events for emoji dragging directly on canvas
+            canvas.addEventListener('mousedown', startDragEmoji);
+            canvas.addEventListener('mousemove', dragEmoji);
+            canvas.addEventListener('mouseup', endDragEmoji);
+            canvas.addEventListener('mouseleave', endDragEmoji);
 
             updateMeme();
         }

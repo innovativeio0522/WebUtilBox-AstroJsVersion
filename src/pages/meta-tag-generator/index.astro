@@ -23,7 +23,141 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Input -->
+            <div>
+                <div style="background: var(--light); border-radius: 8px; padding: 15px; border: 1px solid var(--border); margin-bottom: 12px;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 12px; font-weight: 600;">Basic SEO</div>
+                    
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Page Title</label>
+                        <input type="text" id="title" placeholder="Your Page Title - Brand Name" maxlength="60" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 4px;">
+                            <span id="titleCount">0</span>/60 characters (optimal: 50-60)
+                        </div>
+                    </div>
 
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Description</label>
+                        <textarea id="description" placeholder="Brief description of your page content..." maxlength="160" style="width: 100%; height: 70px; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem; resize: vertical;"></textarea>
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 4px;">
+                            <span id="descCount">0</span>/160 characters (optimal: 150-160)
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Keywords (comma-separated)</label>
+                        <input type="text" id="keywords" placeholder="keyword1, keyword2, keyword3" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Author</label>
+                        <input type="text" id="author" placeholder="Author name" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Canonical URL</label>
+                        <input type="url" id="canonical" placeholder="https://example.com/page" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                    </div>
+                </div>
+
+                <div style="background: var(--light); border-radius: 8px; padding: 15px; border: 1px solid var(--border); margin-bottom: 12px;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 12px; font-weight: 600;">Open Graph (Facebook, LinkedIn)</div>
+                    
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">OG Title</label>
+                        <input type="text" id="ogTitle" placeholder="Leave empty to use page title" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">OG Description</label>
+                        <textarea id="ogDescription" placeholder="Leave empty to use page description" style="width: 100%; height: 60px; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem; resize: vertical;"></textarea>
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">OG Image URL</label>
+                        <input type="url" id="ogImage" placeholder="https://example.com/image.jpg" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 4px;">Recommended: 1200x630px</div>
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">OG Type</label>
+                        <select id="ogType" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                            <option value="website">Website</option>
+                            <option value="article">Article</option>
+                            <option value="product">Product</option>
+                            <option value="video">Video</option>
+                            <option value="music">Music</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">OG URL</label>
+                        <input type="url" id="ogUrl" placeholder="Leave empty to use canonical URL" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                    </div>
+                </div>
+
+                <div style="background: var(--light); border-radius: 8px; padding: 15px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 12px; font-weight: 600;">Twitter Card</div>
+                    
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Card Type</label>
+                        <select id="twitterCard" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                            <option value="summary">Summary</option>
+                            <option value="summary_large_image">Summary Large Image</option>
+                            <option value="app">App</option>
+                            <option value="player">Player</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Twitter Site Handle</label>
+                        <input type="text" id="twitterSite" placeholder="@yourusername" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Twitter Creator Handle</label>
+                        <input type="text" id="twitterCreator" placeholder="@creatorusername" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                    </div>
+                </div>
+
+                <button id="generateBtn" style="width: 100%; margin-top: 12px; padding: 12px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Generate Meta Tags</button>
+            </div>
+
+            <!-- Right: Output -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="font-size: 0.8rem; color: var(--gray);">Generated Meta Tags</label>
+                    <button id="copyBtn" style="padding: 6px 12px; font-size: 0.75rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📋 Copy All</button>
+                </div>
+                <textarea id="output" readonly placeholder="Generated meta tags will appear here..." style="width: 100%; height: 520px; padding: 12px; font-size: 0.8rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Courier New', monospace; resize: vertical; line-height: 1.6;"></textarea>
+
+                <!-- Preview -->
+                <div style="background: var(--light); border-radius: 8px; padding: 15px; border: 1px solid var(--border); margin-top: 12px;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px; font-weight: 600;">Search Preview</div>
+                    <div id="searchPreview" style="background: var(--dark); padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+                        <div style="font-size: 0.7rem; color: #10b981; margin-bottom: 4px;">https://example.com</div>
+                        <div style="font-size: 1rem; color: #8ab4f8; margin-bottom: 4px; font-weight: 500;" id="previewTitle">Your Page Title</div>
+                        <div style="font-size: 0.75rem; color: #bdc1c6; line-height: 1.4;" id="previewDesc">Your page description will appear here...</div>
+                    </div>
+                </div>
+
+                <div style="background: var(--light); border-radius: 8px; padding: 15px; border: 1px solid var(--border); margin-top: 12px;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px; font-weight: 600;">Social Preview</div>
+                    <div id="socialPreview" style="background: var(--dark); padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+                        <div style="background: #1a1a1a; height: 150px; border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; color: var(--gray); font-size: 0.75rem;" id="previewImage">
+                            1200 x 630
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--white); margin-bottom: 4px; font-weight: 600;" id="previewOgTitle">Your Page Title</div>
+                        <div style="font-size: 0.75rem; color: var(--gray); line-height: 1.4;" id="previewOgDesc">Your page description...</div>
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 6px; text-transform: uppercase;">EXAMPLE.COM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 

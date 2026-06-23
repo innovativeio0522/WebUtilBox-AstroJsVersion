@@ -23,7 +23,127 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="tool-content">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Home Price ($)</label>
+                    <input type="number" id="homePrice" value="300000" min="0" step="1000">
+                </div>
+                <div class="input-group">
+                    <label>Down Payment ($)</label>
+                    <input type="number" id="downPayment" value="60000" min="0" step="1000">
+                    <small id="downPaymentPercent">20% down payment</small>
+                </div>
+                <div class="input-group">
+                    <label>Loan Term (years)</label>
+                    <select id="loanTerm">
+                        <option value="10">10 years</option>
+                        <option value="15">15 years</option>
+                        <option value="20">20 years</option>
+                        <option value="30" selected>30 years</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Interest Rate (%)</label>
+                    <input type="number" id="interestRate" value="6.5" min="0" max="20" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label>Property Tax ($/year)</label>
+                    <input type="number" id="propertyTax" value="3000" min="0" step="100">
+                </div>
+                <div class="input-group">
+                    <label>Home Insurance ($/year)</label>
+                    <input type="number" id="homeInsurance" value="1200" min="0" step="100">
+                </div>
+                <div class="input-group">
+                    <label>HOA Fees ($/month)</label>
+                    <input type="number" id="hoaFees" value="0" min="0" step="10">
+                </div>
+                <div class="input-group">
+                    <label>PMI (% of loan/year)</label>
+                    <input type="number" id="pmi" value="0.5" min="0" max="2" step="0.1">
+                    <small>PMI applies if down payment < 20%</small>
+                </div>
+                <button class="btn-primary" onclick="calculateMortgage()">Calculate Mortgage</button>
+            </div>
 
+            <div class="output-section" id="results" style="display:none;">
+                <h3>Monthly Payment Breakdown</h3>
+                <div class="result-card">
+                    <div class="result-item highlight">
+                        <span>Total Monthly Payment</span>
+                        <strong id="totalMonthly">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Principal & Interest</span>
+                        <strong id="principalInterest">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Property Tax</span>
+                        <strong id="monthlyTax">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Home Insurance</span>
+                        <strong id="monthlyInsurance">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>HOA Fees</span>
+                        <strong id="monthlyHOA">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>PMI</span>
+                        <strong id="monthlyPMI">$0</strong>
+                    </div>
+                </div>
+
+                <h3>Loan Summary</h3>
+                <div class="result-card">
+                    <div class="result-item">
+                        <span>Loan Amount</span>
+                        <strong id="loanAmount">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Interest Paid</span>
+                        <strong id="totalInterest">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Amount Paid</span>
+                        <strong id="totalPaid">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Payoff Date</span>
+                        <strong id="payoffDate">-</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button class="btn-secondary" onclick="toggleAmortization()">
+                        <span id="toggleText">Show Amortization Schedule</span>
+                    </button>
+                </div>
+
+                <div id="amortizationSection" style="display:none; margin-top: 20px;">
+                    <h3>Amortization Schedule</h3>
+                    <div style="overflow-x: auto;">
+                        <table id="amortizationTable" style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                            <thead>
+                                <tr style="background: rgba(249, 115, 22, 0.1); border-bottom: 2px solid var(--primary);">
+                                    <th style="padding: 10px; text-align: left;">Payment #</th>
+                                    <th style="padding: 10px; text-align: right;">Payment</th>
+                                    <th style="padding: 10px; text-align: right;">Principal</th>
+                                    <th style="padding: 10px; text-align: right;">Interest</th>
+                                    <th style="padding: 10px; text-align: right;">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="amortizationBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 
@@ -31,7 +151,93 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 <script src="/js/mortgage-calculator.js" defer></script>
 
 <div class="info-section" slot="info">
+<h2>Mortgage Calculator - Monthly Payments, Interest, and Amortization</h2>
+        <p>Our free Mortgage Calculator helps you estimate your monthly mortgage payment, total interest paid over the life of the loan, and view a complete amortization schedule. Enter your home price, down payment, interest rate, and loan term to get a full breakdown of your housing costs in seconds.</p>
 
+        <h3>What Is a Mortgage Calculator?</h3>
+        <p>A mortgage calculator is a financial tool that computes your monthly loan payment based on the principal amount, interest rate, and loan term. It uses the standard amortization formula to determine how much of each payment goes toward interest versus principal, and how those proportions shift over time.</p>
+        <p>Beyond the basic principal and interest payment, a complete mortgage cost estimate must also include property taxes, homeowner's insurance, HOA fees, and Private Mortgage Insurance (PMI) if your down payment is less than 20%. This calculator includes all of these components so you get a realistic picture of your total monthly housing expense.</p>
+        <p>Understanding your amortization schedule is equally important. In the early years of a mortgage, the vast majority of each payment goes toward interest rather than principal. This calculator generates a full amortization table so you can see exactly how your loan balance decreases over time and how much equity you're building each year.</p>
+
+        <h3>Mortgage Calculation Inputs</h3>
+        <ul>
+            <li>Calculates monthly principal and interest payment using the standard amortization formula</li>
+            <li>Includes property tax, homeowner's insurance, HOA fees, and PMI in the total monthly cost</li>
+            <li>Automatically applies PMI only when the down payment is less than 20%</li>
+            <li>Shows down payment as a percentage of the home price in real time</li>
+            <li>Displays total interest paid and total amount paid over the full loan term</li>
+            <li>Calculates and displays the estimated loan payoff date</li>
+            <li>Full amortization schedule showing payment-by-payment breakdown</li>
+            <li>Supports loan terms of 10, 15, 20, and 30 years</li>
+            <li>Auto-recalculates whenever any input value changes</li>
+        </ul>
+
+        <h3>How to Use the Mortgage Calculator</h3>
+        <ul>
+            <li>Step 1: Enter the home price — the total purchase price of the property.</li>
+            <li>Step 2: Enter your down payment amount. The calculator shows the percentage automatically.</li>
+            <li>Step 3: Select your loan term (10, 15, 20, or 30 years).</li>
+            <li>Step 4: Enter the annual interest rate as a percentage (e.g., 6.5 for 6.5%).</li>
+            <li>Step 5: Optionally add annual property tax, homeowner's insurance, monthly HOA fees, and PMI rate.</li>
+            <li>Step 6: Click "Calculate Mortgage" to see your full payment breakdown and loan summary.</li>
+            <li>Step 7: Click "Show Amortization Schedule" to view the month-by-month payment table.</li>
+        </ul>
+
+        <h3>Understanding Your Mortgage Payments</h3>
+        <ul>
+            <li>Estimating monthly payments before making an offer on a home</li>
+            <li>Comparing 15-year vs. 30-year mortgage costs to decide which term fits your budget</li>
+            <li>Calculating how much house you can afford based on a target monthly payment</li>
+            <li>Understanding the total interest cost of a loan over its full term</li>
+            <li>Evaluating whether to make a larger down payment to avoid PMI</li>
+            <li>Planning for refinancing by comparing your current loan to new rate scenarios</li>
+        </ul>
+
+        <h3>Comparing Mortgage Scenarios</h3>
+        <p>One of the most impactful decisions in mortgage planning is choosing between a 15-year and 30-year loan. A 30-year mortgage has lower monthly payments, but you'll pay significantly more in total interest over the life of the loan. A 15-year mortgage costs more each month but builds equity faster and saves tens of thousands of dollars in interest. Use this calculator to run both scenarios side by side.</p>
+        <p>If your down payment is less than 20%, you'll typically be required to pay PMI (Private Mortgage Insurance), which protects the lender if you default. PMI usually costs 0.5%–1.5% of the loan amount per year. Once your equity reaches 20%, you can request to have PMI removed. Factor this into your calculations and consider whether a slightly larger down payment to hit the 20% threshold makes financial sense.</p>
+        <p>Don't forget to account for closing costs, which typically run 2%–5% of the loan amount and are paid upfront. These aren't included in the monthly payment calculation but are a significant part of the total cost of buying a home.</p>
+
+        
+
+        <h3>Financial Data Never Leaves Your Browser</h3>
+        <p>All mortgage calculations run in your browser. No financial data is transmitted.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is included in a monthly mortgage payment?</button>
+                    <div class="faq-answer"><p>A full mortgage payment (PITI) includes Principal (paying down the loan balance), Interest (cost of borrowing), Taxes (property taxes, often escrowed), and Insurance (homeowner's insurance, plus PMI if your down payment is under 20%).</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is PMI and when can I remove it?</button>
+                    <div class="faq-answer"><p>PMI (Private Mortgage Insurance) is required when your down payment is less than 20%. It protects the lender if you default. Once your loan-to-value ratio reaches 80% (you have paid down 20% of the home's value), you can typically request PMI removal.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How much house can I afford?</button>
+                    <div class="faq-answer"><p>A common guideline is that your monthly housing costs should not exceed 28% of your gross monthly income, and total debt payments should not exceed 36%. Use this calculator to find a payment that fits within those limits given your income.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between a 15-year and 30-year mortgage?</button>
+                    <div class="faq-answer"><p>A 15-year mortgage has higher monthly payments but you pay far less total interest and build equity faster. A 30-year mortgage has lower monthly payments but costs significantly more in total interest. The right choice depends on your cash flow and financial goals.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How does a larger down payment affect my mortgage?</button>
+                    <div class="faq-answer"><p>A larger down payment reduces your loan amount (lower monthly payments), eliminates or reduces PMI, and often qualifies you for a better interest rate. It also means you start with more equity in the home.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../loan-calculator/" class="related-tool-link">Loan Calculator</a>
+                    <a href="../compound-interest-calculator/" class="related-tool-link">Compound Interest Calculator</a>
+                    <a href="../investment-calculator/" class="related-tool-link">Investment Calculator</a>
+                    <a href="../tax-calculator/" class="related-tool-link">Tax Calculator</a>
+                    <a href="../salary-calculator/" class="related-tool-link">Salary Calculator</a>
+                </div>
+            </div>
+        </div>
 </div>
 
 </ToolLayout>

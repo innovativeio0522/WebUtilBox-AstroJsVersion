@@ -23,9 +23,147 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div id="converterMode" class="workspace">
+            <!-- Color Preview -->
+            <div style="margin-bottom: 20px; text-align: center;">
+                <div id="colorPreview" style="width: 100%; height: 120px; border-radius: 12px; border: 2px solid var(--border); box-shadow: var(--shadow); transition: all 0.3s;"></div>
+            </div>
 
+            <!-- Color Picker -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Pick a Color</label>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="color" id="colorPicker" value="#ff5733" oninput="updateFromPicker()" style="width: 80px; height: 50px; cursor: pointer; border-radius: 8px;">
+                    <span style="color: var(--gray); font-size: 0.85rem;">Click to choose a color</span>
+                </div>
+            </div>
 
-<style>
+            <!-- HEX -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">HEX</label>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="hexInput" placeholder="#FF5733" oninput="updateFromHex()" style="flex: 1; padding: 10px; font-size: 1rem; font-family: 'Courier New', monospace;">
+                    <button class="btn btn-success" onclick="copyHex()" style="padding: 10px 20px;">Copy</button>
+                </div>
+            </div>
+
+            <!-- RGB -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">RGB</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px;">
+                    <input type="number" id="rgbR" placeholder="R" min="0" max="255" oninput="updateFromRgb()" style="padding: 10px; font-size: 0.9rem;">
+                    <input type="number" id="rgbG" placeholder="G" min="0" max="255" oninput="updateFromRgb()" style="padding: 10px; font-size: 0.9rem;">
+                    <input type="number" id="rgbB" placeholder="B" min="0" max="255" oninput="updateFromRgb()" style="padding: 10px; font-size: 0.9rem;">
+                    <button class="btn btn-success" onclick="copyRgb()" style="padding: 10px 20px;">Copy</button>
+                </div>
+                <div id="rgbString" style="margin-top: 5px; font-size: 0.85rem; color: var(--gray); font-family: 'Courier New', monospace;"></div>
+            </div>
+
+            <!-- HSL -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">HSL</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px;">
+                    <input type="number" id="hslH" placeholder="H" min="0" max="360" oninput="updateFromHsl()" style="padding: 10px; font-size: 0.9rem;">
+                    <input type="number" id="hslS" placeholder="S%" min="0" max="100" oninput="updateFromHsl()" style="padding: 10px; font-size: 0.9rem;">
+                    <input type="number" id="hslL" placeholder="L%" min="0" max="100" oninput="updateFromHsl()" style="padding: 10px; font-size: 0.9rem;">
+                    <button class="btn btn-success" onclick="copyHsl()" style="padding: 10px 20px;">Copy</button>
+                </div>
+                <div id="hslString" style="margin-top: 5px; font-size: 0.85rem; color: var(--gray); font-family: 'Courier New', monospace;"></div>
+            </div>
+
+            <!-- CMYK -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">CMYK (Print)</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 8px;">
+                    <input type="number" id="cmykC" placeholder="C%" min="0" max="100" oninput="updateFromCmyk()" style="padding: 10px; font-size: 0.9rem;">
+                    <input type="number" id="cmykM" placeholder="M%" min="0" max="100" oninput="updateFromCmyk()" style="padding: 10px; font-size: 0.9rem;">
+                    <input type="number" id="cmykY" placeholder="Y%" min="0" max="100" oninput="updateFromCmyk()" style="padding: 10px; font-size: 0.9rem;">
+                    <input type="number" id="cmykK" placeholder="K%" min="0" max="100" oninput="updateFromCmyk()" style="padding: 10px; font-size: 0.9rem;">
+                    <button class="btn btn-success" onclick="copyCmyk()" style="padding: 10px 20px;">Copy</button>
+                </div>
+                <div id="cmykString" style="margin-top: 5px; font-size: 0.85rem; color: var(--gray); font-family: 'Courier New', monospace;"></div>
+            </div>
+        </div>
+
+        <!-- Contrast Checker Mode -->
+        <div id="contrastMode" class="workspace" style="display: none;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <!-- Foreground Color -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Foreground (Text)</label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="color" id="fgColor" value="#000000" oninput="checkContrast()" style="width: 60px; height: 50px; cursor: pointer; border-radius: 8px;">
+                        <input type="text" id="fgHex" value="#000000" oninput="updateFgFromHex()" style="flex: 1; padding: 10px; font-family: 'Courier New', monospace;">
+                    </div>
+                    <div id="fgPreview" style="width: 100%; height: 80px; border-radius: 8px; border: 2px solid var(--border); background: #000000;"></div>
+                </div>
+
+                <!-- Background Color -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Background</label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="color" id="bgColor" value="#ffffff" oninput="checkContrast()" style="width: 60px; height: 50px; cursor: pointer; border-radius: 8px;">
+                        <input type="text" id="bgHex" value="#ffffff" oninput="updateBgFromHex()" style="flex: 1; padding: 10px; font-family: 'Courier New', monospace;">
+                    </div>
+                    <div id="bgPreview" style="width: 100%; height: 80px; border-radius: 8px; border: 2px solid var(--border); background: #ffffff;"></div>
+                </div>
+            </div>
+
+            <!-- Preview -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Preview</label>
+                <div id="contrastPreview" style="padding: 30px; border-radius: 12px; border: 2px solid var(--border); text-align: center; background: #ffffff; color: #000000;">
+                    <div style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">Sample Heading</div>
+                    <div style="font-size: 1rem;">This is sample body text to preview the contrast ratio.</div>
+                    <div style="font-size: 0.85rem; margin-top: 10px;">Small text example for testing.</div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div id="contrastResults" style="background: var(--light); border-radius: 12px; padding: 20px; border: 2px solid var(--border);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <span style="font-size: 1.1rem; font-weight: 600;">Contrast Ratio</span>
+                    <span id="contrastRatio" style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">21:1</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <!-- Normal Text -->
+                    <div style="background: var(--dark); padding: 15px; border-radius: 8px;">
+                        <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Normal Text</div>
+                        <div id="normalAA" style="margin-bottom: 5px;">
+                            <span style="font-size: 0.9rem;">AA: </span>
+                            <span class="badge">? Pass</span>
+                        </div>
+                        <div id="normalAAA">
+                            <span style="font-size: 0.9rem;">AAA: </span>
+                            <span class="badge">? Pass</span>
+                        </div>
+                    </div>
+
+                    <!-- Large Text -->
+                    <div style="background: var(--dark); padding: 15px; border-radius: 8px;">
+                        <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Large Text (18pt+)</div>
+                        <div id="largeAA" style="margin-bottom: 5px;">
+                            <span style="font-size: 0.9rem;">AA: </span>
+                            <span class="badge">? Pass</span>
+                        </div>
+                        <div id="largeAAA">
+                            <span style="font-size: 0.9rem;">AAA: </span>
+                            <span class="badge">? Pass</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px; padding: 12px; background: rgba(249, 115, 22, 0.1); border-radius: 8px; font-size: 0.85rem; color: var(--gray);">
+                    <strong>WCAG Guidelines:</strong> AA requires 4.5:1 for normal text, 3:1 for large text. AAA requires 7:1 for normal text, 4.5:1 for large text.
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
+
+<style is:global>
 .mode-tab {
             padding: 10px 20px;
             background: var(--dark);

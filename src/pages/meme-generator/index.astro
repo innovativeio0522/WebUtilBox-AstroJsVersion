@@ -23,7 +23,178 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload & Preview -->
+            <div>
+                <div id="uploadArea" style="margin-bottom: 12px;">
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">🖼️</div>
+                        <div style="font-size: 0.85rem; color: var(--white); margin-bottom: 3px;">Click to upload or drag & drop image here</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+                </div>
 
+                <!-- Preview Canvas -->
+                <div id="previewArea" style="display: none; background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 0.75rem; color: var(--gray);">Meme Preview (Drag emojis to move)</div>
+                        <button onclick="uploadNew()" style="padding: 4px 10px; font-size: 0.7rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📤 Upload New</button>
+                    </div>
+                    <div style="position: relative; display: inline-block;">
+                        <canvas id="canvas" style="max-width: 100%; border-radius: 6px; display: block; cursor: grab;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Controls -->
+            <div id="controls" style="display: none;">
+                <!-- Top Text -->
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Top Text</label>
+                    <input type="text" id="topText" placeholder="TOP TEXT" oninput="updateMeme()" style="width: 100%; padding: 8px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); text-transform: uppercase;">
+                </div>
+
+                <!-- Middle Text -->
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Middle Text (Optional)</label>
+                    <input type="text" id="middleText" placeholder="MIDDLE TEXT" oninput="updateMeme()" style="width: 100%; padding: 8px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); text-transform: uppercase;">
+                </div>
+
+                <!-- Bottom Text -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Bottom Text</label>
+                    <input type="text" id="bottomText" placeholder="BOTTOM TEXT" oninput="updateMeme()" style="width: 100%; padding: 8px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); text-transform: uppercase;">
+                </div>
+
+                <!-- Text Settings -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border); max-height: 280px; overflow-y: auto;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Text Settings</div>
+                    
+                    <!-- Font Family -->
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 4px; display: block;">Font</label>
+                        <select id="fontFamily" onchange="updateMeme()" style="width: 100%; padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.75rem;">
+                            <option value="Impact">Impact (Classic)</option>
+                            <option value="Arial Black">Arial Black</option>
+                            <option value="Comic Sans MS">Comic Sans</option>
+                            <option value="Courier New">Courier New</option>
+                            <option value="Georgia">Georgia</option>
+                        </select>
+                    </div>
+
+                    <!-- Font Size -->
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <label style="font-size: 0.75rem;">Font Size</label>
+                            <span style="font-size: 0.75rem; color: var(--primary);" id="fontSize-val">48px</span>
+                        </div>
+                        <input type="range" id="fontSize" min="20" max="80" value="48" oninput="updateMeme(); document.getElementById('fontSize-val').textContent = this.value + 'px'" style="width: 100%;">
+                    </div>
+
+                    <!-- Text Alignment -->
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block;">Text Alignment</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px;">
+                            <button onclick="setAlignment('left')" id="align-left" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.7rem; color: var(--white);">Left</button>
+                            <button onclick="setAlignment('center')" id="align-center" class="active-align" style="padding: 6px; background: var(--primary); border: 1px solid var(--primary); border-radius: 4px; cursor: pointer; font-size: 0.7rem; color: white;">Center</button>
+                            <button onclick="setAlignment('right')" id="align-right" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.7rem; color: var(--white);">Right</button>
+                        </div>
+                    </div>
+
+                    <!-- Text Color -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <div>
+                            <label style="font-size: 0.75rem; margin-bottom: 4px; display: block;">Text Color</label>
+                            <input type="color" id="textColor" value="#ffffff" oninput="updateMeme()" style="width: 100%; height: 36px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: var(--dark);">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; margin-bottom: 4px; display: block;">Stroke Color</label>
+                            <input type="color" id="strokeColor" value="#000000" oninput="updateMeme()" style="width: 100%; height: 36px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: var(--dark);">
+                        </div>
+                    </div>
+
+                    <!-- Stroke Width -->
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <label style="font-size: 0.75rem;">Stroke Width</label>
+                            <span style="font-size: 0.75rem; color: var(--primary);" id="strokeWidth-val">3px</span>
+                        </div>
+                        <input type="range" id="strokeWidth" min="0" max="8" value="3" oninput="updateMeme(); document.getElementById('strokeWidth-val').textContent = this.value + 'px'" style="width: 100%;">
+                    </div>
+
+                    <!-- Text Shadow -->
+                    <div>
+                        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; margin-bottom: 6px;">
+                            <input type="checkbox" id="textShadow" onchange="updateMeme()">
+                            <span style="font-size: 0.75rem;">Add Text Shadow</span>
+                        </label>
+                        <div id="shadowControls" style="display: none; padding-left: 20px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <label style="font-size: 0.7rem;">Shadow Blur</label>
+                                <span style="font-size: 0.7rem; color: var(--primary);" id="shadowBlur-val">4px</span>
+                            </div>
+                            <input type="range" id="shadowBlur" min="0" max="20" value="4" oninput="updateMeme(); document.getElementById('shadowBlur-val').textContent = this.value + 'px'" style="width: 100%;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Filters -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Image Filters</div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
+                        <button onclick="applyFilter('none')" id="filter-none" class="active-filter" style="padding: 6px; background: var(--primary); border: 1px solid var(--primary); border-radius: 6px; cursor: pointer; font-size: 0.7rem; color: white;">None</button>
+                        <button onclick="applyFilter('grayscale')" id="filter-grayscale" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.7rem; color: var(--white);">Grayscale</button>
+                        <button onclick="applyFilter('sepia')" id="filter-sepia" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.7rem; color: var(--white);">Sepia</button>
+                        <button onclick="applyFilter('invert')" id="filter-invert" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.7rem; color: var(--white);">Invert</button>
+                        <button onclick="applyFilter('blur')" id="filter-blur" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.7rem; color: var(--white);">Blur</button>
+                        <button onclick="applyFilter('brightness')" id="filter-brightness" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.7rem; color: var(--white);">Bright</button>
+                    </div>
+                </div>
+
+                <!-- Emoji Stickers -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Emoji Stickers (Click to add)</div>
+                    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-bottom: 8px;">
+                        <button onclick="addEmoji('😂')" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 1.5rem;">😂</button>
+                        <button onclick="addEmoji('😎')" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 1.5rem;">😎</button>
+                        <button onclick="addEmoji('🔥')" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 1.5rem;">🔥</button>
+                        <button onclick="addEmoji('💯')" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 1.5rem;">💯</button>
+                        <button onclick="addEmoji('👍')" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 1.5rem;">👍</button>
+                        <button onclick="addEmoji('❤️')" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 1.5rem;">❤️</button>
+                        <button onclick="addEmoji('😭')" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 1.5rem;">😭</button>
+                        <button onclick="addEmoji('🤣')" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 1.5rem;">🤣</button>
+                        <button onclick="addEmoji('😍')" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 1.5rem;">😍</button>
+                        <button onclick="addEmoji('🤔')" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 1.5rem;">🤔</button>
+                        <button onclick="addEmoji('💀')" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 1.5rem;">💀</button>
+                        <button onclick="addEmoji('⭐')" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 1.5rem;">⭐</button>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 0.7rem; color: var(--gray);">Emoji Size:</div>
+                        <input type="range" id="emojiSize" min="30" max="120" value="60" oninput="document.getElementById('emojiSize-val').textContent = this.value + 'px'" style="width: 60%;">
+                        <span style="font-size: 0.7rem; color: var(--primary);" id="emojiSize-val">60px</span>
+                    </div>
+                    <button onclick="clearEmojis()" style="width: 100%; margin-top: 8px; padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.7rem; color: var(--white);">Clear All Emojis</button>
+                </div>
+
+                <!-- Text Presets -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Text Presets</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                        <button onclick="applyPreset('classic')" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Classic</button>
+                        <button onclick="applyPreset('dark')" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Dark Mode</button>
+                        <button onclick="applyPreset('colorful')" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Colorful</button>
+                        <button onclick="applyPreset('minimal')" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Minimal</button>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <button onclick="downloadMeme()" class="btn btn-success" style="width: 100%; padding: 10px; font-size: 0.95rem;">💾 Download Meme</button>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 

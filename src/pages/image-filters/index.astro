@@ -23,7 +23,106 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload & Preview -->
+            <div>
+                <div id="uploadArea" style="margin-bottom: 12px;">
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">📤</div>
+                        <div style="font-size: 0.85rem; color: var(--white); margin-bottom: 3px;">Click to upload</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+                </div>
 
+                <!-- Preview -->
+                <div id="previewArea" style="display: none; background: var(--light); border-radius: 8px; padding: 12px; text-align: center; border: 1px solid var(--border);">
+                    <canvas id="canvas" style="max-width: 100%; max-height: 350px; border-radius: 6px;"></canvas>
+                </div>
+            </div>
+
+            <!-- Right: Controls -->
+            <div id="controls" style="display: none;">
+                <!-- Quick Filters -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Quick Filters</label>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
+                        <button onclick="applyPreset('none')" class="preset-btn active" id="preset-none" style="padding: 6px; background: var(--primary); border: 1px solid var(--primary); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: white;">Original</button>
+                        <button onclick="applyPreset('grayscale')" class="preset-btn" id="preset-grayscale" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Grayscale</button>
+                        <button onclick="applyPreset('sepia')" class="preset-btn" id="preset-sepia" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Sepia</button>
+                        <button onclick="applyPreset('invert')" class="preset-btn" id="preset-invert" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Invert</button>
+                        <button onclick="applyPreset('vintage')" class="preset-btn" id="preset-vintage" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Vintage</button>
+                        <button onclick="applyPreset('cool')" class="preset-btn" id="preset-cool" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Cool</button>
+                    </div>
+                </div>
+
+                <!-- Adjustments -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border); max-height: 280px; overflow-y: auto;">
+                    <!-- Brightness -->
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <label style="font-size: 0.75rem;">Brightness</label>
+                            <span style="font-size: 0.75rem; color: var(--primary);" id="brightness-val">100%</span>
+                        </div>
+                        <input type="range" id="brightness" min="0" max="200" value="100" oninput="updateFilters()" style="width: 100%;">
+                    </div>
+
+                    <!-- Contrast -->
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <label style="font-size: 0.75rem;">Contrast</label>
+                            <span style="font-size: 0.75rem; color: var(--primary);" id="contrast-val">100%</span>
+                        </div>
+                        <input type="range" id="contrast" min="0" max="200" value="100" oninput="updateFilters()" style="width: 100%;">
+                    </div>
+
+                    <!-- Saturation -->
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <label style="font-size: 0.75rem;">Saturation</label>
+                            <span style="font-size: 0.75rem; color: var(--primary);" id="saturation-val">100%</span>
+                        </div>
+                        <input type="range" id="saturation" min="0" max="200" value="100" oninput="updateFilters()" style="width: 100%;">
+                    </div>
+
+                    <!-- Blur -->
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <label style="font-size: 0.75rem;">Blur</label>
+                            <span style="font-size: 0.75rem; color: var(--primary);" id="blur-val">0px</span>
+                        </div>
+                        <input type="range" id="blur" min="0" max="20" value="0" oninput="updateFilters()" style="width: 100%;">
+                    </div>
+
+                    <!-- Hue Rotate -->
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <label style="font-size: 0.75rem;">Hue</label>
+                            <span style="font-size: 0.75rem; color: var(--primary);" id="hue-val">0°</span>
+                        </div>
+                        <input type="range" id="hue" min="0" max="360" value="0" oninput="updateFilters()" style="width: 100%;">
+                    </div>
+
+                    <!-- Opacity -->
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <label style="font-size: 0.75rem;">Opacity</label>
+                            <span style="font-size: 0.75rem; color: var(--primary);" id="opacity-val">100%</span>
+                        </div>
+                        <input type="range" id="opacity" min="0" max="100" value="100" oninput="updateFilters()" style="width: 100%;">
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <button class="btn btn-secondary" onclick="resetFilters()" style="padding: 8px; font-size: 0.85rem;">🔄 Reset</button>
+                    <button class="btn btn-success" onclick="downloadImage()" style="padding: 8px; font-size: 0.85rem;">💾 Download</button>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 

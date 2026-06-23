@@ -34,10 +34,10 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
                 <div style="font-size: 1rem; color: var(--gray); margin-bottom: 30px;">BPM (Beats Per Minute)</div>
 
                 <button id="startBtn" class="btn btn-primary" onclick="start()" style="padding: 15px 40px; font-size: 1.1rem;">
-                    ?? Start
+                    ▶️ Start
                 </button>
                 <button id="stopBtn" class="btn btn-danger" onclick="stop()" style="display: none; padding: 15px 40px; font-size: 1.1rem;">
-                    ? Stop
+                    🛑 Stop
                 </button>
             </div>
 
@@ -98,7 +98,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
             <!-- Tap Tempo -->
             <div style="text-align: center; background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border);">
                 <button class="btn btn-primary" onclick="tapTempo()" style="padding: 20px 40px; font-size: 1.1rem;">
-                    ?? Tap Tempo
+                    🥁 Tap Tempo
                 </button>
                 <p style="margin-top: 10px; font-size: 0.85rem; color: var(--gray);">Tap this button repeatedly to set tempo</p>
             </div>
@@ -107,7 +107,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
         
         <!-- Share Bar -->
 
-<style>
+<style is:global>
 .beat-active {
             background: var(--primary) !important;
             transform: scale(1.1);

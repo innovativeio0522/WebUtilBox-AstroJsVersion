@@ -23,7 +23,85 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload & Preview -->
+            <div>
+                <div id="uploadArea" style="margin-bottom: 12px;">
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">📤</div>
+                        <div style="font-size: 0.85rem; color: var(--white); margin-bottom: 3px;">Click to upload</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+                </div>
 
+                <!-- Preview Canvas -->
+                <div id="previewArea" style="display: none; background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 0.75rem; color: var(--gray);">Preview</div>
+                        <button onclick="uploadNew()" style="padding: 4px 10px; font-size: 0.7rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📤 Upload New</button>
+                    </div>
+                    <canvas id="canvas" style="max-width: 100%; max-height: 400px; border-radius: 6px;"></canvas>
+                    <div style="margin-top: 8px; font-size: 0.75rem; color: var(--gray);" id="dimensions">-</div>
+                </div>
+            </div>
+
+            <!-- Right: Controls -->
+            <div id="controls" style="display: none;">
+                <!-- Rotate -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Rotate</div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                        <button onclick="rotate(90)" class="btn btn-secondary" style="padding: 10px; font-size: 0.85rem; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                            <span style="font-size: 1.5rem;">↪️</span>
+                            <span>90° Right</span>
+                        </button>
+                        <button onclick="rotate(180)" class="btn btn-secondary" style="padding: 10px; font-size: 0.85rem; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                            <span style="font-size: 1.5rem;">🔃</span>
+                            <span>180°</span>
+                        </button>
+                        <button onclick="rotate(-90)" class="btn btn-secondary" style="padding: 10px; font-size: 0.85rem; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                            <span style="font-size: 1.5rem;">↩️</span>
+                            <span>90° Left</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Flip -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Flip</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <button onclick="flip('horizontal')" class="btn btn-secondary" style="padding: 10px; font-size: 0.85rem; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                            <span style="font-size: 1.5rem;">↔️</span>
+                            <span>Horizontal</span>
+                        </button>
+                        <button onclick="flip('vertical')" class="btn btn-secondary" style="padding: 10px; font-size: 0.85rem; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                            <span style="font-size: 1.5rem;">↕️</span>
+                            <span>Vertical</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Current Transformations -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Current Transformations</div>
+                    <div style="font-size: 0.75rem; color: var(--white);">
+                        <div style="margin-bottom: 4px;">Rotation: <span style="color: var(--primary);" id="rotationDisplay">0°</span></div>
+                        <div style="margin-bottom: 4px;">Horizontal Flip: <span style="color: var(--primary);" id="hFlipDisplay">No</span></div>
+                        <div>Vertical Flip: <span style="color: var(--primary);" id="vFlipDisplay">No</span></div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <button onclick="reset()" class="btn btn-secondary" style="padding: 10px; font-size: 0.9rem;">🔄 Reset</button>
+                    <button onclick="downloadImage()" class="btn btn-success" style="padding: 10px; font-size: 0.9rem;">💾 Download</button>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 

@@ -55,11 +55,11 @@
             const cryptoName = document.getElementById('crypto').options[document.getElementById('crypto').selectedIndex].text;
             let summary = '';
             if (netProfit > 0) {
-                summary = `?? Profit! You would make $${netProfit.toFixed(2)} (${roi.toFixed(2)}% ROI) by buying ${coinsPurchased.toFixed(8)} ${crypto} at $${buyPrice.toFixed(2)} and selling at $${sellPrice.toFixed(2)}. After paying $${totalFees.toFixed(2)} in fees, your net gain is ${roi.toFixed(2)}%.`;
+                summary = `📈 Profit! You would make $${netProfit.toFixed(2)} (${roi.toFixed(2)}% ROI) by buying ${coinsPurchased.toFixed(8)} ${crypto} at $${buyPrice.toFixed(2)} and selling at $${sellPrice.toFixed(2)}. After paying $${totalFees.toFixed(2)} in fees, your net gain is ${roi.toFixed(2)}%.`;
             } else if (netProfit < 0) {
-                summary = `?? Loss! You would lose $${Math.abs(netProfit).toFixed(2)} (${roi.toFixed(2)}% ROI) by buying ${coinsPurchased.toFixed(8)} ${crypto} at $${buyPrice.toFixed(2)} and selling at $${sellPrice.toFixed(2)}. Including $${totalFees.toFixed(2)} in fees, your net loss is ${Math.abs(roi).toFixed(2)}%.`;
+                summary = `📉 Loss! You would lose $${Math.abs(netProfit).toFixed(2)} (${roi.toFixed(2)}% ROI) by buying ${coinsPurchased.toFixed(8)} ${crypto} at $${buyPrice.toFixed(2)} and selling at $${sellPrice.toFixed(2)}. Including $${totalFees.toFixed(2)} in fees, your net loss is ${Math.abs(roi).toFixed(2)}%.`;
             } else {
-                summary = `?? Break-even! You would neither profit nor lose. The price change exactly covers the trading fees of $${totalFees.toFixed(2)}.`;
+                summary = `⚖️ Break-even! You would neither profit nor lose. The price change exactly covers the trading fees of $${totalFees.toFixed(2)}.`;
             }
             document.getElementById('profitSummary').textContent = summary;
 

@@ -31,37 +31,37 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
                     <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">From</label>
                     <input type="number" id="fromValue" value="100" oninput="convert()" style="width: 100%; padding: 10px; font-size: 1rem; margin-bottom: 8px;">
                     <select id="fromCurrency" onchange="convert()" style="width: 100%; padding: 8px; font-size: 0.9rem;">
-                        <option value="USD">???? USD - US Dollar</option>
-                        <option value="EUR">???? EUR - Euro</option>
-                        <option value="GBP">???? GBP - British Pound</option>
-                        <option value="JPY">???? JPY - Japanese Yen</option>
-                        <option value="CNY">???? CNY - Chinese Yuan</option>
-                        <option value="INR">???? INR - Indian Rupee</option>
-                        <option value="CAD">???? CAD - Canadian Dollar</option>
-                        <option value="AUD">???? AUD - Australian Dollar</option>
-                        <option value="CHF">???? CHF - Swiss Franc</option>
-                        <option value="MXN">???? MXN - Mexican Peso</option>
+                        <option value="USD">🇺🇸 USD - US Dollar</option>
+                        <option value="EUR">🇪🇺 EUR - Euro</option>
+                        <option value="GBP">🇬🇧 GBP - British Pound</option>
+                        <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                        <option value="CNY">🇨🇳 CNY - Chinese Yuan</option>
+                        <option value="INR">🇮🇳 INR - Indian Rupee</option>
+                        <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
+                        <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
+                        <option value="CHF">🇨🇭 CHF - Swiss Franc</option>
+                        <option value="MXN">🇲🇽 MXN - Mexican Peso</option>
                     </select>
                 </div>
 
                 <!-- Swap Button -->
-                <button onclick="swap()" style="background: var(--primary); color: var(--white); border: none; border-radius: 50%; width: 45px; height: 45px; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; margin-bottom: 8px;" onmouseover="this.style.transform='rotate(180deg)'" onmouseout="this.style.transform='rotate(0deg)'">?</button>
+                <button onclick="swap()" style="background: var(--primary); color: var(--white); border: none; border-radius: 50%; width: 45px; height: 45px; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; margin-bottom: 8px;" onmouseover="this.style.transform='rotate(180deg)'" onmouseout="this.style.transform='rotate(0deg)'">⇄</button>
 
                 <!-- To -->
                 <div>
                     <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">To</label>
                     <input type="number" id="toValue" readonly style="width: 100%; padding: 10px; font-size: 1rem; margin-bottom: 8px; background: var(--light); cursor: not-allowed;">
                     <select id="toCurrency" onchange="convert()" style="width: 100%; padding: 8px; font-size: 0.9rem;">
-                        <option value="EUR">???? EUR - Euro</option>
-                        <option value="USD">???? USD - US Dollar</option>
-                        <option value="GBP">???? GBP - British Pound</option>
-                        <option value="JPY">???? JPY - Japanese Yen</option>
-                        <option value="CNY">???? CNY - Chinese Yuan</option>
-                        <option value="INR">???? INR - Indian Rupee</option>
-                        <option value="CAD">???? CAD - Canadian Dollar</option>
-                        <option value="AUD">???? AUD - Australian Dollar</option>
-                        <option value="CHF">???? CHF - Swiss Franc</option>
-                        <option value="MXN">???? MXN - Mexican Peso</option>
+                        <option value="EUR">🇪🇺 EUR - Euro</option>
+                        <option value="USD">🇺🇸 USD - US Dollar</option>
+                        <option value="GBP">🇬🇧 GBP - British Pound</option>
+                        <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                        <option value="CNY">🇨🇳 CNY - Chinese Yuan</option>
+                        <option value="INR">🇮🇳 INR - Indian Rupee</option>
+                        <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
+                        <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
+                        <option value="CHF">🇨🇭 CHF - Swiss Franc</option>
+                        <option value="MXN">🇲🇽 MXN - Mexican Peso</option>
                     </select>
                 </div>
             </div>
@@ -87,7 +87,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
             </div>
 
             <div style="margin-top: 15px; padding: 12px; background: rgba(251, 191, 36, 0.1); border-radius: 8px; border: 1px solid var(--warning);">
-                <div style="color: var(--warning); font-size: 0.85rem;">?? <strong>Note:</strong> Exchange rates are approximate and for reference only. For actual transactions, check with your bank or financial institution.</div>
+                <div style="color: var(--warning); font-size: 0.85rem;">⚠️ <strong>Note:</strong> Exchange rates are approximate and for reference only. For actual transactions, check with your bank or financial institution.</div>
             </div>
         </div>
 

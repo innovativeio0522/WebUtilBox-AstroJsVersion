@@ -7,7 +7,6 @@ let originalImage = null;
         let isDragging = false;
         let dragOffset = { x: 0, y: 0 };
         let watermarkBounds = { x: 0, y: 0, width: 0, height: 0 };
-        let eventListenersBound = false;
 
         // Drag and drop
         requestIdleCallback(() => {
@@ -77,14 +76,11 @@ let originalImage = null;
             canvas.width = originalImage.width * scale;
             canvas.height = originalImage.height * scale;
 
-            // Add mouse events for dragging (only once)
-            if (!eventListenersBound) {
-                canvas.addEventListener('mousedown', startDrag);
-                canvas.addEventListener('mousemove', drag);
-                canvas.addEventListener('mouseup', endDrag);
-                canvas.addEventListener('mouseleave', endDrag);
-                eventListenersBound = true;
-            }
+            // Add mouse events for dragging
+            canvas.addEventListener('mousedown', startDrag);
+            canvas.addEventListener('mousemove', drag);
+            canvas.addEventListener('mouseup', endDrag);
+            canvas.addEventListener('mouseleave', endDrag);
 
             updateWatermark();
         }

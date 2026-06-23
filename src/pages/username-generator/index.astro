@@ -27,12 +27,12 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
             <div style="margin-bottom:20px">
                 <label style="display:block;margin-bottom:10px;font-weight:600">Category:</label>
                 <div class="category-grid">
-                    <button class="category-btn active" onclick="setCategory('gaming')">?? Gaming</button>
-                    <button class="category-btn" onclick="setCategory('cool')">?? Cool</button>
-                    <button class="category-btn" onclick="setCategory('cute')">?? Cute</button>
+                    <button class="category-btn active" onclick="setCategory('gaming')">🎮 Gaming</button>
+                    <button class="category-btn" onclick="setCategory('cool')">😎 Cool</button>
+                    <button class="category-btn" onclick="setCategory('cute')">✨ Cute</button>
                     <button class="category-btn" onclick="setCategory('aesthetic')">? Aesthetic</button>
-                    <button class="category-btn" onclick="setCategory('funny')">?? Funny</button>
-                    <button class="category-btn" onclick="setCategory('random')">?? Random</button>
+                    <button class="category-btn" onclick="setCategory('funny')">😂 Funny</button>
+                    <button class="category-btn" onclick="setCategory('random')">🎲 Random</button>
                 </div>
             </div>
             <div class="username-inputs">
@@ -71,7 +71,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
         
         <!-- Share Bar -->
 
-<style>
+<style is:global>
 .username-card{background:var(--light);padding:20px;border-radius:12px;border:1px solid var(--border);margin:10px 0;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:all 0.2s}
         .username-card:hover{border-color:var(--primary);transform:translateX(5px)}
         .username-text{font-size:1.3rem;font-weight:600;color:var(--primary);word-break:break-all;flex:1}

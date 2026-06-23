@@ -26,7 +26,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 <div class="workspace">
             <!-- Recording Interface -->
             <div style="text-align: center; padding: 40px; border: 2px solid var(--border); border-radius: 12px; background: var(--light); margin-bottom: 20px;">
-                <div id="micIcon" style="font-size: 5rem; margin-bottom: 20px; transition: all 0.3s;">???</div>
+                <div id="micIcon" style="font-size: 5rem; margin-bottom: 20px; transition: all 0.3s;">🎤?</div>
                 
                 <div id="timer" style="font-size: 2.5rem; font-weight: bold; margin-bottom: 20px; font-family: monospace; color: var(--primary);">00:00</div>
 
@@ -45,7 +45,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
                         <span style="font-size: 1.2rem;">?</span> Pause
                     </button>
                     <button id="resumeBtn" class="btn" onclick="resumeRecording()" style="display: none; padding: 15px 30px; font-size: 1rem;">
-                        <span style="font-size: 1.2rem;">??</span> Resume
+                        <span style="font-size: 1.2rem;">▶️</span> Resume
                     </button>
                 </div>
             </div>
@@ -64,7 +64,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
         
         <!-- Share Bar -->
 
-<style>
+<style is:global>
 .recording {
             animation: pulse 1.5s ease-in-out infinite;
         }

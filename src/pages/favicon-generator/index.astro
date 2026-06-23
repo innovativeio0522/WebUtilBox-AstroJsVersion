@@ -27,7 +27,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
             <!-- Upload Area -->
             <div id="uploadArea" style="margin-bottom: 15px;">
                 <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
-                    <div style="font-size: 2rem; margin-bottom: 5px;">??</div>
+                    <div style="font-size: 2rem; margin-bottom: 5px;">📤</div>
                     <div style="font-size: 0.9rem; color: var(--white); margin-bottom: 3px;">Click to upload or drag and drop</div>
                     <div style="font-size: 0.75rem; color: var(--gray);">PNG, JPG, SVG (Square images work best)</div>
                 </div>
@@ -82,22 +82,22 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
                 <div style="background: var(--light); border-radius: 8px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border);">
                     <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Download Individual Sizes</div>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px;">
-                        <button onclick="downloadSize(16)" class="btn btn-secondary" style="padding: 8px; font-size: 0.8rem;">?? 16×16</button>
-                        <button onclick="downloadSize(32)" class="btn btn-secondary" style="padding: 8px; font-size: 0.8rem;">?? 32×32</button>
-                        <button onclick="downloadSize(64)" class="btn btn-secondary" style="padding: 8px; font-size: 0.8rem;">?? 64×64</button>
-                        <button onclick="downloadSize(128)" class="btn btn-secondary" style="padding: 8px; font-size: 0.8rem;">?? 128×128</button>
-                        <button onclick="downloadSize(256)" class="btn btn-secondary" style="padding: 8px; font-size: 0.8rem;">?? 256×256</button>
+                        <button onclick="downloadSize(16)" class="btn btn-secondary" style="padding: 8px; font-size: 0.8rem;">📥 16×16</button>
+                        <button onclick="downloadSize(32)" class="btn btn-secondary" style="padding: 8px; font-size: 0.8rem;">📥 32×32</button>
+                        <button onclick="downloadSize(64)" class="btn btn-secondary" style="padding: 8px; font-size: 0.8rem;">📥 64×64</button>
+                        <button onclick="downloadSize(128)" class="btn btn-secondary" style="padding: 8px; font-size: 0.8rem;">📥 128×128</button>
+                        <button onclick="downloadSize(256)" class="btn btn-secondary" style="padding: 8px; font-size: 0.8rem;">📥 256×256</button>
                     </div>
                 </div>
 
                 <!-- Download All -->
-                <button onclick="downloadAll()" class="btn btn-success" style="width: 100%; padding: 12px; font-size: 0.95rem;">?? Download All Sizes (ZIP)</button>
+                <button onclick="downloadAll()" class="btn btn-success" style="width: 100%; padding: 12px; font-size: 0.95rem;">💾 Download All Sizes (ZIP)</button>
 
                 <!-- HTML Code -->
                 <div style="background: var(--light); border-radius: 8px; padding: 15px; margin-top: 15px; border: 1px solid var(--border);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                         <div style="font-size: 0.85rem; color: var(--gray);">HTML Code</div>
-                        <button onclick="copyCode()" class="btn btn-primary" style="padding: 4px 10px; font-size: 0.75rem;">?? Copy</button>
+                        <button onclick="copyCode()" class="btn btn-primary" style="padding: 4px 10px; font-size: 0.75rem;">📋 Copy</button>
                     </div>
                     <textarea id="htmlCode" readonly style="width: 100%; height: 80px; padding: 10px; font-family: 'Courier New', monospace; font-size: 0.7rem; resize: none; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);"></textarea>
                 </div>

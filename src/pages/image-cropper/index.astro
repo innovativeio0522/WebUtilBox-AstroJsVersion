@@ -23,7 +23,72 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload & Crop Area -->
+            <div>
+                <div id="uploadArea" style="margin-bottom: 12px;">
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">📤</div>
+                        <div style="font-size: 0.85rem; color: var(--white); margin-bottom: 3px;">Click to upload</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+                </div>
 
+                <!-- Crop Canvas -->
+                <div id="cropArea" style="display: none; position: relative; background: var(--light); border-radius: 8px; padding: 10px; border: 1px solid var(--border);">
+                    <canvas id="canvas" style="max-width: 100%; cursor: crosshair; display: block; border-radius: 6px;"></canvas>
+                </div>
+            </div>
+
+            <!-- Right: Controls & Preview -->
+            <div id="controls" style="display: none;">
+                <!-- Aspect Ratio -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Aspect Ratio</label>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 6px;">
+                        <button onclick="setAspectRatio('free')" id="ratio-free" class="ratio-btn active" style="padding: 6px; background: var(--primary); border: 1px solid var(--primary); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: white;">Free</button>
+                        <button onclick="setAspectRatio('1:1')" id="ratio-1:1" class="ratio-btn" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">1:1</button>
+                        <button onclick="setAspectRatio('4:3')" id="ratio-4:3" class="ratio-btn" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">4:3</button>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
+                        <button onclick="setAspectRatio('16:9')" id="ratio-16:9" class="ratio-btn" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">16:9</button>
+                        <button onclick="setAspectRatio('3:2')" id="ratio-3:2" class="ratio-btn" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">3:2</button>
+                        <button onclick="setAspectRatio('9:16')" id="ratio-9:16" class="ratio-btn" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">9:16</button>
+                    </div>
+                </div>
+
+                <!-- Crop Info -->
+                <div style="background: var(--light); border-radius: 8px; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 6px;">Selection</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.75rem;">
+                        <div>
+                            <span style="color: var(--gray);">Position:</span>
+                            <span style="color: var(--white); margin-left: 4px;" id="cropPos">-</span>
+                        </div>
+                        <div>
+                            <span style="color: var(--gray);">Size:</span>
+                            <span style="color: var(--white); margin-left: 4px;" id="cropSize">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; text-align: center; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Preview</div>
+                    <canvas id="preview" style="max-width: 100%; max-height: 150px; border-radius: 6px; background: repeating-conic-gradient(#ddd 0% 25%, white 0% 50%) 50% / 10px 10px;"></canvas>
+                </div>
+
+                <!-- Actions -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <button class="btn btn-secondary" onclick="resetCrop()" style="padding: 8px; font-size: 0.85rem;">🔄 Reset</button>
+                    <button class="btn btn-success" onclick="downloadCropped()" style="padding: 8px; font-size: 0.85rem;">💾 Download</button>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 

@@ -23,7 +23,164 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="tool-content">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Cryptocurrency</label>
+                    <select id="crypto">
+                        <option value="BTC">Bitcoin (BTC)</option>
+                        <option value="ETH">Ethereum (ETH)</option>
+                        <option value="BNB">Binance Coin (BNB)</option>
+                        <option value="XRP">Ripple (XRP)</option>
+                        <option value="ADA">Cardano (ADA)</option>
+                        <option value="SOL">Solana (SOL)</option>
+                        <option value="DOT">Polkadot (DOT)</option>
+                        <option value="DOGE">Dogecoin (DOGE)</option>
+                        <option value="MATIC">Polygon (MATIC)</option>
+                        <option value="LTC">Litecoin (LTC)</option>
+                        <option value="OTHER">Other Crypto</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Investment Amount ($)</label>
+                    <input type="number" id="investment" value="1000" min="0" step="10">
+                </div>
+                <div class="input-group">
+                    <label>Buy Price ($)</label>
+                    <input type="number" id="buyPrice" value="30000" min="0" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label>Sell Price ($)</label>
+                    <input type="number" id="sellPrice" value="35000" min="0" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label>Buy Fee (%)</label>
+                    <input type="number" id="buyFee" value="0.1" min="0" max="10" step="0.01">
+                    <small>Typical exchange fee: 0.1% - 0.5%</small>
+                </div>
+                <div class="input-group">
+                    <label>Sell Fee (%)</label>
+                    <input type="number" id="sellFee" value="0.1" min="0" max="10" step="0.01">
+                </div>
+                <button class="btn-primary" onclick="calculateProfit()">Calculate Profit</button>
+            </div>
 
+            <div class="output-section" id="results" style="display:none;">
+                <h3>Trading Results</h3>
+                <div class="result-card">
+                    <div class="result-item highlight" id="profitHighlight">
+                        <span>Net Profit/Loss</span>
+                        <strong id="netProfit">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Coins Purchased</span>
+                        <strong id="coinsPurchased">0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Investment (with fees)</span>
+                        <strong id="totalInvestment">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Sale Proceeds (after fees)</span>
+                        <strong id="saleProceeds">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Fees Paid</span>
+                        <strong id="totalFees">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Return on Investment (ROI)</span>
+                        <strong id="roi">0%</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Break-Even Price</span>
+                        <strong id="breakEven">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Price Change</span>
+                        <strong id="priceChange">0%</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 15px; background: rgba(249, 115, 22, 0.1); border-radius: 8px; border-left: 4px solid var(--primary);">
+                    <p style="margin: 0; font-size: 0.9rem; color: var(--text);" id="profitSummary"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-calculate on input change
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', () => {
+                if (document.getElementById('results').style.display !== 'none') {
+                    calculateProfit();
+                }
+            });
+        });
+
+        function calculateProfit() {
+            const crypto = document.getElementById('crypto').value;
+            const investment = parseFloat(document.getElementById('investment').value) || 0;
+            const buyPrice = parseFloat(document.getElementById('buyPrice').value) || 0;
+            const sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+            const buyFeePercent = parseFloat(document.getElementById('buyFee').value) || 0;
+            const sellFeePercent = parseFloat(document.getElementById('sellFee').value) || 0;
+
+            // Calculate buy side
+            const buyFee = investment * (buyFeePercent / 100);
+            const investmentAfterFee = investment - buyFee;
+            const coinsPurchased = investmentAfterFee / buyPrice;
+
+            // Calculate sell side
+            const saleValue = coinsPurchased * sellPrice;
+            const sellFee = saleValue * (sellFeePercent / 100);
+            const saleProceeds = saleValue - sellFee;
+
+            // Calculate profit/loss
+            const totalFees = buyFee + sellFee;
+            const netProfit = saleProceeds - investment;
+            const roi = (netProfit / investment) * 100;
+
+            // Calculate break-even price (price needed to cover all fees)
+            const breakEven = (investment + totalFees) / coinsPurchased;
+
+            // Calculate price change
+            const priceChange = ((sellPrice - buyPrice) / buyPrice) * 100;
+
+            // Display results
+            const profitColor = netProfit >= 0 ? '#10b981' : '#ef4444';
+            document.getElementById('netProfit').textContent = `${netProfit >= 0 ? '+' : ''}$${netProfit.toFixed(2)}`;
+            document.getElementById('netProfit').style.color = profitColor;
+            document.getElementById('profitHighlight').style.background = netProfit >= 0 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)';
+
+            document.getElementById('coinsPurchased').textContent = `${coinsPurchased.toFixed(8)} ${crypto}`;
+            document.getElementById('totalInvestment').textContent = `$${investment.toFixed(2)}`;
+            document.getElementById('saleProceeds').textContent = `$${saleProceeds.toFixed(2)}`;
+            document.getElementById('totalFees').textContent = `$${totalFees.toFixed(2)}`;
+            document.getElementById('roi').textContent = `${roi >= 0 ? '+' : ''}${roi.toFixed(2)}%`;
+            document.getElementById('roi').style.color = profitColor;
+            document.getElementById('breakEven').textContent = `$${breakEven.toFixed(2)}`;
+            document.getElementById('priceChange').textContent = `${priceChange >= 0 ? '+' : ''}${priceChange.toFixed(2)}%`;
+
+            // Generate summary
+            const cryptoName = document.getElementById('crypto').options[document.getElementById('crypto').selectedIndex].text;
+            let summary = '';
+            if (netProfit > 0) {
+                summary = `📈 Profit! You would make $${netProfit.toFixed(2)} (${roi.toFixed(2)}% ROI) by buying ${coinsPurchased.toFixed(8)} ${crypto} at $${buyPrice.toFixed(2)} and selling at $${sellPrice.toFixed(2)}. After paying $${totalFees.toFixed(2)} in fees, your net gain is ${roi.toFixed(2)}%.`;
+            } else if (netProfit < 0) {
+                summary = `📉 Loss! You would lose $${Math.abs(netProfit).toFixed(2)} (${roi.toFixed(2)}% ROI) by buying ${coinsPurchased.toFixed(8)} ${crypto} at $${buyPrice.toFixed(2)} and selling at $${sellPrice.toFixed(2)}. Including $${totalFees.toFixed(2)} in fees, your net loss is ${Math.abs(roi).toFixed(2)}%.`;
+            } else {
+                summary = `⚖️ Break-even! You would neither profit nor lose. The price change exactly covers the trading fees of $${totalFees.toFixed(2)}.`;
+            }
+            document.getElementById('profitSummary').textContent = summary;
+
+            document.getElementById('results').style.display = 'block';
+        }
+    </script>
+
+        
+        <!-- Share Bar -->
 
 
 
@@ -31,7 +188,95 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 <script src="/js/crypto-profit-calculator.js" defer></script>
 
 <div class="info-section" slot="info">
+<h2>Crypto Profit Calculator - Calculate Cryptocurrency Trading Gains</h2>
+        <p>Whether you're trading Bitcoin, Ethereum, or any altcoin, knowing your actual profit after fees is essential. This free Crypto Profit Calculator gives you an instant, accurate breakdown of your trade performance — profit or loss, ROI, break-even price, and net gains after fees — all in one place, with no sign-up required.</p>
 
+        <h3>What Is a Crypto Profit Calculator?</h3>
+        <p>A crypto profit calculator is a tool that computes the financial outcome of a cryptocurrency trade based on your entry price, exit price, investment amount, and trading fees. Rather than doing the math manually — which gets complicated once fees are factored in — you simply enter your trade details and get an instant, accurate result.</p>
+        <p>Cryptocurrency trading involves more variables than traditional investing. Exchange fees are charged on both the buy and sell side, which can significantly eat into profits on smaller trades or high-frequency trading. This calculator accounts for fees on both ends, giving you a true net profit figure rather than a misleading gross number.</p>
+        <p>The tool also calculates your break-even price — the minimum sell price you need to cover your buy-side fees and not lose money. This is a critical number for setting stop-loss orders and understanding your risk exposure before entering a trade.</p>
+
+        <h3>Profit Calculation Inputs</h3>
+        <ul>
+            <li>Instant profit and loss calculation in both dollar amount and percentage</li>
+            <li>ROI (Return on Investment) calculation showing percentage gain or loss on your capital</li>
+            <li>Break-even price calculation accounting for buy-side fees</li>
+            <li>Fee calculation on both buy and sell sides for accurate net profit</li>
+            <li>Works for any cryptocurrency — Bitcoin, Ethereum, Solana, or any altcoin</li>
+            <li>Supports any fiat currency — just enter prices in your local currency</li>
+            <li>Color-coded results — green for profit, red for loss, for instant visual feedback</li>
+            <li>No sign-up, no data stored, completely private and browser-based</li>
+        </ul>
+
+        <h3>How to Use the Crypto Profit Calculator</h3>
+        <ul>
+            <li>Step 1: Enter your buy price — the price per coin when you purchased</li>
+            <li>Step 2: Enter your sell price — the price per coin when you sold or plan to sell</li>
+            <li>Step 3: Enter your investment amount — the total amount of money you put in</li>
+            <li>Step 4: Enter your buy fee percentage — typically 0.1% to 0.5% depending on your exchange</li>
+            <li>Step 5: Enter your sell fee percentage — same as buy fee for most exchanges</li>
+            <li>Step 6: Click "Calculate" to see your profit/loss, ROI, fees paid, and break-even price</li>
+        </ul>
+
+        <h3>Tracking Crypto Investment Returns</h3>
+        <ul>
+            <li>Calculating actual profit after exchange fees before closing a trade</li>
+            <li>Determining the minimum sell price needed to break even on a position</li>
+            <li>Comparing trade performance across different entry and exit points</li>
+            <li>Planning trades by modeling different sell price scenarios</li>
+            <li>Tracking ROI across multiple trades to evaluate overall trading performance</li>
+            <li>Understanding the impact of fees on small trades where fees represent a larger percentage</li>
+            <li>Tax preparation — calculating realized gains and losses for crypto tax reporting</li>
+        </ul>
+
+        <h3>Understanding Crypto Profit Calculations</h3>
+        <p>Always factor in fees on both sides of a trade. Many traders calculate profit based on buy and sell prices alone, forgetting that exchanges charge a fee when you buy and again when you sell. On a 0.1% fee exchange, a round-trip trade costs 0.2% in fees. On a 0.5% fee exchange, that is 1% — which means you need at least a 1% price increase just to break even. This calculator makes that math transparent.</p>
+        <p>Use the break-even price as your minimum target when setting limit orders or stop-losses. If your break-even price is $42,150 on a Bitcoin trade, setting a stop-loss below that level means you will exit at a loss. Knowing this number precisely helps you make more disciplined trading decisions rather than guessing.</p>
+        <p>For tax purposes, keep a record of your calculated profit and loss for each trade. In most jurisdictions, cryptocurrency gains are taxable events. The profit figure this calculator provides — net of fees — is the number you will typically need for tax reporting. Fees paid are generally deductible from your taxable gain, which is why this calculator separates them out clearly.</p>
+
+        <h3>Understanding the Results</h3>
+        <p>The profit/loss figure shows your net gain or loss in your currency after all fees are deducted. A positive number means you made money; a negative number means you lost money. The ROI percentage shows this as a proportion of your original investment — a 10% ROI means you made 10 cents for every dollar invested.</p>
+        <p>The break-even price is the sell price at which your profit would be exactly zero after accounting for buy-side fees. If the market price drops below this level, you are in a losing position. The total fees figure shows exactly how much you paid to the exchange across both sides of the trade, which is useful for evaluating whether a particular exchange fee structure is costing you too much.</p>
+
+        
+
+        <h3>No Financial Data Stored or Sent</h3>
+        <p>All profit and loss calculations run in your browser. No trade data, prices, or investment amounts are ever sent to any server.</p>
+    
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How is crypto profit calculated?</button>
+                    <div class="faq-answer"><p>Profit = (sell price - buy price) x quantity, minus any fees. The calculator also shows your return on investment (ROI) as a percentage: ((sell price - buy price) / buy price) x 100. It accounts for both the price change and the amount you invested.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Does the calculator account for trading fees?</button>
+                    <div class="faq-answer"><p>Yes. Enter your buy fee and sell fee percentages (typically 0.1-0.5% on most exchanges). Fees are subtracted from your profit, giving you the actual net profit after costs. Fees have a significant impact on small trades.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between realized and unrealized profit?</button>
+                    <div class="faq-answer"><p>Realized profit is from trades you have already completed (sold). Unrealized profit (paper profit) is the gain on assets you still hold. This calculator computes realized profit when you enter both buy and sell prices.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I calculate profit for multiple buys at different prices?</button>
+                    <div class="faq-answer"><p>Calculate the average buy price: total amount spent divided by total coins purchased. Use that average as your buy price in the calculator. This is called dollar-cost averaging (DCA) and is a common investment strategy.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">Do I need to pay taxes on crypto profits?</button>
+                    <div class="faq-answer"><p>In most countries, cryptocurrency profits are taxable as capital gains. Short-term gains (held less than a year) are often taxed at a higher rate than long-term gains. Consult a tax professional for advice specific to your jurisdiction.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../investment-calculator/" class="related-tool-link">Investment Calculator</a>
+                    <a href="../compound-interest-calculator/" class="related-tool-link">Compound Interest Calculator</a>
+                    <a href="../percentage-calculator/" class="related-tool-link">Percentage Calculator</a>
+                    <a href="../currency-converter/" class="related-tool-link">Currency Converter</a>
+                    <a href="../discount-calculator/" class="related-tool-link">Discount Calculator</a>
+                </div>
+            </div>
 </div>
 
 </ToolLayout>

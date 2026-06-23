@@ -60,7 +60,7 @@
             const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
             document.getElementById('nextBirthday').textContent = nextBirthday.toLocaleDateString();
-            document.getElementById('daysUntil').textContent = `${daysUntilBirthday} days`;
+            document.getElementById('daysUntil').textContent = daysUntilBirthday;
             document.getElementById('dayOfWeek').textContent = dayNames[nextBirthday.getDay()];
 
             // Show results

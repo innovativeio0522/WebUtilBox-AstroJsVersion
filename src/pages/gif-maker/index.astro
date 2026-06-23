@@ -26,7 +26,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 <div class="workspace">
             <!-- Upload Area -->
             <div style="text-align: center; padding: 40px; border: 2px dashed var(--border); border-radius: 12px; background: var(--light); margin-bottom: 20px;">
-                <div style="font-size: 3rem; margin-bottom: 15px;">???</div>
+                <div style="font-size: 3rem; margin-bottom: 15px;">📤</div>
                 <input type="file" id="imageFiles" accept="image/*" multiple style="display: none;" onchange="loadImages()">
                 <button class="btn btn-primary" onclick="document.getElementById('imageFiles').click()" style="padding: 15px 30px;">
                     Select Images
@@ -100,7 +100,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
                     </div>
 
                     <button class="btn btn-success" onclick="createGIF()" style="width: 100%; padding: 15px; font-size: 1.1rem;">
-                        ?? Create GIF
+                        🎬 Create GIF
                     </button>
                 </div>
 
@@ -116,7 +116,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 
             <!-- Progress -->
             <div id="progress" style="display: none; background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border); text-align: center;">
-                <div style="font-size: 2rem; margin-bottom: 10px;">?</div>
+                <div style="font-size: 2rem; margin-bottom: 10px;">⏳</div>
                 <div id="progressText" style="font-size: 1rem; color: var(--gray); margin-bottom: 10px;">Creating GIF...</div>
                 <div style="background: var(--dark); border-radius: 8px; height: 8px; overflow: hidden;">
                     <div id="progressBar" style="background: var(--primary); height: 100%; width: 0%; transition: width 0.3s;"></div>
@@ -127,7 +127,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
         
         <!-- Share Bar -->
 
-<style>
+<style is:global>
 .frame-item {
             display: flex;
             align-items: center;

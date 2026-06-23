@@ -5,7 +5,6 @@ let originalImage = null;
         let currentEffect = 'blur';
         let censoredAreas = [];
         let tempRect = null;
-        let eventListenersBound = false;
 
         // Drag and drop
         requestIdleCallback(() => {
@@ -62,14 +61,11 @@ let originalImage = null;
             updateAreaCount();
             redrawCanvas();
 
-            // Mouse events (only once)
-            if (!eventListenersBound) {
-                canvas.addEventListener('mousedown', startDrawing);
-                canvas.addEventListener('mousemove', draw);
-                canvas.addEventListener('mouseup', endDrawing);
-                canvas.addEventListener('mouseleave', endDrawing);
-                eventListenersBound = true;
-            }
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', endDrawing);
+            canvas.addEventListener('mouseleave', endDrawing);
         }
 
         function startDrawing(e) {

@@ -26,7 +26,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 <div class="workspace">
             <!-- Upload Area -->
             <div style="text-align: center; padding: 40px; border: 2px dashed var(--border); border-radius: 12px; background: var(--light); margin-bottom: 20px;">
-                <div style="font-size: 3rem; margin-bottom: 15px;">??</div>
+                <div style="font-size: 3rem; margin-bottom: 15px;">📤</div>
                 <input type="file" id="videoFile" accept="video/*" style="display: none;" onchange="loadVideo()">
                 <button class="btn btn-primary" onclick="document.getElementById('videoFile').click()" style="padding: 15px 30px;">
                     Select Video File
@@ -76,7 +76,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                         <button class="btn btn-success" onclick="captureFrame()" style="flex: 1; padding: 12px;">
-                            ?? Capture Frame(s)
+                            📸 Capture Frame(s)
                         </button>
                         <button class="btn" onclick="clearThumbnails()" style="padding: 12px;">
                             Clear All
@@ -99,7 +99,7 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
         
         <!-- Share Bar -->
 
-<style>
+<style is:global>
 .thumbnail-item {
             background: var(--dark);
             border-radius: 8px;

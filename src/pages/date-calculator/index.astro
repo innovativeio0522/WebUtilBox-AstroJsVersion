@@ -23,7 +23,89 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Mode Selection & Inputs -->
+            <div>
+                <!-- Mode Tabs -->
+                <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                    <button id="tab-diff" style="flex: 1; padding: 10px; background: var(--primary); border: none; border-radius: 6px; cursor: pointer; font-size: 0.8rem; color: white; font-weight: 500;">Date Difference</button>
+                    <button id="tab-add" style="flex: 1; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.8rem; color: var(--white); font-weight: 500;">Add/Subtract</button>
+                    <button id="tab-age" style="flex: 1; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.8rem; color: var(--white); font-weight: 500;">Age</button>
+                </div>
 
+                <!-- Date Difference Section -->
+                <div id="diff-section">
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">From Date</label>
+                        <input type="date" id="diffFromDate" style="width: 100%; padding: 10px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">To Date</label>
+                        <input type="date" id="diffToDate" style="width: 100%; padding: 10px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                    </div>
+                    <button id="calcDiffBtn" style="width: 100%; padding: 10px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Calculate Difference</button>
+                </div>
+
+                <!-- Add/Subtract Section -->
+                <div id="add-section" style="display: none;">
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Start Date</label>
+                        <input type="date" id="addStartDate" style="width: 100%; padding: 10px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Operation</label>
+                        <select id="addOperation" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                            <option value="add">Add</option>
+                            <option value="subtract">Subtract</option>
+                        </select>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-bottom: 12px;">
+                        <div>
+                            <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Number</label>
+                            <input type="number" id="addNumber" value="1" min="0" style="width: 100%; padding: 10px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Unit</label>
+                            <select id="addUnit" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                                <option value="days">Days</option>
+                                <option value="weeks">Weeks</option>
+                                <option value="months">Months</option>
+                                <option value="years">Years</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="calcAddBtn" style="width: 100%; padding: 10px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Calculate Date</button>
+                </div>
+
+                <!-- Age Section -->
+                <div id="age-section" style="display: none;">
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Date of Birth</label>
+                        <input type="date" id="ageBirthDate" style="width: 100%; padding: 10px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Calculate Age On</label>
+                        <input type="date" id="ageCurrentDate" style="width: 100%; padding: 10px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                    </div>
+                    <button id="calcAgeBtn" style="width: 100%; padding: 10px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Calculate Age</button>
+                </div>
+            </div>
+
+            <!-- Right: Results -->
+            <div>
+                <div style="background: var(--light); border-radius: 8px; padding: 15px; border: 1px solid var(--border); min-height: 400px;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 12px;">Results</div>
+                    <div id="results" style="color: var(--white);">
+                        <div style="text-align: center; padding: 60px 20px; color: var(--gray); font-size: 0.85rem;">
+                            Select dates and click calculate to see results
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 

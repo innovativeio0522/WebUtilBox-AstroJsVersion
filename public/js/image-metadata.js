@@ -71,7 +71,7 @@ let originalFile = null;
             const hasGPS = allExifData.GPSLatitude || allExifData.GPSLongitude;
 
             document.getElementById('totalFields').textContent = totalFields;
-            document.getElementById('hasGPS').textContent = hasGPS ? 'Yes ??' : 'No';
+            document.getElementById('hasGPS').textContent = hasGPS ? 'Yes 📍' : 'No';
             document.getElementById('hasGPS').style.color = hasGPS ? '#ef4444' : 'var(--primary)';
 
             // Display key metadata

@@ -23,7 +23,105 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload & Preview -->
+            <div>
+                <div id="uploadArea" style="margin-bottom: 12px;">
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">🖼️</div>
+                        <div style="font-size: 0.85rem; color: var(--white); margin-bottom: 3px;">Click to upload image</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+                </div>
 
+                <!-- Preview Canvas -->
+                <div id="previewArea" style="display: none; background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 0.75rem; color: var(--gray);">👈 Drag watermark to reposition</div>
+                        <button onclick="uploadNew()" style="padding: 4px 10px; font-size: 0.7rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📤 Upload New</button>
+                    </div>
+                    <canvas id="canvas" style="max-width: 100%; max-height: 400px; border-radius: 6px; cursor: move;"></canvas>
+                </div>
+            </div>
+
+            <!-- Right: Controls -->
+            <div id="controls" style="display: none;">
+                <!-- Watermark Type -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Watermark Type</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                        <button onclick="setWatermarkType('text')" id="type-text" class="type-btn active" style="padding: 8px; background: var(--primary); border: 1px solid var(--primary); border-radius: 6px; cursor: pointer; font-size: 0.8rem; color: white;">🔤 Text</button>
+                        <button onclick="setWatermarkType('image')" id="type-image" class="type-btn" style="padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.8rem; color: var(--white);">🖼️ Image</button>
+                    </div>
+                </div>
+
+                <!-- Text Watermark Controls -->
+                <div id="textControls">
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 4px; display: block; color: var(--gray);">Watermark Text</label>
+                        <input type="text" id="watermarkText" value="© Your Name" oninput="updateWatermark()" style="width: 100%; padding: 8px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <div>
+                            <label style="font-size: 0.75rem; margin-bottom: 4px; display: block; color: var(--gray);">Font Size</label>
+                            <input type="number" id="fontSize" value="36" min="10" max="200" oninput="updateWatermark()" style="width: 100%; padding: 8px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; margin-bottom: 4px; display: block; color: var(--gray);">Text Color</label>
+                            <input type="color" id="textColor" value="#ffffff" oninput="updateWatermark()" style="width: 100%; height: 38px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: var(--dark);">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Watermark Controls -->
+                <div id="imageControls" style="display: none;">
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 4px; display: block; color: var(--gray);">Watermark Image</label>
+                        <input type="file" id="watermarkImageInput" accept="image/*" onchange="handleWatermarkImage(this.files[0])" style="width: 100%; padding: 8px; font-size: 0.8rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 4px; display: block; color: var(--gray);">Size (%)</label>
+                        <input type="range" id="watermarkSize" min="5" max="50" value="20" oninput="updateWatermark(); document.getElementById('watermarkSize-val').textContent = this.value + '%'" style="width: 100%;">
+                        <div style="text-align: right; font-size: 0.7rem; color: var(--primary); margin-top: 2px;" id="watermarkSize-val">20%</div>
+                    </div>
+                </div>
+
+                <!-- Common Controls -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <!-- Position -->
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Position</label>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
+                            <button onclick="setPosition('top-left')" class="pos-btn" id="pos-top-left" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.7rem; color: var(--white);">↖️</button>
+                            <button onclick="setPosition('top-center')" class="pos-btn" id="pos-top-center" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.7rem; color: var(--white);">⬆️</button>
+                            <button onclick="setPosition('top-right')" class="pos-btn" id="pos-top-right" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.7rem; color: var(--white);">↗️</button>
+                            <button onclick="setPosition('middle-left')" class="pos-btn" id="pos-middle-left" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.7rem; color: var(--white);">⬅️</button>
+                            <button onclick="setPosition('center')" class="pos-btn" id="pos-center" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.7rem; color: var(--white);">⏺️</button>
+                            <button onclick="setPosition('middle-right')" class="pos-btn" id="pos-middle-right" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.7rem; color: var(--white);">➡️</button>
+                            <button onclick="setPosition('bottom-left')" class="pos-btn" id="pos-bottom-left" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.7rem; color: var(--white);">↙️</button>
+                            <button onclick="setPosition('bottom-center')" class="pos-btn" id="pos-bottom-center" style="padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.7rem; color: var(--white);">⬇️</button>
+                            <button onclick="setPosition('bottom-right')" class="pos-btn active" id="pos-bottom-right" style="padding: 6px; background: var(--primary); border: 1px solid var(--primary); border-radius: 4px; cursor: pointer; font-size: 0.7rem; color: white;">↘️</button>
+                        </div>
+                    </div>
+
+                    <!-- Opacity -->
+                    <div>
+                        <label style="font-size: 0.75rem; margin-bottom: 4px; display: block; color: var(--gray);">Opacity</label>
+                        <input type="range" id="opacity" min="10" max="100" value="70" oninput="updateWatermark(); document.getElementById('opacity-val').textContent = this.value + '%'" style="width: 100%;">
+                        <div style="text-align: right; font-size: 0.7rem; color: var(--primary); margin-top: 2px;" id="opacity-val">70%</div>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <button onclick="downloadImage()" class="btn btn-success" style="width: 100%; padding: 10px; font-size: 0.95rem;">💾 Download Watermarked Image</button>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 

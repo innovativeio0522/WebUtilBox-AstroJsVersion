@@ -23,7 +23,141 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="tool-content">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Enter Your Salary</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="salaryAmount" value="25" min="0" step="0.01" style="flex: 1;">
+                        <select id="salaryPeriod" style="flex: 0 0 150px;">
+                            <option value="hourly" selected>Per Hour</option>
+                            <option value="daily">Per Day</option>
+                            <option value="weekly">Per Week</option>
+                            <option value="monthly">Per Month</option>
+                            <option value="annual">Per Year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Hours Per Week</label>
+                    <input type="number" id="hoursPerWeek" value="40" min="1" max="168" step="1">
+                </div>
+                <div class="input-group">
+                    <label>Weeks Per Year</label>
+                    <input type="number" id="weeksPerYear" value="52" min="1" max="52" step="1">
+                    <small>52 weeks = full year, 50 weeks = 2 weeks vacation</small>
+                </div>
+                <div class="input-group">
+                    <label>Overtime Hours Per Week</label>
+                    <input type="number" id="overtimeHours" value="0" min="0" max="80" step="0.5">
+                </div>
+                <div class="input-group">
+                    <label>Overtime Rate Multiplier</label>
+                    <input type="number" id="overtimeRate" value="1.5" min="1" max="3" step="0.1">
+                    <small>1.5 = time and a half, 2.0 = double time</small>
+                </div>
+                <div class="input-group">
+                    <label>Annual Bonus ($)</label>
+                    <input type="number" id="bonus" value="0" min="0" step="100">
+                </div>
+                <div class="input-group">
+                    <label>Tax Rate (%)</label>
+                    <input type="number" id="taxRate" value="25" min="0" max="100" step="0.1">
+                    <small>Estimated total tax (federal + state + local)</small>
+                </div>
+                <div class="input-group">
+                    <label>Other Deductions ($/month)</label>
+                    <input type="number" id="deductions" value="0" min="0" step="10">
+                    <small>Health insurance, 401k, etc.</small>
+                </div>
+                <button class="btn-primary" onclick="calculateSalary()">Calculate Salary</button>
+            </div>
 
+            <div class="output-section" id="results" style="display:none;">
+                <h3>Gross Salary (Before Tax)</h3>
+                <div class="result-card">
+                    <div class="result-item">
+                        <span>Hourly</span>
+                        <strong id="grossHourly">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Daily</span>
+                        <strong id="grossDaily">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Weekly</span>
+                        <strong id="grossWeekly">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Monthly</span>
+                        <strong id="grossMonthly">$0</strong>
+                    </div>
+                    <div class="result-item highlight">
+                        <span>Annual</span>
+                        <strong id="grossAnnual">$0</strong>
+                    </div>
+                </div>
+
+                <h3>Net Salary (After Tax & Deductions)</h3>
+                <div class="result-card">
+                    <div class="result-item">
+                        <span>Hourly</span>
+                        <strong id="netHourly">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Daily</span>
+                        <strong id="netDaily">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Weekly</span>
+                        <strong id="netWeekly">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Monthly</span>
+                        <strong id="netMonthly">$0</strong>
+                    </div>
+                    <div class="result-item highlight">
+                        <span>Annual (Take-Home)</span>
+                        <strong id="netAnnual">$0</strong>
+                    </div>
+                </div>
+
+                <h3>Breakdown</h3>
+                <div class="result-card">
+                    <div class="result-item">
+                        <span>Regular Hours Income</span>
+                        <strong id="regularIncome">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Overtime Income</span>
+                        <strong id="overtimeIncome">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Bonus Income</span>
+                        <strong id="bonusIncome">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Gross Income</span>
+                        <strong id="totalGross">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Tax Paid</span>
+                        <strong id="totalTax">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Other Deductions</span>
+                        <strong id="totalDeductions">$0</strong>
+                    </div>
+                    <div class="result-item highlight">
+                        <span>Net Take-Home Pay</span>
+                        <strong id="takeHome">$0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 
@@ -31,7 +165,91 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 <script src="/js/salary-calculator.js" defer></script>
 
 <div class="info-section" slot="info">
+<h2>Salary Calculator - Convert Hourly, Monthly, and Annual Pay</h2>
+        <p>Our free Salary Calculator helps you understand exactly what your compensation is worth across every time period — hourly, daily, weekly, monthly, and annually. Enter your pay rate in any format and instantly see the equivalent in all others, along with a full breakdown of gross income, taxes, overtime, bonuses, and net take-home pay.</p>
+        <p>Whether you're evaluating a job offer, negotiating a raise, or simply trying to understand your paycheck, this tool gives you the complete financial picture in seconds.</p>
 
+        <h3>What Is a Salary Calculator?</h3>
+        <p>A salary calculator is a tool that converts compensation figures between different time periods and calculates the impact of taxes and deductions on your actual take-home pay. Most job offers are quoted as either an hourly rate or an annual salary, but understanding what that means on a weekly or monthly basis — and what you'll actually receive after deductions — requires several calculations that this tool handles automatically.</p>
+        <p>This calculator goes beyond simple conversion. It accounts for overtime pay at a configurable multiplier, annual bonuses, estimated tax rates, and monthly deductions like health insurance or retirement contributions. The result is a comprehensive view of your total compensation and what portion of it you actually keep.</p>
+        <p>All calculations are performed instantly in your browser as you adjust any input. There's no need to click a calculate button — the results update in real time, making it easy to explore different scenarios like "what if I work 5 hours of overtime per week?" or "how much does a 5% raise change my monthly take-home?"</p>
+
+        <h3>Salary Calculation Inputs</h3>
+        <ul>
+            <li>Enter salary in any period — hourly, daily, weekly, monthly, or annual — and see all others instantly</li>
+            <li>Configurable hours per week and weeks per year for accurate annualization</li>
+            <li>Overtime calculation with adjustable rate multiplier (1.5x, 2x, or custom)</li>
+            <li>Annual bonus field included in gross income calculations</li>
+            <li>Estimated tax rate input for net pay calculation</li>
+            <li>Monthly deductions field for benefits, retirement contributions, and other withholdings</li>
+            <li>Full breakdown showing regular income, overtime income, bonus, total gross, taxes, deductions, and net pay</li>
+        </ul>
+
+        <h3>How to Use the Salary Calculator</h3>
+        <ul>
+            <li>Step 1: Enter your salary amount and select the period it represents (hourly, daily, weekly, monthly, or annual) from the dropdown.</li>
+            <li>Step 2: Set your hours per week and weeks per year. The default is 40 hours and 52 weeks for a standard full-time schedule.</li>
+            <li>Step 3: If you work overtime, enter the average overtime hours per week and the overtime rate multiplier (1.5 for time-and-a-half).</li>
+            <li>Step 4: Enter your annual bonus amount if applicable, your estimated total tax rate, and any monthly deductions.</li>
+            <li>Step 5: Click "Calculate Salary" to see the full breakdown, or results update automatically as you change inputs after the first calculation.</li>
+        </ul>
+
+        <h3>Understanding Your Take-Home Pay</h3>
+        <ul>
+            <li>Comparing a job offer quoted as an annual salary to your current hourly rate</li>
+            <li>Understanding how much a raise translates to in monthly take-home pay</li>
+            <li>Calculating the value of overtime hours when deciding whether to work extra shifts</li>
+            <li>Budgeting by knowing your exact monthly net income after all deductions</li>
+            <li>Evaluating the financial impact of switching from full-time to part-time work</li>
+            <li>Comparing compensation packages that mix base salary, overtime potential, and bonuses</li>
+            <li>Freelancers setting hourly rates to match a desired annual income target</li>
+        </ul>
+
+        <h3>Breaking Down Your Compensation</h3>
+        <p>For the most accurate net pay estimate, use your effective tax rate rather than your marginal rate. Your effective rate is your total tax paid divided by your total income — it's typically lower than your marginal (top bracket) rate. You can find your effective rate on last year's tax return. Remember that this calculator provides an estimate; your actual withholding may differ based on filing status, deductions, and other factors.</p>
+        <p>When evaluating job offers, don't forget to factor in benefits as part of total compensation. Health insurance, retirement matching, paid time off, and other perks have real monetary value. A job with a slightly lower salary but better benefits may actually be worth more in total compensation than a higher-paying offer with minimal benefits.</p>
+        <p>If you're a freelancer or contractor, set your weeks per year to account for unpaid time off, slow periods, and time spent on non-billable work. Using 48 or 46 weeks instead of 52 gives a more realistic picture of your actual annual earnings from billable hours.</p>
+
+        
+
+        <h3>Salary Data Never Leaves Your Browser</h3>
+        <p>All salary calculations run in your browser. No financial data is sent anywhere.</p>
+        
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I convert an annual salary to hourly rate?</button>
+                    <div class="faq-answer"><p>Divide annual salary by 2080 (52 weeks x 40 hours). For example, $52,000 / 2080 = $25/hour. For part-time work, divide by your actual annual hours. This calculator handles the conversion automatically for different work schedules.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between gross and net salary?</button>
+                    <div class="faq-answer"><p>Gross salary is your total pay before any deductions. Net salary (take-home pay) is what you receive after income tax, Social Security, Medicare, health insurance premiums, and other deductions are subtracted. The difference can be 20-40% depending on your tax bracket and benefits.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How do I calculate my effective tax rate?</button>
+                    <div class="faq-answer"><p>Effective tax rate = total tax paid / gross income x 100. This differs from your marginal tax rate (the rate on your last dollar of income). Most people's effective rate is significantly lower than their marginal rate because lower income brackets are taxed at lower rates.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between salary and total compensation?</button>
+                    <div class="faq-answer"><p>Salary is your base pay. Total compensation includes salary plus benefits: health insurance, retirement contributions (401k match), paid time off, bonuses, stock options, and other perks. When comparing job offers, always compare total compensation, not just base salary.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">How much should I save from my salary?</button>
+                    <div class="faq-answer"><p>The 50/30/20 rule suggests: 50% for needs (housing, food, utilities), 30% for wants (entertainment, dining out), 20% for savings and debt repayment. For retirement, aim to save at least 15% of gross income including any employer match.</p></div>
+                </div>
+            </div>
+
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../tax-calculator/" class="related-tool-link">Tax Calculator</a>
+                    <a href="../tip-calculator/" class="related-tool-link">Tip Calculator</a>
+                    <a href="../loan-calculator/" class="related-tool-link">Loan Calculator</a>
+                    <a href="../percentage-calculator/" class="related-tool-link">Percentage Calculator</a>
+                    <a href="../investment-calculator/" class="related-tool-link">Investment Calculator</a>
+                </div>
+            </div>
+        </div>
 </div>
 
 </ToolLayout>

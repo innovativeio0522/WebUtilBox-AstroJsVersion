@@ -23,7 +23,71 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload & Preview -->
+            <div>
+                <div id="uploadArea" style="margin-bottom: 12px;">
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">🖼️</div>
+                        <div style="font-size: 0.85rem; color: var(--white); margin-bottom: 3px;">Click to upload</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG (JPG has more metadata)</div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+                </div>
 
+                <!-- Preview -->
+                <div id="previewArea" style="display: none; background: var(--light); border-radius: 8px; padding: 12px; text-align: center; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 0.75rem; color: var(--gray);">Image Preview</div>
+                        <button onclick="uploadNew()" style="padding: 4px 10px; font-size: 0.7rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📤 Upload New</button>
+                    </div>
+                    <img id="preview" style="max-width: 100%; max-height: 300px; border-radius: 6px;">
+                    <div style="margin-top: 8px; font-size: 0.75rem; color: var(--gray);" id="fileInfo">-</div>
+                </div>
+            </div>
+
+            <!-- Right: Metadata & Actions -->
+            <div id="controls" style="display: none;">
+                <!-- Metadata Status -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Metadata Status</div>
+                    <div id="metadataStatus" style="font-size: 0.8rem; color: var(--white);">
+                        <div style="margin-bottom: 4px;">Total Fields: <span style="color: var(--primary);" id="totalFields">0</span></div>
+                        <div>Has GPS Location: <span style="color: var(--primary);" id="hasGPS">No</span></div>
+                    </div>
+                </div>
+
+                <!-- Important Metadata -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border); max-height: 200px; overflow-y: auto;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Key Information</div>
+                    <div id="keyMetadata" style="font-size: 0.75rem; color: var(--white);">
+                        <div style="color: var(--gray); text-align: center; padding: 20px;">No metadata found or not supported</div>
+                    </div>
+                </div>
+
+                <!-- All Metadata -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 0.85rem; color: var(--gray);">All Metadata</div>
+                        <button onclick="toggleAllMetadata()" id="toggleBtn" style="padding: 2px 8px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">Show All</button>
+                    </div>
+                    <div id="allMetadata" style="display: none; max-height: 150px; overflow-y: auto; font-size: 0.7rem; color: var(--white); background: var(--dark); padding: 8px; border-radius: 4px;">
+                        -
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+                    <button onclick="removeMetadata()" class="btn btn-primary" style="padding: 10px; font-size: 0.9rem;">🗑️ Remove All Metadata & Download</button>
+                    <div style="font-size: 0.7rem; color: var(--gray); text-align: center; margin-top: 4px;">
+                        ⚠️ Removes all EXIF data including GPS location
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 

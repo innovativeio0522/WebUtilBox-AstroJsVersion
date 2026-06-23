@@ -23,7 +23,142 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
   jsonLd={jsonLd}
 >
 
+<div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Input Controls -->
+            <div>
+                <!-- Mode Tabs -->
+                <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                    <button onclick="switchMode('qr')" id="tab-qr" class="active-tab" style="flex: 1; padding: 10px; background: var(--primary); border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: white; font-weight: 500;">QR Code</button>
+                    <button onclick="switchMode('barcode')" id="tab-barcode" style="flex: 1; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white); font-weight: 500;">Barcode</button>
+                </div>
 
+                <!-- QR Code Section -->
+                <div id="qr-section">
+                    <!-- QR Type -->
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">QR Code Type</label>
+                        <select id="qrType" onchange="updateQRInputs()" style="width: 100%; padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                            <option value="text">Text</option>
+                            <option value="url">URL/Website</option>
+                            <option value="email">Email</option>
+                            <option value="phone">Phone</option>
+                            <option value="sms">SMS</option>
+                            <option value="wifi">WiFi</option>
+                        </select>
+                    </div>
+
+                    <!-- Dynamic QR Inputs -->
+                    <div id="qr-inputs"></div>
+
+                    <!-- QR Settings -->
+                    <div style="background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border); max-height: 280px; overflow-y: auto;">
+                        <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">QR Code Settings</div>
+                        
+                        <div style="margin-bottom: 10px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <label style="font-size: 0.75rem;">Size</label>
+                                <span style="font-size: 0.75rem; color: var(--primary);" id="qrSize-val">256px</span>
+                            </div>
+                            <input type="range" id="qrSize" min="128" max="512" value="256" step="64" oninput="generateQR(); document.getElementById('qrSize-val').textContent = this.value + 'px'" style="width: 100%;">
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <label style="font-size: 0.75rem; margin-bottom: 4px; display: block;">Error Correction</label>
+                            <select id="qrErrorLevel" onchange="generateQR()" style="width: 100%; padding: 6px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.75rem;">
+                                <option value="L">Low (7%)</option>
+                                <option value="M" selected>Medium (15%)</option>
+                                <option value="Q">Quartile (25%)</option>
+                                <option value="H">High (30%)</option>
+                            </select>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>
+                                <label style="font-size: 0.75rem; margin-bottom: 4px; display: block;">Foreground</label>
+                                <input type="color" id="qrColorDark" value="#000000" oninput="generateQR()" style="width: 100%; height: 36px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: var(--dark);">
+                            </div>
+                            <div>
+                                <label style="font-size: 0.75rem; margin-bottom: 4px; display: block;">Background</label>
+                                <input type="color" id="qrColorLight" value="#ffffff" oninput="generateQR()" style="width: 100%; height: 36px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: var(--dark);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barcode Section -->
+                <div id="barcode-section" style="display: none;">
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Barcode Format</label>
+                        <select id="barcodeFormat" onchange="generateBarcode()" style="width: 100%; padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                            <option value="CODE128">CODE128 (Default)</option>
+                            <option value="EAN13">EAN13 (13 digits)</option>
+                            <option value="UPC">UPC (12 digits)</option>
+                            <option value="CODE39">CODE39</option>
+                            <option value="ITF14">ITF14 (14 digits)</option>
+                            <option value="MSI">MSI</option>
+                            <option value="pharmacode">Pharmacode</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Barcode Data</label>
+                        <input type="text" id="barcodeText" placeholder="Enter barcode data..." oninput="generateBarcode()" style="width: 100%; padding: 8px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 4px;">Alphanumeric characters supported</div>
+                    </div>
+
+                    <div style="background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border);">
+                        <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Barcode Settings</div>
+                        
+                        <div style="margin-bottom: 10px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <label style="font-size: 0.75rem;">Width</label>
+                                <span style="font-size: 0.75rem; color: var(--primary);" id="barcodeWidth-val">2</span>
+                            </div>
+                            <input type="range" id="barcodeWidth" min="1" max="4" value="2" step="1" oninput="generateBarcode(); document.getElementById('barcodeWidth-val').textContent = this.value" style="width: 100%;">
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <label style="font-size: 0.75rem;">Height</label>
+                                <span style="font-size: 0.75rem; color: var(--primary);" id="barcodeHeight-val">100px</span>
+                            </div>
+                            <input type="range" id="barcodeHeight" min="50" max="200" value="100" step="10" oninput="generateBarcode(); document.getElementById('barcodeHeight-val').textContent = this.value + 'px'" style="width: 100%;">
+                        </div>
+
+                        <div>
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="barcodeDisplayValue" checked onchange="generateBarcode()">
+                                <span style="font-size: 0.75rem;">Display Text Below Barcode</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Preview & Download -->
+            <div>
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Preview</div>
+                    
+                    <div id="qr-preview" style="display: flex; justify-content: center; align-items: center; min-height: 300px; background: white; border-radius: 6px; padding: 20px;">
+                        <canvas id="qrCanvas"></canvas>
+                    </div>
+
+                    <div id="barcode-preview" style="display: none; justify-content: center; align-items: center; min-height: 300px; background: white; border-radius: 6px; padding: 20px;">
+                        <svg id="barcodeSvg"></svg>
+                    </div>
+
+                    <div id="error-message" style="display: none; text-align: center; padding: 40px; color: var(--gray); font-size: 0.85rem;">
+                        Enter data to generate code
+                    </div>
+
+                    <button onclick="downloadCode()" id="downloadBtn" class="btn btn-success" style="width: 100%; margin-top: 12px; padding: 10px; font-size: 0.95rem;" disabled>💾 Download</button>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Share Bar -->
 
 
 

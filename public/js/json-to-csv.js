@@ -28,14 +28,14 @@ const jsonInput = document.getElementById('jsonInput');
   {"name": "Jane", "age": 25, "city": "London"}
 ]`;
                 convertBtn.textContent = 'Convert to CSV';
-                downloadBtn.textContent = '?? Download CSV';
+                downloadBtn.textContent = '💾 Download CSV';
             } else {
                 document.querySelector('label[style*="font-size: 0.8rem"]').textContent = 'CSV Input';
                 jsonInput.placeholder = `name,age,city
 John,30,New York
 Jane,25,London`;
                 convertBtn.textContent = 'Convert to JSON';
-                downloadBtn.textContent = '?? Download JSON';
+                downloadBtn.textContent = '💾 Download JSON';
             }
             
             // Clear data
