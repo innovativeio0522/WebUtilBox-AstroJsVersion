@@ -11,7 +11,8 @@
 
 @media (min-width: 1024px) {
     .blog-container {
-        grid-template-columns: 3fr 1fr;
+        grid-template-columns: 1fr 300px;
+        align-items: start;
     }
 }
 
@@ -163,7 +164,10 @@
 .blog-sidebar {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
+    position: sticky;
+    top: 100px;
+    align-self: start;
 }
 
 .sidebar-card {
@@ -171,22 +175,22 @@
     backdrop-filter: blur(12px);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 24px;
-    position: sticky;
-    top: 100px;
+    padding: 20px;
+    min-width: 0;
 }
 
 .sidebar-card h3 {
-    font-size: 1.25rem;
-    margin-bottom: 12px;
+    font-size: 1rem;
+    margin-bottom: 10px;
     color: var(--white);
+    line-height: 1.4;
 }
 
 .sidebar-card p {
     color: var(--gray);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .sidebar-tool-btn {

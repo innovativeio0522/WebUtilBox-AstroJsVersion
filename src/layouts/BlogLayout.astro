@@ -88,22 +88,22 @@ const formattedDate = new Date(pubDate).toLocaleDateString('en-US', {
     <aside class="blog-sidebar">
       {relatedTool && (
         <div class="sidebar-card">
-          <div style="font-size: 3rem; margin-bottom: 15px; text-align: center;">{relatedTool.icon}</div>
-          <h3>Try the {relatedTool.name}</h3>
-          <p>
-            This article features our offline-first {relatedTool.name}. Format, validate, and parse JSON instantly. No data ever leaves your device.
+          <div style="font-size: 2.5rem; margin-bottom: 12px; text-align: center; line-height: 1;">{relatedTool.icon}</div>
+          <h3 style="font-size: 1rem; margin-bottom: 10px; line-height: 1.4;">Try the {relatedTool.name}</h3>
+          <p style="font-size: 0.85rem; line-height: 1.6; margin-bottom: 16px; color: var(--gray);">
+            {description}
           </p>
-          <a href={relatedTool.href} class="sidebar-tool-btn">
-             Open {relatedTool.name} 🚀
+          <a href={relatedTool.href} class="sidebar-tool-btn" style="font-size: 0.85rem; padding: 10px 12px; word-break: break-word;">
+            Open {relatedTool.name} →
           </a>
         </div>
       )}
 
-      <!-- General Sidebar Box -->
+      <!-- Privacy Box -->
       <div class="sidebar-card" style="position: static;">
-        <h3>Privacy First 🔒</h3>
-        <p>
-          At Webutilbox, none of your data is ever uploaded or processed on external servers. Everything runs strictly in-browser for complete confidentiality.
+        <h3 style="font-size: 1rem; margin-bottom: 10px;">Privacy First 🔒</h3>
+        <p style="font-size: 0.85rem; line-height: 1.6; color: var(--gray);">
+          At Webutilbox, none of your data is ever uploaded to external servers. Everything runs strictly in-browser for complete confidentiality.
         </p>
       </div>
     </aside>
