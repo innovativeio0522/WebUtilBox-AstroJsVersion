@@ -1,0 +1,127 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/blog.css';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const canonical = 'https://webutilbox.com/blog';
+---
+
+<BaseLayout
+  title="Blog - Webutilbox | Client-Side Tools & Developer Guides"
+  description="Explore tutorial guides, security insights, design tips, and utility documentation on the Webutilbox Blog."
+  canonical={canonical}
+>
+  <header>
+    <div class="header-content">
+      <a href="/" class="logo">
+        <span>🧰</span>
+        <span>Webutilbox</span>
+      </a>
+      <a href="/tools" class="all-tools-btn">All Tools</a>
+    </div>
+  </header>
+
+  <div class="container" style="max-width: 1000px; padding: 40px 20px;">
+    <!-- Blog Hero Section -->
+    <div class="hero" style="text-align: center; margin-bottom: 50px;">
+      <h1 style="color: var(--primary); font-size: 3rem; font-weight: 800; margin-bottom: 12px;">Webutilbox Blog</h1>
+      <p style="color: var(--gray); font-size: 1.15rem; max-width: 600px; margin: 0 auto 30px; line-height: 1.6;">
+        Privacy-focused developer insights, tutorials, and practical guides on web formatting, design, and calculations.
+      </p>
+      <input 
+        type="text" 
+        id="blog-search" 
+        placeholder="Search articles by title, description, or tags... 🔍"
+        style="width: 100%; max-width: 500px; padding: 14px 20px; font-size: 1rem; border-radius: 8px; border: 2px solid var(--border); background: var(--card-bg); color: var(--white); outline: none; transition: var(--transition);"
+      />
+    </div>
+
+    <!-- Empty State -->
+    <div id="no-results" style="display: none; text-align: center; margin: 50px 0; color: var(--gray);">
+      <p style="font-size: 1.2rem;">No matching articles found. 🔍</p>
+    </div>
+
+    <!-- Blog Posts Grid -->
+    <div class="blog-grid" id="blog-grid">
+      {sortedPosts.map(post => (
+        <a 
+          href={`/blog/${post.slug}/`} 
+          class="blog-card"
+          data-title={post.data.title.toLowerCase()}
+          data-desc={post.data.description.toLowerCase()}
+          data-tags={post.data.tags.join(',').toLowerCase()}
+        >
+          <div class="blog-card-content">
+            <div class="blog-card-meta">
+              <span class="post-category" style="margin-bottom: 0; font-size: 0.75rem; padding: 2px 8px;">
+                {post.data.category}
+              </span>
+              <span>•</span>
+              <span>
+                {new Date(post.data.pubDate).toLocaleDateString('en-US', { 
+                  month: 'short', 
+                  day: 'numeric', 
+                  year: 'numeric' 
+                })}
+              </span>
+            </div>
+            <h3 class="blog-card-title">{post.data.title}</h3>
+            <p class="blog-card-desc">{post.data.description}</p>
+            <span class="blog-card-more">Read Article →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('blog-search');
+      const blogGrid = document.getElementById('blog-grid');
+      const noResults = document.getElementById('no-results');
+      
+      if (!searchInput || !blogGrid || !noResults) return;
+
+      searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase().trim();
+        const cards = document.querySelectorAll('.blog-card');
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+          const title = card.getAttribute('data-title') || '';
+          const desc = card.getAttribute('data-desc') || '';
+          const tags = card.getAttribute('data-tags') || '';
+
+          if (term === '' || title.includes(term) || desc.includes(term) || tags.includes(term)) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (visibleCount === 0 && term !== '') {
+          noResults.style.display = 'block';
+          blogGrid.style.display = 'none';
+        } else {
+          noResults.style.display = 'none';
+          blogGrid.style.display = 'grid';
+        }
+      });
+      
+      // Styling focus states dynamically
+      searchInput.addEventListener('focus', () => {
+        searchInput.style.borderColor = 'var(--primary)';
+        searchInput.style.boxShadow = '0 0 0 2px rgba(249, 115, 22, 0.2)';
+      });
+      
+      searchInput.addEventListener('blur', () => {
+        searchInput.style.borderColor = 'var(--border)';
+        searchInput.style.boxShadow = 'none';
+      });
+    });
+  </script>
+</BaseLayout>
