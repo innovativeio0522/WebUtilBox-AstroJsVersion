@@ -1,0 +1,111 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import '../styles/blog.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  ogImage?: string;
+  keywords?: string;
+  jsonLd?: object | object[];
+  
+  // Post frontmatter details
+  category: string;
+  pubDate: Date;
+  author: string;
+  tags?: string[];
+  relatedTool?: {
+    name: string;
+    href: string;
+    icon: string;
+  };
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  keywords,
+  jsonLd,
+  category,
+  pubDate,
+  author,
+  tags = [],
+  relatedTool
+} = Astro.props;
+
+const formattedDate = new Date(pubDate).toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric'
+});
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+  keywords={keywords}
+  jsonLd={jsonLd}
+>
+  <div class="blog-container">
+    <main>
+      <article class="blog-article">
+        <!-- Breadcrumbs -->
+        <div style="font-size: 0.85rem; margin-bottom: 20px; color: var(--gray); display: flex; gap: 8px;">
+          <a href="/" style="color: var(--gray); text-decoration: none;">Home</a>
+          <span>/</span>
+          <a href="/blog" style="color: var(--gray); text-decoration: none;">Blog</a>
+          <span>/</span>
+          <span style="color: var(--primary);">{title}</span>
+        </div>
+
+        <!-- Header -->
+        <header class="post-header" style="background: transparent; border: none; padding: 0; position: static; backdrop-filter: none;">
+          <span class="post-category">{category}</span>
+          <h1 class="post-title">{title}</h1>
+          
+          <div class="post-meta">
+            <span>📅 {formattedDate}</span>
+            <span>✍️ By {author}</span>
+            {tags.length > 0 && (
+              <span>🏷️ {tags.join(', ')}</span>
+            )}
+          </div>
+        </header>
+
+        <!-- Post Content -->
+        <div class="post-content">
+          <slot />
+        </div>
+      </article>
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="blog-sidebar">
+      {relatedTool && (
+        <div class="sidebar-card">
+          <div style="font-size: 3rem; margin-bottom: 15px; text-align: center;">{relatedTool.icon}</div>
+          <h3>Try the {relatedTool.name}</h3>
+          <p>
+            This article features our offline-first {relatedTool.name}. Format, validate, and parse JSON instantly. No data ever leaves your device.
+          </p>
+          <a href={relatedTool.href} class="sidebar-tool-btn">
+             Open {relatedTool.name} 🚀
+          </a>
+        </div>
+      )}
+
+      <!-- General Sidebar Box -->
+      <div class="sidebar-card" style="position: static;">
+        <h3>Privacy First 🔒</h3>
+        <p>
+          At Webutilbox, none of your data is ever uploaded or processed on external servers. Everything runs strictly in-browser for complete confidentiality.
+        </p>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
