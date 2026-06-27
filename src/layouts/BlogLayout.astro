@@ -51,16 +51,17 @@ const formattedDate = new Date(pubDate).toLocaleDateString('en-US', {
   keywords={keywords}
   jsonLd={jsonLd}
 >
+<div style="width: 100%; box-sizing: border-box; overflow-x: hidden;">
   <div class="blog-container">
     <main>
       <article class="blog-article">
         <!-- Breadcrumbs -->
-        <div style="font-size: 0.85rem; margin-bottom: 20px; color: var(--gray); display: flex; gap: 8px;">
+        <div class="post-breadcrumb">
           <a href="/" style="color: var(--gray); text-decoration: none;">Home</a>
           <span>/</span>
           <a href="/blog" style="color: var(--gray); text-decoration: none;">Blog</a>
           <span>/</span>
-          <span style="color: var(--primary);">{title}</span>
+          <span style="color: var(--primary); overflow-wrap: break-word; word-break: break-word;">{title}</span>
         </div>
 
         <!-- Header -->
@@ -108,4 +109,5 @@ const formattedDate = new Date(pubDate).toLocaleDateString('en-US', {
       </div>
     </aside>
   </div>
+</div>
 </BaseLayout>

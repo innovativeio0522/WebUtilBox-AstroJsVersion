@@ -151,7 +151,7 @@ Experiment with the controls below. The generated CSS updates in real time and c
     <div class="widget-badge">Client-Side Only</div>
   </div>
 
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+  <div class="widget-grid" style="margin-bottom: 15px;">
     <div>
       <label style="display:block; font-size:0.8rem; margin-bottom:5px; color:var(--gray);">Gradient Type</label>
       <select id="grad-type" class="widget-textarea" style="height:auto; padding:10px; cursor:pointer;">
@@ -175,7 +175,7 @@ Experiment with the controls below. The generated CSS updates in real time and c
     </div>
   </div>
 
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+  <div class="widget-grid" style="margin-bottom: 15px;">
     <div>
       <label style="display:block; font-size:0.8rem; margin-bottom:5px; color:var(--gray);">Color Stop 1</label>
       <div style="display:flex; gap:8px; align-items:center;">
@@ -197,7 +197,7 @@ Experiment with the controls below. The generated CSS updates in real time and c
 
   <!-- CSS Output -->
   <label style="display:block; font-size:0.8rem; margin-bottom:5px; color:var(--gray);">Generated CSS:</label>
-  <div id="grad-output" class="widget-output" style="height:auto; padding:14px; margin-bottom:12px; font-size:0.9rem; white-space:pre;"></div>
+  <div id="grad-output" class="widget-output" style="height:auto; padding:14px; margin-bottom:12px; font-size:0.9rem; white-space:pre-wrap; word-break:break-all;"></div>
 
   <div class="widget-controls">
     <button id="grad-copy-btn" class="widget-btn widget-btn-primary">Copy CSS</button>
