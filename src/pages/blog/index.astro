@@ -6,7 +6,7 @@ import '../../styles/blog.css';
 const posts = await getCollection('blog');
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const canonical = 'https://webutilbox.com/blog';
+const canonical = 'https://webutilbox.com/blog/';
 ---
 
 <BaseLayout
