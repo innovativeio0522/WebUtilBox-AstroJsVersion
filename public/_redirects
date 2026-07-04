@@ -1,4 +1,4 @@
-﻿# ============================================================
+# ============================================================
 # Alias redirects — Cloudflare Pages
 # Trailing-slash redirects are NOT needed — Astro generates
 # /tool/index.html which Cloudflare Pages serves at /tool/ natively
@@ -11,3 +11,23 @@
 # /tools/ -> canonical Tools page
 /tools/                 /tools/                 200
 /tools                  /tools/                 301
+
+# Old HTML pages redirects
+/Tools.html             /tools/                 301
+/tools.html             /tools/                 301
+/privacy-policy.html    /privacy-policy/        301
+/privacy-policy         /privacy-policy/        301
+
+# Favicon / Icon redirects
+/favicon.ico            /favicon.svg            301
+/apple-touch-icon.png   /favicon.svg            301
+/favicon-128x128.png    /favicon.svg            301
+/favicon-16x16.png      /favicon.svg            301
+/favicon-256x256.png    /favicon.svg            301
+/favicon-32x32.png      /favicon.svg            301
+/favicon-64x64.png      /favicon.svg            301
+/favicon.png            /favicon.svg            301
+
+# Apple association redirects
+/apple-app-site-association             /                       302
+/.well-known/apple-app-site-association  /                       302
