@@ -1,0 +1,540 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import FAQ from '../../components/FAQ.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+
+const canonical = 'https://webutilbox.com/temp-mail/';
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Temp Mail - Free Disposable Temporary Email Online | Webutilbox",
+      "url": "https://webutilbox.com/temp-mail/",
+      "description": "Generate free temporary disposable email addresses instantly. Guard your privacy against spam, newsletters, and malicious signups with an offline-focused, secure in-browser temp mail reader.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      "creator": { "@type": "Organization", name: "Webutilbox", url: "https://webutilbox.com" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Temp Mail (Disposable Email)?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Temp Mail is a service that provides a temporary email address to receive emails. This temporary address automatically expires after a period of time or can be manually deleted. It is ideal for signing up to untrusted sites, avoiding spam, and downloading files without revealing your real personal email." }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a temporary email address last?",
+          "acceptedAnswer": { "@type": "Answer", "text": "With Webutilbox Temp Mail, the email address stays active as long as you keep using it. The credentials and token are saved in your local browser's memory, meaning you can close the tab or refresh the page without losing your active inbox. The actual emails on the server are auto-deleted after 24 to 48 hours to manage storage." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this service private and secure?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Our Temp Mail utility runs entirely client-side. The email generation, authentication, and checking are performed directly from your browser to the Mail.tm secure API. We do not store, view, or log any of your emails or addresses on our servers." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I send emails from my temporary address?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No, this temporary mail tool is designed to receive emails only. Sending outgoing messages from disposable emails is disabled by the underlying API to prevent spam, phishing, and abuse." }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://webutilbox.com/" },
+        { "@type": "ListItem", position: 2, name: "All Tools", item: "https://webutilbox.com/tools/" },
+        { "@type": "ListItem", position: 3, name: "Temp Mail", item: "https://webutilbox.com/temp-mail/" }
+      ]
+    }
+  ]
+};
+
+const faqItems = [
+  { question: "What is Temp Mail (Disposable Email)?", answer: "Temp Mail is a service that provides a temporary email address to receive emails. This temporary address automatically expires after a period of time or can be manually deleted. It is ideal for signing up to untrusted sites, avoiding spam, and downloading files without revealing your real personal email." },
+  { question: "How long does a temporary email address last?", answer: "With Webutilbox Temp Mail, the email address stays active as long as you keep using it. The credentials and token are saved in your local browser's memory, meaning you can close the tab or refresh the page without losing your active inbox. The actual emails on the server are auto-deleted after 24 to 48 hours to manage storage." },
+  { question: "Is this service private and secure?", answer: "Yes. Our Temp Mail utility runs entirely client-side. The email generation, authentication, and checking are performed directly from your browser to the Mail.tm secure API. We do not store, view, or log any of your emails or addresses on our servers." },
+  { question: "Can I send emails from my temporary address?", answer: "No, this temporary mail tool is designed to receive emails only. Sending outgoing messages from disposable emails is disabled by the underlying API to prevent spam, phishing, and abuse." }
+];
+
+const relatedTools = [
+  { href: "/uuid-generator/", label: "UUID Generator" },
+  { href: "/password-generator/", label: "Password Generator" },
+  { href: "/random-string-generator/", label: "Random String Generator" },
+  { href: "/url-parser/", label: "URL Parser" },
+  { href: "/js-obfuscator/", label: "JavaScript Obfuscator" }
+];
+---
+
+<ToolLayout
+  title="Temp Mail - Free Disposable Temporary Email | Webutilbox"
+  description="Generate temporary disposable email addresses instantly. Keep spam out of your inbox, bypass signups securely, and read emails in real-time. 100% private in-browser tool."
+  canonical={canonical}
+  ogImage="https://webutilbox.com/assets/og/og-developer.svg"
+  keywords="temp mail, temporary email, disposable email, burner email, fake email generator, throwaway email address"
+  h1="✉️ Temp Mail Generator"
+  subtitle="Generate a private, disposable email address to bypass mandatory registration, avoid spam, and test signup flows."
+  lastUpdated=""
+  shareText="Need%20a%20throwaway%20email%20fast%3F%20Use%20this%20free%20Temp%20Mail%20Generator%20%E2%80%94%20100%25%20private%20and%20runs%20directly%20in%20your%20browser."
+  shareUrl={canonical}
+  embedUrl={canonical}
+  embedTitle="Temp Mail - Free Disposable Temporary Email -- Webutilbox"
+  embedHeight={700}
+  toolCss={false}
+  jsonLd={jsonLd}
+>
+  <div class="workspace">
+    <!-- Email Generator Header Banner -->
+    <div class="email-banner">
+      <div class="email-input-wrapper">
+        <input type="text" id="tempEmailAddress" readonly value="Generating address..." aria-label="Temporary Email Address" />
+        <button id="btnCopyEmail" class="btn btn-primary" title="Copy email to clipboard">
+          Copy
+        </button>
+      </div>
+      <div class="email-actions">
+        <button id="btnRefreshInbox" class="btn btn-success" style="display: flex; align-items: center; gap: 6px;">
+          <span class="refresh-spinner" id="refreshSpinner">🔄</span> Refresh Inbox
+        </button>
+        <button id="btnNewEmail" class="btn btn-secondary">
+          New Address
+        </button>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span class="status-indicator active" id="statusIndicator"></span>
+      <span id="statusText">Checking connection...</span>
+    </div>
+
+    <!-- Main Workspace Grid -->
+    <div class="temp-mail-grid">
+      <!-- Left side: Inbox List -->
+      <div class="inbox-panel">
+        <div class="panel-header">
+          <h3>Inbox</h3>
+          <span class="unread-badge" id="unreadBadge">0</span>
+        </div>
+        <div class="message-list" id="messageList">
+          <div class="empty-inbox">
+            <span class="empty-icon">📥</span>
+            <p>Waiting for incoming emails...</p>
+            <p class="empty-subtext">Send an email to the address above and it will show up here automatically within a few seconds.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side: Email Reader -->
+      <div class="reader-panel">
+        <div class="panel-header">
+          <h3>Message Details</h3>
+        </div>
+        <div class="reader-body" id="readerBody">
+          <div class="no-selection">
+            <span class="no-selection-icon">✉️</span>
+            <p>Select an email from the inbox list to read it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Stunning custom styles for Temp Mail Grid */
+    .email-banner {
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    @media (min-width: 768px) {
+      .email-banner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .email-input-wrapper {
+      display: flex;
+      flex: 1;
+      max-width: 100%;
+      border: 2px solid var(--border);
+      background: var(--input-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .email-input-wrapper:focus-within {
+      border-color: var(--primary);
+    }
+
+    .email-input-wrapper input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--white);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 12px 16px;
+      outline: none;
+      min-width: 0;
+    }
+
+    .email-input-wrapper button {
+      border-radius: 0;
+      padding: 0 24px;
+      font-weight: bold;
+    }
+
+    .email-actions {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .email-actions button {
+      padding: 12px 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .refresh-spinner {
+      display: inline-block;
+      transition: transform 0.8s ease-in-out;
+    }
+
+    .refresh-spinner.spinning {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 25px;
+      padding: 4px 8px;
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gray);
+    }
+
+    .status-indicator.active {
+      background: var(--secondary);
+      box-shadow: 0 0 8px var(--secondary);
+    }
+
+    .status-indicator.loading {
+      background: var(--warning);
+      box-shadow: 0 0 8px var(--warning);
+      animation: pulse 1.5s infinite;
+    }
+
+    .status-indicator.error {
+      background: var(--danger);
+      box-shadow: 0 0 8px var(--danger);
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+
+    .temp-mail-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      min-height: 500px;
+    }
+
+    @media (min-width: 900px) {
+      .temp-mail-grid {
+        grid-template-columns: 320px 1fr;
+      }
+    }
+
+    .inbox-panel, .reader-panel {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .panel-header {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-header h3 {
+      font-size: 1rem;
+      color: var(--white);
+      margin: 0;
+    }
+
+    .unread-badge {
+      background: var(--primary);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .message-list {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 500px;
+      min-height: 300px;
+    }
+
+    .empty-inbox {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray);
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    .empty-subtext {
+      font-size: 0.8rem;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .message-item {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      position: relative;
+    }
+
+    .message-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .message-item.active {
+      background: rgba(249, 115, 22, 0.08);
+      border-left: 3px solid var(--primary);
+      padding-left: 17px;
+    }
+
+    .message-item.unread {
+      font-weight: 700;
+    }
+
+    .message-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--gray);
+    }
+
+    .message-sender {
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+    }
+
+    .message-subject {
+      font-size: 0.9rem;
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .message-item.unread .message-subject {
+      color: var(--primary);
+    }
+
+    .reader-body {
+      flex: 1;
+      padding: 20px;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .no-selection {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray);
+      text-align: center;
+    }
+
+    .no-selection-icon {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 15px;
+      opacity: 0.6;
+    }
+
+    .email-details-header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .email-details-header h2 {
+      font-size: 1.3rem;
+      color: var(--white);
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .email-details-meta {
+      font-size: 0.85rem;
+      color: var(--gray);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .email-details-meta strong {
+      color: var(--white);
+    }
+
+    .email-iframe-container {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      overflow: hidden;
+      min-height: 400px;
+    }
+
+    .email-iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+      border: none;
+    }
+
+    .email-text-fallback {
+      flex: 1;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 15px;
+      font-family: sans-serif;
+      font-size: 0.95rem;
+      color: #e4e4e7;
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+
+    .attachments-container {
+      margin-top: 15px;
+      border-top: 1px solid var(--border);
+      padding-top: 15px;
+    }
+
+    .attachments-title {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .attachments-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .attachment-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--light);
+      border: 1px solid var(--border);
+      color: var(--white);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .attachment-btn:hover {
+      border-color: var(--primary);
+      background: var(--border);
+    }
+  </style>
+
+  <Fragment slot="scripts" set:html={`<script src="/js/temp-mail.js" defer></script>`} />
+
+  <div class="info-section" slot="info">
+    <h2>Disposable Temp Mail - Guard Your Privacy Online</h2>
+    <p>Webutilbox Temp Mail is a free tool that generates a temporary email address to protect your personal inbox. Avoid spam, marketing campaigns, newsletters, and potential security leaks by using a disposable, burner email. Your temporary mailbox is created instantly, runs directly in your web browser, and updates in real-time. No sign-up, no password tracking, and 100% confidential.</p>
+
+    <h3>How to Use the Temp Mail Generator</h3>
+    <ul>
+      <li><strong>Step 1:</strong> When you open the page, a temporary email address is automatically generated for you.</li>
+      <li><strong>Step 2:</strong> Click <strong>Copy</strong> to save the email address to your clipboard.</li>
+      <li><strong>Step 3:</strong> Paste this address when signing up for services, downloading content, or bypassing registration walls.</li>
+      <li><strong>Step 4:</strong> The tool automatically polls the mail server every 10 seconds. Watch the inbox panel for incoming messages. You can also click <strong>Refresh Inbox</strong> to fetch updates instantly.</li>
+      <li><strong>Step 5:</strong> Click on any message in the inbox list to read it in the details panel.</li>
+      <li><strong>Step 6:</strong> If you need a completely fresh inbox, click <strong>New Address</strong> to delete the current one and generate a new address.</li>
+    </ul>
+
+    <h3>Why Use Disposable Emails?</h3>
+    <p>Whenever you sign up for a web service or download a free resource, companies often request your email. Once they have it, you might be added to promotional marketing lists, which are sometimes shared with or sold to third-party data brokers. This results in an endless stream of spam, phishing attempts, and target advertising.</p>
+    <p>Using a temporary, fake burner email lets you verify your account or download your resource safely without exposing your true identity. If the service leaks its database or starts sending marketing spam, your real email address remains completely clean and safe.</p>
+
+    <h3>Private and Local Browser Architecture</h3>
+    <p>This Temp Mail utility uses the public, CORS-enabled <strong>Mail.tm API</strong>. All calls to fetch domains, register an account, log in, list messages, and retrieve message content are executed directly from your web browser. No intermediate proxy is used, and none of your email contents are logged or transmitted to Webutilbox servers. Additionally, your active temporary email address is preserved in <strong>localStorage</strong>, so if you refresh the browser, you don't lose access to your verification codes.</p>
+
+    <FAQ items={faqItems} />
+    <RelatedTools tools={relatedTools} />
+  </div>
+</ToolLayout>
