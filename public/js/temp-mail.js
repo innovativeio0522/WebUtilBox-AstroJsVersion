@@ -439,9 +439,7 @@ function renderEmailReader(email) {
     if (email.html && email.html.length > 0) {
         const iframe = document.getElementById('emailContentIframe');
         if (iframe) {
-            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-            iframeDoc.open();
-            iframeDoc.write(`
+            iframe.srcdoc = `
                 <!DOCTYPE html>
                 <html>
                 <head>
@@ -466,8 +464,7 @@ function renderEmailReader(email) {
                     ${email.html}
                 </body>
                 </html>
-            `);
-            iframeDoc.close();
+            `;
         }
     }
 }
