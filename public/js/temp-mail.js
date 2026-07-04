@@ -303,14 +303,23 @@ function renderMessageList(messages) {
         item.dataset.id = msg.id;
 
         const dateFormatted = formatMailDate(msg.createdAt);
-        const fromName = msg.from.name || msg.from.address;
+        const fromDisplayName = msg.from.name || msg.from.address.split('@')[0];
+        const initials = getInitials(fromDisplayName);
+        const avatarBg = getAvatarColor(fromDisplayName);
+        const unreadDot = msg.seen ? '' : '<span class="unread-dot"></span>';
 
         item.innerHTML = `
-            <div class="message-meta">
-                <span class="message-sender">${escapeHtml(fromName)}</span>
-                <span class="message-time">${dateFormatted}</span>
+            <div class="message-avatar" style="background-color: ${avatarBg}">${escapeHtml(initials)}</div>
+            <div class="message-content">
+                <div class="message-meta">
+                    <span class="message-sender">${escapeHtml(fromDisplayName)}</span>
+                    <span class="message-time">${dateFormatted}</span>
+                </div>
+                <div class="message-subject-row">
+                    <span class="message-subject">${escapeHtml(msg.subject || '(No Subject)')}</span>
+                    ${unreadDot}
+                </div>
             </div>
-            <div class="message-subject">${escapeHtml(msg.subject || '(No Subject)')}</div>
         `;
 
         item.addEventListener('click', () => loadEmailDetails(msg.id, item));
@@ -387,8 +396,11 @@ function markAsRead(id) {
 // Render the details of an email in the viewer
 function renderEmailReader(email) {
     const fromName = email.from.name ? `${email.from.name} <${email.from.address}>` : email.from.address;
+    const fromDisplayName = email.from.name || email.from.address.split('@')[0];
     const toAddress = email.to.map(t => t.address).join(', ');
     const dateFormatted = new Date(email.createdAt).toLocaleString();
+    const initials = getInitials(fromDisplayName);
+    const avatarBg = getAvatarColor(fromDisplayName);
 
     let bodySectionHtml = '';
     if (email.html && email.html.length > 0) {
@@ -424,11 +436,14 @@ function renderEmailReader(email) {
 
     readerBody.innerHTML = `
         <div class="email-details-header">
-            <h2>${escapeHtml(email.subject || '(No Subject)')}</h2>
-            <div class="email-details-meta">
-                <div><strong>From:</strong> ${escapeHtml(fromName)}</div>
-                <div><strong>To:</strong> ${escapeHtml(toAddress)}</div>
-                <div><strong>Date:</strong> ${dateFormatted}</div>
+            <div class="email-details-avatar" style="background-color: ${avatarBg}">${escapeHtml(initials)}</div>
+            <div class="email-details-info">
+                <h2>${escapeHtml(email.subject || '(No Subject)')}</h2>
+                <div class="email-details-meta">
+                    <div><strong>From:</strong> ${escapeHtml(fromName)}</div>
+                    <div><strong>To:</strong> ${escapeHtml(toAddress)}</div>
+                    <div><strong>Date:</strong> ${dateFormatted}</div>
+                </div>
             </div>
         </div>
         ${bodySectionHtml}
@@ -517,4 +532,27 @@ function formatBytes(bytes, decimals = 1) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+function getInitials(name) {
+    if (!name) return '✉️';
+    const cleanName = name.replace(/[^a-zA-Z0-9\s]/g, '').trim();
+    const parts = cleanName.split(/\s+/);
+    if (parts.length >= 2 && parts[0] && parts[1]) {
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+}
+
+function getAvatarColor(name) {
+    const colors = [
+        '#ef4444', '#f97316', '#f59e0b', '#10b981', 
+        '#06b6d4', '#3b82f6', '#6366f1', '#8b5cf6', '#ec4899'
+    ];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash % colors.length);
+    return colors[index];
 }
