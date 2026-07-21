@@ -35,37 +35,37 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 >
 
 <div class="workspace">
-            <div class="preview-box" id="preview"></div>
-            
-            <div class="controls">
-                <div class="control-group">
-                    <label>Type:</label>
-                    <select id="gradientType" onchange="updateGradient()">
-                        <option value="linear">Linear</option>
-                        <option value="radial">Radial</option>
-                    </select>
-                </div>
-                <div class="control-group">
-                    <label>Direction:</label>
-                    <input type="number" id="angle" value="135" min="0" max="360" onchange="updateGradient()">
-                    <span>degrees</span>
-                </div>
-                <div class="control-group">
-                    <label>Color 1:</label>
-                    <input type="color" id="color1" value="#667eea" onchange="updateGradient()">
-                </div>
-                <div class="control-group">
-                    <label>Color 2:</label>
-                    <input type="color" id="color2" value="#764ba2" onchange="updateGradient()">
-                </div>
-            </div>
-            
-            <button class="btn btn-success" onclick="copyCSS()">Copy CSS Code</button>
-            
-            <div class="output-container" style="margin-top:20px;">
-                <div class="output-content" id="cssCode"></div>
-            </div>
+    <div class="preview-box" id="preview"></div>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label>Type:</label>
+            <select id="gradientType" onchange="updateGradient()">
+                <option value="linear">Linear</option>
+                <option value="radial">Radial</option>
+            </select>
         </div>
+        <div class="control-group">
+            <label>Direction:</label>
+            <input type="number" id="angle" value="135" min="0" max="360" onchange="updateGradient()">
+            <span>degrees</span>
+        </div>
+        <div class="control-group">
+            <label>Color 1:</label>
+            <input type="color" id="color1" value="#667eea" onchange="updateGradient()">
+        </div>
+        <div class="control-group">
+            <label>Color 2:</label>
+            <input type="color" id="color2" value="#764ba2" onchange="updateGradient()">
+        </div>
+    </div>
+    
+    <button class="btn btn-success" onclick="copyCSS()">Copy CSS Code</button>
+    
+    <div class="output-container" style="margin-top:20px;">
+        <div class="output-content" id="cssCode"></div>
+    </div>
+</div>
 
         <!-- Preset Gallery -->
         <div style="margin-top:32px">
@@ -75,93 +75,21 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 
         <!-- Share Bar -->
 
-
-
-
 <script src="/js/css-gradient-generator.js" defer></script>
 
 <div class="info-section" slot="info">
+    <div class="related-tools">
+        <h3>Related Tools</h3>
+        <div class="related-tools-grid">
+            <a href="../color-converter/" class="related-tool-link">Color Converter</a>
+            <a href="../color-shades-generator/" class="related-tool-link">Color Shades Generator</a>
+            <a href="../color-contrast-checker/" class="related-tool-link">Color Contrast Checker</a>
+            <a href="../box-shadow-generator/" class="related-tool-link">Box Shadow Generator</a>
+            <a href="../border-radius-generator/" class="related-tool-link">Border Radius Generator</a>
+        </div>
+    </div>
 
-            <div class="related-tools">
-                <h3>Related Tools</h3>
-                <div class="related-tools-grid">
-                    <a href="../color-converter/" class="related-tool-link">Color Converter</a>
-                    <a href="../color-shades-generator/" class="related-tool-link">Color Shades Generator</a>
-                    <a href="../color-contrast-checker/" class="related-tool-link">Color Contrast Checker</a>
-                    <a href="../box-shadow-generator/" class="related-tool-link">Box Shadow Generator</a>
-                    <a href="../border-radius-generator/" class="related-tool-link">Border Radius Generator</a>
-                </div>
-            </div>
-
-<h2>CSS Gradient Generator — Create CSS Gradient Backgrounds Online</h2>
-
-    <p>CSS gradients replaced thousands of gradient image files when they became widely supported. A background that once required a 1px-wide PNG image (with all its HTTP request overhead) became a single line of CSS. Today, gradients are one of the most versatile tools in a front-end developer's kit — used for backgrounds, overlays, hero sections, text fills, borders, buttons, and progress bars.</p>
-
-    <p>This free online CSS gradient generator lets you build linear and radial gradient backgrounds visually, see a live preview as you adjust settings, and copy the finished CSS code in one click.</p>
-
-    <h3>How to create a CSS gradient background</h3>
-    <ol style="padding-left:1.4em;line-height:2.1">
-        <li><strong>Choose gradient type</strong> — select Linear for directional gradients (top-to-bottom, diagonal, horizontal) or Radial for gradients that radiate outward from a centre point.</li>
-        <li><strong>Set your colors</strong> — use the color pickers to choose your start and end colors. Or click any preset in the gallery above to load a ready-made combination instantly.</li>
-        <li><strong>Adjust angle or direction</strong> — for linear gradients, type an angle from 0 to 360 degrees. 135° is a popular diagonal. 90° is left-to-right. 180° is top-to-bottom.</li>
-        <li><strong>Watch the live preview</strong> — the preview box updates in real time as you change any setting, so you can see the exact result before copying.</li>
-        <li><strong>Copy the CSS code</strong> — click "Copy CSS Code" to grab the generated <code>background</code> property and paste it directly into your stylesheet.</li>
-    </ol>
-
-    <h3>Linear gradients — direction and angle</h3>
-    <p>A linear gradient transitions colors along a straight line. The direction is controlled by an angle or a keyword. 0° points upward (bottom to top). Angles increase clockwise. Here are the most-used values:</p>
-    <pre style="background:#111;border:1px solid #27272a;border-radius:8px;padding:16px;overflow-x:auto;font-size:.85rem;line-height:1.8;color:#a1a1aa;margin:12px 0"><code>/* Top to bottom */
-background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-
-/* Left to right */
-background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
-
-/* Diagonal (most popular) */
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-
-/* Three-color gradient */
-background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%);
-
-/* Hard colour split (no blend) */
-background: linear-gradient(90deg, #e74c3c 50%, #3498db 50%);</code></pre>
-
-    <h3>Radial gradients — shape and position</h3>
-    <p>Radial gradients radiate outward from a center point. The shape can be <code>circle</code> (equal radius in all directions) or <code>ellipse</code> (default, stretches to fit the element):</p>
-    <pre style="background:#111;border:1px solid #27272a;border-radius:8px;padding:16px;overflow-x:auto;font-size:.85rem;line-height:1.8;color:#a1a1aa;margin:12px 0"><code>/* Basic radial gradient */
-background: radial-gradient(circle, #667eea 0%, #764ba2 100%);
-
-/* Spotlight effect from top-left */
-background: radial-gradient(circle at top left, #ffecd2 0%, #fcb69f 100%);
-
-/* Soft glow on dark background */
-background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f3460 100%);</code></pre>
-
-    <h3>Creating CSS gradient backgrounds for common UI patterns</h3>
-    <p>Gradient backgrounds are used across almost every modern UI. Here are the most practical patterns:</p>
-    <ul>
-        <li><strong>Hero section background</strong> — a full-viewport diagonal gradient gives depth without images: <code>background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)</code></li>
-        <li><strong>Dark overlay on image</strong> — fade image to black for text legibility: <code>background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.8) 100%)</code></li>
-        <li><strong>Gradient text</strong> — apply gradient as background then clip to text: <code>background-clip: text; -webkit-text-fill-color: transparent</code></li>
-        <li><strong>Gradient button</strong> — subtle shading adds depth: <code>background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)</code></li>
-        <li><strong>Card border gradient</strong> — use <code>border-image</code> with a gradient for colourful card borders</li>
-    </ul>
-
-    <h3>Color stops and hard transitions</h3>
-    <p>Color stops define where each color starts and ends. By default, colors transition smoothly between stops. To create a hard edge with no transition, place two stops at the same position:</p>
-    <pre style="background:#111;border:1px solid #27272a;border-radius:8px;padding:16px;overflow-x:auto;font-size:.85rem;line-height:1.8;color:#a1a1aa;margin:12px 0"><code>/* Hard split — no blending */
-background: linear-gradient(red 50%, blue 50%);
-            <div class="related-tools">
-                <h3>Related Tools</h3>
-                <div class="related-tools-grid">
-                    <a href="../color-converter/" class="related-tool-link">Color Converter</a>
-                    <a href="../color-shades-generator/" class="related-tool-link">Color Shades Generator</a>
-                    <a href="../color-contrast-checker/" class="related-tool-link">Color Contrast Checker</a>
-                    <a href="../box-shadow-generator/" class="related-tool-link">Box Shadow Generator</a>
-                    <a href="../border-radius-generator/" class="related-tool-link">Border Radius Generator</a>
-                </div>
-            </div>
-
-<h2>CSS Gradient Generator — Create CSS Gradient Backgrounds Online</h2>
+    <h2>CSS Gradient Generator — Create CSS Gradient Backgrounds Online</h2>
 
     <p>CSS gradients replaced thousands of gradient image files when they became widely supported. A background that once required a 1px-wide PNG image (with all its HTTP request overhead) became a single line of CSS. Today, gradients are one of the most versatile tools in a front-end developer's kit — used for backgrounds, overlays, hero sections, text fills, borders, buttons, and progress bars.</p>
 
