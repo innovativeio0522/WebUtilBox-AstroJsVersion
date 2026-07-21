@@ -24,71 +24,88 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
 >
 
 <div class="workspace">
-            <!-- Source Selection -->
-            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;">
-                <input type="file" id="audioFile" accept="audio/*" style="display: none;" onchange="loadAudioFile()">
-                <button class="btn btn-primary" onclick="document.getElementById('audioFile').click()">
-                    📁 Upload Audio File
-                </button>
-                <button class="btn btn-primary" onclick="useMicrophone()">
-                    🎤 Use Microphone
-                </button>
+    <!-- Source Selection -->
+    <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap;">
+        <input type="file" id="audioFile" accept="audio/*" style="display: none;" onchange="loadAudioFile()">
+        <button id="btnDemoSource" class="btn btn-primary" onclick="switchSource('demo')">
+            🎵 Built-in Demo Track
+        </button>
+        <button id="btnUploadSource" class="btn btn-secondary" onclick="document.getElementById('audioFile').click()">
+            📁 Upload Audio File
+        </button>
+        <button id="btnMicSource" class="btn btn-secondary" onclick="useMicrophone()">
+            🎤 Use Microphone
+        </button>
+    </div>
+
+    <!-- Demo Control Bar (Visible in Demo mode) -->
+    <div id="demoControlBar" style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; background: rgba(24, 24, 27, 0.8); padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border);">
+        <span id="demoStatusBadge" style="color: var(--primary); font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
+            Playing Built-in Demo
+        </span>
+        <button id="toggleDemoPlayBtn" class="btn btn-secondary" onclick="toggleDemoPlay()" style="padding: 6px 14px; font-size: 0.85rem;">
+            ⏸ Pause Demo
+        </button>
+        <button id="toggleDemoMuteBtn" class="btn btn-secondary" onclick="toggleDemoMute()" style="padding: 6px 14px; font-size: 0.85rem;">
+            🔊 Mute Audio
+        </button>
+    </div>
+
+    <!-- Visualization Canvas -->
+    <div style="background: #000000; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 2px solid var(--border); position: relative;">
+        <canvas id="visualizer" style="width: 100%; height: 300px; border-radius: 8px;"></canvas>
+    </div>
+
+    <!-- Audio Player (for file mode) -->
+    <div id="audioPlayerSection" style="display: none; margin-bottom: 20px;">
+        <audio id="audioPlayer" controls style="width: 100%;"></audio>
+    </div>
+
+    <!-- Controls -->
+    <div style="background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border);">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+            <!-- Visualization Type -->
+            <div>
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Visualization Type</label>
+                <select id="vizType" onchange="updateSettings()" style="width: 100%; padding: 10px;">
+                    <option value="bars">Frequency Bars</option>
+                    <option value="wave">Waveform</option>
+                    <option value="circular">Circular</option>
+                    <option value="mirror">Mirror Bars</option>
+                </select>
             </div>
 
-            <!-- Visualization Canvas -->
-            <div style="background: #000000; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 2px solid var(--border);">
-                <canvas id="visualizer" style="width: 100%; height: 300px; border-radius: 8px;"></canvas>
+            <!-- Color Scheme -->
+            <div>
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Color Scheme</label>
+                <select id="colorScheme" onchange="updateSettings()" style="width: 100%; padding: 10px;">
+                    <option value="orange">Orange</option>
+                    <option value="rainbow">Rainbow</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="purple">Purple</option>
+                    <option value="red">Red</option>
+                </select>
             </div>
 
-            <!-- Audio Player (for file mode) -->
-            <div id="audioPlayerSection" style="display: none; margin-bottom: 20px;">
-                <audio id="audioPlayer" controls style="width: 100%;"></audio>
-            </div>
-
-            <!-- Controls -->
-            <div style="background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border);">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                    <!-- Visualization Type -->
-                    <div>
-                        <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Visualization Type</label>
-                        <select id="vizType" onchange="updateSettings()" style="width: 100%; padding: 10px;">
-                            <option value="bars">Frequency Bars</option>
-                            <option value="wave">Waveform</option>
-                            <option value="circular">Circular</option>
-                            <option value="mirror">Mirror Bars</option>
-                        </select>
-                    </div>
-
-                    <!-- Color Scheme -->
-                    <div>
-                        <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Color Scheme</label>
-                        <select id="colorScheme" onchange="updateSettings()" style="width: 100%; padding: 10px;">
-                            <option value="orange">Orange</option>
-                            <option value="rainbow">Rainbow</option>
-                            <option value="blue">Blue</option>
-                            <option value="green">Green</option>
-                            <option value="purple">Purple</option>
-                            <option value="red">Red</option>
-                        </select>
-                    </div>
-
-                    <!-- Smoothing -->
-                    <div>
-                        <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Smoothing</label>
-                        <input type="range" id="smoothing" min="0" max="0.9" step="0.1" value="0.8" oninput="updateSettings()" style="width: 100%;">
-                        <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;">
-                            <span id="smoothingValue">0.8</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 20px;">
-                    <button id="stopBtn" class="btn btn-danger" onclick="stopVisualization()" style="display: none;">
-                        Stop Visualization
-                    </button>
+            <!-- Smoothing -->
+            <div>
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Smoothing</label>
+                <input type="range" id="smoothing" min="0" max="0.9" step="0.1" value="0.8" oninput="updateSettings()" style="width: 100%;">
+                <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;">
+                    <span id="smoothingValue">0.8</span>
                 </div>
             </div>
         </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="stopBtn" class="btn btn-danger" onclick="stopVisualization()" style="display: none;">
+                Stop Visualization
+            </button>
+        </div>
+    </div>
+</div>
 
         
         <!-- Share Bar -->

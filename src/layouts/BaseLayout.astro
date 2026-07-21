@@ -75,6 +75,26 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
     .subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
   </style>
 
+  <!-- Global Analytics & Event Tracking Helper -->
+  <script is:inline set:html={`
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag !== 'function') {
+      window.gtag = function gtag(){ window.dataLayer.push(arguments); };
+    }
+    window.trackToolEvent = function(action, toolName, extraParams) {
+      try {
+        const tool = toolName || window.location.pathname.replace(/^\\/|\\/$/g, '') || 'general';
+        const payload = Object.assign({ tool_name: tool, action_name: action }, extraParams || {});
+        window.gtag('event', 'use_tool', payload);
+        if (action && (action.indexOf('copy') !== -1)) {
+          window.gtag('event', 'copy_to_clipboard', Object.assign({ tool_name: tool }, extraParams || {}));
+        }
+      } catch (err) {
+        console.error('Analytics tracking error:', err);
+      }
+    };
+  `} />
+
   <!-- Google tag (gtag.js) -->
   {gaMeasurementId && (
     <script is:inline set:html={`
@@ -84,8 +104,6 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
         script.src = "https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}";
         document.head.appendChild(script);
 
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function gtag(){ window.dataLayer.push(arguments); };
         window.gtag('js', new Date());
         window.gtag('config', "${gaMeasurementId}");
       };
