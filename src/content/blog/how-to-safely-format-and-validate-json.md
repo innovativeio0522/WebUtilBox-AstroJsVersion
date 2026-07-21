@@ -13,7 +13,7 @@ relatedTool:
   icon: "{}"
 ---
 
-In modern web development, JSON (JavaScript Object Notation) has become the de facto standard for data exchange. Whether you're debugging REST API responses, examining database state dumps, or checking config files, you are likely reading, writing, and debugging JSON daily. 
+In modern web development, JSON (JavaScript Object Notation) has become the de facto standard for data exchange. Whether you're debugging REST API responses, examining database state dumps, or checking config files, you are likely reading, writing, and debugging JSON daily. If you need an offline-first tool immediately, you can use our free [JSON Formatter & Validator Tool](/json-formatter/) or convert structured payloads into spreadsheets with our [JSON to CSV Converter](/json-to-csv/).
 
 However, raw JSON output is notoriously difficult to read without formatting. To make sense of dense, single-line JSON streams, developers frequently turn to online formatting tools. While this is quick, it introduces a major security vector: **your data privacy.**
 

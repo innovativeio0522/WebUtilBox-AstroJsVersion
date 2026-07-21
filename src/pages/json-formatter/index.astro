@@ -2,27 +2,36 @@
 import ToolLayout from '../../layouts/ToolLayout.astro';
 import FAQ from '../../components/FAQ.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
 
 const canonical = 'https://webutilbox.com/json-formatter/';
+
+const relatedArticles = [
+  {
+    title: "How to Safely Format and Validate JSON: A Developer's Guide to Client-Side Privacy",
+    url: "/blog/how-to-safely-format-and-validate-json/",
+    description: "Learn why pasting sensitive API keys into online tools is dangerous and how client-side JSON parsing keeps your data private.",
+    category: "Security & Dev"
+  }
+];
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "WebApplication",
-      "name": "JSON Formatter Online - Free, Fast & Private | Webutilbox",
+      "name": "JSON Formatter & Validator Online — For API Debugging & Payload Verification",
       "url": canonical,
-      "description": "Free online JSON formatter. Format, validate, and minify JSON instantly in your browser. Also supports YAML and XML. Nothing is sent to any server.",
+      "description": "Free online JSON formatter & validator for API debugging. Prettify, validate, and minify JSON payloads instantly in your browser with 100% privacy.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web Browser",
       "browserRequirements": "Requires JavaScript",
       "featureList": [
-        "Format and prettify JSON online",
-        "Minify JSON",
-        "Validate JSON syntax",
-        "Format YAML",
-        "Format XML",
-        "100% client-side processing"
+        "Format and prettify JSON for API debugging",
+        "Minify JSON payloads",
+        "Validate JSON syntax with line-level error highlighting",
+        "Format YAML and XML files",
+        "100% client-side offline processing"
       ],
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
       "creator": { "@type": "Organization", "name": "Webutilbox", "url": "https://webutilbox.com" }
@@ -38,7 +47,7 @@ const jsonLd = {
         {
           "@type": "Question",
           "name": "What's the difference between Format and Minify?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Format (prettify) adds indentation and line breaks to make data human-readable. Minify removes all whitespace to produce the smallest possible output. Both operations preserve the exact same data, just with different whitespace." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Format (prettify) adds indentation and line breaks to make data human-readable — useful for debugging and reading. Minify removes all whitespace to produce the smallest possible output — useful for production APIs and config files where file size matters." }
         },
         {
           "@type": "Question",
@@ -53,7 +62,7 @@ const jsonLd = {
         {
           "@type": "Question",
           "name": "Is it safe to paste API keys or sensitive data into this formatter?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes — all processing happens entirely in your browser. Nothing is sent to any server. You can verify this by opening your browser's network tab while using the tool." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — all processing happens entirely in your browser. Nothing is sent to any server. You can verify this by opening your browser's network tab while using the tool; you'll see zero outbound requests triggered by your input." }
         }
       ]
     },
@@ -108,15 +117,15 @@ const quickTools = [
 ---
 
 <ToolLayout
-  title="JSON Formatter Online - Free, Fast & Private | Webutilbox"
-  description="Free online JSON formatter — paste your JSON and instantly format, validate, or minify it. Also supports YAML and XML. Runs 100% in your browser, nothing is sent to any server."
+  title="JSON Formatter & Validator Online — For API Debugging & Verification | Webutilbox"
+  description="Free online JSON formatter & validator designed for API debugging. Prettify, inspect, and minify JSON payloads instantly in your browser with 100% privacy."
   canonical={canonical}
   ogImage="https://webutilbox.com/assets/og/og-developer.svg"
-  keywords="json formatter online, json formatter, json beautifier, json validator, json minifier, yaml formatter, xml formatter, format json online, prettify json, json pretty print"
-  h1="🗂️ JSON Formatter — Format, Validate &amp; Minify JSON Online"
-  subtitle="Paste your JSON and format, validate, or minify it instantly online — free, fast, and 100% private. Also supports YAML and XML."
+  keywords="json formatter for api debugging, json formatter online, json validator, format json safely, json pretty print online, client side json formatter"
+  h1="🗂️ JSON Formatter &amp; Validator — API Payload Debugging"
+  subtitle="Paste your JSON payload to format, validate, or minify it instantly. Free, client-side, and 100% private. Supports JSON, YAML, and XML."
   lastUpdated="2026-06-05"
-  shareText="Free%20online%20JSON%20Formatter%20on%20Webutilbox.%20Format%2C%20validate%2C%20and%20minify%20JSON%20instantly%20in%20your%20browser.%20100%25%20private."
+  shareText="Free%20online%20JSON%20Formatter%20%26%20Validator%20on%20Webutilbox.%20Format%2C%20validate%2C%20and%20minify%20JSON%20instantly%20in%20your%20browser.%20100%25%20private."
   shareUrl={canonical}
   embedUrl={canonical}
   embedTitle="JSON Formatter Online -- Webutilbox"
@@ -143,29 +152,53 @@ const quickTools = [
       <button class="btn btn-primary" onclick="formatData()">Format / Prettify</button>
       <button class="btn btn-primary" onclick="minifyData()">Minify</button>
       <button class="btn btn-secondary" onclick="validateData()">Validate Only</button>
-      <button class="btn btn-success" onclick="copyOutput()">Copy Result</button>
+      <button class="btn btn-secondary" onclick="copyOutput()">Copy Result</button>
+      <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
     </div>
-    <div class="output-container" id="outputContainer">
-      <div class="output-label">Result</div>
-      <div class="output-content" id="outputText"></div>
+    <div class="input-group" style="margin-top: 15px;">
+      <label>Formatted Output</label>
+      <textarea id="outputText" readonly placeholder="Output will appear here..."></textarea>
     </div>
+    <div id="statusMessage" class="status-msg" style="display: none;"></div>
   </div>
 
-  <!-- Tool-specific styles -->
-  <style is:global>
+  <style>
     .format-tab {
-      padding: 10px 20px;
-      background: var(--dark);
+      padding: 8px 18px;
+      background: var(--light);
       border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--white);
+      color: var(--gray);
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 500;
+      font-size: 0.88rem;
+      font-weight: 600;
       transition: all 0.2s;
     }
-    .format-tab:hover { background: rgba(249, 115, 22, 0.1); border-color: var(--primary); }
-    .format-tab.active { background: var(--primary); border-color: var(--primary); }
+    .format-tab:hover {
+      border-color: var(--primary);
+      color: var(--white);
+    }
+    .format-tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--white);
+    }
+    .status-msg {
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-top: 10px;
+    }
+    .status-msg.success {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #4ade80;
+    }
+    .status-msg.error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+    }
   </style>
 
   <!-- CDN dependency -->
@@ -175,10 +208,9 @@ const quickTools = [
 
   <!-- Info section -->
   <div class="info-section" slot="info">
-
-            <RelatedTools tools={relatedTools} />
-
-    <h2>JSON Formatter Online</h2>
+    <RelatedTools tools={relatedTools} />
+    
+    <h2>JSON Formatter &amp; Validator — Fast API Payload Debugging</h2>
 
     <p>You paste a wall of minified JSON from an API response. It's one line, 4,000 characters, no whitespace. You need to find why a key is missing. Without a formatter, you're scanning raw text character by character. With this free online JSON formatter, you click Format and the structure is immediately visible — nested objects indented, arrays on separate lines, the problem obvious in seconds.</p>
 
@@ -203,6 +235,7 @@ const quickTools = [
     <h3>JSON Data Processed Locally Only</h3>
     <p>All formatting and validation runs in your browser. Nothing is sent to a server. You can safely paste API keys, credentials, and internal configuration data — it never leaves your device.</p>
 
+    <RelatedArticles articles={relatedArticles} />
     <FAQ items={faqItems} />
-</div>
+  </div>
 </ToolLayout>

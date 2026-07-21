@@ -13,7 +13,7 @@ relatedTool:
   icon: "✉️"
 ---
 
-In the modern digital landscape, email addresses are treated as digital currencies. Almost every web service, blog, e-commerce platform, and download portal demands your email address before granting access. 
+In the modern digital landscape, email addresses are treated as digital currencies. Almost every web service, blog, e-commerce platform, and download portal demands your email address before granting access. You can generate a private burner inbox instantly using our [Temp Mail Generator](/temp-mail/).
 
 While this seems harmless, it comes with a hidden cost: **your digital privacy**. Once a platform obtains your primary email, you are instantly added to marketing queues, newsletter lists, and data-broker databases. More critically, if that company suffers a data breach, your email address—and potentially your associated passwords—will end up on the dark web.
 

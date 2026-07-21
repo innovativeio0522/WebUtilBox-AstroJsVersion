@@ -13,7 +13,7 @@ relatedTool:
   icon: "⬜"
 ---
 
-When we first learn CSS, the `border-radius` property seems incredibly simple. We use it to round the corners of our cards (`border-radius: 8px`), make pill-shaped buttons (`border-radius: 9999px`), or turn square avatars into perfect circles (`border-radius: 50%`).
+When we first learn CSS, the `border-radius` property seems incredibly simple. We use it to round the corners of our cards (`border-radius: 8px`), make pill-shaped buttons (`border-radius: 9999px`), or turn square avatars into perfect circles (`border-radius: 50%`). You can generate custom corner radii and 8-point organic blobs in real-time with our [CSS Border Radius Generator](/border-radius-generator/) or add depth with our [Box Shadow Generator](/box-shadow-generator/).
 
 But did you know that `border-radius` is capable of creating fluid, organic, and completely asymmetrical "blob" shapes? 
 

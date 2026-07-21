@@ -1,18 +1,29 @@
 ---
 import ToolLayout from '../../layouts/ToolLayout.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
 
 const canonical = 'https://webutilbox.com/border-radius-generator/';
-const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"CSS Border Radius Generator - Create Custom Shapes Online | Webutilbox","url":"https://webutilbox.com/border-radius-generator/","description":"Generate CSS border radius with live preview. Create custom rounded corners and organic shapes. Copy CSS code instantly.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does border-radius do in CSS?","acceptedAnswer":{"@type":"Answer","text":"border-radius rounds the corners of an element's border box. A value of 50% on a square element creates a perfect circle. You can set all four corners at once or control each corner independently for asymmetric shapes."}},{"@type":"Question","name":"What is the difference between shorthand and longhand border-radius?","acceptedAnswer":{"@type":"Answer","text":"Shorthand (border-radius: 10px) sets all four corners equally. Longhand properties (border-top-left-radius, border-top-right-radius, etc.) set each corner individually. The shorthand also supports an elliptical syntax (border-radius: 10px / 20px) for oval corners."}},{"@type":"Question","name":"What units can I use for border-radius?","acceptedAnswer":{"@type":"Answer","text":"You can use px (fixed pixels), % (relative to element size), em (relative to font size), or rem (relative to root font size). Percentage values are relative to the element's dimensions, so 50% always creates a circle/ellipse regardless of element size."}},{"@type":"Question","name":"Can I create pill-shaped buttons with border-radius?","acceptedAnswer":{"@type":"Answer","text":"Yes. Set border-radius to a large value like 9999px or 50px on a button. As long as the value is larger than half the button's height, the ends will be fully rounded, creating the classic pill shape."}},{"@type":"Question","name":"Why does my border-radius look different on different elements?","acceptedAnswer":{"@type":"Answer","text":"Border-radius appearance depends on the element's dimensions. The same pixel value looks more rounded on a small element than a large one. Use percentage values if you want consistent rounding relative to the element's size."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/tools/"},{"@type":"ListItem","position":3,"name":"CSS Border Radius Generator","item":"https://webutilbox.com/border-radius-generator/"}]}]};
+
+const relatedArticles = [
+  {
+    title: "Mastering CSS Border-Radius: Organic Blob Shapes & Smooth Corners",
+    url: "/blog/mastering-css-border-radius-organic-shapes/",
+    description: "Learn how the 8-value 8-point CSS border-radius syntax works to build organic blobs, fluid UI cards, and smooth modern shapes.",
+    category: "CSS & Design"
+  }
+];
+
+const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"CSS Border Radius Generator — 8-Point Organic Shapes & Blob Maker","url":"https://webutilbox.com/border-radius-generator/","description":"Generate CSS border radius with live preview. Create custom rounded corners, 8-point organic blob shapes, and copy CSS code instantly.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"Webutilbox","url":"https://webutilbox.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does border-radius do in CSS?","acceptedAnswer":{"@type":"Answer","text":"border-radius rounds the corners of an element's border box. A value of 50% on a square element creates a perfect circle. You can set all four corners at once or control each corner independently for asymmetric shapes."}},{"@type":"Question","name":"What is the difference between shorthand and longhand border-radius?","acceptedAnswer":{"@type":"Answer","text":"Shorthand (border-radius: 10px) sets all four corners equally. Longhand properties (border-top-left-radius, border-top-right-radius, etc.) set each corner individually. The shorthand also supports an elliptical syntax (border-radius: 10px / 20px) for oval corners."}},{"@type":"Question","name":"What units can I use for border-radius?","acceptedAnswer":{"@type":"Answer","text":"You can use px (fixed pixels), % (relative to element size), em (relative to font size), or rem (relative to root font size). Percentage values are relative to the element's dimensions, so 50% always creates a circle/ellipse regardless of element size."}},{"@type":"Question","name":"Can I create pill-shaped buttons with border-radius?","acceptedAnswer":{"@type":"Answer","text":"Yes. Set border-radius to a large value like 9999px or 50px on a button. As long as the value is larger than half the button's height, the ends will be fully rounded, creating the classic pill shape."}},{"@type":"Question","name":"Why does my border-radius look different on different elements?","acceptedAnswer":{"@type":"Answer","text":"Border-radius appearance depends on the element's dimensions. The same pixel value looks more rounded on a small element than a large one. Use percentage values if you want consistent rounding relative to the element's size."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webutilbox.com/"},{"@type":"ListItem","position":2,"name":"All Tools","item":"https://webutilbox.com/tools/"},{"@type":"ListItem","position":3,"name":"CSS Border Radius Generator","item":"https://webutilbox.com/border-radius-generator/"}]}]};
 ---
 
 <ToolLayout
-  title="CSS Border Radius Generator | Webutilbox"
-  description="Generate CSS border radius with live preview. Create custom rounded corners and organic shapes. Copy CSS code instantly."
+  title="CSS Border Radius Generator — 8-Point Organic Shapes &amp; Blob Maker | Webutilbox"
+  description="Generate CSS border radius with live preview. Create custom rounded corners, 8-point organic blob shapes, and copy CSS code instantly."
   canonical={canonical}
   ogImage="https://webutilbox.com/assets/og/og-css-tools.svg"
-  keywords="border radius generator, css border radius, rounded corners generator, border radius css"
-  h1="⬛ Border Radius Generator"
-  subtitle="Create custom border radius shapes with live preview. Generate CSS code for rounded corners."
+  keywords="border radius generator, css border radius, organic blob generator css, 8 point border radius maker, rounded corners css tool"
+  h1="⬛ CSS Border Radius Generator — Custom Corners &amp; Organic Blobs"
+  subtitle="Create rounded corners, pills, and 8-point organic blob shapes with real-time visual preview and instant CSS code export."
   lastUpdated=""
   shareText="Free%20online%20CSS%20Border%20Radius%20Generator%20%7C%20Webutilbox%20on%20Webutilbox.%20Privacy-focused%2C%20runs%20100%25%20in%20your%20browser."
   shareUrl={canonical}
@@ -146,6 +157,36 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
     </ul>
 
     <h3>How to Use the Border Radius Generator</h3>
+            <div class="related-tools">
+                <h3>Related Tools</h3>
+                <div class="related-tools-grid">
+                    <a href="../box-shadow-generator/" class="related-tool-link">Box Shadow Generator</a>
+                    <a href="../css-gradient-generator/" class="related-tool-link">CSS Gradient Generator</a>
+                    <a href="../text-shadow-generator/" class="related-tool-link">Text Shadow Generator</a>
+                    <a href="../flexbox-generator/" class="related-tool-link">Flexbox Generator</a>
+                    <a href="../css-grid-generator/" class="related-tool-link">CSS Grid Generator</a>
+                </div>
+            </div>
+
+<h2>CSS Border Radius Generator - Create Custom Rounded Shapes Online</h2>
+    <p>The CSS Border Radius Generator lets you visually design and customize border-radius values for HTML elements with a live preview that updates in real time. Create perfect circles, smooth pill shapes, rounded rectangles, organic blobs, and complex asymmetric shapes — then copy the generated CSS code directly into your project with a single click.</p>
+
+    <h3>What Is CSS Border Radius?</h3>
+    <p>The CSS border-radius property rounds the corners of an element's border box. It is one of the most commonly used CSS properties in modern web design, enabling designers to move away from the sharp, boxy look of early web interfaces toward the softer, more approachable aesthetic that dominates contemporary UI design. The property can be applied to any block-level or inline-block element, including divs, buttons, images, inputs, and cards.</p>
+    <p>The border-radius property accepts a wide range of values. You can use pixel values for fixed-size rounding (e.g., border-radius: 8px), percentage values for proportional rounding that scales with the element's size (e.g., border-radius: 50% creates a circle from a square element), and em or rem values for rounding that scales with the font size. You can also use the slash syntax to create elliptical corners, where the horizontal and vertical radii of each corner are different.</p>
+    <p>When you set individual values for each corner, the shorthand order is top-left, top-right, bottom-right, bottom-left — going clockwise from the top-left corner. This allows you to create asymmetric shapes where each corner has a different radius, enabling a wide range of creative design possibilities beyond simple rounded rectangles.</p>
+
+    <h3>Border Radius Controls</h3>
+    <ul>
+        <li>All-corners slider for quickly setting a uniform radius on all four corners simultaneously.</li>
+        <li>Individual corner sliders for top-left, top-right, bottom-right, and bottom-left for precise asymmetric control.</li>
+        <li>Live preview that updates in real time as you adjust the sliders, showing exactly how the shape will look.</li>
+        <li>Quick preset buttons for common shapes: Circle (50%), Rounded (20px), Blob (asymmetric), and Reset (0px).</li>
+        <li>Automatic CSS code generation that outputs the most concise valid CSS for your current settings.</li>
+        <li>One-click copy button to copy the generated CSS code to your clipboard instantly.</li>
+    </ul>
+
+    <h3>How to Use the Border Radius Generator</h3>
     <p>Creating custom border-radius shapes with this tool is intuitive and requires no CSS knowledge to get started.</p>
     <ul>
         <li>Step 1: Use the "All Corners" slider to set a uniform radius for all four corners at once. This is the fastest way to create a simple rounded rectangle or circle.</li>
@@ -167,39 +208,37 @@ const jsonLd = {"@context":"https://schema.org","@graph":[{"@type":"WebApplicati
     </ul>
 
     <h3>Crafting Smooth Border Radii</h3>
-    <p>Consistency is key when using border-radius in a design system. Choose a small set of radius values — for example, 4px for small elements, 8px for medium elements, 16px for large cards, and 50% for circular elements — and apply them consistently throughout your interface. This creates a cohesive visual language that makes your UI feel intentional and well-designed rather than arbitrary.</p>
-    <p>When creating circular elements, remember that border-radius: 50% only creates a perfect circle when the element is square (equal width and height). If the element is rectangular, 50% will create an ellipse. To create a circle from a non-square element, you need to explicitly set equal width and height, or use a fixed pixel value that is at least half the smaller dimension.</p>
-    <p>For the blob and organic shape presets, the asymmetric values create shapes that feel natural and hand-drawn. These are popular in modern web design for hero sections, background decorations, and illustration-style UI elements. You can further customize the blob shape by adjusting individual corner values until you find a shape that fits your design aesthetic.</p>
-
-    
+    <p>Consistency is key when using border-radius in a design system. Choose a small set of radius values — for example, 4px for small elements, 8px for medium elements, 16px for large cards, and 50% for circular elements — and apply them consistently throughout your interface.</p>
+    <p>For the blob and organic shape presets, the asymmetric values create shapes that feel natural and hand-drawn. These are popular in modern web design for hero sections, background decorations, and illustration-style UI elements.</p>
 
     <h3>CSS Generated Instantly — No Server</h3>
     <p>CSS is generated locally. No data leaves your browser.</p>
 
-            <h3>Frequently Asked Questions</h3>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">What does border-radius do in CSS?</button>
-                    <div class="faq-answer"><p>border-radius rounds the corners of an element's border box. A value of 50% on a square element creates a perfect circle. You can set all four corners at once or control each corner independently for asymmetric shapes.</p></div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">What is the difference between shorthand and longhand border-radius?</button>
-                    <div class="faq-answer"><p>Shorthand (border-radius: 10px) sets all four corners equally. Longhand properties (border-top-left-radius, border-top-right-radius, etc.) set each corner individually. The shorthand also supports an elliptical syntax (border-radius: 10px / 20px) for oval corners.</p></div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">What units can I use for border-radius?</button>
-                    <div class="faq-answer"><p>You can use px (fixed pixels), % (relative to element size), em (relative to font size), or rem (relative to root font size). Percentage values are relative to the element's dimensions, so 50% always creates a circle/ellipse regardless of element size.</p></div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">Can I create pill-shaped buttons with border-radius?</button>
-                    <div class="faq-answer"><p>Yes. Set border-radius to a large value like 9999px or 50px on a button. As long as the value is larger than half the button's height, the ends will be fully rounded, creating the classic pill shape.</p></div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">Why does my border-radius look different on different elements?</button>
-                    <div class="faq-answer"><p>Border-radius appearance depends on the element's dimensions. The same pixel value looks more rounded on a small element than a large one. Use percentage values if you want consistent rounding relative to the element's size.</p></div>
-                </div>
-            </div>
-</div>
+    <RelatedArticles articles={relatedArticles} />
+
+    <h3>Frequently Asked Questions</h3>
+    <div class="faq-list">
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">What does border-radius do in CSS?</button>
+            <div class="faq-answer"><p>border-radius rounds the corners of an element's border box. A value of 50% on a square element creates a perfect circle. You can set all four corners at once or control each corner independently for asymmetric shapes.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">What is the difference between shorthand and longhand border-radius?</button>
+            <div class="faq-answer"><p>Shorthand (border-radius: 10px) sets all four corners equally. Longhand properties (border-top-left-radius, border-top-right-radius, etc.) set each corner individually.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">What units can I use for border-radius?</button>
+            <div class="faq-answer"><p>You can use px (fixed pixels), % (relative to element size), em (relative to font size), or rem (relative to root font size).</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">Can I create pill-shaped buttons with border-radius?</button>
+            <div class="faq-answer"><p>Yes. Set border-radius to a large value like 9999px or 50px on a button.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">Why does my border-radius look different on different elements?</button>
+            <div class="faq-answer"><p>Border-radius appearance depends on the element's dimensions.</p></div>
+        </div>
+    </div>
 </div>
 
 </ToolLayout>

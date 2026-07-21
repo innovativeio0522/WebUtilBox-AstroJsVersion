@@ -13,7 +13,7 @@ relatedTool:
   icon: "🌈"
 ---
 
-Gradients are one of the most expressive tools in a web developer's design vocabulary. A well-crafted gradient can replace an entire hero image, define a brand's visual identity, or subtly guide a user's eye across an interface. Yet for all their power, many developers reach for gradients only superficially — defaulting to a simple two-color linear blend and moving on.
+Gradients are one of the most expressive tools in a web developer's design vocabulary. A well-crafted gradient can replace an entire hero image, define a brand's visual identity, or subtly guide a user's eye across an interface. You can experiment with custom color stops in real-time using our free [CSS Gradient Generator](/css-gradient-generator/) or discover harmonious palettes with our [Color Shades Generator](/color-shades-generator/).
 
 In this guide, we will go deep: exploring the three CSS gradient types, the color theory that makes them work, common pitfalls to avoid, and the performance characteristics you should know before shipping them in production. An interactive gradient builder is embedded below so you can experiment as you read.
 

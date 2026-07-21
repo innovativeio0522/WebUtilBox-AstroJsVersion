@@ -13,7 +13,7 @@ relatedTool:
   icon: "⏰"
 ---
 
-If you have ever set up a database backup, configured a newsletter dispatch, or run a background cleanup task in Linux, you have likely run into **Cron**. 
+If you have ever set up a database backup, configured a newsletter dispatch, or run a background cleanup task in Linux, you have likely run into **Cron**. You can generate and translate expressions into plain English instantly with our [Cron Expression Generator](/cron-expression-generator/).
 
 Cron is a time-based job scheduler in Unix-like operating systems. It is incredibly powerful, allowing jobs to run automatically at a specific second, minute, hour, or day. However, standard cron syntax is notoriously cryptic. An expression like `*/15 9-17 * * 1-5` looks like absolute gibberish to the uninitiated (and is easily forgotten even by seasoned developers).
 

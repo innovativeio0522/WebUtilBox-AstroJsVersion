@@ -13,7 +13,7 @@ relatedTool:
   icon: "🔑"
 ---
 
-In modern web application architecture, stateless authentication is key. When users log in, instead of storing active sessions in server memory, applications often issue a **JSON Web Token (JWT)**. The client stores this token locally (often in a cookie or browser storage) and attaches it to every API request.
+In modern web application architecture, stateless authentication is key. When users log in, instead of storing active sessions in server memory, applications often issue a **JSON Web Token (JWT)**. You can inspect and decode token claims locally with our free [JWT Decoder Tool](/jwt-decoder/) or format JSON payloads using our [JSON Formatter](/json-formatter/).
 
 While JWTs are incredibly powerful and standard, they are frequently misunderstood. Developers often confuse **encoded** tokens with **encrypted** tokens, exposing sensitive user information. Additionally, debugging token payloads online poses security risks when using server-side formatters.
 
