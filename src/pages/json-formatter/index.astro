@@ -98,6 +98,13 @@ const relatedTools = [
   { href: '/html-entity-encoder/', label: 'HTML Entity Encoder' },
   { href: '/regex-tester/', label: 'Regex Tester' },
 ];
+
+const quickTools = [
+  { name: 'JSON to CSV', url: '/json-to-csv/', icon: '📊', desc: 'Convert JSON to spreadsheets' },
+  { name: 'JWT Decoder', url: '/jwt-decoder/', icon: '🔑', desc: 'Decode & inspect JWT tokens' },
+  { name: 'SQL Formatter', url: '/sql-formatter/', icon: '🛢️', desc: 'Beautify & format SQL queries' },
+  { name: 'Base64 Encoder', url: '/base64-encoder/', icon: '🔤', desc: 'Encode & decode Base64' },
+];
 ---
 
 <ToolLayout
@@ -109,12 +116,15 @@ const relatedTools = [
   h1="🗂️ JSON Formatter — Format, Validate &amp; Minify JSON Online"
   subtitle="Paste your JSON and format, validate, or minify it instantly online — free, fast, and 100% private. Also supports YAML and XML."
   lastUpdated="2026-06-05"
-  shareText="Free%20online%20JSON%20formatter%20%E2%80%94%20format%2C%20validate%20%26%20minify%20JSON%20instantly%20in%20your%20browser.%20No%20server%2C%20no%20signup."
+  shareText="Free%20online%20JSON%20Formatter%20on%20Webutilbox.%20Format%2C%20validate%2C%20and%20minify%20JSON%20instantly%20in%20your%20browser.%20100%25%20private."
   shareUrl={canonical}
   embedUrl={canonical}
-  embedTitle="JSON Formatter Online — Webutilbox"
+  embedTitle="JSON Formatter Online -- Webutilbox"
   embedHeight={600}
+  toolCss={true}
   jsonLd={jsonLd}
+  quickTools={quickTools}
+  extensionCategory="productivity"
 >
   <!-- Format Tabs -->
   <div style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
@@ -165,6 +175,9 @@ const relatedTools = [
 
   <!-- Info section -->
   <div class="info-section" slot="info">
+
+            <RelatedTools tools={relatedTools} />
+
     <h2>JSON Formatter Online</h2>
 
     <p>You paste a wall of minified JSON from an API response. It's one line, 4,000 characters, no whitespace. You need to find why a key is missing. Without a formatter, you're scanning raw text character by character. With this free online JSON formatter, you click Format and the structure is immediately visible — nested objects indented, arrays on separate lines, the problem obvious in seconds.</p>
@@ -191,6 +204,5 @@ const relatedTools = [
     <p>All formatting and validation runs in your browser. Nothing is sent to a server. You can safely paste API keys, credentials, and internal configuration data — it never leaves your device.</p>
 
     <FAQ items={faqItems} />
-    <RelatedTools tools={relatedTools} />
-  </div>
+</div>
 </ToolLayout>

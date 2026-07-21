@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ShareBar from '../components/ShareBar.astro';
+import EmailSubscribe from '../components/EmailSubscribe.astro';
+import BrowserExtensions from '../components/BrowserExtensions.astro';
 import '../styles/home.css';
 
 const canonical = 'https://webutilbox.com/';
@@ -152,9 +154,12 @@ const jsonLd = {
           <p>We are constantly adding new tools based on user feedback. If you have a suggestion for a new utility or have found a bug, please reach out via our contact page. We value community input!</p>
         </div>
       </div>
-    </div>
+    <BrowserExtensions category="all" />
+
+    <EmailSubscribe />
+
   </div>
 
   <!-- Share Bar -->
-    <ShareBar shareText={shareText} shareUrl={shareUrl} />
+  <ShareBar shareText={shareText} shareUrl={shareUrl} />
 </BaseLayout>

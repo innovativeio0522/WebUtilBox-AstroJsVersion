@@ -172,11 +172,13 @@ const relatedTools = [
   <Fragment slot="scripts" set:html={`<script src="/js/regex-tester.js" defer></script>`} />
 
   <div class="info-section" slot="info">
+
+            <RelatedTools tools={relatedTools} />
+
     <h2>Regex Tester — Test Regular Expressions Online</h2>
     <p>Regular expressions are powerful but the syntax is dense enough that even experienced developers test patterns interactively rather than trusting their memory. Paste your pattern, paste your test string, and see exactly what matches — highlighted in real time.</p>
     <h3>All processing runs in your browser</h3>
     <p>Your test strings and patterns never leave your device. Safe to use with real log files, customer data, or proprietary formats.</p>
     <FAQ items={faqItems} />
-    <RelatedTools tools={relatedTools} />
-  </div>
+</div>
 </ToolLayout>

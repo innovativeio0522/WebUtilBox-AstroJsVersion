@@ -147,6 +147,9 @@ const relatedTools = [
   <Fragment slot="scripts" set:html={`<script src="/js/uuid-generator.js" defer></script>`} />
 
   <div class="info-section" slot="info">
+
+            <RelatedTools tools={relatedTools} />
+
     <h2>UUID Generator - Generate Random UUIDs and GUIDs Online</h2>
     <p>The UUID Generator is a free, browser-based tool that creates random Version 4 UUIDs (Universally Unique Identifiers) instantly. Generate one UUID or hundreds at a time, choose from multiple output formats, and copy individual UUIDs or the entire batch with a single click. No installation, no account, and no server calls — everything runs locally in your browser.</p>
 
@@ -197,6 +200,5 @@ const relatedTools = [
     <p>UUIDs are generated using crypto.randomUUID(). Nothing is sent anywhere.</p>
 
     <FAQ items={faqItems} />
-    <RelatedTools tools={relatedTools} />
-  </div>
+</div>
 </ToolLayout>

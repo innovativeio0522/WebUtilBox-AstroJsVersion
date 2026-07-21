@@ -128,6 +128,9 @@ const relatedTools = [
   <Fragment slot="scripts" set:html={`<script src="/js/image-to-base64.js" defer></script>`} />
 
   <div class="info-section" slot="info">
+
+            <RelatedTools tools={relatedTools} />
+
     <h2>Image to Base64 Converter - Encode Images as Data URIs Online</h2>
     <p>The Image to Base64 Converter encodes any image file as a Base64 string or data URI, ready to embed directly in HTML, CSS, or JavaScript. Convert JPG, PNG, GIF, WebP, and SVG files instantly in your browser — no upload, no server, no waiting.</p>
 
@@ -174,6 +177,5 @@ const relatedTools = [
     <p>Base64 conversion runs in your browser. Your images are never uploaded to any server.</p>
 
     <FAQ items={faqItems} />
-    <RelatedTools tools={relatedTools} />
-  </div>
+</div>
 </ToolLayout>

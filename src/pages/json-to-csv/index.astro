@@ -218,6 +218,9 @@ const relatedTools = [
   <Fragment slot="scripts" set:html={`<script src="/js/json-to-csv.js" defer></script>`} />
 
   <div class="info-section" slot="info">
+
+            <RelatedTools tools={relatedTools} />
+
     <h2>JSON to CSV Converter - Bidirectional Data Format Conversion</h2>
     <p>Our free JSON ↔ CSV Converter lets you convert between JSON and CSV formats instantly, with a live table preview and one-click download. Whether you're preparing data for a spreadsheet, importing records into a database, or transforming API responses for analysis, this tool handles both directions of conversion with ease.</p>
 
@@ -266,6 +269,5 @@ const relatedTools = [
     <p>Conversion runs in your browser. Your JSON data never leaves your device.</p>
 
     <FAQ items={faqItems} />
-    <RelatedTools tools={relatedTools} />
-  </div>
+</div>
 </ToolLayout>

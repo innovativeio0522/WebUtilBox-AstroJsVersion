@@ -1,0 +1,130 @@
+---
+export interface QuickTool {
+  name: string;
+  url: string;
+  icon?: string;
+  desc?: string;
+}
+
+export interface Props {
+  tools?: QuickTool[];
+}
+
+const { tools = [] } = Astro.props;
+---
+
+{tools.length > 0 && (
+  <div class="quick-tools-container">
+    <div class="quick-tools-header">
+      <span class="quick-tools-title">⚡ Try Next</span>
+      <span class="quick-tools-sub">Popular related tools you might like:</span>
+    </div>
+    <div class="quick-tools-grid">
+      {tools.map((tool) => (
+        <a
+          href={tool.url}
+          class="quick-tool-link"
+          data-tool-name={tool.name}
+          data-tool-url={tool.url}
+        >
+          <span class="quick-tool-icon">{tool.icon || '🛠️'}</span>
+          <span class="quick-tool-text">
+            <strong>{tool.name}</strong>
+            {tool.desc && <small>{tool.desc}</small>}
+          </span>
+          <span class="quick-tool-arrow">→</span>
+        </a>
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  .quick-tools-container {
+    margin: 24px 0;
+    padding: 16px 20px;
+    background: rgba(24, 24, 27, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+  .quick-tools-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .quick-tools-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .quick-tools-sub {
+    font-size: 0.85rem;
+    color: var(--gray);
+  }
+  .quick-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .quick-tool-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(39, 39, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+  .quick-tool-link:hover {
+    background: rgba(249, 115, 22, 0.15);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+  }
+  .quick-tool-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+  .quick-tool-text {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+  .quick-tool-text strong {
+    font-size: 0.9rem;
+    color: var(--white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .quick-tool-text small {
+    font-size: 0.75rem;
+    color: var(--gray);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .quick-tool-arrow {
+    color: var(--gray);
+    font-weight: 700;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .quick-tool-link:hover .quick-tool-arrow {
+    color: var(--primary);
+    transform: translateX(4px);
+  }
+</style>

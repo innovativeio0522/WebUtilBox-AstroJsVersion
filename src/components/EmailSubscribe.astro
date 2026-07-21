@@ -1,0 +1,169 @@
+---
+export interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<div class={`email-subscribe-card ${compact ? 'compact' : ''}`}>
+  <div class="subscribe-content">
+    <div class="subscribe-header">
+      <span class="subscribe-icon">📩</span>
+      <div>
+        <h3>Get notified when new tools launch</h3>
+        <p>Subscribe to get updates on new developer utilities & web tools. 100% free, zero spam.</p>
+      </div>
+    </div>
+    <form class="subscribe-form" onsubmit="handleEmailSubscribe(event)">
+      <div class="input-group">
+        <input
+          type="email"
+          id="newsletterEmail"
+          placeholder="your.email@example.com"
+          required
+          aria-label="Email address"
+        />
+        <button type="submit" class="subscribe-btn">
+          <span>Subscribe</span>
+        </button>
+      </div>
+      <div id="subscribeSuccess" class="subscribe-success" style="display: none;">
+        ✓ Thank you for subscribing! We'll keep you updated.
+      </div>
+    </form>
+  </div>
+</div>
+
+<script is:inline>
+  function handleEmailSubscribe(e) {
+    e.preventDefault();
+    const emailInput = document.getElementById('newsletterEmail');
+    const email = emailInput ? emailInput.value.trim() : '';
+    if (!email) return;
+
+    try {
+      localStorage.setItem('webutilbox_newsletter', email);
+    } catch(err) {}
+
+    const successEl = document.getElementById('subscribeSuccess');
+    if (successEl) {
+      successEl.style.display = 'block';
+    }
+
+    if (emailInput) {
+      emailInput.value = '';
+      emailInput.disabled = true;
+    }
+
+    if (typeof window.trackToolEvent === 'function') {
+      window.trackToolEvent('subscribe_email', undefined, { email_domain: email.split('@')[1] || '' });
+    }
+
+    if (typeof showToast === 'function') {
+      showToast('Successfully subscribed!');
+    }
+  }
+
+  // Hide form if already subscribed
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      if (localStorage.getItem('webutilbox_newsletter')) {
+        const successEl = document.getElementById('subscribeSuccess');
+        const emailInput = document.getElementById('newsletterEmail');
+        if (successEl && emailInput) {
+          emailInput.style.display = 'none';
+          document.querySelector('.subscribe-btn').style.display = 'none';
+          successEl.style.display = 'block';
+          successEl.textContent = '✓ You are subscribed to new tool updates.';
+        }
+      }
+    } catch(err) {}
+  });
+</script>
+
+<style>
+  .email-subscribe-card {
+    margin: 30px 0;
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(24, 24, 27, 0.9) 0%, rgba(39, 39, 42, 0.9) 100%);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  }
+  .email-subscribe-card.compact {
+    padding: 16px 20px;
+    margin: 20px 0;
+  }
+  .subscribe-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .subscribe-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .subscribe-icon {
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+  .subscribe-header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .subscribe-header p {
+    font-size: 0.88rem;
+    color: var(--gray);
+    margin: 0;
+  }
+  .subscribe-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .input-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .input-group input {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 14px;
+    background: var(--dark);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--white);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .input-group input:focus {
+    border-color: var(--primary);
+  }
+  .subscribe-btn {
+    padding: 10px 20px;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .subscribe-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+  }
+  .subscribe-success {
+    color: #10b981;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 4px 0;
+  }
+</style>

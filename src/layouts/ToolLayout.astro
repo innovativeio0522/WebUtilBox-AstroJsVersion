@@ -2,6 +2,9 @@
 import BaseLayout from './BaseLayout.astro';
 import ShareBar from '../components/ShareBar.astro';
 import EmbedSection from '../components/EmbedSection.astro';
+import QuickTools, { type QuickTool } from '../components/QuickTools.astro';
+import EmailSubscribe from '../components/EmailSubscribe.astro';
+import BrowserExtensions from '../components/BrowserExtensions.astro';
 import '../styles/tool-specific.css';
 
 export interface Props {
@@ -29,6 +32,10 @@ export interface Props {
 
   // Optional tool-specific stylesheet
   toolCss?: boolean;      // if true, loads /assets/css/tool-specific.css
+
+  // High-placement Quick Tools
+  quickTools?: QuickTool[];
+  extensionCategory?: 'media' | 'finance' | 'productivity' | 'all';
 }
 
 const {
@@ -47,6 +54,8 @@ const {
   embedHeight = 600,
   embedUrl,
   toolCss = false,
+  quickTools = [],
+  extensionCategory = 'all',
 } = Astro.props;
 ---
 
@@ -84,6 +93,11 @@ const {
     <!-- Tool workspace injected by each page -->
     <slot />
 
+    <!-- High-priority Quick Tools placed right after workspace -->
+    {quickTools && quickTools.length > 0 && (
+      <QuickTools tools={quickTools} />
+    )}
+
     <!-- Tool scripts injected as raw HTML (bypasses esbuild) -->
     <slot name="scripts" />
 
@@ -99,5 +113,11 @@ const {
 
     <!-- Info section, FAQ, related tools injected by each page -->
     <slot name="info" />
+
+    <!-- Browser Extensions showcase -->
+    <BrowserExtensions category={extensionCategory} />
+
+    <!-- Subtle Email Subscribe -->
+    <EmailSubscribe />
   </div>
 </BaseLayout>

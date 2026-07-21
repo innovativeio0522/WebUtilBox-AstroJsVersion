@@ -68,6 +68,13 @@ const relatedTools = [
   { href: "/url-parser/", label: "URL Parser" },
   { href: "/js-obfuscator/", label: "JavaScript Obfuscator" }
 ];
+
+const quickTools = [
+  { name: 'Password Generator', url: '/password-generator/', icon: '🔐', desc: 'Generate strong passwords' },
+  { name: 'Random String Generator', url: '/random-string-generator/', icon: '🎲', desc: 'Create random tokens' },
+  { name: 'UUID Generator', url: '/uuid-generator/', icon: '🆔', desc: 'Generate v4 UUIDs' },
+  { name: 'Password Strength', url: '/password-strength/', icon: '🛡️', desc: 'Test password security' },
+];
 ---
 
 <ToolLayout
@@ -78,14 +85,15 @@ const relatedTools = [
   keywords="temp mail, temporary email, disposable email, burner email, fake email generator, throwaway email address"
   h1="✉️ Temp Mail Generator"
   subtitle="Generate a private, disposable email address to bypass mandatory registration, avoid spam, and test signup flows."
-  lastUpdated=""
-  shareText="Need%20a%20throwaway%20email%20fast%3F%20Use%20this%20free%20Temp%20Mail%20Generator%20%E2%80%94%20100%25%20private%20and%20runs%20directly%20in%20your%20browser."
+  lastUpdated="2026-06-05"
+  shareText="Free%20Temp%20Mail%20Generator%20on%20Webutilbox.%20Instant%20disposable%20email%20to%20avoid%20spam%20and%20protect%20privacy."
   shareUrl={canonical}
   embedUrl={canonical}
-  embedTitle="Temp Mail - Free Disposable Temporary Email -- Webutilbox"
-  embedHeight={700}
-  toolCss={false}
+  embedTitle="Temp Mail Generator -- Webutilbox"
+  embedHeight={600}
+  toolCss={true}
   jsonLd={jsonLd}
+  quickTools={quickTools}
 >
   <div class="workspace temp-mail-workspace">
     <!-- Email Generator Header Banner -->
@@ -575,6 +583,9 @@ const relatedTools = [
   <Fragment slot="scripts" set:html={`<script src="/js/temp-mail.js" defer></script>`} />
 
   <div class="info-section" slot="info">
+
+            <RelatedTools tools={relatedTools} />
+
     <h2>Disposable Temp Mail - Guard Your Privacy Online</h2>
     <p>Webutilbox Temp Mail is a free tool that generates a temporary email address to protect your personal inbox. Avoid spam, marketing campaigns, newsletters, and potential security leaks by using a disposable, burner email. Your temporary mailbox is created instantly, runs directly in your web browser, and updates in real-time. No sign-up, no password tracking, and 100% confidential.</p>
 
@@ -596,6 +607,5 @@ const relatedTools = [
     <p>This Temp Mail utility uses the public, CORS-enabled <strong>Mail.tm API</strong>. All calls to fetch domains, register an account, log in, list messages, and retrieve message content are executed directly from your web browser. No intermediate proxy is used, and none of your email contents are logged or transmitted to Webutilbox servers. Additionally, your active temporary email address is preserved in <strong>localStorage</strong>, so if you refresh the browser, you don't lose access to your verification codes.</p>
 
     <FAQ items={faqItems} />
-    <RelatedTools tools={relatedTools} />
-  </div>
+</div>
 </ToolLayout>

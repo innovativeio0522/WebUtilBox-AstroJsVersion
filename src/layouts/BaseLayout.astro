@@ -93,6 +93,32 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
         console.error('Analytics tracking error:', err);
       }
     };
+
+    // Universal Click Delegation for Quick Tools, Related Tools & Extension links
+    document.addEventListener('click', function(e) {
+      try {
+        const link = e.target.closest('a');
+        if (!link) return;
+
+        const isQuickTool = link.matches('.quick-tool-link, .related-tool-link, .related-tools-grid a');
+        const isExtension = link.matches('.extension-link');
+
+        if (isQuickTool) {
+          const targetName = link.getAttribute('data-tool-name') || link.textContent.trim();
+          const targetUrl = link.getAttribute('href');
+          window.trackToolEvent('click_related_tool', undefined, {
+            target_name: targetName,
+            target_url: targetUrl
+          });
+        } else if (isExtension) {
+          const extensionName = link.getAttribute('data-extension-name') || link.textContent.trim();
+          window.trackToolEvent('click_extension', undefined, {
+            extension_name: extensionName,
+            target_url: link.getAttribute('href')
+          });
+        }
+      } catch(err) {}
+    });
   `} />
 
   <!-- Google tag (gtag.js) -->

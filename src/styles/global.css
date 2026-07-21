@@ -864,17 +864,33 @@ input[type="range"]::-moz-range-thumb {
     background: var(--primary-dark);
 }
 
-/* Related Tools */
+/* Related Tools Card (Top Placement) */
 .related-tools {
-    margin-top: 30px;
-    padding-top: 25px;
-    border-top: 1px solid var(--border);
+    margin-top: 0;
+    margin-bottom: 35px;
+    padding: 20px 24px;
+    background: rgba(24, 24, 27, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 12px;
 }
 
-.related-tools h3 {
-    color: var(--primary);
+.related-tools h3,
+.info-section .related-tools h3 {
+    color: var(--white);
+    margin-top: 0;
     margin-bottom: 14px;
-    font-size: 1.1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.related-tools h3::before {
+    content: "🚀";
+    font-size: 0.95rem;
 }
 
 .related-tools-grid {
@@ -886,17 +902,19 @@ input[type="range"]::-moz-range-thumb {
 .related-tool-link {
     display: inline-block;
     padding: 8px 16px;
-    background: var(--dark);
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border);
     border-radius: 20px;
-    color: var(--white);
+    color: var(--gray);
     text-decoration: none;
     font-size: 0.88rem;
-    transition: all 0.2s;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
 .related-tool-link:hover {
     border-color: var(--primary);
     color: var(--primary);
-    background: rgba(249, 115, 22, 0.08);
+    background: rgba(249, 115, 22, 0.12);
+    transform: translateY(-1px);
 }
