@@ -523,3 +523,13 @@ window.addEventListener('resize', () => {
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
     runInitialAutoPlay();
 }
+
+// Explicitly attach all HTML event handler functions to window
+window.switchSource = switchSource;
+window.toggleDemoPlay = toggleDemoPlay;
+window.toggleDemoMute = toggleDemoMute;
+window.loadAudioFile = loadAudioFile;
+window.useMicrophone = useMicrophone;
+window.updateSettings = updateSettings;
+window.stopVisualization = stopVisualization;
+window.startDemoAudio = startDemoAudio;

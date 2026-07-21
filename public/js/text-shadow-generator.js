@@ -93,3 +93,9 @@ function showToast(message) {
 }
 
 updatePreview();
+
+// Explicitly attach all HTML event handler functions to window
+window.updatePreview = updatePreview;
+window.updateBackground = updateBackground;
+window.applyPreset = applyPreset;
+window.copyCss = copyCss;
